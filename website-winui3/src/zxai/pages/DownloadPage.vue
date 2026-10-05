@@ -34,15 +34,14 @@
               @activate="trackDownloadClick('download-page-entry')"
             />
           </div>
-          <div v-if="status().released && isConfigured(siteConfig.links.sourceArchive)" class="zx-entry">
+          <div v-if="status().released && isConfigured(siteConfig.links.repo)" class="zx-entry">
             <ZxIcon name="terminal" style="width: 18px; height: 18px; color: var(--zx-text-3)" />
-            <span class="zx-entry__label">{{ t('对应版本源码', 'Source code for this version') }}</span>
+            <span class="zx-entry__label">{{ t('GitHub 源码', 'GitHub source') }}</span>
             <ZxLinkOr
-              name="sourceArchive"
-              :href="siteConfig.links.sourceArchive"
-              :text="t('下载源码 ZIP', 'Download the source ZIP')"
+              name="repo"
+              :href="siteConfig.links.repo"
+              :text="t('在 GitHub 查看源码', 'View source on GitHub')"
               fallback=""
-              :external="false"
             />
           </div>
           <div class="zx-entry">

@@ -1,12 +1,12 @@
 {
   "schema": "zhenxing-git-source-manifest/1",
-  "snapshotKind": "current source with public documentation refresh",
+  "snapshotKind": "current source with public documentation and portal copy refresh",
   "referenceReleaseTag": "v0.1.0-preview-r10",
   "baseCodeCommit": "ceb80264d729a1f7517eb557555572aaf5888f04",
   "releaseNote": "The r10 tag and release ZIP remain immutable. This manifest covers the current source and updated documentation, not the frozen r10 tag tree.",
   "hashScope": "Git index blob content; text is normalized by .gitattributes. This manifest excludes itself.",
   "fileCount": 1928,
-  "totalBytes": 214619401,
+  "totalBytes": 214620033,
   "files": [
     {
       "path": ".all-contributorsrc",
@@ -11350,9 +11350,9 @@
     },
     {
       "path": "website-winui3/src/zxai/pages/DownloadPage.vue",
-      "gitBlob": "746765d67ad7783fa06416094c9c702ebc0dc215",
-      "bytes": 14963,
-      "sha256": "8f3f7b2c499479f118ef2a15ea6851df10af8f7daf64b6a4a5f647195f1d50a8"
+      "gitBlob": "a8769bd28a1bb35e950c49d78bfcf1013bf93852",
+      "bytes": 14889,
+      "sha256": "8349f7598a9766c179c1645cc86b22fbd2d85ee41685e30b0adb89d583b28d04"
     },
     {
       "path": "website-winui3/src/zxai/pages/HomePage.vue",
@@ -11446,9 +11446,9 @@
     },
     {
       "path": "zxai-ai-news/portal/index.html",
-      "gitBlob": "cba409c97c8aa2ebb9a2df01e8a62410d8553a4c",
-      "bytes": 2364,
-      "sha256": "69a9608e712a12c56520362b897798166c8a27ac98c66b34227f23af4bbb4138"
+      "gitBlob": "e75655953beda9ef3251504bed65c6f90982abea",
+      "bytes": 2698,
+      "sha256": "052b5b205306a4741f55903264a51e1fe9da8d0738b525f5a103cdd1937cada6"
     },
     {
       "path": "zxai-ai-news/portal/portal.css",
@@ -11458,9 +11458,9 @@
     },
     {
       "path": "zxai-ai-news/portal/portal.js",
-      "gitBlob": "3501c582cdb5a115aacb7d14bab34ff81095a950",
-      "bytes": 13171,
-      "sha256": "c3a1b211472d64d3f2ebab7cb5e2c4f3c5599b8e3834ed64fd0f1dd42a50b7f8"
+      "gitBlob": "a29f87203cc8c19210560cb173a3e07beed19582",
+      "bytes": 13543,
+      "sha256": "0a76f48d77d23e2c3e554e53495f38324a8942540d440a7f253cc0f3cdc8c6f4"
     },
     {
       "path": "zxai-ai-news/server.py",
