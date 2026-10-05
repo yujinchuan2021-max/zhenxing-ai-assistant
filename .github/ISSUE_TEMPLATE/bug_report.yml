@@ -1,0 +1,52 @@
+name: 问题反馈
+description: 反馈枕星图吧 AI 助手的使用或界面问题
+title: "[问题] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        请先搜索是否已有相同问题。安全漏洞请遵循仓库 SECURITY.md，不在这里发布利用细节。
+        截图和日志请脱敏；不要填写密码、API Key、令牌、完整授权链接或私人会话。
+  - type: input
+    id: version
+    attributes:
+      label: 客户端版本与来源
+      placeholder: 例如 V0.1 r10，GitHub Releases 便携包
+    validations:
+      required: true
+  - type: input
+    id: system
+    attributes:
+      label: Windows 版本
+      placeholder: 例如 Windows 11 24H2，x64
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: 操作步骤
+      description: 从哪个页面开始？最后点击了什么？能否再次出现？
+      placeholder: |
+        1. 打开……
+        2. 点击……
+        3. 出现……
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: 实际结果
+      description: 描述错误或界面表现，可附脱敏截图。
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: 预期结果
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: 其他环境或脱敏日志
+      description: 硬件与驱动、主题、网络条件等与此问题有关的信息。不要附个人配置或完整授权网址。

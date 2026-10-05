@@ -1,0 +1,50 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!-- Local to the welcome cards. Keep the stock Button template, including
+         pointer, keyboard and pressed states, on the same Assistant palette. -->
+    <ResourceDictionary.ThemeDictionaries>
+        <ResourceDictionary x:Key="Light">
+            <SolidColorBrush x:Key="ButtonBackground" Color="#F0EEEB" />
+            <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="#E7E4E1" />
+            <SolidColorBrush x:Key="ButtonBackgroundPressed" Color="#DDD9D4" />
+            <SolidColorBrush x:Key="ButtonBackgroundDisabled" Color="#F0EEEB" />
+            <SolidColorBrush x:Key="ButtonForeground" Color="#2B2B30" />
+            <SolidColorBrush x:Key="ButtonForegroundPointerOver" Color="#2B2B30" />
+            <SolidColorBrush x:Key="ButtonForegroundPressed" Color="#2B2B30" />
+            <SolidColorBrush x:Key="ButtonForegroundDisabled" Color="#656670" />
+            <SolidColorBrush x:Key="QuickPillSecondaryTextBrush" Color="#555760" />
+            <SolidColorBrush x:Key="SystemControlFocusVisualPrimaryBrush" Color="#4B66AD" />
+            <SolidColorBrush x:Key="SystemControlFocusVisualSecondaryBrush" Color="#FCFBF9" />
+        </ResourceDictionary>
+        <ResourceDictionary x:Key="Dark">
+            <SolidColorBrush x:Key="ButtonBackground" Color="#2B2B2E" />
+            <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="#363638" />
+            <SolidColorBrush x:Key="ButtonBackgroundPressed" Color="#3D3B3B" />
+            <SolidColorBrush x:Key="ButtonBackgroundDisabled" Color="#2B2B2E" />
+            <SolidColorBrush x:Key="ButtonForeground" Color="#EDEDF0" />
+            <SolidColorBrush x:Key="ButtonForegroundPointerOver" Color="#EDEDF0" />
+            <SolidColorBrush x:Key="ButtonForegroundPressed" Color="#EDEDF0" />
+            <SolidColorBrush x:Key="ButtonForegroundDisabled" Color="#9F9FAC" />
+            <SolidColorBrush x:Key="QuickPillSecondaryTextBrush" Color="#B0AFB7" />
+            <SolidColorBrush x:Key="SystemControlFocusVisualPrimaryBrush" Color="#A5B7ED" />
+            <SolidColorBrush x:Key="SystemControlFocusVisualSecondaryBrush" Color="#212123" />
+        </ResourceDictionary>
+        <ResourceDictionary x:Key="HighContrast">
+            <SolidColorBrush x:Key="ButtonBackground" Color="{ThemeResource SystemColorButtonFaceColor}" />
+            <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="{ThemeResource SystemColorButtonFaceColor}" />
+            <SolidColorBrush x:Key="ButtonBackgroundPressed" Color="{ThemeResource SystemColorButtonFaceColor}" />
+            <SolidColorBrush x:Key="ButtonBackgroundDisabled" Color="{ThemeResource SystemColorButtonFaceColor}" />
+            <SolidColorBrush x:Key="ButtonForeground" Color="{ThemeResource SystemColorButtonTextColor}" />
+            <SolidColorBrush x:Key="ButtonForegroundPointerOver" Color="{ThemeResource SystemColorButtonTextColor}" />
+            <SolidColorBrush x:Key="ButtonForegroundPressed" Color="{ThemeResource SystemColorButtonTextColor}" />
+            <SolidColorBrush x:Key="ButtonForegroundDisabled" Color="{ThemeResource SystemColorGrayTextColor}" />
+            <SolidColorBrush x:Key="QuickPillSecondaryTextBrush" Color="{ThemeResource SystemColorButtonTextColor}" />
+            <SolidColorBrush x:Key="SystemControlFocusVisualPrimaryBrush" Color="{ThemeResource SystemColorButtonTextColor}" />
+            <SolidColorBrush x:Key="SystemControlFocusVisualSecondaryBrush" Color="{ThemeResource SystemColorButtonFaceColor}" />
+        </ResourceDictionary>
+    </ResourceDictionary.ThemeDictionaries>
+    <Style x:Key="QuickPillDescriptionStyle" TargetType="TextBlock">
+        <Setter Property="Foreground" Value="{ThemeResource QuickPillSecondaryTextBrush}" />
+    </Style>
+</ResourceDictionary>

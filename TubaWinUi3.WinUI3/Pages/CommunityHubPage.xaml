@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  枕星AI社区（左导航顶级入口，硬件信息下方）。
+
+  形态：应用内 WebView2 容器，直接打开自托管 Discourse（开源，GPL-2.0）的 HTTPS 站点。
+  本页不实现帖子/账号/审核/举报逻辑，也不持有任何凭据：
+    · 站点地址只有一处（Services/Community/CommunitySite.OfficialUrl，可被设置键覆盖）；
+    · 地址为空或取值不合法 → 显示「社区即将开放」，不初始化 WebView2、不导航到任何地址；
+    · 普通跨站链接交给系统浏览器；官方社区登录有临时同一视图授权范围；
+    · 不抓取 cookie/token，不跳过证书校验。
+
+  主题：只用系统主题资源（不引入页面级调色板），深浅色自动跟随；
+  导航栏：单行紧凑浏览控制；窄屏保留前进/后退，外部打开文案按剩余宽度截断。
+-->
+<Page
+    x:Class="TubaWinUi3.Pages.CommunityHubPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:l="using:WinUI3Localizer"
+    FontFamily="{ThemeResource AppFontFamily}"
+    mc:Ignorable="d">
+
+    <Grid x:Name="Root" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- Read the actual page-resolved brushes for WebView appearance. A zero-size visible probe
+             participates in theme updates without adding UI; manual system-resource lookup can
+             otherwise combine the application's dark canvas with this page's light text. -->
+        <Grid Width="0" Height="0" Opacity="0" IsHitTestVisible="False"
+              HorizontalAlignment="Left" VerticalAlignment="Top">
+            <Border x:Name="AppearanceSurfaceProbe" Background="{ThemeResource LayerFillColorDefaultBrush}" />
+            <TextBlock x:Name="AppearanceTextProbe" Foreground="{ThemeResource TextFillColorPrimaryBrush}" />
+            <TextBlock x:Name="AppearanceMutedProbe" Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+            <Border x:Name="AppearanceLineProbe" BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}" />
+            <Border x:Name="AppearanceAccentProbe" Background="{ThemeResource AccentFillColorDefaultBrush}" />
+            <TextBlock x:Name="AppearanceAccentTextProbe" Foreground="{ThemeResource TextOnAccentFillColorPrimaryBrush}" />
+        </Grid>
+
+        <!-- 网页保留自己的品牌与站内导航；客户端仅提供浏览控制。 -->
+        <Grid
+            x:Name="Header"
+            Grid.Row="0"
+            Height="44"
+            Padding="8,5,8,6"
+            ColumnSpacing="8"
+            BorderThickness="0,0,0,1"
+            BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <StackPanel Orientation="Horizontal" Spacing="4" VerticalAlignment="Center">
+                <Button x:Name="BackButton" Click="BackButton_Click" Width="32" Height="32" MinWidth="0" Padding="6"
+                        ToolTipService.ToolTip="后退" l:Uids.Uid="Community_Back">
+                    <FontIcon FontSize="14" Glyph="&#xE72B;" />
+                </Button>
+                <Button x:Name="ForwardButton" Click="ForwardButton_Click" Width="32" Height="32" MinWidth="0" Padding="6"
+                        ToolTipService.ToolTip="前进" l:Uids.Uid="Community_Forward">
+                    <FontIcon FontSize="14" Glyph="&#xE72A;" />
+                </Button>
+                <Button x:Name="RefreshButton" Click="RefreshButton_Click" Width="32" Height="32" MinWidth="0" Padding="6"
+                        ToolTipService.ToolTip="刷新" l:Uids.Uid="Community_Refresh">
+                    <FontIcon FontSize="14" Glyph="&#xE72C;" />
+                </Button>
+            </StackPanel>
+            <ProgressRing
+                x:Name="LoadingRing"
+                Grid.Column="1"
+                Width="16"
+                Height="16"
+                MinWidth="16"
+                MinHeight="16"
+                IsActive="False"
+                VerticalAlignment="Center" />
+            <Button x:Name="OpenInBrowserButton" Grid.Column="2" Click="OpenInBrowserButton_Click"
+                    Height="32" MinWidth="32" Padding="8,4" HorizontalAlignment="Right"
+                    VerticalAlignment="Center" HorizontalContentAlignment="Stretch"
+                    ToolTipService.ToolTip="在浏览器中打开" l:Uids.Uid="Community_OpenInBrowser">
+                <Grid ColumnSpacing="6">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <FontIcon FontSize="14" Glyph="&#xE8A7;" VerticalAlignment="Center" />
+                    <TextBlock Grid.Column="1" Text="在浏览器中打开" FontSize="13" VerticalAlignment="Center"
+                               TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" l:Uids.Uid="Community_OpenInBrowser" />
+                </Grid>
+            </Button>
+        </Grid>
+
+        <Grid Grid.Row="1">
+            <!-- 社区站点（仅当配置了地址才初始化；见代码后置） -->
+            <WebView2
+                x:Name="Web"
+                Visibility="Collapsed"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch" />
+
+            <!-- 未配置 / 加载失败：一块状态面板（面向普通用户，不含开发说明） -->
+            <StackPanel
+                x:Name="StatePanel"
+                MaxWidth="520"
+                Spacing="10"
+                Padding="16"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center">
+                <FontIcon
+                    x:Name="StateGlyph"
+                    FontSize="38"
+                    HorizontalAlignment="Center"
+                    Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+                <TextBlock
+                    x:Name="StateTitle"
+                    FontSize="17"
+                    FontWeight="SemiBold"
+                    HorizontalAlignment="Center"
+                    TextAlignment="Center"
+                    TextWrapping="Wrap" />
+                <TextBlock
+                    x:Name="StateMessage"
+                    FontSize="13"
+                    TextWrapping="Wrap"
+                    TextAlignment="Center"
+                    Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+                <StackPanel
+                    x:Name="StateActions"
+                    Orientation="Horizontal"
+                    Spacing="8"
+                    HorizontalAlignment="Center">
+                    <Button x:Name="RetryButton" Click="RetryButton_Click" Visibility="Collapsed">
+                        <StackPanel Orientation="Horizontal" Spacing="6">
+                            <FontIcon FontSize="12" Glyph="&#xE72C;" />
+                            <TextBlock Text="重试" FontSize="13" l:Uids.Uid="Community_Retry" />
+                        </StackPanel>
+                    </Button>
+                    <Button x:Name="StateOpenInBrowserButton" Click="OpenInBrowserButton_Click" Visibility="Collapsed">
+                        <StackPanel Orientation="Horizontal" Spacing="6">
+                            <FontIcon FontSize="12" Glyph="&#xE8A7;" />
+                            <TextBlock x:Name="StateOpenInBrowserLabel" Text="在浏览器中打开" FontSize="13" />
+                        </StackPanel>
+                    </Button>
+                    <Button x:Name="ReturnCommunityButton" Click="ReturnCommunityButton_Click" Visibility="Collapsed">
+                        <TextBlock x:Name="ReturnCommunityLabel" Text="返回社区" FontSize="13" />
+                    </Button>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+
+    </Grid>
+</Page>

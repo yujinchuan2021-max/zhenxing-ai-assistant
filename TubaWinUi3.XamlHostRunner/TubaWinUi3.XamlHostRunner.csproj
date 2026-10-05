@@ -1,0 +1,57 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- 【主审方案·本轮】XAML 验收测试的专用子进程宿主：
+       标准 STA Main（[STAThread]）+ InitializeComWrappers + Application.Start（局部 queue + 同步上下文
+       + Application 子类）+ 用例执行后 Application.Exit 退出消息泵、回传 exit code。
+       xunit 侧只启动本进程并校验结构化输出/退出码/超时——宿主崩溃不再带走 testhost。 -->
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows10.0.26100.0</TargetFramework>
+    <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
+    <UseWinUI>true</UseWinUI>
+    <WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
+    <WindowsPackageType>None</WindowsPackageType>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <IsPackable>false</IsPackable>
+    <AssemblyName>TubaWinUi3.XamlHostRunner</AssemblyName>
+    <RootNamespace>TubaWinUi3.XamlHostRunner</RootNamespace>
+    <!-- .NET 层自包含（实测该模式下宿主可独立运行；framework-dependent 组合会 0xC000027B 崩溃）。 -->
+    <SelfContained>true</SelfContained>
+    <!-- 引用主项目（自包含可执行）时，按 .NET SDK 对"测试项目引用可执行"的同一语义豁免 NETSDK1150。 -->
+    <ValidateExecutableReferencesMatchSelfContained>false</ValidateExecutableReferencesMatchSelfContained>
+    <!-- unpackaged WinUI 必须在 manifest 里声明 supportedOS 兼容层（与主程序同款）。 -->
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.7705" />
+    <!-- 主题解析验收用例在真实 XAML 核心上跑主项目逻辑（Render/StepRowVm/Resolver）。 -->
+    <PackageReference Include="xunit.assert" Version="2.9.3" />
+    <ProjectReference Include="..\TubaWinUi3.WinUI3\TubaWinUi3.csproj">
+      <AdditionalProperties>SelfContained=true</AdditionalProperties>
+    </ProjectReference>
+  </ItemGroup>
+
+  <!-- The host never activates product pages. Remove their XBF payload and the
+       host's empty generated PRI, then provide the referenced application's valid
+       resource index. Together with TestApp's type metadata this resolves stock
+       WinUI templates, including Expander's embedded themeresources.xaml. -->
+  <Target Name="StripXamlPayloadFromOutput" AfterTargets="Build">
+    <ItemGroup>
+      <_ForeignXamlPayload Include="$(OutputPath)**\*.xbf" />
+      <_ForeignXamlPayload Include="$(OutputPath)$(AssemblyName).pri" />
+    </ItemGroup>
+    <Delete Files="@(_ForeignXamlPayload)" ContinueOnError="true" />
+    <!-- Use the referenced application's valid PRI as the host resource index.
+         The host's empty generated PRI cannot activate these templates, while
+         omitting the index also hides WinUI's themeresources.xaml. No product
+         XBF/page is loaded: only the isolated controls and their stock templates. -->
+    <Copy SourceFiles="..\TubaWinUi3.WinUI3\bin\$(Platform)\$(Configuration)\$(TargetFramework)\$(RuntimeIdentifier)\TubaWinUi3.pri"
+          DestinationFiles="$(OutputPath)$(AssemblyName).pri" />
+    <Message Importance="normal" Condition="'@(_ForeignXamlPayload)' != ''"
+             Text="StripXamlPayloadFromOutput: 已移除外来页面 XBF 和空宿主 PRI，并复制有效资源索引。" />
+  </Target>
+
+</Project>

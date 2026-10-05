@@ -1,0 +1,524 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Page xmlns:l="using:WinUI3Localizer"
+    x:Class="TubaWinUi3.Pages.GameOverlayPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:TubaWinUi3.Controls"
+    mc:Ignorable="d">
+
+    <Page.Resources>
+        <Style x:Key="CardBorder" TargetType="Border">
+            <Setter Property="BorderBrush" Value="{ThemeResource SubtleFillColorSecondaryBrush}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="CornerRadius" Value="8" />
+            <Setter Property="Padding" Value="14" />
+            <Setter Property="Background" Value="{ThemeResource CardBackgroundFillColorDefaultBrush}" />
+        </Style>
+    </Page.Resources>
+
+    <Grid>
+        <!-- Admin Required Overlay -->
+        <Grid x:Name="AdminOverlay" Visibility="Collapsed"
+              Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
+              Canvas.ZIndex="9999">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="20">
+                <FontIcon Glyph="&#xE72E;" FontSize="64"
+                          Foreground="{ThemeResource SystemFillColorCriticalBrush}"
+                          HorizontalAlignment="Center" />
+                <TextBlock Text="请在管理员模式下运行" l:Uids.Uid="Gm_Ui01"
+                           FontSize="28" FontWeight="Bold"
+                           HorizontalAlignment="Center"
+                           Foreground="{ThemeResource TextFillColorPrimaryBrush}" />
+                <TextBlock Text="游戏监控的 FPS 检测和硬件数据采集需要管理员权限才能正常工作。&#x0a;请右键以管理员身份运行本程序。" l:Uids.Uid="Gm_Ui02"
+                           FontSize="14" TextAlignment="Center"
+                           TextWrapping="Wrap" MaxWidth="480"
+                           HorizontalAlignment="Center"
+                           Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+                <Button x:Name="BtnRestartAsAdmin" Click="RestartAsAdmin_Click"
+                        Style="{ThemeResource AccentButtonStyle}" Padding="20,10"
+                        HorizontalAlignment="Center">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <FontIcon Glyph="&#xE7EF;" FontSize="16" />
+                        <TextBlock Text="以管理员身份重新启动" l:Uids.Uid="Gm_Ui03" FontSize="14" />
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+        </Grid>
+
+        <!-- Main Content -->
+        <Grid x:Name="MainContent" Padding="24,16,24,16" RowSpacing="12">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <controls:ToolPageHeader
+                Grid.Row="0"
+                HeaderPadding="0"
+                Title="游戏监控"
+                Subtitle="拖拽组件设计覆盖层布局，叠加到游戏窗口实时显示硬件参数（Beta 测试中，部分数据可能有偏差）" l:Uids.Uid="GameOverlay_PageHeader"
+                Glyph="&#xE9F5;">
+                <controls:ToolPageHeader.Actions>
+                    <Border Background="#26E81123" BorderBrush="#66E81123" BorderThickness="1"
+                            CornerRadius="4" Padding="6,1" VerticalAlignment="Center">
+                        <TextBlock FontSize="12" FontWeight="Bold" Foreground="#E81123" Text="Beta" />
+                    </Border>
+                    <!-- 后台自动监控（与流氓软件拦截共用后端进程；MSIX 模式下不支持，代码里隐藏） -->
+                    <ToggleSwitch x:Name="TglBackendMonitor" Toggled="TglBackendMonitor_Toggled"
+                                  ToolTipService.ToolTip="开启后，即使主程序没有运行，后端检测到全屏游戏时也会自动启动主程序并按当前布局显示 FPS 覆盖层；游戏退出前台后自动隐藏" l:Uids.Uid="Gm_Ui04"
+                                  OnContent="" OffContent="" Padding="0,0">
+                        <ToggleSwitch.Header>
+                            <StackPanel Orientation="Horizontal" Spacing="6">
+                                <FontIcon Glyph="&#xE7F4;" FontSize="12" />
+                                <TextBlock Text="后台自动监控" l:Uids.Uid="Gm_Ui05" FontSize="12" />
+                                <TextBlock x:Name="TxtBackendStatus" FontSize="11" Opacity="0.7" VerticalAlignment="Center" />
+                            </StackPanel>
+                        </ToggleSwitch.Header>
+                    </ToggleSwitch>
+                    <Button Click="ScanWindows_Click">
+                        <StackPanel Orientation="Horizontal" Spacing="6">
+                            <FontIcon Glyph="&#xE72C;" FontSize="12" />
+                            <TextBlock Text="扫描窗口" l:Uids.Uid="Gm_Ui06" />
+                        </StackPanel>
+                    </Button>
+                    <Button x:Name="ToggleOverlayBtn" Click="ToggleOverlay_Click" Style="{ThemeResource AccentButtonStyle}">
+                        <StackPanel Orientation="Horizontal" Spacing="6">
+                            <FontIcon x:Name="ToggleOverlayIcon" Glyph="&#xE768;" FontSize="12" />
+                            <TextBlock x:Name="ToggleOverlayText" Text="启动覆盖层" l:Uids.Uid="Gm_Ui07" />
+                        </StackPanel>
+                    </Button>
+                </controls:ToolPageHeader.Actions>
+            </controls:ToolPageHeader>
+
+            <!-- Body: Palette | Canvas | Properties -->
+            <Grid Grid.Row="1" ColumnSpacing="12">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="190" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="250" />
+                </Grid.ColumnDefinitions>
+
+                <!-- Left: Presets + Component Palette -->
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <!-- Presets -->
+                    <Border Grid.Row="0" Style="{StaticResource CardBorder}" Padding="10" Margin="0,0,0,8">
+                        <StackPanel Spacing="8">
+                            <TextBlock Text="布局预设" l:Uids.Uid="Gm_Ui08" FontWeight="SemiBold" FontSize="13" />
+                            <ComboBox x:Name="CmbPreset" FontSize="12" HorizontalAlignment="Stretch"
+                                      SelectionChanged="Preset_SelectionChanged" />
+                            <Grid ColumnSpacing="6">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Button Grid.Column="0" Click="ApplyPreset_Click" Padding="4,5" FontSize="12"
+                                        HorizontalAlignment="Stretch"
+                                        ToolTipService.ToolTip="用所选预设替换当前画布布局" l:Uids.Uid="Gm_Ui09">
+                                    <StackPanel Orientation="Horizontal" Spacing="4">
+                                        <FontIcon Glyph="&#xE768;" FontSize="11" />
+                                        <TextBlock Text="应用" l:Uids.Uid="Gm_Ui10" />
+                                    </StackPanel>
+                                </Button>
+                                <Button Grid.Column="1" Click="SavePreset_Click" Padding="4,5" FontSize="12"
+                                        HorizontalAlignment="Stretch"
+                                        ToolTipService.ToolTip="将当前画布布局保存为自定义预设" l:Uids.Uid="Gm_Ui11">
+                                    <StackPanel Orientation="Horizontal" Spacing="4">
+                                        <FontIcon Glyph="&#xE74E;" FontSize="11" />
+                                        <TextBlock Text="保存" l:Uids.Uid="Gm_Ui12" />
+                                    </StackPanel>
+                                </Button>
+                                <Button x:Name="BtnDeletePreset" Grid.Column="2" Click="DeletePreset_Click"
+                                        Padding="4,5" FontSize="12" IsEnabled="False"
+                                        HorizontalAlignment="Stretch"
+                                        ToolTipService.ToolTip="删除所选自定义预设" l:Uids.Uid="Gm_Ui13">
+                                    <StackPanel Orientation="Horizontal" Spacing="4">
+                                        <FontIcon Glyph="&#xE74D;" FontSize="11" />
+                                        <TextBlock Text="删除" l:Uids.Uid="Gm_Ui14" />
+                                    </StackPanel>
+                                </Button>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Component Palette -->
+                    <Border Grid.Row="1" Style="{StaticResource CardBorder}" Padding="8">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <TextBlock Grid.Row="0" Text="组件列表" l:Uids.Uid="Gm_Ui15" FontWeight="SemiBold" FontSize="13" Margin="6,4,6,8" />
+                            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                                <StackPanel x:Name="PalettePanel" />
+                            </ScrollViewer>
+                        </Grid>
+                    </Border>
+                </Grid>
+
+                <!-- Center: Canvas Designer -->
+                <Grid Grid.Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <!-- Settings Bar (窄窗口时允许左右滚动) -->
+                    <ScrollViewer Grid.Row="0" HorizontalScrollBarVisibility="Auto"
+                                  VerticalScrollBarVisibility="Disabled"
+                                  HorizontalScrollMode="Enabled" ZoomMode="Disabled"
+                                  Margin="0,0,0,8">
+                    <StackPanel Orientation="Horizontal" Spacing="10">
+                        <TextBlock Text="画布:" l:Uids.Uid="Gm_Ui16" VerticalAlignment="Center" FontSize="12" />
+                        <NumberBox x:Name="NbCanvasW" Minimum="200" Maximum="2000"
+                                   SpinButtonPlacementMode="Compact" Width="85" FontSize="12"
+                                   ValueChanged="CanvasSize_Changed" />
+                        <TextBlock Text="×" VerticalAlignment="Center" />
+                        <NumberBox x:Name="NbCanvasH" Minimum="100" Maximum="1500"
+                                   SpinButtonPlacementMode="Compact" Width="85" FontSize="12"
+                                   ValueChanged="CanvasSize_Changed" />
+                        <ComboBox x:Name="CmbPosition" SelectedIndex="0" Width="110" FontSize="12"
+                                  SelectionChanged="Position_Changed">
+                            <ComboBoxItem>左上</ComboBoxItem>
+                            <ComboBoxItem>中上</ComboBoxItem>
+                            <ComboBoxItem>右上</ComboBoxItem>
+                            <ComboBoxItem>左中</ComboBoxItem>
+                            <ComboBoxItem>居中</ComboBoxItem>
+                            <ComboBoxItem>右中</ComboBoxItem>
+                            <ComboBoxItem>左下</ComboBoxItem>
+                            <ComboBoxItem>中下</ComboBoxItem>
+                            <ComboBoxItem>右下</ComboBoxItem>
+                        </ComboBox>
+                        <TextBlock Text="刷新:" l:Uids.Uid="Gm_Ui17" VerticalAlignment="Center" FontSize="12" />
+                        <NumberBox x:Name="NbRefresh" Minimum="200" Maximum="5000"
+                                   SpinButtonPlacementMode="Compact" Width="85" FontSize="12"
+                                   ValueChanged="RefreshInterval_Changed" />
+                        <TextBlock Text="ms" VerticalAlignment="Center" FontSize="12" />
+                        <TextBlock Text="缩放:" l:Uids.Uid="Gm_Ui18" VerticalAlignment="Center" FontSize="12" />
+                        <NumberBox x:Name="NbScale" Minimum="50" Maximum="200" SmallChange="5"
+                                   SpinButtonPlacementMode="Compact" Width="85" FontSize="12"
+                                   ValueChanged="Scale_Changed"
+                                   ToolTipService.ToolTip="整体缩放画布与全部组件（50%–200%）" l:Uids.Uid="Gm_Ui19" />
+                        <TextBlock Text="%" VerticalAlignment="Center" FontSize="12" />
+                        <TextBlock Text="字体:" l:Uids.Uid="Gm_Ui20" VerticalAlignment="Center" FontSize="12" />
+                        <ComboBox x:Name="CmbFont" Width="140" FontSize="12"
+                                  SelectionChanged="Font_Changed" />
+                    </StackPanel>
+                    </ScrollViewer>
+                    <!-- Canvas -->
+                    <Border Grid.Row="1" Padding="4" CornerRadius="8"
+                            Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="1">
+                        <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto"
+                                      HorizontalScrollMode="Enabled" VerticalScrollMode="Enabled">
+                            <Canvas x:Name="DesignCanvas" Width="600" Height="300"
+                                    Background="{ThemeResource SolidBackgroundFillColorSecondaryBrush}"
+                                    AllowDrop="True"
+                                    DragOver="Canvas_DragOver"
+                                    Drop="Canvas_Drop"
+                                    PointerPressed="Canvas_PointerPressed">
+                                <!-- Canvas border (visual) -->
+                                <Rectangle x:Name="CanvasBorderRect" Stroke="{ThemeResource ControlStrokeColorDefaultBrush}"
+                                           StrokeThickness="1.5" StrokeDashArray="4,3" IsHitTestVisible="False" />
+                                <!-- Canvas size display -->
+                                <TextBlock x:Name="TxtCanvasSize" Text="600 × 300"
+                                           FontSize="11" Opacity="0.7"
+                                           Margin="0,0,6,4" IsHitTestVisible="False" />
+                                <!-- Canvas resize thumb (bottom-right corner of canvas) -->
+                                <Thumb x:Name="CanvasResizeThumb" Width="16" Height="16"
+                                       Background="{ThemeResource AccentFillColorDefaultBrush}"
+                                       CornerRadius="2"
+                                       DragDelta="CanvasResize_DragDelta"
+                                       ToolTipService.ToolTip="拖拽调整画布大小" l:Uids.Uid="Gm_Ui21" />
+                            </Canvas>
+                        </ScrollViewer>
+                    </Border>
+                </Grid>
+
+                <!-- Right: Properties + Windows -->
+                <ScrollViewer Grid.Column="2" VerticalScrollBarVisibility="Auto">
+                    <StackPanel Spacing="12">
+                        <!-- Game Window -->
+                        <Border Style="{StaticResource CardBorder}">
+                            <StackPanel Spacing="8">
+                                <TextBlock Text="游戏窗口" l:Uids.Uid="Gm_Ui22" FontWeight="SemiBold" FontSize="13" />
+                                <ComboBox x:Name="CmbGameWindow" PlaceholderText="选择或自动检测" l:Uids.Uid="Gm_Ui23"
+                                          FontSize="12" SelectionChanged="GameWindow_Changed" />
+                                <StackPanel Orientation="Horizontal" Spacing="8">
+                                    <Button Click="AddCustomWindow_Click" Padding="8,4" FontSize="12">
+                                        <StackPanel Orientation="Horizontal" Spacing="4">
+                                            <FontIcon Glyph="&#xE710;" FontSize="11" />
+                                            <TextBlock Text="添加自定义" l:Uids.Uid="Gm_Ui24" />
+                                        </StackPanel>
+                                    </Button>
+                                    <Button x:Name="BtnRemoveCustom" Click="RemoveCustomWindow_Click"
+                                            Padding="8,4" FontSize="12" Visibility="Collapsed">
+                                        <StackPanel Orientation="Horizontal" Spacing="4">
+                                            <FontIcon Glyph="&#xE74D;" FontSize="11" />
+                                            <TextBlock Text="移除" l:Uids.Uid="Gm_Ui25" />
+                                        </StackPanel>
+                                    </Button>
+                                </StackPanel>
+                                <TextBlock x:Name="TxtWindowStatus" Opacity="0.6" FontSize="11" Text="未扫描" l:Uids.Uid="Gm_Ui26" />
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Data Recording（主界面只留核心操作；指标/格式/目录在「记录设置」弹窗） -->
+                        <Border Style="{StaticResource CardBorder}">
+                            <StackPanel Spacing="8">
+                                <TextBlock Text="数据记录" l:Uids.Uid="Gm_Ui27" FontWeight="SemiBold" FontSize="13" />
+                                <!-- 两行网格：窄卡片下三个按钮放一行会溢出 -->
+                                <Grid ColumnSpacing="6" RowSpacing="6">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Button x:Name="BtnRecord" Grid.ColumnSpan="2" Click="ToggleRecord_Click"
+                                            HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"
+                                            Style="{ThemeResource AccentButtonStyle}">
+                                        <StackPanel Orientation="Horizontal" Spacing="6">
+                                            <FontIcon x:Name="RecordIcon" Glyph="&#xE768;" FontSize="12" />
+                                            <TextBlock x:Name="RecordText" Text="开始记录" l:Uids.Uid="Gm_Ui28" />
+                                        </StackPanel>
+                                    </Button>
+                                    <Button Grid.Row="1" Click="RecordSettings_Click" FontSize="12"
+                                            HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"
+                                            ToolTipService.ToolTip="记录指标、导出格式、输出目录" l:Uids.Uid="Gm_Ui29">
+                                        <StackPanel Orientation="Horizontal" Spacing="4">
+                                            <FontIcon Glyph="&#xE713;" FontSize="11" />
+                                            <TextBlock Text="记录设置" l:Uids.Uid="Gm_Ui30" />
+                                        </StackPanel>
+                                    </Button>
+                                    <Button Grid.Row="1" Grid.Column="1" Click="ViewRecords_Click" FontSize="12"
+                                            HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"
+                                            ToolTipService.ToolTip="打开「记录查看」：解析 JSON / CSV，图表化回放历史数据" l:Uids.Uid="Gm_Ui31">
+                                        <StackPanel Orientation="Horizontal" Spacing="4">
+                                            <FontIcon Glyph="&#xE9F5;" FontSize="11" />
+                                            <TextBlock Text="查看记录" l:Uids.Uid="Gm_Ui32" />
+                                        </StackPanel>
+                                    </Button>
+                                </Grid>
+                                <TextBlock x:Name="TxtRecordStatus" FontSize="11" Opacity="0.7" TextWrapping="Wrap"
+                                           Text="未开始" l:Uids.Uid="Gm_Ui33" />
+                                <!-- 记录设置的完整控件宿主：默认隐藏，打开设置弹窗时整块搬进 ContentDialog -->
+                                <Grid x:Name="RecordSettingsHost" Visibility="Collapsed">
+                                    <StackPanel x:Name="RecordSettingsPanel" Spacing="10">
+                                        <TextBlock FontSize="11" Opacity="0.65" TextWrapping="Wrap"
+                                                   Text="记录期间数据只缓存在内存，结束（或停止）后一次性写入文件，不会边采边写拖慢游戏。单次最长 2 小时，到点自动停止并保存。" l:Uids.Uid="Gm_Ui34" />
+                                        <StackPanel Orientation="Horizontal" Spacing="6">
+                                            <Button Click="RecordSelectAll_Click" Padding="8,3" FontSize="12" Content="全选" l:Uids.Uid="Gm_Ui35" />
+                                            <Button Click="RecordClearAll_Click" Padding="8,3" FontSize="12" Content="清空" l:Uids.Uid="Gm_Ui36" />
+                                            <TextBlock x:Name="TxtRecordMetricCount" FontSize="11" VerticalAlignment="Center"
+                                                       Opacity="0.7" Text="已选 0 项" l:Uids.Uid="Gm_Ui37" />
+                                        </StackPanel>
+                                        <Grid x:Name="RecordMetricPanel" ColumnSpacing="4" />
+                                        <StackPanel Spacing="2">
+                                            <TextBlock Text="导出格式（可多选）" l:Uids.Uid="Gm_Ui38" FontSize="12" />
+                                            <StackPanel Orientation="Horizontal" Spacing="10">
+                                                <CheckBox x:Name="ChkOutJson" Content="JSON" FontSize="11" MinWidth="0"
+                                                          IsChecked="True" Tag="json"
+                                                          Checked="RecordOutput_Changed" Unchecked="RecordOutput_Changed"
+                                                          ToolTipService.ToolTip="原始数据，适合脚本 / 程序分析" l:Uids.Uid="Gm_Ui39" />
+                                                <CheckBox x:Name="ChkOutMarkdown" Content="Markdown" FontSize="11" MinWidth="0"
+                                                          IsChecked="True" Tag="markdown"
+                                                          Checked="RecordOutput_Changed" Unchecked="RecordOutput_Changed"
+                                                          ToolTipService.ToolTip="可读报告，含统计摘要与采样明细" l:Uids.Uid="Gm_Ui40" />
+                                                <CheckBox x:Name="ChkOutCsv" Content="CSV" FontSize="11" MinWidth="0"
+                                                          Tag="csv"
+                                                          Checked="RecordOutput_Changed" Unchecked="RecordOutput_Changed"
+                                                          ToolTipService.ToolTip="表格数据，可直接用 Excel 作图" l:Uids.Uid="Gm_Ui41" />
+                                            </StackPanel>
+                                        </StackPanel>
+                                        <TextBlock x:Name="TxtRecordDir" FontSize="11" Opacity="0.65" TextWrapping="Wrap"
+                                                   Text="输出目录：--" l:Uids.Uid="Gm_Ui42" />
+                                        <StackPanel Orientation="Horizontal" Spacing="6">
+                                            <Button x:Name="BtnOpenRecordDir" Click="OpenRecordDir_Click" Padding="8,4"
+                                                    FontSize="12" IsEnabled="False">
+                                                <StackPanel Orientation="Horizontal" Spacing="4">
+                                                    <FontIcon Glyph="&#xE838;" FontSize="11" />
+                                                    <TextBlock Text="打开输出文件夹" l:Uids.Uid="Gm_Ui43" />
+                                                </StackPanel>
+                                            </Button>
+                                            <Button Click="PickRecordDir_Click" Padding="8,4" FontSize="12"
+                                                    ToolTipService.ToolTip="选择记录文件的输出目录" l:Uids.Uid="Gm_Ui44">
+                                                <StackPanel Orientation="Horizontal" Spacing="4">
+                                                    <FontIcon Glyph="&#xE8B7;" FontSize="11" />
+                                                    <TextBlock Text="选择输出目录" l:Uids.Uid="Gm_Ui45" />
+                                                </StackPanel>
+                                            </Button>
+                                        </StackPanel>
+                                    </StackPanel>
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Background -->
+                        <Border Style="{StaticResource CardBorder}">
+                            <StackPanel Spacing="8">
+                                <TextBlock Text="背景" l:Uids.Uid="Gm_Ui46" FontWeight="SemiBold" FontSize="13" />
+                                <StackPanel Orientation="Horizontal" Spacing="8">
+                                    <TextBlock Text="透明度" VerticalAlignment="Center" FontSize="12" l:Uids.Uid="Settings_BackgroundOpacity_Label" />
+                                    <Slider x:Name="SliderBgOpacity" Minimum="0" Maximum="100"
+                                            Width="110" ValueChanged="BgOpacity_Changed" />
+                                    <TextBlock x:Name="TxtBgOpacity" VerticalAlignment="Center" FontSize="12"
+                                               Width="36" Text="70%" />
+                                </StackPanel>
+                                <ToggleSwitch x:Name="TglOled" Header="OLED 防烧屏" l:Uids.Uid="Gm_Ui47" FontSize="12" Margin="0,-6,0,0"
+                                              Toggled="OledProtection_Toggled"
+                                              ToolTipService.ToolTip="开启后悬浮窗每 45 秒沿小圆轨迹缓慢漂移几像素，避免监控内容长时间静止灼烧 OLED 屏幕；关闭后立即回到原位" />
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Component Props -->
+                        <Border x:Name="CardProps" Style="{StaticResource CardBorder}" Visibility="Collapsed">
+                            <StackPanel Spacing="8">
+                                <TextBlock Text="组件属性" l:Uids.Uid="Gm_Ui49" FontWeight="SemiBold" FontSize="13" />
+                                <TextBlock x:Name="TxtCompLabel" FontSize="12" Opacity="0.8" />
+                                <StackPanel Spacing="4">
+                                    <TextBlock Text="X" FontSize="11" Opacity="0.6" />
+                                    <NumberBox x:Name="PropX" Minimum="0" SpinButtonPlacementMode="Compact"
+                                               FontSize="12" ValueChanged="PropPos_Changed" />
+                                </StackPanel>
+                                <StackPanel Spacing="4">
+                                    <TextBlock Text="Y" FontSize="11" Opacity="0.6" />
+                                    <NumberBox x:Name="PropY" Minimum="0" SpinButtonPlacementMode="Compact"
+                                               FontSize="12" ValueChanged="PropPos_Changed" />
+                                </StackPanel>
+                                <StackPanel Spacing="4">
+                                    <TextBlock Text="宽度" l:Uids.Uid="Gm_Ui50" FontSize="11" Opacity="0.6" />
+                                    <NumberBox x:Name="PropW" Minimum="30" Maximum="2000"
+                                               SpinButtonPlacementMode="Compact" FontSize="12"
+                                               ValueChanged="PropSize_Changed" />
+                                </StackPanel>
+                                <StackPanel Spacing="4">
+                                    <TextBlock Text="高度" l:Uids.Uid="Gm_Ui51" FontSize="11" Opacity="0.6" />
+                                    <NumberBox x:Name="PropH" Minimum="16" Maximum="500"
+                                               SpinButtonPlacementMode="Compact" FontSize="12"
+                                               ValueChanged="PropSize_Changed" />
+                                </StackPanel>
+                                <StackPanel Spacing="4">
+                                    <TextBlock Text="字号" l:Uids.Uid="Gm_Ui52" FontSize="11" Opacity="0.6" />
+                                    <NumberBox x:Name="PropFS" Minimum="8" Maximum="72"
+                                               SpinButtonPlacementMode="Compact" FontSize="12"
+                                               ValueChanged="PropFS_Changed" />
+                                </StackPanel>
+                                <StackPanel Spacing="4">
+                                    <TextBlock Text="前缀" l:Uids.Uid="Gm_Ui53" FontSize="11" Opacity="0.6" />
+                                    <TextBox x:Name="PropPrefix" FontSize="12"
+                                             TextChanged="PropPrefix_Changed" />
+                                </StackPanel>
+                                <ToggleSwitch x:Name="PropShowPrefix" Header="显示前缀" l:Uids.Uid="Gm_Ui54" OnContent="开" OffContent="关"
+                                              IsOn="True" Toggled="PropShowPrefix_Toggled" FontSize="12" />
+
+                                <!-- Custom text content (only for 自定义文字 widget) -->
+                                <StackPanel x:Name="CardCustomText" Spacing="4" Visibility="Collapsed">
+                                    <TextBlock Text="文字内容" l:Uids.Uid="Gm_Ui55" FontSize="11" Opacity="0.6" />
+                                    <TextBox x:Name="PropCustomText" FontSize="12"
+                                             TextChanged="PropCustomText_Changed" />
+                                </StackPanel>
+
+                                <!-- Custom image picker (only for 自定义图片 widget) -->
+                                <StackPanel x:Name="CardCustomImage" Spacing="4" Visibility="Collapsed">
+                                    <TextBlock Text="图片文件" l:Uids.Uid="Gm_Ui56" FontSize="11" Opacity="0.6" />
+                                    <StackPanel Orientation="Horizontal" Spacing="6">
+                                        <TextBox x:Name="PropImagePath" FontSize="12" Width="150"
+                                                 IsReadOnly="True" PlaceholderText="未选择" l:Uids.Uid="Gm_Ui57" />
+                                        <Button x:Name="BtnPickImage" Click="PickImage_Click"
+                                                Padding="8,4" FontSize="12">
+                                            <StackPanel Orientation="Horizontal" Spacing="4">
+                                                <FontIcon Glyph="&#xE838;" FontSize="11" />
+                                                <TextBlock Text="选择" l:Uids.Uid="Gm_Ui58" />
+                                            </StackPanel>
+                                        </Button>
+                                    </StackPanel>
+                                </StackPanel>
+
+                                <!-- Color picker (only for 自定义色块 widget) -->
+                                <StackPanel x:Name="CardCustomColor" Spacing="4" Visibility="Collapsed">
+                                    <TextBlock Text="颜色" l:Uids.Uid="Gm_Ui59" FontSize="11" Opacity="0.6" />
+                                    <StackPanel Orientation="Horizontal" Spacing="6">
+                                        <Border x:Name="ColorPreview" Width="28" Height="24" CornerRadius="4"
+                                                Background="#FF00A0FF" BorderBrush="{ThemeResource ControlStrokeColorDefaultBrush}"
+                                                BorderThickness="1" />
+                                <Button x:Name="BtnPickColor" Click="PickColor_Click"
+                                        Padding="8,4" FontSize="12">
+                                    <StackPanel Orientation="Horizontal" Spacing="4">
+                                        <FontIcon Glyph="&#xE790;" FontSize="11" />
+                                        <TextBlock Text="选择颜色" l:Uids.Uid="Gm_Ui60" />
+                                    </StackPanel>
+                                </Button>
+                                    </StackPanel>
+                                </StackPanel>
+
+                                <!-- Text color (for text widgets & 自定义文字) -->
+                                <StackPanel x:Name="CardTextColor" Spacing="4" Visibility="Collapsed">
+                                    <TextBlock Text="文字颜色" l:Uids.Uid="Gm_Ui61" FontSize="11" Opacity="0.6" />
+                                    <StackPanel Orientation="Horizontal" Spacing="6">
+                                        <Border x:Name="TextColorPreview" Width="28" Height="24" CornerRadius="4"
+                                                Background="#FFFFFFFF" BorderBrush="{ThemeResource ControlStrokeColorDefaultBrush}"
+                                                BorderThickness="1" />
+                                        <Button x:Name="BtnPickTextColor" Click="PickTextColor_Click"
+                                                Padding="8,4" FontSize="12">
+                                            <StackPanel Orientation="Horizontal" Spacing="4">
+                                                <FontIcon Glyph="&#xE790;" FontSize="11" />
+                                                <TextBlock Text="选择颜色" l:Uids.Uid="Gm_Ui60" />
+                                            </StackPanel>
+                                        </Button>
+                                    </StackPanel>
+                                </StackPanel>
+
+                                <!-- Layer (z-order) -->
+                                <StackPanel Spacing="4">
+                                    <TextBlock Text="图层 (大在上)" l:Uids.Uid="Gm_Ui62" FontSize="11" Opacity="0.6" />
+                                    <StackPanel Orientation="Horizontal" Spacing="6">
+                                        <Button x:Name="BtnLayerDown" Click="LayerDown_Click"
+                                                Padding="8,4" FontSize="12">
+                                            <StackPanel Orientation="Horizontal" Spacing="4">
+                                                <FontIcon Glyph="&#xE74B;" FontSize="11" />
+                                                <TextBlock Text="下移" l:Uids.Uid="Gm_Ui63" />
+                                            </StackPanel>
+                                        </Button>
+                                        <Button x:Name="BtnLayerUp" Click="LayerUp_Click"
+                                                Padding="8,4" FontSize="12">
+                                            <StackPanel Orientation="Horizontal" Spacing="4">
+                                                <FontIcon Glyph="&#xE74A;" FontSize="11" />
+                                                <TextBlock Text="上移" l:Uids.Uid="Gm_Ui64" />
+                                            </StackPanel>
+                                        </Button>
+                                        <TextBlock x:Name="TxtLayer" Text="图层 0" l:Uids.Uid="Gm_Ui65" FontSize="12"
+                                                   VerticalAlignment="Center" Opacity="0.8" />
+                                    </StackPanel>
+                                </StackPanel>
+
+                                <Button Click="DeleteComp_Click" Padding="8,4" FontSize="12"
+                                        Foreground="{ThemeResource SystemFillColorCriticalBrush}">
+                                    <StackPanel Orientation="Horizontal" Spacing="4">
+                                        <FontIcon Glyph="&#xE74D;" FontSize="11" />
+                                        <TextBlock Text="删除组件" l:Uids.Uid="Gm_Ui66" />
+                                    </StackPanel>
+                                </Button>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </ScrollViewer>
+            </Grid>
+
+            <!-- Status -->
+            <StackPanel Grid.Row="2" Orientation="Horizontal" Spacing="16" Margin="0,8,0,0">
+                <TextBlock x:Name="TxtStatus" FontSize="12" Opacity="0.6" Text="就绪" l:Uids.Uid="Gm_Ui67" />
+                <TextBlock x:Name="TxtCompCount" FontSize="12" Opacity="0.6" Text="组件: 0" l:Uids.Uid="Gm_Ui68" />
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Page>

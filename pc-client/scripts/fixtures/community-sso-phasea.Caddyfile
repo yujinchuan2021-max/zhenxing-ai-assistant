@@ -1,4 +1,0 @@
-https://community.phasea.test {
-  tls internal
-  reverse_proxy https-community:80
-}

@@ -1,0 +1,51 @@
+{
+  "uiStackSuffix": "'Segoe UI Variable', 'Segoe UI', 'Microsoft YaHei', system-ui, -apple-system, sans-serif",
+  "monoStack": "'Maple Mono CN', 'Cascadia Mono', 'Consolas', 'Courier New', ui-monospace, monospace",
+  "mono": {
+    "familyName": "Maple Mono CN",
+    "regular": "MapleMono-CN-Regular.ttf",
+    "bold": "MapleMono-CN-Bold.ttf",
+    "license": "OFL.txt"
+  },
+  "choices": [
+    {
+      "id": "sarasa",
+      "displayName": "更纱黑体 Sarasa UI SC",
+      "familyName": "Sarasa UI SC",
+      "regular": "SarasaUiSC-Regular.ttf",
+      "bold": "SarasaUiSC-Bold.ttf",
+      "license": "SarasaUiSC-OFL.txt",
+      "attribution": {
+        "author": "Renzhi Li（Belleve Invis）",
+        "url": "https://github.com/be5invis/Sarasa-Gothic",
+        "licenseText": "SIL OFL 1.1 开源许可（随包附许可原文）"
+      }
+    },
+    {
+      "id": "noto",
+      "displayName": "Noto Sans SC",
+      "familyName": "Noto Sans SC",
+      "regular": "NotoSansSC-Regular.otf",
+      "bold": "NotoSansSC-Bold.otf",
+      "license": "NotoSansSC-OFL.txt",
+      "attribution": {
+        "author": "Google（Noto 项目）",
+        "url": "https://fonts.google.com/noto/specimen/Noto+Sans+SC",
+        "licenseText": "SIL OFL 1.1 开源许可（随包附许可原文）"
+      }
+    },
+    {
+      "id": "harmony",
+      "displayName": "HarmonyOS Sans SC",
+      "familyName": "HarmonyOS Sans SC",
+      "regular": "HarmonyOS_Sans_SC_Regular.ttf",
+      "bold": "HarmonyOS_Sans_SC_Bold.ttf",
+      "license": "HarmonyOS-Sans-LICENSE.txt",
+      "attribution": {
+        "author": "华为终端有限公司（HarmonyOS Sans）",
+        "url": "https://developer.huawei.com/images/download/general/HarmonyOS-Sans.zip",
+        "licenseText": "HarmonyOS Sans Fonts License Agreement（华为自有许可，非开源；随包附协议原文）"
+      }
+    }
+  ]
+}

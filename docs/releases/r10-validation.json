@@ -1,0 +1,59 @@
+{
+  "schema": "zhenxing-public-release-validation/1",
+  "tag": "v0.1.0-preview-r10",
+  "date": "2026-10-05",
+  "publicSourceBuild": {
+    "passed": true,
+    "platform": "Windows x64",
+    "projects": [
+      "TubaWinUi3.WinUI3",
+      "TubaWinUI3.BackEnd",
+      "TubaWinUi3.Tests"
+    ],
+    "warningsPresent": true,
+    "allProjectTestsRun": false
+  },
+  "communityUnitTests": {
+    "total": 207,
+    "passed": 207,
+    "failed": 0,
+    "skipped": 0,
+    "rerunFromPublicSource": true
+  },
+  "nativeAuthentication": {
+    "functionalCasesPassed": 2,
+    "functionalCasesTotal": 2,
+    "fullNativeAcceptancePassed": false,
+    "exitCodeHex": "0xc0000409",
+    "faultModule": "wetype_tip.dll",
+    "faultModuleVersion": "2.1.4.6",
+    "isolatedProfile": true,
+    "syntheticFormsAndCookies": true,
+    "realAccountRegistrationOrLoginVerified": false
+  },
+  "offlineRuntime": {
+    "passed": true,
+    "steps": 8,
+    "modelCalled": false
+  },
+  "independentPackageAudit": {
+    "passed": true,
+    "requiredSourceFilesMatched": 73
+  },
+  "sourceExport": {
+    "files": 1917,
+    "unchangedFilesSha256Checked": 1914,
+    "updatedPublicDocuments": [
+      "CONTRIBUTING.md",
+      "SECURITY.md",
+      "installer-tests/README.md"
+    ],
+    "vendorExecutablesAndUserDataExcluded": true
+  },
+  "package": {
+    "name": "ZhenxingAI-v0.1-workbench-preview-20261005-r10.zip",
+    "bytes": 431771859,
+    "files": 27478,
+    "sha256": "df0d2acd53f7b30faff24fd12125fb8f17676e53175629a9d381fcbac7ad7ca9"
+  }
+}

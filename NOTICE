@@ -1,13 +1,51 @@
-ZhenXing AI Assistant / 枕星AI助手
-Copyright 2026 mark yu and contributors
+枕星图吧 AI 助手 — 来源与第三方署名
 
-This product includes software developed for the ZhenXing AI Assistant project.
+1. 当前版本
 
-The names "ZhenXing AI Assistant", "枕星AI助手", and the associated
-logos are not licensed for use under the Apache License, Version 2.0,
-except as required for reasonable and customary use in describing the
-origin of the work and reproducing this notice.
+本次公开的 WinUI 3 / .NET 10 源码基于图吧工具箱 CE / TubaWinUi3 继续开发。
+上游项目：https://github.com/luolangaga/tubatools
+上游维护者：luolangaga 及该项目贡献者；保留源码中的版权、作者及贡献者信息。
+枕星版维护者：yujinchuan2021-max 及枕星图吧 AI 助手贡献者。
+枕星版是独立维护的修改版本；本仓库的官网、社区、更新渠道和发行包不代表上游发行。
 
-Third-party software, trademarks, icons, catalog metadata, and community
-content remain subject to their respective licenses or terms. See
-THIRD_PARTY_NOTICES.md for the repository's third-party boundary.
+当前版本自身源码按根目录 LICENSE 所载 GNU General Public License v3.0 发布。
+本说明不取代许可证正文，也不移除上游或第三方文件中的许可及署名。
+
+2. 仓库历史
+
+本仓库原有 Electron 实现的提交历史和旧版本标签予以保留。
+历史版本中按 Apache License 2.0 发布的来源仍以该版本的许可证和版权声明为准。
+本次切换为 WinUI 3 源码并使用 GPL-3.0，不对历史独立源码追溯重授权，也不表示
+历史 Apache 许可证中的版权与署名要求失效。查阅旧版本时，应同时查阅对应提交的
+LICENSE、NOTICE（如有）及文件头部声明。
+
+3. 随源码保留的第三方声明
+
+• bloub 动画引擎：Jérémy Perret，MIT。
+  来源：https://github.com/jeremy-prt/bloub
+  许可文件：TubaWinUi3.WinUI3/Assets/BotAvatar/LICENSE.bloub.txt
+
+• EnergyStar：Bingxing Wang，MIT。
+  许可文件：TubaWinUi3.WinUI3/Services/EnergyStar/LICENSE.txt
+
+• HarmonyOS Sans 字体：Copyright 2021 Huawei Device Co., Ltd.，
+  HarmonyOS Sans Fonts License Agreement。
+  本项目使用 HarmonyOS Sans Fonts。
+  许可文件：TubaWinUi3.WinUI3/Assets/Fonts/HarmonyOS-Sans-LICENSE.txt
+  官网相关许可：website-winui3/public/zxai/fonts/LICENSE-HarmonyOS-Sans.txt
+
+• 官网 Noto Sans SC 与 Sarasa Gothic 字体：各自作者，SIL Open Font License。
+  许可文件：website-winui3/public/zxai/fonts/LICENSE-noto-sans-sc-OFL.txt
+            website-winui3/public/zxai/fonts/LICENSE-sarasa-gothic-OFL.txt
+
+以上为已随目录保留的许可入口，不是全部传递依赖的完整清单。
+.NET / NuGet、Node、dsh、WebView2 和第三方工具另有各自许可；构建或发行时须保留
+相应版本附带的声明。根目录 GPL-3.0 不自动改变独立字体、图标、运行时、工具及素材
+的许可，也不代表对它们的再分发作出额外授权。
+
+4. 资讯与社区
+
+资讯服务的分层设计参考 AIHOT（https://github.com/KKKKhazix/AIHOT，MIT）。
+zxai-ai-news 是独立实现，没有复制 AIHOT 源码或托管资讯库，也没有调用其托管接口。
+新闻标题、来源链接与原文的权利属于相应作者或发布机构。
+枕星 AI 社区由 Discourse 提供技术支持，账号与第三方授权受相应服务规则约束。

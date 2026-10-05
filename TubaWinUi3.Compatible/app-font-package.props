@@ -1,0 +1,45 @@
+<!-- 由 scripts/generate-app-font.py 从 Assets/Fonts/app-font.json 生成 —— 请勿手改（改配置后重跑生成器）。 -->
+<Project>
+  <ItemGroup>
+    <Content Include="$(MSBuildThisFileDirectory)..\TubaWinUi3.WinUI3\Assets\Fonts\app-font.json">
+      <Link>Assets\Fonts\app-font.json</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)..\TubaWinUi3.WinUI3\Assets\Fonts\SarasaUiSC-Regular.ttf">
+      <Link>Assets\Fonts\SarasaUiSC-Regular.ttf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)..\TubaWinUi3.WinUI3\Assets\Fonts\SarasaUiSC-Bold.ttf">
+      <Link>Assets\Fonts\SarasaUiSC-Bold.ttf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)..\TubaWinUi3.WinUI3\Assets\Fonts\SarasaUiSC-OFL.txt">
+      <Link>Assets\Fonts\SarasaUiSC-OFL.txt</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)..\TubaWinUi3.WinUI3\Assets\Fonts\NotoSansSC-Regular.otf">
+      <Link>Assets\Fonts\NotoSansSC-Regular.otf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)..\TubaWinUi3.WinUI3\Assets\Fonts\NotoSansSC-Bold.otf">
+      <Link>Assets\Fonts\NotoSansSC-Bold.otf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)..\TubaWinUi3.WinUI3\Assets\Fonts\NotoSansSC-OFL.txt">
+      <Link>Assets\Fonts\NotoSansSC-OFL.txt</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)..\TubaWinUi3.WinUI3\Assets\Fonts\HarmonyOS_Sans_SC_Regular.ttf">
+      <Link>Assets\Fonts\HarmonyOS_Sans_SC_Regular.ttf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)..\TubaWinUi3.WinUI3\Assets\Fonts\HarmonyOS_Sans_SC_Bold.ttf">
+      <Link>Assets\Fonts\HarmonyOS_Sans_SC_Bold.ttf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)..\TubaWinUi3.WinUI3\Assets\Fonts\HarmonyOS-Sans-LICENSE.txt">
+      <Link>Assets\Fonts\HarmonyOS-Sans-LICENSE.txt</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+</Project>

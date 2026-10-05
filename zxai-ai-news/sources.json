@@ -1,0 +1,18 @@
+[
+  {"id":"qbitai","name":"量子位","url":"https://www.qbitai.com/feed","category":"industry","classify":true,"language":"zh","summaryLimit":180},
+  {"id":"ithome","name":"IT之家","url":"https://www.ithome.com/rss/","category":"industry","classify":true,"language":"zh","requireAiTopic":true,"requireAiHeadline":true,"summaryLimit":180},
+  {"id":"leiphone","name":"雷峰网","url":"https://www.leiphone.com/feed","category":"industry","classify":true,"language":"zh","requireAiTopic":true,"requireAiHeadline":true,"summaryLimit":180},
+  {"id":"openai","name":"OpenAI","url":"https://openai.com/news/rss.xml","category":"industry","classify":true},
+  {"id":"huggingface","name":"Hugging Face","url":"https://huggingface.co/blog/feed.xml","category":"ai-products","classify":true},
+  {"id":"deepmind","name":"Google DeepMind","url":"https://deepmind.google/blog/rss.xml","category":"ai-products","classify":true},
+  {"id":"google-research","name":"Google Research","url":"https://research.google/blog/rss/","category":"paper","classify":true,"requireAiTopic":true},
+  {"id":"microsoft-research","name":"Microsoft Research","url":"https://www.microsoft.com/en-us/research/feed/","category":"paper","classify":true,"requireAiTopic":true},
+  {"id":"google-ai","name":"Google AI","url":"https://blog.google/innovation-and-ai/technology/ai/rss/","category":"ai-products","classify":true},
+  {"id":"nvidia","name":"NVIDIA","url":"https://blogs.nvidia.com/feed/","category":"ai-products","classify":true,"requireAiTopic":true,"requireAiHeadline":true},
+  {"id":"microsoft-ai","name":"Microsoft AI","url":"https://news.microsoft.com/source/topics/ai/feed/","category":"industry","classify":true},
+  {"id":"mistral","name":"Mistral","url":"https://mistral.ai/news/rss","category":"industry","classify":true},
+  {"id":"microsoft-agent-framework","name":"Microsoft Agent Framework","url":"https://devblogs.microsoft.com/agent-framework/feed/","category":"ai-products","classify":true},
+  {"id":"langchain","name":"LangChain","url":"https://www.langchain.com/blog/rss.xml","category":"ai-products","classify":true},
+  {"id":"codex","name":"Codex","url":"https://github.com/openai/codex/releases.atom","category":"ai-products","kind":"release"},
+  {"id":"opencode","name":"OpenCode","url":"https://github.com/anomalyco/opencode/releases.atom","category":"ai-products","kind":"release"}
+]

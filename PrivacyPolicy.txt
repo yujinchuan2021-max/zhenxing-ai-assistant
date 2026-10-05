@@ -1,0 +1,213 @@
+隐私说明 / Privacy Policy
+
+枕星图吧AI助手（TubaWinUi3）  —  最后更新：2026年10月4日
+Zhenxing Tuba AI Assistant (TubaWinUi3)  —  Last updated: October 4, 2026
+
+=======================================
+一、总览 / Overview
+=======================================
+
+本应用以本地功能为主，但**不是"纯离线"应用**：以下场景会产生网络请求——
+1) 使用 AI 助手（你配置的模型服务）；2) 使用在线搜索；3) 下载工具与检查更新；
+4) 默认开启、可在设置关闭的「工具流分享」（发送到枕星服务器）；5) 主动提交技能修改审核；
+6) 主动上传跑分或核间延迟热力图，以及查看枕星排行榜。
+
+This app is local-first but is NOT a "fully offline" application. Network requests occur when:
+(1) you use the AI assistant (your configured model service); (2) you use online search;
+(3) the app downloads tools or checks for updates; (4) tool-flow sharing is enabled
+(on by default, switchable in settings; sent to the Zhenxing server); (5) you explicitly submit a skill revision for review;
+(6) you explicitly submit a benchmark/latency heatmap or view Zhenxing leaderboards.
+
+应用本身不接入第三方广告、统计或社交 SDK；不会主动要求你提供姓名、邮箱、电话号码等个人
+身份信息，也不采集设备标识符、地理位置。注意：你在应用内主动输入的内容（例如在与 AI 助手
+对话时写下的邮箱或其它信息）会按本文相应小节被处理或发送，请避免填写不必要的敏感信息。
+上述联网请求中，相应服务方会按其常规方式获知连接信息（如 IP 地址）。
+The app itself integrates no third-party advertising, analytics, or social SDKs. It does not
+ask you for personal identity information such as name, email, or phone number, and does not
+collect device identifiers or geolocation. Note that anything you voluntarily type into the
+app (for example an email address you mention in a chat with the AI assistant) is processed
+or transmitted as described in the relevant sections above — please avoid entering unnecessary
+sensitive information. For the network requests listed above, the respective service providers
+will see connection information such as your IP address as a matter of course.
+
+=======================================
+二、AI 模型请求 / AI Model Requests
+=======================================
+
+仅当你使用 AI 助手或相关功能、并已配置模型服务时才会发生：应用会把你在该会话中的输入
+与必要上下文发送到**你配置的模型服务地址**（内置条目默认指向 DeepSeek 官方接口；也可以
+改为你自填的 OpenAI 兼容服务）。API Key 保存在本机；未配置或未使用 AI 功能时，应用不会
+发起这类请求。请求内容的去向与保留策略由所选模型服务商决定，请查阅其隐私政策。
+
+These occur only when you use the AI assistant with a configured model service. Your inputs and
+the necessary context of that session are sent to the model service you configured (the built-in
+entry points to DeepSeek's official API by default; you may use any OpenAI-compatible service).
+API keys are stored locally. No such requests are made when AI features are unused or unconfigured.
+How the provider processes and retains the data is governed by that provider's privacy policy.
+
+=======================================
+三、工具流分享（默认开启，可在设置关闭）/ Tool-Flow Sharing (on by default, switchable)
+=======================================
+
+分享内容 / Shared content：你最终选定的工具流名称、你要做的项目目标、完整方案、该会话中
+你与助手的完整可见对话；以及具备条件时实际产生的安装结果、下载按钮点击与真实下载请求的
+计数汇总（不含对话内容）。
+接收方 / Recipient：枕星工具流分析服务，固定接收入口为
+https://zhenxingai.com/api/toolflows/。无需填写服务器地址，旧版自填地址不再决定发送目的地。
+发送条件 / Preconditions：分享开关默认开启；最终选定工具流后，应用尝试发送具备分享资格的
+选定记录、后续执行事件与下载计数。发送失败时会保留待发记录，供下一次上传尝试使用。
+关闭开关后，不再发起新的上传请求；关闭期间的新选定只保存在本机，也不累计可上报的下载
+计数。关闭会作废此前未发送的选定记录与计数，日后重开也不会补传；服务器已收到的记录
+不会因关闭开关而删除。
+
+Content: the name of the tool flow you finally selected, your project goal, the full plan, and
+that session's full visible conversation, plus actual installation results and aggregated
+counts of download-button clicks and real download requests (counts exclude conversation content).
+Recipient: the Zhenxing tool-flow analysis service, at the fixed endpoint
+https://zhenxingai.com/api/toolflows/. You do not need to enter a server address; a legacy
+custom address no longer determines the destination. Sharing is ON by default. After you
+select a tool flow, the app attempts to send eligible selections, subsequent execution events,
+and download counts. Failed submissions remain pending for the next upload attempt.
+Turning sharing off stops new upload requests. Selections made while it is off remain local,
+and uploadable download counts are not accumulated. Unsent selections and counts are voided
+when the switch is turned off and are not back-filled after reopening. Switching off does not
+delete records the server has already received.
+
+=======================================
+四、其他联网功能 / Other Network Features
+=======================================
+
+- 在线搜索：使用搜索功能时，查询词会发送到相应的搜索服务（默认服务为 uapis.cn 的免费搜索接口）。
+- 客户端更新：仅从 https://zhenxingai.com/updates/stable.json 检查本版更新，并从枕星官网获取新包。
+- 第三方工具下载：会访问你选择的工具下载源，例如 GitHub / GitCode、其镜像或工具官方网站。
+- 使用内置浏览器打开网页时，浏览请求由 WebView2 直接发往你访问的网站。
+- 第三方工具作为独立程序运行，其网络行为由其自身决定，本应用不干涉、不监控。
+
+- Online search: your query is sent to the corresponding search service (default: the free search endpoint at uapis.cn).
+- App updates: checked only at https://zhenxingai.com/updates/stable.json; new packages come from the Zhenxing website.
+- Third-party tool downloads: access the source you choose, such as GitHub / GitCode, their mirrors or official tool websites.
+- When a web page is opened in the built-in browser, requests go directly to the site you visit
+  via WebView2.
+- Third-party tools run as independent programs; their network behavior is their own.
+
+=======================================
+跑分投稿与排行榜 / Benchmark Submissions and Leaderboards
+=======================================
+
+只有你确认上传时，应用才向 https://zhenxingai.com/api/toolflows/v1/benchmarks 提交所选报告的
+CPU、GPU、系统版本、主板、内存、硬盘与显示器型号信息、各项成绩（包括 Win 性能）、
+测试时间、测试模式、客户端版本，以及你选择附带的核间延迟 PNG 热力图。不附带会话、
+模型配置、API Key 或 GitHub 登录信息。此上传独立于工具流分享开关，不会自动上传。
+新投稿先待审核，采纳后公开上述报告信息及匿名投稿名；采纳不代表已独立验证测量结果。
+本机投稿凭据由 Windows 当前用户加密保存于 BenchmarkUploads/owner.dpapi；请求只向枕星
+服务携带该凭据。你可以在「我的记录」查看和撤回本机投稿，撤回后不再公开展示。
+删除凭据或换 Windows 用户可能失去本机查看待审核记录及撤回投稿的能力。
+
+Only after your upload confirmation does the app submit the selected report to
+https://zhenxingai.com/api/toolflows/v1/benchmarks. It includes CPU/GPU/OS/motherboard,
+memory/disk/display model information, scores (including Win performance), test time,
+test mode, client version and an optional latency PNG heatmap. It excludes conversations,
+model configuration, API keys and GitHub credentials. This explicit upload is separate
+from tool-flow sharing and is never automatic. Submissions start pending review. Accepted
+reports become public with an anonymous contributor name; acceptance is not independent
+verification of measurements. A submission credential is encrypted by Windows for the
+current user at BenchmarkUploads/owner.dpapi and sent only to Zhenxing. My records lets
+you view and withdraw this computer's submissions; withdrawn reports are no longer public.
+Deleting the credential or changing Windows users may remove access to pending records
+and the ability to withdraw submissions.
+
+=======================================
+制作技能与官方技能库 / Skill Creation and Library
+制作技能把制作窗口内填写的用途与回答发到你全局配置的模型服务，不附带主会话历史。
+生成结果只有点击「保存并加载」后才写入本机 Skills 目录；命中场景时，启用的技能指导会发送给当前模型。
+读取官方技能库无需配置模型，客户端向枕星服务器请求公开目录和技能详情。
+只有同意 MIT 分享许可并点击「提交后台审核」时，才向
+https://zhenxingai.com/api/toolflows/v1/skill-submissions 发送名称、简介、分类、触发词、技能正文、
+客户端版本、投稿编号及分享许可。投稿不附带会话历史或模型配置；投稿所有权凭据在本机用 DPAPI 保存。
+服务器保留投稿供管理员审核；审核通过的技能及分享许可会公开到技能库，待审或退回的投稿不公开。
+制作、加载与投稿不会自动执行技能中的命令，也不会在未点击提交时自动上传。
+Skill creation sends only the purpose and answers entered in its own window to your globally configured model.
+Main-chat history is excluded. Save and load writes the skill locally; enabled instructions are sent to the model when relevant.
+The public library is read from the Zhenxing server without requiring model configuration.
+Only explicit MIT sharing consent and Submit for review sends the skill name, description, category, keywords,
+instructions, client version, submission ID and license to the skill-submissions endpoint above.
+No chat history or model configuration is attached. Local submission ownership is protected with DPAPI.
+Accepted submissions and their license are published in the library; pending and rejected submissions remain private.
+Skill creation and loading do not execute commands or upload content automatically.
+
+技能修改审核 / Skill Revision Review
+=======================================
+
+保存草稿、本机试用和恢复官方版本只处理本机技能文件。点击「提交审核」时，应用向
+https://zhenxingai.com/api/toolflows/v1/skill-revisions 发送所编辑的官方版本原文、修改后的技能全文、
+修改说明、技能标识、客户端版本、投稿编号、时间与内容哈希。不附带会话历史、模型配置或密钥。
+这次主动提交独立于工具流分享开关；不会后台自动提交或重试。失败时草稿留在本机，可主动重试。
+服务器保存这份修订供管理员对照审核；采纳仅记录审核结果，不会自动更新任何客户端。
+本机启用修改版后，其指导内容会在后续相关 AI 请求中发往你配置的模型服务。
+
+Saving a draft, trying it locally, and restoring the official version only affect local skill files.
+Clicking Submit for review sends the original and modified skill documents, change summary, skill identity,
+client version, submission ID, timestamps and hashes to the Zhenxing skill-review endpoint above.
+Conversation history, model configuration and API keys are not included. This explicit submission is
+independent of tool-flow sharing and is never sent or retried automatically. Failed drafts stay local.
+The server retains the revision for administrator review; acceptance does not automatically update clients.
+An active local revision is included in relevant later AI requests sent to your configured model service.
+
+=======================================
+五、本地数据存储 / Local Data Storage
+=======================================
+
+应用在本机存储（除上述明确的联网路径外不上传）：
+1. 设置（settings.json）——AI 服务配置、工具流分享开关、收藏等；
+2. 图标缓存 —— %LocalAppData%\TubaWinUi3\IconCache\；
+3. 工具流快照与执行记录、下载计数、日志、WebView 缓存等运行数据；
+4. 技能修改草稿、本机试用版与提交回执（AiAssistant\SkillRevisions）。
+以上数据默认保存在本机「%LocalAppData%\TubaWinUi3」目录下；你也可以在应用设置中把数据目录
+改为程序目录（随程序携带）或自定义目录。删除解压出来的程序目录**不等于**
+删除这些本机数据；你可以在应用设置中清理，或按文档说明手动清理（具体以实际界面为准）。
+
+Stored locally (not uploaded except via the network paths described above): settings
+(settings.json — AI service configuration, tool-flow sharing switch, favorites);
+icon cache under %LocalAppData%\TubaWinUi3\IconCache\; tool-flow snapshots and execution
+records, download counters, logs, and WebView caches. This data is stored under
+%LocalAppData%\TubaWinUi3 by default; you may switch the data directory to the program folder
+or a custom directory in the app's settings. Deleting the unzipped program folder does NOT
+delete this local data; you can clear it in the app's settings or manually per the
+documentation (exact UI prevails).
+
+=======================================
+六、所需权限 / Required Permissions
+=======================================
+
+- runFullTrust — 用于启动第三方诊断工具、读取WMI硬件信息、编辑系统Hosts文件、管理证书
+  存储、清理系统垃圾文件等
+  Required for launching third-party diagnostic tools, querying WMI hardware info, editing
+  the Hosts file, managing certificate stores, cleaning junk files, etc.
+
+=======================================
+七、第三方工具 / Third-Party Tools
+=======================================
+
+本应用集成了多个第三方PC硬件诊断工具。这些工具作为独立程序运行。本应用仅提供统一的
+快捷启动入口，不干涉也不监控这些工具的数据行为。
+This application integrates multiple third-party PC hardware diagnostic tools that run as
+independent programs. This app only provides a unified launcher and does not interfere with
+or monitor the data behavior of these tools.
+
+=======================================
+八、政策变更 / Policy Changes
+=======================================
+
+如本说明有任何变更，将随版本更新在此文件及相关仓库说明中公布。
+Any changes will be published with a version update in this file and the related repository
+documentation.
+
+=======================================
+九、联系与反馈 / Contact & Feedback
+=======================================
+
+反馈邮箱：yujinchuan2021@gmail.com（官网已上线，最新说明以官网为准）。请勿在反馈中附带
+API Key、令牌、会话内容或未脱敏日志。
+Contact: yujinchuan2021@gmail.com (the official site is now live; the site carries the latest
+notices). Please do not include API keys, tokens, session content, or unsanitized logs in
+reports.

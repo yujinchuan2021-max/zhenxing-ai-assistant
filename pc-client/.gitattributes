@@ -1,2 +1,0 @@
-# Imported SVG logos are immutable content-addressed assets. Preserve their exact bytes.
-admin/data/vendor-icons/*.svg binary

@@ -1,91 +1,70 @@
-# Dependencies and generated output
-node_modules/
+# Build and dependency outputs
+**/bin/
+**/obj/
 **/node_modules/
-.next/
-**/.next/
-dist/
 **/dist/
-build/
-**/build/
-!pc-client/build/
-pc-client/build/*
-!pc-client/build/icon.ico
-!pc-client/build/icon.png
-out/
-**/out/
-output/
-outputs/
-**/output/
-**/outputs/
-release-review*/
-**/release-review*/
-release-local*/
-**/release-local*/
-
-# Caches, temporary files, and logs
-.cache/
-.wrangler/
-cache/
-caches/
-**/.cache/
-**/cache/
-**/caches/
-temp/
-Temp/
-tmp/
-**/temp/
-**/Temp/
-**/tmp/
+**/runtime/
+/TubaWinUi3.WinUI3/Tools/
+**/IconCache/
+**/.font-cache/
+**/__pycache__/
+**/.wrangler/
+**/artifacts/
+**/publish*/
+**/TestResults/
+.vs/
+.idea/
+.vscode/
+*.user
+*.suo
 *.log
-logs/
-**/logs/
-*.tsbuildinfo
-next-env.d.ts
+*.binlog
+*.trx
+*.pyc
+*.pdb
+*.zip
+*.7z
+*.rar
+*.msix
+*.msixbundle
+*.appx
+*.appxbundle
+*.nupkg
 
-# Local state, databases, volumes, and backups
-.remote-state.json
-*.db
-*.db-*
-*.sqlite
-*.sqlite3
-**/volumes/
-**/backups/
-**/private/
-pc-client/admin/data/
-pc-client/admin/published/
-
-# Credentials and environment files
+# Credentials, signing material and local configuration
 .env
 .env.*
 **/.env
 **/.env.*
-*.pem
-*.key
-*.p12
+!**/.env.example
+.npmrc
+.netrc
 *.pfx
-*.jks
-*.jwk
-credentials/
-**/credentials/
-secrets/
-**/secrets/
+*.p12
+*.key
+*.pem
+*.db
+*.sqlite
+*.sqlite3
+**/local.properties
 
-# Production deployment and provisioning are not part of this public snapshot
-deployment/
-pc-client/deployment/
+# Runtime user data is never part of source control
+**/AiAssistant/
+**/mcp-queue/
+**/ai_providers.json
+**/engine.json
+**/usage_stats.json
+**/installed.json
+**/project-profile.json
+**/memory.md
+**/Metadata/tool_cache.json
+**/Fonts/MiSans-Subset.otf
 
-# Archives and compiled binaries
-*.7z
-*.bak
-*.dll
-*.dmg
-*.exe
-*.gz
-*.iso
-*.msi
-*.tar
-*.tgz
-*.zip
-
-# Existing reviewed public example
-!pc-client/catalog/catalog-v1.example.json
+# Local staging, operator records and data submissions
+Temp/
+release-assets/
+zxai-docs/
+**/submissions/
+**/skill-revisions/
+**/backups/
+.DS_Store

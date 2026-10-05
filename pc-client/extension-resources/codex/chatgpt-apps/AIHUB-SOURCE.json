@@ -1,9 +1,0 @@
-{
-  "repository": "https://github.com/openai/skills",
-  "commit": "49f948faa9258a0c61caceaf225e179651397431",
-  "path": "skills/.curated/chatgpt-apps",
-  "tree": "https://github.com/openai/skills/tree/49f948faa9258a0c61caceaf225e179651397431/skills/.curated/chatgpt-apps",
-  "commitEvidence": "https://github.com/openai/skills/commit/49f948faa9258a0c61caceaf225e179651397431",
-  "licenseFile": "LICENSE.txt",
-  "retrievedAt": "2026-07-31T11:23:00.000Z"
-}

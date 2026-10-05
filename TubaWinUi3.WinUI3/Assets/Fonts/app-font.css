@@ -1,0 +1,55 @@
+/* 由 scripts/generate-app-font.py 从 app-font.json 生成 —— 请勿手改（改配置后重跑生成器）。 */
+/* 同一份文件在三种宿主下同源生效：zxassets.local / bench.local 虚拟主机、file:// 同目录、HTTP 的 /fonts 路由 */
+/* @font-face 覆盖全部候选字体（按需加载）；--app-font 由运行时按已保存选择注入覆盖（WebView 文档创建脚本 / 服务端模板）。 */
+@font-face {
+    font-family: "Sarasa UI SC";
+    src: url("SarasaUiSC-Regular.ttf") format("truetype");
+    font-weight: 400;
+    font-display: swap;
+}
+@font-face {
+    font-family: "Sarasa UI SC";
+    src: url("SarasaUiSC-Bold.ttf") format("truetype");
+    font-weight: 700;
+    font-display: swap;
+}
+@font-face {
+    font-family: "Noto Sans SC";
+    src: url("NotoSansSC-Regular.otf") format("opentype");
+    font-weight: 400;
+    font-display: swap;
+}
+@font-face {
+    font-family: "Noto Sans SC";
+    src: url("NotoSansSC-Bold.otf") format("opentype");
+    font-weight: 700;
+    font-display: swap;
+}
+@font-face {
+    font-family: "HarmonyOS Sans SC";
+    src: url("HarmonyOS_Sans_SC_Regular.ttf") format("truetype");
+    font-weight: 400;
+    font-display: swap;
+}
+@font-face {
+    font-family: "HarmonyOS Sans SC";
+    src: url("HarmonyOS_Sans_SC_Bold.ttf") format("truetype");
+    font-weight: 700;
+    font-display: swap;
+}
+@font-face {
+    font-family: "Maple Mono CN";
+    src: url("MapleMono-CN-Regular.ttf") format("truetype");
+    font-weight: 400;
+    font-display: swap;
+}
+@font-face {
+    font-family: "Maple Mono CN";
+    src: url("MapleMono-CN-Bold.ttf") format("truetype");
+    font-weight: 700;
+    font-display: swap;
+}
+:root {
+    --app-font: 'Sarasa UI SC', 'Segoe UI Variable', 'Segoe UI', 'Microsoft YaHei', system-ui, -apple-system, sans-serif;
+    --app-font-mono: 'Maple Mono CN', 'Cascadia Mono', 'Consolas', 'Courier New', ui-monospace, monospace;
+}

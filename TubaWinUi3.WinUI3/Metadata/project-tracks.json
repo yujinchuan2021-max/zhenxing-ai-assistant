@@ -1,0 +1,811 @@
+{
+ "version": 1,
+ "updatedAt": "2026-09-19",
+ "note": "项目轨道库（产品线目录）：项目类型 → 里程碑陪跑 + 工具链 + 精准教学视频（B站，全部人工核验存在）。AI 助手在用户选定方向后按此陪跑。",
+ "usage": "get_project_track(id=...) 取详情；update_learning_progress 打卡里程碑。",
+ "tracks": [
+  {
+   "id": "game3d-godot",
+   "name": "3D 游戏开发（Godot）",
+   "category": "游戏开发",
+   "difficulty": "零基础可学",
+   "desc": "用免费开源的 Godot 引擎做出你的第一个 3D 游戏——中文资料全、不吃配置、工具箱可直接装。",
+   "milestones": [
+    "装好 Godot 并跑通自带示例项目（约 1 天）",
+    "做出可操控 3D 角色（移动+跳跃+视角）",
+    "加场景与收集物（有目标有反馈）",
+    "做成完整小游戏（开始/胜利/失败界面）",
+    "打包 exe 发给朋友玩"
+   ],
+   "tools": [
+    "Godot 4（工具箱可装）",
+    "Blender（工具箱可装，做模型）",
+    "本助手可帮你写 GDScript"
+   ],
+   "videos": [
+    {
+     "title": "Godot 4 - 3D游戏开发终极入门教程【开篇】",
+     "bvid": "BV1JfktYxEVu",
+     "note": "首选：系统入门"
+    },
+    {
+     "title": "【中文语音】如何在Godot中制作3D游戏（Brackeys）",
+     "bvid": "BV1sjKjeZEfo",
+     "note": "经典教程中文配音"
+    },
+    {
+     "title": "【Godot进阶教学】做出你的第一个3D游戏：创建3D角色",
+     "bvid": "BV13DaAzZELp",
+     "note": "做到角色环节时看"
+    }
+   ]
+  },
+  {
+   "id": "game2d-godot",
+   "name": "2D 游戏开发（Godot）",
+   "category": "游戏开发",
+   "difficulty": "零基础首选",
+   "desc": "2D 游戏是新手最推荐的第一站——像素、平台跳跃、小 RPG 都能快速做出成品。",
+   "milestones": [
+    "装好 Godot 打开示例（第 1 天）",
+    "做出会走会跳的小人（含动画）",
+    "加第一个敌人与碰撞判定",
+    "做 3 关并加分数/存档",
+    "导出 exe/网页版发布"
+   ],
+   "tools": [
+    "Godot 4（工具箱可装）",
+    "像素画工具（Aseprite 等）",
+    "本助手可帮你写 GDScript"
+   ],
+   "videos": [
+    {
+     "title": "【已完结】Godot4零基础入门游戏开发制作教程（37集）",
+     "bvid": "BV1684y147h4",
+     "note": "首选：配套完整"
+    },
+    {
+     "title": "【从零开始的Godot教程】零基础也能学习使用Godot开发游戏",
+     "bvid": "BV1ut42177r8",
+     "note": "另一套完整系统课"
+    }
+   ]
+  },
+  {
+   "id": "game2d-unity",
+   "name": "2D 游戏开发（Unity）",
+   "category": "游戏开发",
+   "difficulty": "零基础可学",
+   "desc": "Unity 是商业引擎主流，教程与素材生态最大；想做手机游戏也走这条路。",
+   "milestones": [
+    "装好 Unity Hub + 编辑器",
+    "做出 2D 角色移动与跳跃",
+    "加敌人/道具/UI",
+    "完成一个小游戏关卡",
+    "打成安卓 apk 或 pc 包"
+   ],
+   "tools": [
+    "Unity Hub（官网下载，个人版免费）",
+    "C# 由 AI 助手辅助",
+    "图吧工具：性能测试"
+   ],
+   "videos": [
+    {
+     "title": "【国语】Unity 2D游戏开发从入门到精通教程2026",
+     "bvid": "BV1MTDzBUE8y",
+     "note": "首选"
+    },
+    {
+     "title": "Unity6-2D游戏开发大全-零基础必备",
+     "bvid": "BV1GkFdzwE8W",
+     "note": "配套案例多"
+    }
+   ]
+  },
+  {
+   "id": "game-full-unity",
+   "name": "完整游戏开发（Unity 全栈）",
+   "category": "游戏开发",
+   "difficulty": "进阶",
+   "desc": "从零到完整项目：物理、动画、UI、多人联机——想吃透游戏开发看这套。",
+   "milestones": [
+    "跟完基础章节做出 demo",
+    "独立完成一个可玩关卡",
+    "加 UI/音效/存档",
+    "优化性能（帧率/内存）",
+    "打包发布"
+   ],
+   "tools": [
+    "Unity 6",
+    "Blender",
+    "本助手可帮你解释代码"
+   ],
+   "videos": [
+    {
+     "title": "Unity教程2026全套零基础入门教程",
+     "bvid": "BV1Yz9zBqEZQ",
+     "note": "系统课"
+    },
+    {
+     "title": "全B站最用心的Unity新手入门免费教程",
+     "bvid": "BV1ak41zvE8s",
+     "note": "口碑好"
+    }
+   ]
+  },
+  {
+   "id": "web-frontend",
+   "name": "网页前端开发",
+   "category": "软件开发",
+   "difficulty": "零基础可学",
+   "desc": "做网页（网站/落地页）是编程入门最直观的方向——改一行代码就能在浏览器看到效果。",
+   "milestones": [
+    "写出第一个 HTML 页面（能显示文字图片）",
+    "用 CSS 美化出好看的页面",
+    "写 JS 让页面能交互（点按钮有反应）",
+    "做一个个人主页/小工具站",
+    "部署上线拿到网址分享"
+   ],
+   "tools": [
+    "VS Code（工具箱可装）",
+    "浏览器（F12 调试）",
+    "本助手可帮你写/改代码"
+   ],
+   "videos": [
+    {
+     "title": "3小时前端入门教程（HTML+CSS+JS）",
+     "bvid": "BV1BT4y1W7Aw",
+     "note": "首选：快速过一遍"
+    },
+    {
+     "title": "HTML+CSS+JavaScript 零基础到精通一套搞定",
+     "bvid": "BV1hP411679m",
+     "note": "配套完整"
+    }
+   ]
+  },
+  {
+   "id": "web-python",
+   "name": "网站后端（Python Flask）",
+   "category": "软件开发",
+   "difficulty": "有基础后",
+   "desc": "给网页加上后台——登录、数据库、API，让网站真正能用。",
+   "milestones": [
+    "跑通第一个 Flask 页面",
+    "加模板渲染（网页动态内容）",
+    "接数据库存数据",
+    "做登录注册",
+    "部署到服务器/内网"
+   ],
+   "tools": [
+    "Python（工具箱可装）",
+    "VS Code",
+    "本助手可帮你写接口"
+   ],
+   "videos": [
+    {
+     "title": "2025版 Flask3 Python web开发 视频教程(无废话版)",
+     "bvid": "BV1XGwXeYEYY",
+     "note": "首选"
+    },
+    {
+     "title": "零基础玩转Python Flask框架",
+     "bvid": "BV17r4y1y7jJ",
+     "note": "系统课"
+    }
+   ]
+  },
+  {
+   "id": "miniprogram",
+   "name": "微信小程序",
+   "category": "软件开发",
+   "difficulty": "零基础可学",
+   "desc": "小程序是离做出成品给身边人用最近的项目——微信里就能分享。",
+   "milestones": [
+    "注册开发者账号+装开发者工具",
+    "做一个能显示的页面",
+    "加表单/列表/本地数据",
+    "接云开发存数据",
+    "提交审核发布"
+   ],
+   "tools": [
+    "微信开发者工具（官网）",
+    "本助手可帮你写代码"
+   ],
+   "videos": [
+    {
+     "title": "【2026】微信小程序开发教程 零基础到发布全流程",
+     "bvid": "BV1f4kHBaE2C",
+     "note": "首选：含发布"
+    },
+    {
+     "title": "【2025最新】几小时轻松学会微信小程序开发",
+     "bvid": "BV1A6evzkExf",
+     "note": "快速版"
+    }
+   ]
+  },
+  {
+   "id": "app-flutter",
+   "name": "手机 App 开发（Flutter）",
+   "category": "软件开发",
+   "difficulty": "有基础后",
+   "desc": "一套代码做安卓+苹果 App。",
+   "milestones": [
+    "装好 Flutter 环境跑通 demo",
+    "做出多页面 App（导航/列表）",
+    "加网络请求显示数据",
+    "打包 apk 安装到手机",
+    "上架或分享安装包"
+   ],
+   "tools": [
+    "Flutter SDK",
+    "Android Studio",
+    "本助手可帮你排环境问题"
+   ],
+   "videos": [
+    {
+     "title": "【2025最新】Flutter终极入门教程，5小时从零基础到独立开发",
+     "bvid": "BV1me4czAEX1",
+     "note": "首选"
+    }
+   ]
+  },
+  {
+   "id": "ai-chatbot",
+   "name": "AI 应用开发（大模型/RAG/Agent）",
+   "category": "AI 应用",
+   "difficulty": "有基础后",
+   "desc": "把大模型接进自己的产品：聊天机器人、知识库问答、自动化 Agent——2026 最热方向。",
+   "milestones": [
+    "申请 API Key 跑通第一个对话程序",
+    "做带界面的聊天机器人",
+    "做知识库问答（RAG）",
+    "做能调工具的 Agent",
+    "部署给朋友用"
+   ],
+   "tools": [
+    "Python（工具箱可装）",
+    "DeepSeek API（本助手同款，便宜好用）",
+    "本助手可全程陪你写"
+   ],
+   "videos": [
+    {
+     "title": "AI大模型开发教程（LLM+Langchain+RAG+学习路线）",
+     "bvid": "BV1qCQRYXEhq",
+     "note": "首选"
+    },
+    {
+     "title": "RAG、Agent、MCP、视觉大模型从入门到项目实战",
+     "bvid": "BV1kuAozWEx1",
+     "note": "项目实战全"
+    },
+    {
+     "title": "2026最新AI大模型应用开发全套教程",
+     "bvid": "BV1TCkKBiEPh",
+     "note": "全套系统课"
+    }
+   ]
+  },
+  {
+   "id": "ai-paint",
+   "name": "AI 绘画（ComfyUI / Midjourney）",
+   "category": "AI 应用",
+   "difficulty": "零基础可学",
+   "desc": "用 AI 出图做素材/插画/头像——零美术基础也能出商用级图片。",
+   "milestones": [
+    "装好 ComfyUI（含模型）",
+    "出第一张图（提示词入门）",
+    "学会换模型/LoRA 控制风格",
+    "精准控制（线稿上色/换脸/修图）",
+    "批量出图用于自己项目"
+   ],
+   "tools": [
+    "ComfyUI（一键整合包）",
+    "显卡：本机 RX 6800 XT 够用",
+    "本助手可帮你搭工作流"
+   ],
+   "videos": [
+    {
+     "title": "秋叶 ComfyUI 整合包+56个模板（Win一键安装）",
+     "bvid": "BV1VLFrzWEAP",
+     "note": "首选：先装好再学"
+    },
+    {
+     "title": "最新 Midjourney 安装教程（小白版）",
+     "bvid": "BV1CQq8BSE4x",
+     "note": "不想本地跑显卡就用 MJ"
+    }
+   ]
+  },
+  {
+   "id": "data-analysis",
+   "name": "数据分析（Python Pandas）",
+   "category": "数据",
+   "difficulty": "零基础可学",
+   "desc": "用 Python 处理表格数据：Excel 干不动的活、批量报表、可视化图。",
+   "milestones": [
+    "装好 Python + Jupyter",
+    "用 Pandas 读取清洗表格",
+    "做分组统计与透视表",
+    "画可视化图表",
+    "做一个完整分析报告"
+   ],
+   "tools": [
+    "Python（工具箱可装）",
+    "Jupyter/VS Code",
+    "本助手可帮你写分析代码"
+   ],
+   "videos": [
+    {
+     "title": "【全92集】Pandas数据分析入门到实战",
+     "bvid": "BV1CPNczTEmC",
+     "note": "首选"
+    },
+    {
+     "title": "2026 最新 Pandas 完整版教程（含安装）",
+     "bvid": "BV1V6uu6gEyT",
+     "note": "带环境安装"
+    }
+   ]
+  },
+  {
+   "id": "office-auto",
+   "name": "办公自动化（Python 脚本）",
+   "category": "效率",
+   "difficulty": "零基础可学",
+   "desc": "把重复的办公劳动交给脚本：批量改文件名/合并表格/自动发邮件/生成报告。",
+   "milestones": [
+    "装好 Python 环境",
+    "用脚本批量处理文件",
+    "用 openpyxl 自动处理 Excel",
+    "自动生成 Word/PDF 报告",
+    "打包成双击就能用的工具"
+   ],
+   "tools": [
+    "Python（工具箱可装）",
+    "本助手可帮你写脚本（说需求就行）"
+   ],
+   "videos": [
+    {
+     "title": "Python自动化办公教程，3小时学会",
+     "bvid": "BV1Hr421E7wJ",
+     "note": "首选"
+    }
+   ]
+  },
+  {
+   "id": "spider",
+   "name": "网络爬虫（数据采集）",
+   "category": "数据",
+   "difficulty": "零基础可学",
+   "desc": "写程序自动抓取网页数据——比价、监控、素材收集。",
+   "milestones": [
+    "跑通第一个爬虫（抓一个页面标题）",
+    "学会解析 HTML（抓列表数据）",
+    "存进 Excel/数据库",
+    "处理反爬（headers/延时）",
+    "做一个持续监控脚本"
+   ],
+   "tools": [
+    "Python（工具箱可装）",
+    "本助手可帮你分析和写代码"
+   ],
+   "videos": [
+    {
+     "title": "Python爬虫教程，零基础速通",
+     "bvid": "BV1Db4y1m7Ho",
+     "note": "首选"
+    },
+    {
+     "title": "超实用的18个Python爬虫实战案例",
+     "bvid": "BV145LEzSEG6",
+     "note": "实战案例多"
+    }
+   ]
+  },
+  {
+   "id": "embedded",
+   "name": "单片机 / 嵌入式（ESP32）",
+   "category": "硬件",
+   "difficulty": "零基础可学",
+   "desc": "几十块钱的 ESP32 能让代码动起来——点灯、传感器、WIFI 控制、智能小车。",
+   "milestones": [
+    "买一块 ESP32 开发板",
+    "装 Arduino/VSCode 环境点亮 LED",
+    "接传感器读数据（温湿度/超声波）",
+    "连 WiFi 做远程控制",
+    "做成小项目（智能灯/小车/天气站）"
+   ],
+   "tools": [
+    "ESP32 开发板（淘宝几十元）",
+    "VSCode + PlatformIO/Arduino",
+    "本助手可帮你写固件代码"
+   ],
+   "videos": [
+    {
+     "title": "零基础入门ESP32单片机-保姆级教学",
+     "bvid": "BV1bqVnzREnQ",
+     "note": "首选"
+    },
+    {
+     "title": "ESP32超详细教程-使用VSCode（Arduino框架）",
+     "bvid": "BV1tv411w74d",
+     "note": "环境搭建看这个"
+    }
+   ]
+  },
+  {
+   "id": "video-edit",
+   "name": "视频剪辑（剪映）",
+   "category": "内容创作",
+   "difficulty": "零基础首选",
+   "desc": "剪辑是内容创作基本功——手机和电脑都能剪，几天就能上手出片。",
+   "milestones": [
+    "装好剪映熟悉界面",
+    "剪出第一条 1 分钟成片（拼接+字幕）",
+    "学会卡点/转场/音效",
+    "调色与导出参数",
+    "做一支完整作品（vlog/游戏集锦）"
+   ],
+   "tools": [
+    "剪映（免费）",
+    "图吧工具：OBS 录制（工具箱可装）"
+   ],
+   "videos": [
+    {
+     "title": "剪映专业版视频教程【基础篇】",
+     "bvid": "BV18h41117BF",
+     "note": "首选：基础工整"
+    },
+    {
+     "title": "剪映电脑版教程2025最新（从零开始学）",
+     "bvid": "BV1YPXwYYE68",
+     "note": "新版功能"
+    },
+    {
+     "title": "从零开始学剪辑专业版（2026新手）",
+     "bvid": "BV1hkASzUEDn",
+     "note": "系统课"
+    }
+   ]
+  },
+  {
+   "id": "blender",
+   "name": "3D 建模（Blender）",
+   "category": "内容创作",
+   "difficulty": "零基础可学",
+   "desc": "免费开源的 3D 建模软件——做游戏模型、渲染图、动画短片都靠它。",
+   "milestones": [
+    "装好 Blender 熟悉操作（视角/选择/移动）",
+    "建出第一个小物件（杯子/桌子）",
+    "学会材质与打光渲染成图",
+    "简单角色/场景建模",
+    "导入 Godot/Unity 用起来"
+   ],
+   "tools": [
+    "Blender（工具箱可装）",
+    "本助手可陪你排错误"
+   ],
+   "videos": [
+    {
+     "title": "Blender新手基础入门教程 3.5小时完整版【中文精译】",
+     "bvid": "BV1jjdgYME1p",
+     "note": "首选"
+    },
+    {
+     "title": "全B站最用心的 Blender 3D建模零基础入门教程",
+     "bvid": "BV1kX4y1m7G5",
+     "note": "中文系统课"
+    }
+   ]
+  },
+  {
+   "id": "python-base",
+   "name": "编程入门（Python 第一课）",
+   "category": "编程基础",
+   "difficulty": "零基础首选",
+   "desc": "完全没写过代码？从这里开始。Python 最简单、用途最广，学完能走数据分析/AI/爬虫/自动化任何一条路。",
+   "milestones": [
+    "装好 Python + VS Code（工具箱可装）",
+    "写下第一个程序（打印/变量/输入）",
+    "学会 if 判断和循环",
+    "写一个小游戏（猜数字）",
+    "用函数整理代码，做一个小工具"
+   ],
+   "tools": [
+    "Python（工具箱可装）",
+    "VS Code（工具箱可装）",
+    "本助手全程陪你写代码、改错"
+   ],
+   "videos": [
+    {
+     "title": "youtube上播放量超1000万的python入门课程（中文字幕）",
+     "bvid": "BV1c7411R7jR",
+     "note": "首选：经典口碑"
+    },
+    {
+     "title": "【全648集】2026年B站最全 Python 零基础教程",
+     "bvid": "BV1YwDCBBESA",
+     "note": "配合查阅"
+    },
+    {
+     "title": "【零基础学Python】动画教学纯小白入门",
+     "bvid": "BV1FCRkBxE9T",
+     "note": "动画好懂"
+    }
+   ]
+  },
+  {
+   "id": "c-base",
+   "name": "C 语言入门",
+   "category": "编程基础",
+   "difficulty": "零基础可学",
+   "desc": "计算机专业必修 + 单片机/嵌入式的语言基础。",
+   "milestones": [
+    "装好编译器（Dev-C++/VS/CLion）",
+    "写第一个程序（hello world）",
+    "掌握变量/判断/循环",
+    "学会数组和函数",
+    "做一个控制台小程序（学生成绩管理）"
+   ],
+   "tools": [
+    "编译器任选（Dev-C++ 最简单）",
+    "本助手帮你逐行解释报错"
+   ],
+   "videos": [
+    {
+     "title": "尚硅谷C语言零基础入门教程",
+     "bvid": "BV1Bh4y1q7Nt",
+     "note": "首选：系统课"
+    },
+    {
+     "title": "【600集】2025年B站最细的C语言零基础教程",
+     "bvid": "BV1eQj9zNER3",
+     "note": "长时间跟练"
+    }
+   ]
+  },
+  {
+   "id": "java",
+   "name": "Java 入门（就业向）",
+   "category": "编程基础",
+   "difficulty": "有基础后",
+   "desc": "国内就业岗位最多的编程语言方向。",
+   "milestones": [
+    "装好 JDK + IDEA",
+    "写第一个 Java 程序",
+    "面向对象入门（类/对象/继承）",
+    "集合与常用类库",
+    "做一个小项目（图书管理/计算器）"
+   ],
+   "tools": [
+    "JDK（官网/工具箱）",
+    "IDEA",
+    "本助手帮你排环境"
+   ],
+   "videos": [
+    {
+     "title": "黑马程序员Java教程，Java零基础自学入门必看",
+     "bvid": "BV1Fv4y1q7ZH",
+     "note": "首选：口碑最好"
+    }
+   ]
+  },
+  {
+   "id": "ai-music",
+   "name": "AI 音乐（Suno）",
+   "category": "AI 应用",
+   "difficulty": "零基础首选",
+   "desc": "用 AI 写歌——你出想法，它出成品：原创歌曲/游戏 BGM/短视频配乐。",
+   "milestones": [
+    "注册 Suno 跑通第一首歌",
+    "学会写提示词（风格/情绪/乐器）",
+    "中文歌词创作技巧",
+    "做一首完整原创歌（含封面）",
+    "把音乐用到自己的视频/游戏里"
+   ],
+   "tools": [
+    "Suno（网页即可）",
+    "本助手帮你写歌词和提示词"
+   ],
+   "videos": [
+    {
+     "title": "Suno AI 创作从零基础到精通（2026新手版）",
+     "bvid": "BV1ZTLi6ME5S",
+     "note": "首选"
+    },
+    {
+     "title": "【全41集】手把手教你用 Suno 玩转AI音乐",
+     "bvid": "BV1wuiyBQEdi",
+     "note": "系统课"
+    }
+   ]
+  },
+  {
+   "id": "ai-video",
+   "name": "AI 视频 / 数字人",
+   "category": "AI 应用",
+   "difficulty": "有基础后",
+   "desc": "用 AI 做视频：文生视频、数字人口播、AI 配音——短视频时代的生产力。",
+   "milestones": [
+    "跑通一个文生视频工具",
+    "学会图生视频（画面一致性）",
+    "做一个数字人口播视频",
+    "配上 AI 配音与字幕",
+    "产出第一条完整成片"
+   ],
+   "tools": [
+    "主流 AI 视频工具（在线）",
+    "剪映（后期）",
+    "本助手帮你搭流程"
+   ],
+   "videos": [
+    {
+     "title": "【2026】AI生成视频全流程教学（基础篇+实战）",
+     "bvid": "BV1PcftBYEHq",
+     "note": "首选"
+    },
+    {
+     "title": "AI数字人制作教程（口播/对口型/一致性）",
+     "bvid": "BV1SRoKYUEQF",
+     "note": "数字人专攻"
+    }
+   ]
+  },
+  {
+   "id": "quant",
+   "name": "量化交易（Python）",
+   "category": "数据",
+   "difficulty": "进阶",
+   "desc": "用程序分析和回测投资策略——从看懂数据到写自己的策略。",
+   "milestones": [
+    "Python 基础过关",
+    "学会获取行情数据（AKShare等）",
+    "画K线/均线指标",
+    "写一个均线策略并回测",
+    "模拟盘跑通（风险自负）"
+   ],
+   "tools": [
+    "Python（工具箱可装）",
+    "AKShare/backtrader",
+    "本助手帮你写策略代码"
+   ],
+   "videos": [
+    {
+     "title": "【量化交易教程】最适合零基础入门的量化教程",
+     "bvid": "BV1bXCTBGE42",
+     "note": "首选"
+    },
+    {
+     "title": "Python量化交易数据分析从入门到实战",
+     "bvid": "BV1nbtgzHEY2",
+     "note": "实战向"
+    }
+   ]
+  },
+  {
+   "id": "linux",
+   "name": "Linux 入门",
+   "category": "编程基础",
+   "difficulty": "零基础可学",
+   "desc": "服务器世界的通用语言——做后端/运维/部署绕不开，WSL 就能练（你电脑已装 WSL）。",
+   "milestones": [
+    "打开 WSL/虚拟机进入 Linux",
+    "掌握文件与目录命令（cd/ls/cp）",
+    "权限与软件安装（chmod/apt）",
+    "写第一个 Shell 脚本",
+    "部署一个自己的网站/服务上去"
+   ],
+   "tools": [
+    "WSL（Win11 自带）或虚拟机",
+    "本助手陪你敲命令"
+   ],
+   "videos": [
+    {
+     "title": "尚硅谷Linux教程（千万级学习人次）",
+     "bvid": "BV1dW411M7xL",
+     "note": "首选"
+    },
+    {
+     "title": "3天搞定Linux，1天搞定Shell，清华学神带你通关",
+     "bvid": "BV1WY4y1H7d3",
+     "note": "快速版"
+    }
+   ]
+  },
+  {
+   "id": "security",
+   "name": "网络安全基础",
+   "category": "编程基础",
+   "difficulty": "有基础后",
+   "desc": "理解网络与系统安全原理（合法合规的方向：防御、CTF、渗透测试学习）。",
+   "milestones": [
+    "计算机网络基础（IP/TCP/HTTP）",
+    "Linux 基础过关",
+    "搭好实验环境（虚拟机靶场）",
+    "完成第一个 CTF 题目",
+    "系统学习 Web 安全基础"
+   ],
+   "tools": [
+    "虚拟机 + 靶场（VMware/Kali 等合法学习环境）",
+    "本助手帮你搭环境"
+   ],
+   "videos": [
+    {
+     "title": "【2026】网络安全零基础入门到精通（渗透测试/Web安全）",
+     "bvid": "BV14ej26WEiA",
+     "note": "首选"
+    },
+    {
+     "title": "【500集】网络安全零基础全套教程",
+     "bvid": "BV1nSJg6EEfC",
+     "note": "全套系统课"
+    }
+   ]
+  },
+  {
+   "id": "rpi",
+   "name": "树莓派 / 智能硬件",
+   "category": "硬件",
+   "difficulty": "零基础可学",
+   "desc": "卡片大小的电脑：智能家居中枢、网络服务、复古游戏机、机器人都靠它。",
+   "milestones": [
+    "入手树莓派并装好系统",
+    "SSH 远程连上",
+    "跑通第一个项目（点灯/传感器）",
+    "做 Home Assistant 智能家居",
+    "做一个完整小项目（NAS/游戏机/监控）"
+   ],
+   "tools": [
+    "树莓派（淘宝官方店）",
+    "Home Assistant",
+    "本助手帮你写配置"
+   ],
+   "videos": [
+    {
+     "title": "12个必试的树莓派项目！",
+     "bvid": "BV19AUkBcEv5",
+     "note": "找灵感"
+    },
+    {
+     "title": "AI Agent 驱动 ESP32 / 树莓派实践（AI硬件）",
+     "bvid": "BV1Ycjw6MEHc",
+     "note": "进阶玩法"
+    }
+   ]
+  },
+  {
+   "id": "print3d",
+   "name": "3D 打印",
+   "category": "硬件",
+   "difficulty": "零基础可学",
+   "desc": "从建模到打出实物——手办、零件、外设，把创意变成能拿在手里的东西。",
+   "milestones": [
+    "了解机型选择（FDM 入门）完成选购",
+    "学会切片软件（模型→打印文件）",
+    "打第一个模型并处理失败",
+    "自己建模一个简单零件",
+    "打印多件组装的小作品"
+   ],
+   "tools": [
+    "拓竹/创想等 FDM 打印机",
+    "切片软件（Bambu Studio/PrusaSlicer）",
+    "Blender 建模（工具箱可装）",
+    "本助手帮你排故障"
+   ],
+   "videos": [
+    {
+     "title": "【入坑必看】3D打印保姆级入门教程（机械博士手把手）",
+     "bvid": "BV1QUsGzvEX1",
+     "note": "首选"
+    },
+    {
+     "title": "0基础自学3D打印建模教程（拓竹）",
+     "bvid": "BV1xA4tzuE58",
+     "note": "边玩边学"
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="枕星AI资讯：持续更新的模型、工具、研究与行业动态，保留来源和原文入口。浏览无需配置AI。">
+  <title>枕星AI资讯</title>
+  <link rel="stylesheet" href="./portal.css">
+  <script src="./portal.js" defer></script>
+</head>
+<body>
+  <div class="portal">
+    <header class="masthead">
+      <div class="brand"><span class="brand-mark" aria-hidden="true">✦</span><div><h1 data-text="title">枕星AI资讯</h1><p data-text="subtitle">值得关注的 AI 新动向，在这里看。</p></div></div>
+      <div class="header-actions"><button id="configure" class="subtle" hidden data-text="aiSettings">个人 AI</button><button id="refresh" data-text="refresh">刷新</button></div>
+    </header>
+    <div class="navigation">
+      <nav id="categories" aria-label="资讯分类"></nav>
+      <form id="search-form" role="search"><input id="search" type="search" maxlength="120" placeholder="搜索模型、工具与资讯" aria-label="搜索资讯"><button type="submit" data-text="search">搜索</button></form>
+    </div>
+    <div class="update-line"><span id="update-time">来源持续更新</span><span id="ai-status" hidden></span></div>
+    <p id="status" class="status" role="status" aria-live="polite"></p>
+    <section id="focus-section" hidden aria-labelledby="focus-title"><div class="section-heading"><h2 id="focus-title">重点资讯</h2><span id="focus-note"></span></div><div id="lead" class="focus-grid"></div></section>
+      <main id="main">
+        <div class="section-heading"><h2 id="list-title">最新资讯</h2><span id="loaded-count"></span></div>
+        <div id="cards" class="news-grid" aria-live="polite"></div>
+        <div class="pagination"><button id="more" hidden data-text="more">加载更多</button></div>
+      </main>
+    <details class="source-details"><summary data-text="sources">本页资讯来源</summary><div id="sources" class="source-list"></div><p data-text="sourceNote">保留来源与原文，重要信息请以原文为准。</p></details>
+    <footer><span data-text="footer">枕星图吧AI助手</span><span data-text="footerNote">阅读资讯不需要 AI 账号</span></footer>
+  </div>
+</body>
+</html>

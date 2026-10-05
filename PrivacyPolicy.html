@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>隐私说明 - 枕星图吧AI助手</title>
+    <style>
+        body { max-width: 800px; margin: 40px auto; padding: 0 20px; font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif; color: #333; line-height: 1.8; }
+        h1 { font-size: 1.8em; }
+        h2 { font-size: 1.2em; margin-top: 2em; color: #555; }
+        hr { margin: 2em 0; border: none; border-top: 1px solid #eee; }
+        .lang-en { color: #888; }
+        code { background: #f5f5f5; padding: 0 4px; border-radius: 3px; }
+    </style>
+</head>
+<body>
+
+<h1>隐私说明</h1>
+<p><strong>枕星图吧AI助手（TubaWinUi3）</strong> — 最后更新：2026年10月4日</p>
+
+<h2>总览</h2>
+<p>本应用以本地功能为主，但<strong>不是"纯离线"应用</strong>。以下场景会产生网络请求：</p>
+<ul>
+    <li>使用 <strong>AI 助手</strong>（请求发往你配置的模型服务）；</li>
+    <li>使用<strong>在线搜索</strong>；</li>
+    <li><strong>下载工具与检查更新</strong>；</li>
+    <li>默认开启、可在设置关闭的<strong>工具流分享</strong>（发送到枕星服务器）。</li>
+</ul>
+<p>应用本身不接入第三方广告、统计或社交 SDK；不会主动要求你提供姓名、邮箱、电话号码等个人身份信息，也不采集设备标识符、地理位置。注意：你在应用内主动输入的内容（例如在与 AI 助手对话时写下的邮箱或其它信息）会按本文相应小节被处理或发送，请避免填写不必要的敏感信息。上述联网请求中，相应服务方会按其常规方式获知连接信息（如 IP 地址）。</p>
+
+<h2>AI 模型请求</h2>
+<p>仅当你使用 AI 助手或相关功能、并已配置模型服务时才会发生：应用会把你在该会话中的输入与必要上下文发送到<strong>你配置的模型服务地址</strong>（内置条目默认指向 DeepSeek 官方接口；也可以改为你自填的 OpenAI 兼容服务）。API Key 保存在本机；未配置或未使用 AI 功能时，不会发起这类请求。请求内容的去向与保留策略由所选模型服务商决定，请查阅其隐私政策。</p>
+
+<h2>工具流分享（默认开启，可在设置关闭）</h2>
+<p><strong>分享内容：</strong>你最终选定的工具流名称、你要做的项目目标、完整方案、该会话中你与助手的完整可见对话；以及具备条件时实际产生的安装结果、下载按钮点击与真实下载请求的计数汇总（不含对话内容）。</p>
+<p><strong>接收方：</strong>枕星工具流分析服务，固定接收入口为 <code>https://zhenxingai.com/api/toolflows/</code>。无需填写服务器地址，旧版自填地址不再决定发送目的地。<strong>发送条件：</strong>分享开关默认开启；最终选定工具流后，应用尝试发送具备分享资格的选定记录、后续执行事件与下载计数。发送失败时会保留待发记录，供下一次上传尝试使用。关闭开关后，不再发起新的上传请求；关闭期间的新选定只保存在本机，也不累计可上报的下载计数。关闭会作废此前未发送的选定记录与计数，日后重开也<strong>不会补传</strong>；服务器已收到的记录不会因关闭开关而删除。</p>
+
+<h2>其他联网功能</h2>
+<ul>
+    <li><strong>在线搜索</strong>：使用搜索功能时，查询词会发送到相应的搜索服务（默认服务为 uapis.cn 的免费搜索接口）。</li>
+    <li><strong>客户端更新</strong>：仅从 https://zhenxingai.com/updates/stable.json 检查本版更新，并从枕星官网获取新包。</li>
+    <li><strong>第三方工具下载</strong>：会访问你选择的工具下载源，例如 GitHub / GitCode、其镜像或工具官方网站。</li>
+    <li>使用内置浏览器打开网页时，浏览请求由 WebView2 直接发往你访问的网站。</li>
+    <li>第三方工具作为独立程序运行，其网络行为由其自身决定，本应用不干涉、不监控。</li>
+</ul>
+
+<h2>跑分投稿与排行榜</h2><p>只有你确认上传时，应用才向 <code>https://zhenxingai.com/api/toolflows/v1/benchmarks</code> 提交所选报告的 CPU、GPU、系统版本、主板、内存、硬盘、显示器型号信息、各项成绩（包括 Win 性能）、测试时间、测试模式、客户端版本及可选的核间延迟 PNG 热力图。不附带会话、模型配置、API Key 或 GitHub 登录信息。此上传独立于工具流分享开关，不会自动上传。新投稿先待审核，采纳后公开报告与匿名投稿名；采纳不代表已独立验证测量结果。本机投稿凭据由 Windows 当前用户加密保存在 <code>BenchmarkUploads/owner.dpapi</code>，请求只向枕星服务携带该凭据。你可在「我的记录」查看和撤回本机投稿，撤回后不再公开展示。删除凭据或换 Windows 用户可能失去待审核记录查看及撤回能力。</p>
+<h2>制作技能与官方技能库</h2>
+<p>制作技能只把制作窗口内填写的用途与回答发到你全局配置的模型，不附带主会话历史。点击「保存并加载」后写入本机 <code>Skills</code>，启用的技能指导在命中场景时发往当前模型。读取公开技能库无需配置模型。只有同意 MIT 分享许可并点击「提交后台审核」时，才向 <code>https://zhenxingai.com/api/toolflows/v1/skill-submissions</code> 发送名称、简介、分类、触发词、技能正文、客户端版本、投稿编号和分享许可，不附带会话历史或模型配置。本机投稿所有权凭据由 DPAPI 保存。服务器保留投稿供管理员审核；通过的技能与许可公开到库，待审或退回的投稿不公开。不会自动执行技能中的命令或自动投稿。</p>
+<h2>本地数据存储</h2>
+<p><strong>技能修改审核：</strong>保存草稿、本机试用、恢复官方版本只处理本机文件。只有点击「提交审核」时，才向 <code>https://zhenxingai.com/api/toolflows/v1/skill-revisions</code> 发送官方版本原文、修改后的技能全文、修改说明、技能标识、客户端版本、投稿编号、时间与哈希；不附带会话历史、模型配置或密钥。此主动提交独立于工具流分享开关，不会自动提交或重试。失败时保留本机草稿。服务器保存修订供管理员对照审核，采纳只记结果，不会自动更新客户端。启用本机修改版后，其指导内容会在后续相关 AI 请求中发送到你配置的模型服务。</p>
+<p>应用在本机存储（除上述明确的联网路径外不上传）：</p>
+<ul>
+    <li><strong>设置</strong>（<code>settings.json</code>）—— AI 服务配置、工具流分享开关、收藏等</li>
+    <li><strong>图标缓存</strong> — <code>%LocalAppData%\TubaWinUi3\IconCache\</code></li>
+    <li>工具流快照与执行记录、下载计数、日志、WebView 缓存等运行数据</li>
+    <li>技能修改草稿、本机试用版与提交回执（<code>AiAssistant\SkillRevisions</code>）</li>
+    <li>制作及加载的技能（<code>Skills</code>）、新技能投稿与回执（<code>SkillSubmissions</code>）</li>
+</ul>
+<p>以上数据<strong>默认</strong>保存在本机「<code>%LocalAppData%\TubaWinUi3</code>」目录下；你也可以在应用设置中把数据目录改为程序目录（随程序携带）或自定义目录。删除解压出来的程序目录<strong>不等于</strong>删除这些本机数据；你可以在应用设置中清理，或按文档说明手动清理（具体以实际界面为准）。</p>
+
+<h2>所需权限</h2>
+<p>应用声明以下权限用于核心功能：</p>
+<ul>
+    <li><strong>runFullTrust</strong> — 用于启动第三方诊断工具、读取WMI硬件信息、编辑系统Hosts文件、管理证书存储、清理系统垃圾文件等系统级操作</li>
+</ul>
+
+<h2>第三方工具</h2>
+<p>本应用集成了多个第三方PC硬件诊断工具。这些工具作为独立程序运行，各有其自身的功能和数据处理方式。本应用仅提供统一的快捷启动入口，不干涉、不监控这些工具的数据行为。</p>
+
+<h2>儿童隐私</h2>
+<p>本应用不面向13岁以下儿童，也不会有意收集儿童的个人信息。</p>
+
+<h2>政策变更</h2>
+<p>如本说明有任何变更，将随版本更新在此文件及相关仓库说明中公布。建议定期查阅本页面。</p>
+
+<h2>联系与反馈</h2>
+<p>反馈邮箱：<a href="mailto:yujinchuan2021@gmail.com">yujinchuan2021@gmail.com</a>（官网已上线，最新说明以官网为准）。请勿在反馈中附带 API Key、令牌、会话内容或未脱敏日志。</p>
+
+<hr>
+
+<h1 class="lang-en">Privacy Notice</h1>
+<p class="lang-en"><strong>Zhenxing Tuba AI Assistant (TubaWinUi3)</strong> — Last updated: October 4, 2026</p>
+
+<h2 class="lang-en">Overview</h2>
+<p class="lang-en">This app is local-first but is <strong>NOT a "fully offline" application</strong>. Network requests occur when: you use the <strong>AI assistant</strong> (requests go to your configured model service); you use <strong>online search</strong>; the app <strong>downloads tools or checks for updates</strong>; or <strong>tool-flow sharing</strong> is enabled (on by default, switchable in settings; sent to the Zhenxing server).</p>
+<p class="lang-en">The app itself integrates no third-party advertising, analytics, or social SDKs. It does not ask you for personal identity information such as name, email, or phone number, and does not collect device identifiers or geolocation. Note that anything you voluntarily type into the app (for example an email address you mention in a chat with the AI assistant) is processed or transmitted as described in the relevant sections — please avoid entering unnecessary sensitive information. For the requests above, the respective providers will see connection information such as your IP address as a matter of course.</p>
+
+<h2 class="lang-en">AI Model Requests</h2>
+<p class="lang-en">These occur only when you use the AI assistant with a configured model service: your inputs and the necessary session context are sent to the model service you configured (the built-in entry points to DeepSeek's official API by default; you may use any OpenAI-compatible service). API keys are stored locally; no such requests are made when AI features are unused or unconfigured. Retention is governed by the provider's own privacy policy.</p>
+
+<h2 class="lang-en">Tool-Flow Sharing (on by default, switchable)</h2>
+<p class="lang-en"><strong>Content:</strong> the name of the tool flow you finally selected, your project goal, the full plan, and that session's full visible conversation, plus actual installation results and aggregated counts of download-button clicks and real download requests (counts exclude conversation content). <strong>Recipient:</strong> the Zhenxing tool-flow analysis service, at the fixed endpoint <code>https://zhenxingai.com/api/toolflows/</code>. You do not need to enter a server address; a legacy custom address no longer determines the destination. Sharing is <strong>ON by default</strong>. After you select a tool flow, the app attempts to send eligible selections, subsequent execution events, and download counts. Failed submissions remain pending for the next upload attempt. Turning sharing off stops new upload requests. Selections made while it is off remain local, and uploadable download counts are not accumulated. Unsent selections and counts are voided when the switch is turned off and are <strong>not back-filled</strong> after reopening. Switching off does not delete records the server has already received.</p>
+
+<h2 class="lang-en">Other Network Features</h2>
+<ul class="lang-en">
+    <li><strong>Online search</strong>: your query is sent to the corresponding search service (default: the free search endpoint at uapis.cn).</li>
+    <li><strong>App updates</strong>: checked only at https://zhenxingai.com/updates/stable.json; new packages come from the Zhenxing website.</li>
+    <li><strong>Third-party tool downloads</strong>: access the source you choose, such as GitHub / GitCode, their mirrors or official tool websites.</li>
+    <li>Web pages opened in the built-in browser are fetched directly via WebView2 from the site you visit.</li>
+    <li>Third-party tools run as independent programs; their network behavior is their own.</li>
+</ul>
+
+<h2 class="lang-en">Benchmark Submissions and Leaderboards</h2><p class="lang-en">Only after upload confirmation does the app send the selected report to <code>https://zhenxingai.com/api/toolflows/v1/benchmarks</code>: CPU/GPU/OS/motherboard, memory/disk/display model information, scores including Win performance, test time, mode, client version and an optional latency PNG heatmap. Conversations, model configuration, API keys and GitHub credentials are excluded. Upload is explicit and separate from tool-flow sharing. Reports start pending review; accepted reports become public with an anonymous name. Acceptance is not independent measurement verification. A Windows current-user encrypted credential at <code>BenchmarkUploads/owner.dpapi</code> is sent only to Zhenxing. My records lets you view and withdraw this computer's submissions, removing public display. Deleting the credential or changing Windows users may remove access to pending records and withdrawal.</p>
+<h2 class="lang-en">Skill Creation and Library</h2>
+<p class="lang-en">Skill creation sends only the purpose and answers in its own window to your globally configured model; main-chat history is excluded. Save and load writes locally to <code>Skills</code>, and enabled instructions are sent to the model when relevant. The public library requires no model configuration. Only explicit MIT consent and Submit for review sends the skill name, description, category, keywords, instructions, client version, submission ID and license to <code>https://zhenxingai.com/api/toolflows/v1/skill-submissions</code>. No chat history or model configuration is attached. Local ownership uses DPAPI. Accepted submissions and their license become public; pending and rejected submissions stay private. Skills are not automatically executed or uploaded.</p>
+<h2 class="lang-en">Local Data Storage</h2>
+<p class="lang-en"><strong>Skill revisions:</strong> Drafts, local trials and receipts are stored in <code>AiAssistant\SkillRevisions</code>. Only clicking Submit for review sends the original and modified skill documents, change summary, skill identity, client version, submission ID, timestamps and hashes to <code>https://zhenxingai.com/api/toolflows/v1/skill-revisions</code>. It excludes conversation history, model configuration and API keys. This explicit submission is independent of tool-flow sharing and is never sent or retried automatically. Failed drafts stay local. The server retains revisions for administrator review; acceptance does not automatically update clients. Active local instructions are included in relevant later AI requests to your configured model service.</p>
+<p class="lang-en">Stored locally (not uploaded except via the network paths above): settings (<code>settings.json</code> — AI service configuration, tool-flow sharing switch, favorites); icon cache under <code>%LocalAppData%\TubaWinUi3\IconCache\</code>; tool-flow snapshots and execution records, download counters, logs, and WebView caches. This data is stored under <code>%LocalAppData%\TubaWinUi3</code> by default; you may switch the data directory to the program folder or a custom directory in the app's settings. Deleting the unzipped program folder does <strong>not</strong> delete this local data; you can clear it in the app's settings or manually per the documentation (exact UI prevails).</p>
+
+<h2 class="lang-en">Required Permissions</h2>
+<ul class="lang-en">
+    <li><strong>runFullTrust</strong> — Required for launching third-party diagnostic tools, querying WMI hardware information, editing the system Hosts file, managing certificate stores, cleaning system junk files, and other system-level operations</li>
+</ul>
+
+<h2 class="lang-en">Third-Party Tools</h2>
+<p class="lang-en">This application integrates multiple third-party PC hardware diagnostic tools. These tools run as independent programs with their own functionality and data handling. This application only provides a unified launcher and does not interfere with or monitor the data behavior of these tools.</p>
+
+<h2 class="lang-en">Children's Privacy</h2>
+<p class="lang-en">This application is not directed to children under 13 and does not knowingly collect personal information from children.</p>
+
+<h2 class="lang-en">Policy Changes</h2>
+<p class="lang-en">Any changes will be published with a version update in this file and the related repository documentation. Please check this page periodically.</p>
+
+<h2 class="lang-en">Contact &amp; Feedback</h2>
+<p class="lang-en">Contact: <a href="mailto:yujinchuan2021@gmail.com">yujinchuan2021@gmail.com</a> (the official site is now live; the site carries the latest notices). Please do not include API keys, tokens, session content, or unsanitized logs in reports.</p>
+
+</body>
+</html>

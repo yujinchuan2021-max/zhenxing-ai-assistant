@@ -1,0 +1,29 @@
+<Page
+    x:Class="TubaWinUi3.Pages.DigitalLiteracyTestPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:TubaWinUi3.Controls"
+    xmlns:l="using:WinUI3Localizer"
+    Background="Transparent">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <controls:ToolPageHeader
+            Grid.Row="0"
+            Title="数字素养测试"
+            Subtitle="用几道题快速检验你的电脑常识与安全意识水平" l:Uids.Uid="DigitalLiteracy_PageHeader"
+            Glyph="&#xE9CE;" />
+
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollMode="Disabled" Padding="48,8,48,32">
+            <StackPanel x:Name="ContentPanel" Opacity="1" VerticalAlignment="Center">
+                <StackPanel.RenderTransform>
+                    <TranslateTransform x:Name="ContentPanelTransform" Y="0" />
+                </StackPanel.RenderTransform>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Page>

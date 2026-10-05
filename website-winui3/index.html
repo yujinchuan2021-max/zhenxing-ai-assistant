@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>枕星图吧AI助手 —— 带你把 AI 用起来</title>
+    <meta name="description" content="围绕目标比较方案，确认后准备已支持的软件，再交接给所选工具或 AI Agent。客户端共用 AI 设置，第三方工具按需下载；外部 Agent 仍需自己的账号或模型接入。客户端仍为私有预览，尚未公开发布。">
+    <meta name="keywords" content="枕星图吧AI助手, 枕星图吧, AI 助手, 硬件检测工具, 硬件信息, 电脑工具箱, 图吧工具箱CE 衍生, BYOK, DeepSeek, 开源">
+    <meta name="author" content="枕星图吧AI助手 项目">
+
+    <!-- 主题色 / 图标 -->
+    <meta name="theme-color" content="#141311">
+    <link rel="icon" href="/zxai/favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="/zxai/icon-192.png" type="image/png" sizes="192x192">
+    <link rel="apple-touch-icon" href="/zxai/icon-180.png">
+    <link rel="manifest" href="/zxai/site.webmanifest">
+
+    <!-- Static fallback and rendered metadata use the same real project domain. -->
+    <link rel="canonical" href="https://zhenxingai.com/">
+    <meta property="og:url" content="https://zhenxingai.com/">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="zh_CN">
+    <meta property="og:site_name" content="枕星图吧AI助手">
+    <meta property="og:title" content="枕星图吧AI助手 —— 带你把 AI 用起来">
+    <meta property="og:description" content="围绕目标比较方案，确认后准备已支持的软件，再交接给所选工具或 AI Agent。客户端共用 AI 设置，第三方工具按需下载；外部 Agent 仍需自己的账号或模型接入。客户端仍为私有预览，尚未公开发布。">
+    <meta property="og:image" content="https://zhenxingai.com/zxai/og.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="枕星图吧AI助手">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="枕星图吧AI助手 —— 带你把 AI 用起来">
+    <meta name="twitter:description" content="围绕目标比较方案，确认后准备已支持的软件，再交接给所选工具或 AI Agent。客户端共用 AI 设置，第三方工具按需下载；外部 Agent 仍需自己的账号或模型接入。客户端仍为私有预览，尚未公开发布。">
+    <meta name="twitter:image" content="https://zhenxingai.com/zxai/og.png">
+
+    <!-- 主题防闪烁：样式加载前先决定 data-theme（深色为默认） -->
+    <!-- 正文字体同理：默认更纱黑体，只有选过 Noto / HarmonyOS 才换（选择只存本机浏览器） -->
+    <!-- 界面语言同理：默认中文，只有手动切到 English 才换（同样只存本机浏览器） -->
+    <script>
+      (function () {
+        try {
+          var stored = localStorage.getItem('zxai-theme');
+          var mode = stored === 'light' || stored === 'dark' ? stored : 'system';
+          var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var theme = mode === 'system' ? (prefersDark ? 'dark' : 'light') : mode;
+          document.documentElement.dataset.theme = theme;
+          document.documentElement.dataset.themeMode = mode;
+          document.documentElement.style.colorScheme = theme;
+          var font = localStorage.getItem('zxai-font');
+          document.documentElement.dataset.font =
+            font === 'noto' || font === 'harmony' ? font : 'sarasa';
+          var lang = localStorage.getItem('zxai-lang');
+          var useEn = lang === 'en';
+          document.documentElement.dataset.lang = useEn ? 'en' : 'zh';
+          document.documentElement.lang = useEn ? 'en' : 'zh-CN';
+        } catch (error) {
+          document.documentElement.dataset.theme = 'dark';
+          document.documentElement.dataset.themeMode = 'system';
+          document.documentElement.dataset.font = 'sarasa';
+        }
+      })();
+    </script>
+</head>
+<body>
+    <div id="app"></div>
+    <noscript>
+      <div style="max-width: 680px; margin: 64px auto; padding: 0 24px; font-family: system-ui, 'Microsoft YaHei UI', sans-serif; line-height: 1.8">
+        <h1 style="font-size: 24px">枕星图吧AI助手</h1>
+        <p>本站需要启用 JavaScript 才能完整浏览。</p>
+        <p>枕星帮助你围绕目标选方案、准备已支持的软件，再交接给所选工具或 AI Agent；第三方工具按需下载，应用中心只展示本机软件与已发起任务。模型使用你配置的服务，客户端仍为私有预览，尚未公开发布。</p>
+        <p><a href="/docs">新手指南</a> · <a href="/ai-news/">枕星AI资讯</a> · <a href="https://community.zhenxingai.com/">枕星AI社区</a>。工具流分享默认开启、可在客户端设置中关闭；开启后会尝试向官方服务发送相关可见对话与准备结果。</p>
+        <p>上游项目：图吧工具箱CE（<a href="https://github.com/luolangaga/tubatool">GitHub</a>，GPL-3.0）；本项目是基于它的衍生改造，并非上游官方站点。</p>
+      </div>
+    </noscript>
+    <script type="module" src="/src/main.ts"></script>
+</body>
+</html>

@@ -1,9 +1,0 @@
-{
-  "schemaVersion": 1,
-  "composerImage": "composer:2.8@sha256:5248900ab8b5f7f880c2d62180e40960cd87f60149ec9a1abfd62ac72a02577c",
-  "runtimeImage": "php:8.4-apache-bookworm@sha256:721cfc216f3a029c635ae55b3a43fb5c22ac271871a5453f940d392ed223675d",
-  "flarum": "2.0.0-rc.5",
-  "sso": "2.0.0",
-  "chineseSimplified": "2.x-dev#38c8616436b55c7376b6348c20829303abbefa48",
-  "composerLockSha256": "7cabe972e9fc7ebedc339165645ef8902bed264a3b2e2b6521ac47a0b429e78b"
-}

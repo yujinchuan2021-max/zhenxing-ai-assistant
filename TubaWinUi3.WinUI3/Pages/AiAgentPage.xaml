@@ -1,0 +1,520 @@
+<?xml version="1.0" encoding="utf-8"?>
+<UserControl
+    x:Class="TubaWinUi3.Pages.AiAgentPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:l="using:WinUI3Localizer"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    FontFamily="{ThemeResource AppFontFamily}"
+    Loaded="OnPageLoaded">
+
+    <UserControl.Resources>
+      <ResourceDictionary>
+        <ResourceDictionary.MergedDictionaries>
+            <ResourceDictionary Source="ms-appx:///Styles/SkillsFlyoutThemeResources.xaml" />
+        </ResourceDictionary.MergedDictionaries>
+        <Flyout x:Key="SkillsFlyout">
+            <StackPanel x:Name="SkillsPanel" Width="320" Spacing="4" Padding="4"
+                        Style="{StaticResource SkillsFlyoutPanelStyle}" />
+        </Flyout>
+
+        <!-- 【UI 改版·第一批】AI 组件局部主题令牌（Light 暖白 / Dark 石墨黑 / 星蓝品牌色）。
+             三版设计比较中的共同视觉基线；只定义语义色，不改控件外观、不覆盖全应用官方主题资源。
+             后续样式与动态代码统一引用这些键（ThemeResource 解析，随主题自动切换）。 -->
+            <ResourceDictionary.ThemeDictionaries>
+                <ResourceDictionary x:Key="Light">
+                    <!-- Raycast 2026-09-22 定稿（RAYCAST-NOTES.md 视觉值为准） -->
+                    <SolidColorBrush x:Key="AssistantCanvasBrush" Color="#FCFBF9" />
+                    <SolidColorBrush x:Key="AssistantSidebarBrush" Color="#FCFBF9" />
+                    <SolidColorBrush x:Key="AssistantRailBrush" Color="#EAE7E3" />
+                    <SolidColorBrush x:Key="AssistantSoftFillBrush" Color="#F0EEEB" />
+                    <SolidColorBrush x:Key="AssistantHoverFillBrush" Color="#E7E4E1" />
+                    <SolidColorBrush x:Key="AssistantPrimaryTextBrush" Color="#2B2B30" />
+                    <SolidColorBrush x:Key="AssistantSecondaryTextBrush" Color="#62646D" />
+                    <SolidColorBrush x:Key="AssistantMutedTextBrush" Color="#656670" />
+                    <SolidColorBrush x:Key="AssistantSeparatorBrush" Color="#DDD9D4" />
+                    <SolidColorBrush x:Key="AssistantAccentBrush" Color="#4B66AD" />
+                    <SolidColorBrush x:Key="AssistantAccentSoftBrush" Color="#E9EDFA" />
+                    <SolidColorBrush x:Key="AssistantAccentForegroundBrush" Color="#FFFFFF" />
+                    <SolidColorBrush x:Key="AssistantCautionTextBrush" Color="#946823" />
+                    <SolidColorBrush x:Key="AssistantCautionFillBrush" Color="#FAF3E5" />
+                    <SolidColorBrush x:Key="AssistantErrorTextBrush" Color="#A74447" />
+                    <SolidColorBrush x:Key="AssistantErrorFillBrush" Color="#FDF1F0" />
+                    <!-- 【状态点】连接状态信号色：绿=通 / 红=不通（跨主题保持明确可读） -->
+                    <SolidColorBrush x:Key="AssistantStatusOkBrush" Color="#2E9E4F" />
+                    <SolidColorBrush x:Key="AssistantStatusDownBrush" Color="#E5484D" />
+                    <!-- 【主题复核·最后一公里】连接成功语义（浅色：低饱和绿） -->
+                    <SolidColorBrush x:Key="AssistantSuccessTextBrush" Color="#3E7A4A" />
+                    <SolidColorBrush x:Key="AssistantSuccessFillBrush" Color="#EDF6EE" />
+                    <!-- 面板/表面（16px 圆角内容面板、胶囊选中态、轻盈菜单） -->
+                    <SolidColorBrush x:Key="AssistantSurfaceBrush" Color="#FCFBF9" />
+                    <SolidColorBrush x:Key="AssistantSurfaceEdgeBrush" Color="#D6D2CD" />
+                    <SolidColorBrush x:Key="AssistantSurfaceHighlightBrush" Color="#EFFFFFFF" />
+                    <SolidColorBrush x:Key="AssistantSelectedBrush" Color="#FFFDFA" />
+                    <SolidColorBrush x:Key="AssistantMenuFillBrush" Color="#FDFCFA" />
+                    <SolidColorBrush x:Key="AssistantRaisedBrush" Color="#FFFFFF" />
+                    <Color x:Key="AssistantSurfaceHighlightColor">#EFFFFFFF</Color>
+                    <Color x:Key="AssistantSurfaceColor">#FFFFFF</Color>
+                </ResourceDictionary>
+                <ResourceDictionary x:Key="Dark">
+                    <!-- Raycast 2026-09-22 定稿 · 温暖石墨夜间 -->
+                    <SolidColorBrush x:Key="AssistantCanvasBrush" Color="#212123" />
+                    <SolidColorBrush x:Key="AssistantSidebarBrush" Color="#212123" />
+                    <SolidColorBrush x:Key="AssistantRailBrush" Color="#181819" />
+                    <SolidColorBrush x:Key="AssistantSoftFillBrush" Color="#2B2B2E" />
+                    <SolidColorBrush x:Key="AssistantHoverFillBrush" Color="#363638" />
+                    <SolidColorBrush x:Key="AssistantPrimaryTextBrush" Color="#EDEDF0" />
+                    <SolidColorBrush x:Key="AssistantSecondaryTextBrush" Color="#B0AFB7" />
+                    <SolidColorBrush x:Key="AssistantMutedTextBrush" Color="#9F9FAC" />
+                    <SolidColorBrush x:Key="AssistantSeparatorBrush" Color="#3D3B3B" />
+                    <SolidColorBrush x:Key="AssistantAccentBrush" Color="#A5B7ED" />
+                    <SolidColorBrush x:Key="AssistantAccentSoftBrush" Color="#333A51" />
+                    <SolidColorBrush x:Key="AssistantAccentForegroundBrush" Color="#18243E" />
+                    <SolidColorBrush x:Key="AssistantCautionTextBrush" Color="#DEBB7B" />
+                    <SolidColorBrush x:Key="AssistantCautionFillBrush" Color="#352D20" />
+                    <SolidColorBrush x:Key="AssistantErrorTextBrush" Color="#EEA4A4" />
+                    <SolidColorBrush x:Key="AssistantErrorFillBrush" Color="#392526" />
+                    <!-- 【状态点】连接状态信号色：绿=通 / 红=不通（深色：亮一档，石墨底上清楚） -->
+                    <SolidColorBrush x:Key="AssistantStatusOkBrush" Color="#4ADE80" />
+                    <SolidColorBrush x:Key="AssistantStatusDownBrush" Color="#FF6369" />
+                    <!-- 【主题复核·最后一公里】连接成功语义（深色：低饱和绿） -->
+                    <SolidColorBrush x:Key="AssistantSuccessTextBrush" Color="#9CCFA0" />
+                    <SolidColorBrush x:Key="AssistantSuccessFillBrush" Color="#253226" />
+                    <SolidColorBrush x:Key="AssistantSurfaceBrush" Color="#212123" />
+                    <SolidColorBrush x:Key="AssistantSurfaceEdgeBrush" Color="#1AFFFFFF" />
+                    <SolidColorBrush x:Key="AssistantSurfaceHighlightBrush" Color="#15FFFFFF" />
+                    <SolidColorBrush x:Key="AssistantSelectedBrush" Color="#353537" />
+                    <SolidColorBrush x:Key="AssistantMenuFillBrush" Color="#2D2C2E" />
+                    <SolidColorBrush x:Key="AssistantRaisedBrush" Color="#333335" />
+                    <Color x:Key="AssistantSurfaceHighlightColor">#15FFFFFF</Color>
+                    <Color x:Key="AssistantSurfaceColor">#333335</Color>
+                </ResourceDictionary>
+            </ResourceDictionary.ThemeDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid x:Name="RootLayout" Background="{ThemeResource AssistantRailBrush}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition x:Name="SidebarColumn" Width="230" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <!-- ===== 左侧：会话层（新对话 + 会话列表；ZXAI 恢复 2026-09-20，上游重写后回归） ===== -->
+        <Border Grid.Column="0"
+                Background="{ThemeResource AssistantRailBrush}"
+                BorderThickness="0">
+            <Grid Padding="10,16,10,12" RowSpacing="14">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Button x:Name="SidebarNewChatButton" HorizontalAlignment="Stretch" Padding="12,10" CornerRadius="10"
+                        Background="{ThemeResource AssistantRaisedBrush}"
+                        BorderBrush="{ThemeResource AssistantSurfaceEdgeBrush}" BorderThickness="1"
+                        Click="SidebarNewChatButton_Click"
+                        ToolTipService.ToolTip="开始一个新对话（当前对话会保留在列表中）" l:Uids.Uid="Aa_SidebarNewChatButton">
+                    <StackPanel Orientation="Horizontal" Spacing="8" HorizontalAlignment="Center">
+                        <FontIcon Glyph="&#xE710;" FontSize="13" />
+                        <TextBlock x:Name="SidebarNewChatText" Text="新对话" l:Uids.Uid="Aa_SidebarNewChatText" FontSize="13" />
+                    </StackPanel>
+                </Button>
+                <ListView x:Name="ConversationList" Grid.Row="1"
+                          SelectionMode="Single" IsItemClickEnabled="True"
+                          ItemClick="ConversationList_ItemClick">
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                            <Setter Property="Padding" Value="10,8" />
+                            <Setter Property="MinHeight" Value="0" />
+                            <Setter Property="CornerRadius" Value="10" />
+                            <Setter Property="Margin" Value="0,1" />
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid ColumnSpacing="6">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Grid.Column="0" VerticalAlignment="Center" Spacing="1">
+                                    <TextBlock Text="{Binding Title}" FontSize="13" MaxLines="1"
+                                               TextTrimming="CharacterEllipsis" />
+                                    <TextBlock Text="{Binding TimeText}" FontSize="12" Opacity="0.6" />
+                                </StackPanel>
+                                <Button Grid.Column="1" Width="28" Height="28" Padding="0"
+                                        Background="Transparent" BorderThickness="0"
+                                        VerticalAlignment="Center"
+                                        Click="ConversationMenuButton_Click"
+                                        ToolTipService.ToolTip="重命名 / 删除" l:Uids.Uid="Aa_L143">
+                                    <FontIcon Glyph="&#xE712;" FontSize="12" />
+                                </Button>
+                            </Grid>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </Grid>
+        </Border>
+
+        <!-- ===== 右侧：聊天区（Raycast：内收 16px 圆角内容面板） ===== -->
+        <Border Grid.Column="1" Margin="6,8,8,8" CornerRadius="16"
+                Background="{ThemeResource AssistantSurfaceBrush}"
+                BorderBrush="{ThemeResource AssistantSurfaceEdgeBrush}" BorderThickness="1">
+        <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Border x:Name="HeaderBar" Padding="22,11"
+                Background="Transparent"
+                BorderThickness="0,0,0,1"
+                BorderBrush="{ThemeResource AssistantSeparatorBrush}">
+            <Grid ColumnSpacing="12">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <Button x:Name="LogoHomeButton" Width="34" Height="34" Padding="2" VerticalAlignment="Center"
+                        Background="Transparent" BorderThickness="0" CornerRadius="9"
+                        Click="LogoHomeButton_Click" ToolTipService.ToolTip="回到新对话（欢迎页）" l:Uids.Uid="Aa_LogoHomeButton">
+                    <Grid>
+                        <Image Source="ms-appx:///Assets/zxai-logo.png" Stretch="Uniform" />
+                        <!-- 右下角连接状态徽标：外圈用面板底色描边与 logo 视觉分离，尺寸缩小更精致 -->
+                        <Border Width="15" Height="15" CornerRadius="7.5"
+                                Background="{ThemeResource AssistantSurfaceBrush}"
+                                HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,-3,-3">
+                            <InfoBadge x:Name="StateBadge" Width="11" Height="11"
+                                       HorizontalAlignment="Center" VerticalAlignment="Center"
+                                       Background="{ThemeResource AssistantStatusDownBrush}" />
+                        </Border>
+                    </Grid>
+                </Button>
+
+                <!-- 小窗：会话栏折叠/展开入口（宽窗隐藏） -->
+                <Button x:Name="SidebarToggleButton" Grid.Column="1" Width="32" Height="32" Padding="0" CornerRadius="9"
+                        Background="Transparent" BorderThickness="0" VerticalAlignment="Center"
+                        Visibility="Collapsed"
+                        Click="SidebarToggleButton_Click" ToolTipService.ToolTip="显示/隐藏会话列表" l:Uids.Uid="Aa_SidebarToggleButton">
+                    <FontIcon Glyph="&#xE700;" FontSize="13" />
+                </Button>
+
+                <StackPanel Grid.Column="2" Spacing="1" VerticalAlignment="Center">
+                    <TextBlock x:Name="TitleText" Text="新对话" l:Uids.Uid="Aa_TitleText" FontSize="15"
+                               FontWeight="SemiBold" TextTrimming="CharacterEllipsis" />
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <TextBlock x:Name="ModelStatusText" FontSize="12" VerticalAlignment="Center"
+                                   Foreground="{ThemeResource AssistantSecondaryTextBrush}" />
+                        <TextBlock Text="·" Foreground="{ThemeResource AssistantMutedTextBrush}" VerticalAlignment="Center" />
+                        <TextBlock x:Name="RunStateText" Text="就绪" l:Uids.Uid="Aa_RunStateText" FontSize="12" VerticalAlignment="Center"
+                                   Foreground="{ThemeResource AssistantSecondaryTextBrush}" />
+                    </StackPanel>
+                </StackPanel>
+
+                <StackPanel x:Name="HeaderActions" Grid.Column="3" Orientation="Horizontal"
+                            Spacing="8" VerticalAlignment="Center">
+                    <Button x:Name="ToolFlowResumeButton" Padding="11,6" CornerRadius="10"
+                            Background="{ThemeResource AssistantRaisedBrush}"
+                            BorderBrush="{ThemeResource AssistantSurfaceEdgeBrush}" BorderThickness="1"
+                            Visibility="Collapsed"
+                            Click="ToolFlowResumeButton_Click"
+                            ToolTipService.ToolTip="打开最近一次选定的工具流，继续处理清单（只读本机快照）" l:Uids.Uid="Aa_ToolFlowResumeButton">
+                        <StackPanel Orientation="Horizontal" Spacing="5">
+                            <FontIcon x:Name="ToolFlowResumeCompactIcon" Glyph="&#xE72C;" FontSize="13"
+                                      VerticalAlignment="Center" Visibility="Collapsed" />
+                            <TextBlock x:Name="ToolFlowResumeButtonLabel" Text="继续工具流" l:Uids.Uid="Aa_ToolFlowResumeButtonLabel" FontSize="12" />
+                        </StackPanel>
+                    </Button>
+                    <Button x:Name="PersonaFlyoutButton" Padding="11,6" CornerRadius="10"
+                            Background="{ThemeResource AssistantRaisedBrush}"
+                            BorderBrush="{ThemeResource AssistantSurfaceEdgeBrush}" BorderThickness="1"
+                            ToolTipService.ToolTip="协作人格（下一条消息生效）" l:Uids.Uid="Aa_PersonaFlyoutButton"
+                            AutomationProperties.Name="选择 AI 协作人格">
+                        <StackPanel Orientation="Horizontal" Spacing="6">
+                            <FontIcon x:Name="PersonaCompactIcon" Glyph="&#xE77B;" FontSize="13"
+                                      VerticalAlignment="Center" Visibility="Collapsed" />
+                            <TextBlock x:Name="PersonaButtonLabel" Text="默认助手" l:Uids.Uid="Aa_PersonaButtonLabel" FontSize="12"
+                                       VerticalAlignment="Center" />
+                            <FontIcon Glyph="&#xE70D;" FontSize="9" VerticalAlignment="Center"
+                                      Foreground="{ThemeResource AssistantSecondaryTextBrush}" />
+                        </StackPanel>
+                        <Button.Flyout>
+                            <Flyout x:Name="PersonaFlyout" Opening="PersonaFlyout_Opening">
+                                <StackPanel Width="270" Spacing="8" Padding="4">
+                                    <TextBlock x:Name="PersonaFlyoutTitleText" Text="选择协作人格" l:Uids.Uid="Aa_PersonaFlyoutTitleText" FontWeight="SemiBold" FontSize="13" />
+                                    <TextBlock x:Name="PersonaFlyoutDescriptionText" Text="只调整交流方式，不改变工具权限；下一条消息生效。" l:Uids.Uid="Aa_PersonaFlyoutDescriptionText"
+                                               TextWrapping="Wrap" FontSize="11"
+                                               Foreground="{ThemeResource AssistantSecondaryTextBrush}" />
+                                    <ScrollViewer MaxHeight="410" VerticalScrollBarVisibility="Auto">
+                                        <StackPanel x:Name="PersonaOptionsPanel" Spacing="2" />
+                                    </ScrollViewer>
+                                </StackPanel>
+                            </Flyout>
+                        </Button.Flyout>
+                    </Button>
+                    <!-- Raycast：页头合并"提供商 · 模型"为一个胶囊入口（内部仍是两级选择器 + 设置入口） -->
+                    <Button x:Name="ModelFlyoutButton" Padding="11,6" CornerRadius="10"
+                            Background="{ThemeResource AssistantRaisedBrush}"
+                            BorderBrush="{ThemeResource AssistantSurfaceEdgeBrush}" BorderThickness="1"
+                            ToolTipService.ToolTip="AI 服务与模型（下一条消息生效）" l:Uids.Uid="Aa_ModelFlyoutButton">
+                        <StackPanel Orientation="Horizontal" Spacing="6">
+                            <TextBlock x:Name="ModelButtonLabel" FontSize="12" Text="AI 服务" l:Uids.Uid="Aa_ModelButtonLabel" VerticalAlignment="Center"
+                                       MaxWidth="180" TextTrimming="CharacterEllipsis" />
+                            <FontIcon Glyph="&#xE70D;" FontSize="9" VerticalAlignment="Center"
+                                      Foreground="{ThemeResource AssistantSecondaryTextBrush}" />
+                        </StackPanel>
+                        <Button.Flyout>
+                            <Flyout>
+                                <StackPanel Width="266" Spacing="10" Padding="4">
+                                    <TextBlock x:Name="ModelFlyoutTitleText" Text="当前 AI 服务" l:Uids.Uid="Aa_ModelFlyoutTitleText" FontWeight="SemiBold" FontSize="13" />
+                                    <ComboBox x:Name="ProviderCombo" HorizontalAlignment="Stretch" FontSize="12"
+                                              DisplayMemberPath="Name" SelectionChanged="ProviderCombo_SelectionChanged"
+                                              ToolTipService.ToolTip="AI 服务提供商" l:Uids.Uid="Aa_ProviderCombo" />
+                                    <ComboBox x:Name="ModelCombo" HorizontalAlignment="Stretch" FontSize="12"
+                                              DisplayMemberPath="DisplayText" SelectionChanged="ModelCombo_SelectionChanged"
+                                              ToolTipService.ToolTip="当前模型，下一条消息生效" l:Uids.Uid="Aa_ModelCombo" />
+                                    <TextBlock x:Name="ModelFlyoutDescriptionText" Text="切换后将在下一条消息生效。" l:Uids.Uid="Aa_ModelFlyoutDescriptionText" FontSize="12"
+                                               Foreground="{ThemeResource AssistantSecondaryTextBrush}" />
+                                    <Button x:Name="AiSettingsButton" HorizontalAlignment="Stretch" Padding="10,8" CornerRadius="8"
+                                            Background="{ThemeResource AssistantSoftFillBrush}" BorderThickness="0"
+                                            Click="AiSettingsButton_Click">
+                                        <TextBlock x:Name="AiSettingsText" Text="管理 AI 服务" l:Uids.Uid="Aa_AiSettingsText" FontSize="12" />
+                                    </Button>
+                                </StackPanel>
+                            </Flyout>
+                        </Button.Flyout>
+                    </Button>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <Border x:Name="ConversationGoalBanner" Grid.Row="1" Visibility="Collapsed"
+                Margin="22,10,22,0" Padding="14,10" CornerRadius="12"
+                Background="{ThemeResource AssistantSoftFillBrush}"
+                BorderBrush="{ThemeResource AssistantSeparatorBrush}" BorderThickness="1">
+            <StackPanel Spacing="4">
+                <TextBlock x:Name="ConversationGoalText" FontSize="13" FontWeight="SemiBold"
+                           TextWrapping="Wrap" MaxLines="2" TextTrimming="CharacterEllipsis"
+                           Foreground="{ThemeResource AssistantPrimaryTextBrush}" />
+                <TextBlock x:Name="ConversationGoalStageText" FontSize="12" TextWrapping="Wrap"
+                           Foreground="{ThemeResource AssistantSecondaryTextBrush}" />
+            </StackPanel>
+        </Border>
+        <StackPanel x:Name="WorkbenchTabs" Grid.Row="1" Orientation="Horizontal" Spacing="8"
+                    Margin="16,12,16,8" Visibility="Collapsed">
+            <ToggleButton x:Name="WorkbenchTaskTab" Content="任务工作台" IsChecked="True"
+                          Padding="14,8" CornerRadius="8" Click="WorkbenchTaskTab_Click" />
+            <ToggleButton x:Name="WorkbenchChatTab" Content="与助手沟通"
+                          Padding="14,8" CornerRadius="8" Click="WorkbenchChatTab_Click" />
+        </StackPanel>
+        <Grid x:Name="WorkspaceBody" Grid.Row="2" SizeChanged="WorkspaceBody_SizeChanged">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition x:Name="WorkbenchColumn" Width="0" />
+                <ColumnDefinition x:Name="AssistantColumn" Width="*" />
+            </Grid.ColumnDefinitions>
+            <ScrollViewer x:Name="WorkbenchScroll" Visibility="Collapsed"
+                          VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"
+                          HorizontalScrollMode="Disabled" HorizontalContentAlignment="Stretch"
+                          VerticalContentAlignment="Top">
+                <Grid x:Name="WorkbenchViewport" HorizontalAlignment="Left">
+                    <ContentControl x:Name="ToolFlowTaskHost" Visibility="Collapsed"
+                                    MaxWidth="920" Margin="24,24,24,28"
+                                    HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" />
+                </Grid>
+            </ScrollViewer>
+            <Grid x:Name="AssistantPane" Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Border x:Name="AssistantPaneHeading" Padding="14,16,14,10" Visibility="Collapsed"
+                        BorderBrush="{ThemeResource AssistantSeparatorBrush}" BorderThickness="0,0,0,1">
+                    <StackPanel Spacing="4">
+                        <TextBlock x:Name="WorkbenchAssistantTitle" Text="枕星助手" FontSize="14"
+                                   FontWeight="SemiBold" Foreground="{ThemeResource AssistantPrimaryTextBrush}" />
+                        <TextBlock x:Name="WorkbenchAssistantHint" Text="补充需求、调整方案或询问当前一步。"
+                                   FontSize="12" TextWrapping="Wrap" MaxLines="2" TextTrimming="CharacterEllipsis"
+                                   Foreground="{ThemeResource AssistantSecondaryTextBrush}" />
+                    </StackPanel>
+                </Border>
+        <Grid Grid.Row="1">
+            <ScrollViewer x:Name="MsgScroll" VerticalScrollBarVisibility="Auto"
+                          HorizontalContentAlignment="Stretch" VerticalContentAlignment="Top"
+                          HorizontalScrollBarVisibility="Disabled"
+                          HorizontalScrollMode="Disabled" ViewChanged="MsgScroll_ViewChanged">
+                <!-- ScrollContentPresenter centers from the content's measured width.
+                     Stretch+MaxWidth alone leaves an empty/short StackPanel measured
+                     at its padding/text width, then arranges it much wider. Keep the
+                     scroll content at viewport width and center the bounded column
+                     inside it so the first message cannot shift beyond the window. -->
+                <!-- ChatViewportLayout updates Width on SizeChanged and Loaded;
+                     ActualWidth Binding alone does not refresh when WinUI resizes. -->
+                <Grid x:Name="MsgViewport" HorizontalAlignment="Left">
+                    <StackPanel x:Name="MsgPanel" MaxWidth="1020" HorizontalAlignment="Stretch"
+                                Padding="26,28,26,20" />
+                </Grid>
+            </ScrollViewer>
+            <!-- Raycast 指令式空态：消息区居中呈现（新会话显示；首条消息后隐藏）。
+                 外层 Stretch+MaxWidth 保证宽窗下 ~716px 居中而不是按内容收缩。 -->
+            <StackPanel x:Name="EmptyStateHost" VerticalAlignment="Center" HorizontalAlignment="Stretch"
+                        MaxWidth="716" Spacing="12" Padding="28,0" Margin="0,0,0,34">
+                <StackPanel x:Name="EmptyStateBlock" Spacing="5" Margin="2,0,2,4">
+                    <TextBlock x:Name="WelcomeBrandText" Text="枕星 AI 助手" l:Uids.Uid="Aa_WelcomeBrandText" FontSize="12" FontWeight="SemiBold"
+                               Foreground="{ThemeResource AssistantAccentBrush}" />
+                    <TextBlock x:Name="WelcomeTitleText" Text="今天，想完成什么？" l:Uids.Uid="Aa_WelcomeTitleText" FontSize="22" FontWeight="SemiBold" />
+                    <TextBlock x:Name="WelcomeDescriptionText" Text="说出你想完成的事，我来帮你选工具、准备环境，再告诉你从哪里开始。" l:Uids.Uid="Aa_WelcomeDescriptionText"
+                               FontSize="13" TextWrapping="Wrap" Foreground="{ThemeResource AssistantSecondaryTextBrush}" />
+                    <!-- 【接入引导 2026-09-25】空态接入卡：所选服务缺可用凭据时出现（显眼但不遮页）。
+                         文案 = 四步（选择服务 → 获取/填写 Key 或配置本地服务 → 测试连接 → 开始描述目标）；
+                         「去配置」跳设置页 AI 服务区（深链高亮），「稍后再说」收敛后不再自动出现。 -->
+                    <Border x:Name="AiOnboardingCard" Visibility="Collapsed" Margin="0,10,0,2" Padding="14,12"
+                            CornerRadius="12" BorderThickness="1"
+                            Background="{ThemeResource AssistantSoftFillBrush}"
+                            BorderBrush="{ThemeResource AssistantSurfaceEdgeBrush}">
+                        <StackPanel Spacing="8">
+                            <TextBlock x:Name="AiOnboardingTitleText" FontSize="14" FontWeight="SemiBold"
+                                       TextWrapping="Wrap" Text="先接通 AI 服务，再开始对话" l:Uids.Uid="Aa_AiOnboardingTitleText" />
+                            <TextBlock x:Name="AiOnboardingStepsText" FontSize="13" TextWrapping="Wrap"
+                                       Foreground="{ThemeResource AssistantSecondaryTextBrush}"
+                                       Text="选择 AI 服务 → 获取/填写 Key（或配置本地服务）→ 测试连接 → 开始描述目标" l:Uids.Uid="Aa_AiOnboardingStepsText" />
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <Button x:Name="AiOnboardingConfigureButton" Padding="14,7" CornerRadius="9"
+                                        Style="{StaticResource AccentButtonStyle}" Click="AiOnboardingConfigure_Click">
+                                    <TextBlock x:Name="AiOnboardingConfigureText" FontSize="13" Text="去配置 AI 服务" l:Uids.Uid="Aa_AiOnboardingConfigureText" />
+                                </Button>
+                                <Button x:Name="AiOnboardingLaterButton" Padding="14,7" CornerRadius="9"
+                                        Click="AiOnboardingLater_Click">
+                                    <TextBlock x:Name="AiOnboardingLaterText" FontSize="13" Text="稍后再说" l:Uids.Uid="Aa_AiOnboardingLaterText" />
+                                </Button>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+                <StackPanel x:Name="QuickPillPanel" Orientation="Vertical" Spacing="6" />
+            </StackPanel>
+            <Button x:Name="ScrollToBottomButton" HorizontalAlignment="Center" VerticalAlignment="Bottom"
+                    Margin="0,0,0,14" Padding="12,6" CornerRadius="16" Visibility="Collapsed"
+                    Click="ScrollToBottomButton_Click" ToolTipService.ToolTip="回到最新消息" l:Uids.Uid="Aa_ScrollToBottomButton">
+                <StackPanel Orientation="Horizontal" Spacing="6">
+                    <FontIcon Glyph="&#xE74B;" FontSize="11" />
+                    <TextBlock x:Name="ScrollToBottomText" Text="回到最新" l:Uids.Uid="Aa_ScrollToBottomText" FontSize="12" />
+                </StackPanel>
+            </Button>
+        </Grid>
+
+        <Border x:Name="ComposerHost" Grid.Row="2" Padding="22,8,22,14"
+                Background="Transparent" BorderThickness="0">
+            <StackPanel MaxWidth="716" HorizontalAlignment="Stretch" Spacing="10">
+                <StackPanel x:Name="AttachmentBar" Orientation="Horizontal" Spacing="6" Visibility="Collapsed" />
+                <!-- ===== 输入区（Codex 样式：上行输入、下行工具条；ZXAI 2026-09-20 重构） ===== -->
+                <!-- Raycast 统一输入器：17px 圆角 + 实色表面 + 1px 克制边缘。
+                     主审实测：透明→不透明的整面 LinearGradientBrush 会形成横贯银色光带——
+                     移除大面积渐变，仅保留 1px 边缘（克制材质，不另设计）。 -->
+                <Border CornerRadius="17" Padding="14,11"
+                        Background="{ThemeResource AssistantRaisedBrush}"
+                        BorderBrush="{ThemeResource AssistantSurfaceEdgeBrush}" BorderThickness="1">
+                    <Grid RowSpacing="8">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <TextBox x:Name="InputBox" Grid.Row="0" MinHeight="40" MaxHeight="140"
+                                 PlaceholderText="说说你想完成什么，例如做一款 2D 游戏或解决电脑问题…" l:Uids.Uid="Aa_InputBox"
+                                 AcceptsReturn="True" TextWrapping="Wrap"
+                                 BorderThickness="0" Background="Transparent"
+                                 Padding="2,4" PreviewKeyDown="InputBox_PreviewKeyDown"
+                                 AutomationProperties.Name="向 AI 助手发送消息" />
+                        <Grid Grid.Row="1" ColumnSpacing="8">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Button x:Name="AttachButton" Grid.Column="0" Width="34" Height="34" Padding="0" CornerRadius="9"
+                                    VerticalAlignment="Center" Click="AttachButton_Click"
+                                    ToolTipService.ToolTip="上传文件（Word/PPT/Excel/TXT/思维导图/代码等，内容随消息发送）" l:Uids.Uid="Aa_AttachButton">
+                                <FontIcon Glyph="&#xE710;" FontSize="15" />
+                            </Button>
+                            <!-- Raycast：技能入口移至输入工具条（语义与事件保持原样） -->
+                            <Button x:Name="SkillsButton" Grid.Column="1" Padding="9,6" CornerRadius="9" MinWidth="0"
+                                    Background="Transparent" BorderThickness="0"
+                                    VerticalAlignment="Center" Click="SkillsButton_Click" ToolTipService.ToolTip="技能" l:Uids.Uid="Aa_SkillsButton">
+                                <StackPanel Orientation="Horizontal" Spacing="6">
+                                    <FontIcon Glyph="&#xE7C0;" FontSize="13" />
+                                    <TextBlock x:Name="SkillsButtonLabel" Text="技能" l:Uids.Uid="Aa_SkillsButtonLabel" FontSize="12" VerticalAlignment="Center" />
+                                </StackPanel>
+                            </Button>
+                            <ToggleSwitch x:Name="FullAccessToggle" Grid.Column="2" MinWidth="0" Padding="0"
+                                          VerticalAlignment="Center"
+                                          OnContent="完全访问" OffContent="受控执行" FontSize="12"
+                                          ToolTipService.ToolTip="危险操作在受控执行模式下需要逐项确认" l:Uids.Uid="Aa_FullAccessToggle"
+                                          Toggled="FullAccessToggle_Toggled" />
+                            <Border x:Name="TokenUsageBubble" Grid.Column="4" CornerRadius="10"
+                                    Padding="9,6" Background="{ThemeResource AssistantSoftFillBrush}"
+                                    VerticalAlignment="Center" Visibility="Collapsed">
+                                <StackPanel Orientation="Horizontal" Spacing="6">
+                                    <FontIcon Glyph="&#xE823;" FontSize="11"
+                                              Foreground="{ThemeResource AssistantMutedTextBrush}" />
+                                    <TextBlock x:Name="TokenUsageText" FontSize="12"
+                                               Foreground="{ThemeResource AssistantMutedTextBrush}" />
+                                </StackPanel>
+                            </Border>
+                            <Button x:Name="VoiceButton" Grid.Column="5" Width="34" Height="34" Padding="0" CornerRadius="9"
+                                    VerticalAlignment="Center" Click="VoiceButton_Click"
+                                    ToolTipService.ToolTip="语音输入（点击开始/停止听写）" l:Uids.Uid="Aa_VoiceButton">
+                                <FontIcon x:Name="VoiceIcon" Glyph="&#xE720;" FontSize="15" />
+                            </Button>
+                            <Button x:Name="SendButton" Grid.Column="6" Width="36" Height="36" Padding="0"
+                                    CornerRadius="10" Click="SendButton_Click"
+                                    Background="{ThemeResource AssistantAccentBrush}"
+                                    Foreground="{ThemeResource AssistantAccentForegroundBrush}"
+                                    AutomationProperties.Name="发送消息">
+                                <FontIcon Glyph="&#xE72A;" FontSize="15" />
+                            </Button>
+                            <Button x:Name="StopButton" Grid.Column="6" Width="36" Height="36" Padding="0"
+                                    CornerRadius="10" Visibility="Collapsed" Click="StopButton_Click"
+                                    AutomationProperties.Name="停止生成">
+                                <FontIcon Glyph="&#xE71A;" FontSize="14" />
+                            </Button>
+                        </Grid>
+                    </Grid>
+                </Border>
+            </StackPanel>
+        </Border>
+            </Grid>
+        </Grid>
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState x:Name="WideState">
+                    <VisualState.StateTriggers><AdaptiveTrigger MinWindowWidth="1000" /></VisualState.StateTriggers>
+                </VisualState>
+                <VisualState x:Name="CompactState">
+                    <VisualState.StateTriggers><AdaptiveTrigger MinWindowWidth="0" /></VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="HeaderBar.Padding" Value="14,10" />
+                        <Setter Target="MsgPanel.Padding" Value="14,18,14,16" />
+                        <!-- 小窗压缩：会话栏折叠与折叠按钮由 code 处理（SizeChanged），
+                             避免 VisualState Setter 指向 ColumnDefinition（XamlCompiler 不支持非 FE 目标）。 -->
+                        <Setter Target="SkillsButtonLabel.Visibility" Value="Collapsed" />
+                        <Setter Target="EmptyStateHost.Padding" Value="18,0" />
+                    </VisualState.Setters>
+                </VisualState>
+
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+        </Grid>
+        </Border>
+    </Grid>
+</UserControl>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Application
+    x:Class="TubaWinUi3.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:TubaWinUi3"
+    xmlns:svc="using:TubaWinUi3.Services">
+    <Application.Resources>
+        <!-- 界面字体资源根（唯一权威入口 = Assets/Fonts/app-font.json；根类见 Services/AppFontDictionary.cs）：
+             XAML 解析本元素时（App 构造 → InitializeComponent 内）按「设置 > 外观 > 界面字体」的已保存选择，
+             注入 ContentControlThemeFontFamily 与 AppFontFamily 两个字体键——即「选择保存后，下次启动生效」。
+             键值自字典创建起即存在，运行期不改写活动资源字典（font-maintenance.md §9：运行中替换活动字体键
+             会触发 WinUI stowed exception 0xC000027B 延迟崩溃）。
+             本文件不得出现字体名/字体路径字面量（FontSingleSourceTests 钉住机制与结构）。
+             ContentControlThemeFontFamily 覆盖主题字体键 → 控件模板与继承链上的文字全部生效；
+             AppFontFamily 供页面/控件里显式指定 FontFamily 的地方引用（不用再写字体名）。 -->
+        <svc:AppFontDictionary>
+            <svc:AppFontDictionary.MergedDictionaries>
+                <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
+                <ResourceDictionary Source="ms-appx:///Styles/FluentTokens.xaml" />
+                <ResourceDictionary Source="ms-appx:///Styles/SettingsStyles.xaml" />
+
+                <!-- 承载无 x:Key 的隐式样式（不能直接挂在 <svc:AppFontDictionary> 根下）：
+                     自定义 ResourceDictionary 子类的 XAML 装配路径（XamlUserType.AddToMap →
+                     MapAdd_x_AppFontDictionary.Add(key,item)）不会为无 x:Key 的隐式样式合成 TargetType 键，
+                     会以 key=null 调 Add 抛未处理异常、启动即崩（2026-09-23 实机启动归因，同类于 0xC000027B）。
+                     包一层内置 ResourceDictionary 即回到标准装配路径（框架主题字典同样以合并层承载样式）；
+                     根下只允许带 x:Key 的直接条目（FontSingleSourceTests 钉住）。 -->
+                <ResourceDictionary>
+                    <!-- ZXAI 字体统一：TextBlock / RichTextBlock 默认字体机制。
+                         TextBlock 不是 Control，不经过 ContentControlThemeFontFamily；无显式 Style 的裸文本
+                         由下面的隐式样式统一为 AppFontFamily（含数据模板/列表内未显式设字的文本）。
+                         说明：只提供 FontFamily 默认值，不重写任何控件模板；元素局部 FontFamily、显式命名
+                         样式与 Setter 的优先级更高（代码块 Consolas、FontIcon 图标字体均不受影响）。 -->
+                    <Style TargetType="TextBlock">
+                        <Setter Property="FontFamily" Value="{ThemeResource AppFontFamily}" />
+                    </Style>
+                    <Style TargetType="RichTextBlock">
+                        <Setter Property="FontFamily" Value="{ThemeResource AppFontFamily}" />
+                    </Style>
+                </ResourceDictionary>
+            </svc:AppFontDictionary.MergedDictionaries>
+
+            <!-- ZXAI 全局字号：主题基准 14 → 16（整体大一档）。带 x:Key 的直接条目可留在根下：
+                 根字典优先级高于所有合并字典，与旧版（普通根字典时期）语义一致。 -->
+            <x:Double x:Key="ContentControlThemeFontSize">16</x:Double>
+        </svc:AppFontDictionary>
+    </Application.Resources>
+</Application>
