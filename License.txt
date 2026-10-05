@@ -8,7 +8,7 @@
 
 二、第三方资源
 
-Tools 目录的诊断程序、运行时组件、字体、图标和其他素材可能由不同作者发布，须分别遵守对应版本的许可和商标要求。仓库 GPL-3.0 不自动证明这些独立资产可以随便携包、安装包或 Tools.zip 再分发。来源记录见 zxai-docs/third-party-tools-inventory.md；第三方资产继续适用其自身许可，收录由本版维护者把控。
+诊断程序、运行时组件、字体、图标和其他素材可能由不同作者发布，须分别遵守对应版本的许可和商标要求。仓库 GPL-3.0 不自动证明这些独立资产可以随便携包、安装包或 Tools.zip 再分发。公开来源与声明入口见根目录 NOTICE；第三方资产继续适用其自身许可，收录由本版维护者把控。完整第三方工具集合不包含在公开 Git 源码中。
 
 三、网络和数据
 
@@ -18,7 +18,11 @@ Tools 目录的诊断程序、运行时组件、字体、图标和其他素材�
 
 四、发行与反馈
 
-官网：https://zhenxingai.com/；官网下载页：https://zhenxingai.com/download；社区：https://community.zhenxingai.com/；反馈邮箱：yujinchuan2021@gmail.com。V0.1 当前为发布前验收候选，未上传正式发布。本版当前交付 x64 便携包；上游 Releases、商店和问题跟踪针对上游发行。有关安全问题请遵循仓库 SECURITY.md，不要公开泄露细节。
+官网：https://zhenxingai.com/；官网下载页：https://zhenxingai.com/download；社区：https://community.zhenxingai.com/；反馈邮箱：yujinchuan2021@gmail.com。
+
+当前公开版本为 V0.1 · r10 公开预览版，2026 年 10 月 5 日在本版 GitHub 仓库发布 Windows x64 便携包。源码与发布说明：https://github.com/yujinchuan2021-max/zhenxing-ai-assistant ；当前下载：https://github.com/yujinchuan2021-max/zhenxing-ai-assistant/releases/tag/v0.1.0-preview-r10 。真实账号注册、登录尚未验证，原生验证宿主完整退出验收未通过，具体范围见该版本发布说明。
+
+本版独立维护；上游 Releases、商店和问题跟踪针对上游发行。本仓库的历史 Electron 版本与当前 WinUI 客户端属于不同实现。有关安全问题请遵循仓库 SECURITY.md，不要公开泄露细节。
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 

@@ -1,6 +1,6 @@
 # 贡献指南
 
-欢迎为枕星图吧 AI 助手提供问题反馈、文档或代码。当前公开仓库是 [yujinchuan2021-max/zhenxing-ai-assistant](https://github.com/yujinchuan2021-max/zhenxing-ai-assistant)，当前版本为 WinUI 3 / .NET 10 预览版。本版基于 [图吧工具箱 CE](https://github.com/luolangaga/tubatools) 独立开发，本版特有问题和补丁请提交到本仓库。
+欢迎为枕星图吧AI助手提供问题反馈、文档或代码。当前公开仓库是 [yujinchuan2021-max/zhenxing-ai-assistant](https://github.com/yujinchuan2021-max/zhenxing-ai-assistant)，当前版本为 WinUI 3 / .NET 10 预览版。本版基于 [图吧工具箱 CE](https://github.com/luolangaga/tubatools) 独立开发，本版特有问题和补丁请提交到本仓库。
 
 ## 反馈问题
 

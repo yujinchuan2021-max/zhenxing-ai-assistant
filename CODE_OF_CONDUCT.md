@@ -34,7 +34,7 @@
 
 ## 执行
 
-可以通过 [GitHub Issues](https://github.com/luolangaga/tubatool/issues) 或发送邮件联系项目维护团队报告辱骂、骚扰或其他不可接受的行为。所有投诉都将得到审查和调查，并产生被认为必要且适当的回应。项目维护者应对事件报告者保密。具体执法政策的进一步细节可以单独发布。
+请联系枕星版维护者报告辱骂、骚扰或其他不可接受的行为，公开的联系邮箱为 [yujinchuan2021@gmail.com](mailto:yujinchuan2021@gmail.com)。本版的普通使用问题可在 [GitHub Issues](https://github.com/yujinchuan2021-max/zhenxing-ai-assistant/issues) 反馈；含个人信息的投诉或安全问题请使用确认过的私密渠道，不在公开 Issue 中披露。安全问题的报告方式见 [SECURITY.md](SECURITY.md)。维护者应审查报告并对报告者信息保密；具体处理政策和响应时限应以维护者公布的安排为准。
 
 不真诚遵守或执行行为准则的项目维护者可能面临由项目领导层其他成员决定的临时或永久影响。
 

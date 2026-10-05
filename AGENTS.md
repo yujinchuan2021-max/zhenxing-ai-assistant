@@ -1,4 +1,4 @@
-# 枕星图吧 AI 助手 — contributor notes
+# 枕星图吧AI助手 — contributor notes
 
 The live Windows client is `TubaWinUi3.WinUI3/TubaWinUi3.csproj`, using WinUI 3 and .NET 10. Edit its source, not obsolete root-level application files. `TubaWinUI3.BackEnd` is the supporting native helper. `TubaWinUi3.Tests` contains unit tests; `TubaWinUi3.XamlHostRunner` supplies isolated native UI cases. The Compatible project is a separate legacy implementation.
 

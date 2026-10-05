@@ -1,8 +1,8 @@
 <template>
   <div class="zx-page zx-container">
     <header class="zx-page__head">
-      <p class="zx-eyebrow">Community</p>
-      <h1 class="zx-h1" style="font-size: clamp(30px, 3.6vw, 44px)">{{ t('社区', 'Community') }}</h1>
+      <p class="zx-eyebrow">{{ t('一起用好 AI 与工具', 'Make AI and tools useful together') }}</p>
+      <h1 class="zx-h1" style="font-size: clamp(30px, 3.6vw, 44px)">{{ t('枕星AI社区', '枕星AI社区') }}</h1>
       <p>
         {{ t(`${siteConfig.brand.name}的社区是「围绕工具与 AI 工作流的交流」：能用、能问、能分享，而不是又一个下载站。`, `The ${siteConfig.brand.name} community is a place to talk about tools and AI workflows: usable, open to questions and to sharing — not another download site.`) }}
       </p>
@@ -41,20 +41,24 @@
           <article class="zx-card">
             <div class="zx-card__icon"><ZxIcon name="terminal" /></div>
             <h3>{{ t('贡献代码与工具', 'Contribute code and tools') }}</h3>
-            <p>{{ t('仓库公开后，按开源协作方式接受 Issue 与 PR；工具收录按来源与许可逐项核对。', 'Once the repository is public we accept issues and pull requests the open-source way; every tool we include is checked item by item for origin and license.') }}</p>
+            <p>{{ t('当前 WinUI 客户端源码已在 GitHub 公开，欢迎提交 Issue、修复建议与 PR。贡献请说明目标、实际变化和验证结果；工具及技能收录会核对来源、许可和适用条件。', 'The current WinUI client source is public on GitHub. Issues, fixes and pull requests are welcome. Explain the goal, actual change and validation results; tool and skill entries are reviewed for origin, licence and requirements.') }}</p>
           </article>
         </div>
 
-        <p class="zx-note" style="margin-top: 18px">{{ t('第一次来先读欢迎帖与社区指引。客户端仍为私有预览，论坛开放不代表客户端下载已开放。', 'Start with the welcome topic and community guidelines. The client is still a private preview; an open forum does not mean a public client download.') }}</p>
+        <p class="zx-note" style="margin-top: 18px">{{ t('第一次来先读欢迎帖与社区指引。当前客户端为 V0.1 · r10 公开预览版；反馈时请写明版本、系统、最后一次操作和实际结果，截图隐藏密码与 Key。', 'Start with the welcome topic and community guidelines. The current client is the V0.1 · r10 public preview. For feedback, include the version, system, last action and actual result, with passwords and keys hidden in screenshots.') }}</p>
         <p><a href="https://community.zhenxingai.com/t/14" target="_blank" rel="noopener noreferrer">{{ t('欢迎与产品现状 →', 'Welcome and product status →') }}</a> · <a href="https://community.zhenxingai.com/t/15" target="_blank" rel="noopener noreferrer">{{ t('社区指引 →', 'Community guidelines →') }}</a></p>
 
         <div class="zx-entry-list" style="margin-top: 18px">
+          <div class="zx-entry">
+            <span class="zx-entry__label">{{ t('公开问题反馈', 'Public issue report') }}</span>
+            <ZxLinkOr name="issues" :href="siteConfig.links.issues" :text="t('在 GitHub 提交问题', 'Report an issue on GitHub')" :fallback="t('暂不可用', 'Unavailable')" />
+          </div>
           <div class="zx-entry">
             <span class="zx-entry__label">{{ t('社区平台', 'Community platform') }}</span>
             <ZxLinkOr
               name="community"
               :href="siteConfig.links.community"
-              :text="t('进入枕星社区', 'Open the Zhenxing community')"
+              :text="t('进入枕星社区', 'Open 枕星AI社区')"
               :fallback="t('Discourse（自托管）· 尚未开通', 'Discourse (self-hosted) · not open yet')"
             />
           </div>

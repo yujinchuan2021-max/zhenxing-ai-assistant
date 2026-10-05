@@ -3,14 +3,18 @@
     <!-- ============================ 首屏 ============================ -->
     <section class="zx-hero zx-hero--tight">
       <div class="zx-container zx-hero__inner">
-        <h1 class="zx-h1 zx-hero__title zx-rise zx-rise--1">{{ t('说出你的想法，枕星带你把 AI 用起来。', 'Say what you want to do — Zhenxing gets AI working for you.') }}</h1>
+        <h1 class="zx-h1 zx-hero__title zx-rise zx-rise--1">{{ t('说出你的想法，枕星带你把 AI 用起来。', 'Say what you want to do — 枕星图吧AI助手 helps you get started.') }}</h1>
 
         <p class="zx-lead zx-hero__lead zx-rise zx-rise--2">
           {{ t('说目标、选方案、确认准备，再打开你的工具开始做。', 'Describe the goal, choose a plan, confirm preparation, then open your tools and get started.') }}
         </p>
 
         <div class="zx-btn-row zx-rise zx-rise--3">
-          <a class="zx-btn zx-btn--primary" href="#demo">
+          <RouterLink class="zx-btn zx-btn--primary" to="/download">
+            <ZxIcon name="download" />
+            <span>{{ t('下载 r10 预览版', 'Download r10 preview') }}</span>
+          </RouterLink>
+          <a class="zx-btn" href="#demo">
             <span>{{ t('看看怎么用', 'See how it works') }}</span>
             <ZxIcon name="arrow" style="width: 16px; height: 16px" />
           </a>
@@ -18,7 +22,7 @@
 
         <p class="zx-hero__state zx-rise zx-rise--3">
           <span class="zx-dot" aria-hidden="true"></span>
-          <RouterLink v-if="release().released" to="/download">{{ t('Windows x64 便携版已开放下载', 'Windows x64 portable build available for download') }}</RouterLink>
+          <RouterLink v-if="release().released" to="/download">{{ t('V0.1 · r10 公开预览版 · Windows x64 · 2026-10-05', 'V0.1 · r10 public preview · Windows x64 · 5 Oct 2026') }}</RouterLink>
           <template v-else>{{ t('开发中 · 暂未开放下载', 'In development · download not open yet') }}</template>
         </p>
 
@@ -26,8 +30,8 @@
           <ZxShot
             :dark="shotAiDark"
             :light="shotAiLight"
-            :alt="t('枕星图吧AI助手 · AI 助手页面实拍', 'Zhenxing Tuba AI Assistant · screenshot of the AI assistant page')"
-            :caption="t('应用实拍：AI 助手新对话页（深浅两套主题随站点切换）', 'App screenshot: the AI assistant’s new-chat page (dark and light themes follow the site)')" />
+            :alt="t('枕星图吧AI助手 · AI 助手页面实拍', '枕星图吧AI助手 · screenshot of the AI assistant page')"
+            :caption="t('应用实拍：AI 助手新对话页（界面示例，以当前 r10 客户端为准）', 'App screenshot: the AI assistant’s new-chat page (an interface example; refer to the current r10 client)')" />
         </div>
       </div>
     </section>
@@ -142,7 +146,7 @@ Workflow Coding agent + API + game engine
 Prepared Tool entries and project brief
 To do    Model login, connection and first run
 Env      Win10 22H2 / x64 / 32GB`) }}</pre>
-                  <p class="zx-mock__hint">{{ t('枕星帮你搭好工具流；实际创作交给所选工具或外部 Agent。可复制项目说明，支持的编程 Agent 可在你选择的项目文件夹中启动。', 'Zhenxing prepares the workflow; the chosen tools or external agent perform the creative work. Copy the brief, or start a supported coding agent in your chosen project folder.') }}</p>
+                  <p class="zx-mock__hint">{{ t('枕星帮你搭好工具流；实际创作交给所选工具或外部 Agent。可复制项目说明，支持的编程 Agent 可在你选择的项目文件夹中启动。', '枕星图吧AI助手 prepares the workflow; the chosen tools or external agent perform the creative work. Copy the brief, or start a supported coding agent in your chosen project folder.') }}</p>
                 </div>
 
                 <p class="zx-demo__note zx-small">{{ current.note }}</p>
@@ -163,7 +167,7 @@ Env      Win10 22H2 / x64 / 32GB`) }}</pre>
             <p>
               {{ t('客户端内助手、技能制作和可选资讯整理共用 AI 设置。先问关键条件，再比较方案和准备环境；外部 Agent 的账号、登录和费用仍由你处理。', 'Chat, skill creation and optional news organisation inside this client share AI settings. Clarify the conditions, compare plans and prepare the environment; external agent accounts, logins and fees remain yours to handle.') }}
             </p>
-            <p class="zx-card__foot zx-small">{{ t('私有预览已接入 · 不代表真实目标已完成', 'In the private preview · not proof that a real goal is complete') }}</p>
+            <p class="zx-card__foot zx-small">{{ t('目标工作台已提供 · 安装完成后可继续开始创作', 'Goal workbench available · continue creating after setup') }}</p>
           </article>
           <article class="zx-card zx-card--lift">
             <div class="zx-card__icon"><ZxIcon name="chip" /></div>
@@ -173,7 +177,7 @@ Env      Win10 22H2 / x64 / 32GB`) }}</pre>
               {{ t(`加${facts().externalTools}外部工具，来自上游「${siteConfig.upstream.name}」——`, `plus ${facts().externalTools} external tools from the upstream “${siteConfig.upstream.name}” —`) }}
               {{ t('第三方工具按需下载；应用中心只管理本机软件与已发起任务。', 'Third-party tools download on demand; App Center manages local software and requested tasks only.') }}
             </p>
-            <p class="zx-card__foot zx-small">{{ t('开发版已可用 · 上游 GPL-3.0，保留署名', 'Available in the dev build · upstream GPL-3.0, attribution kept') }}</p>
+            <p class="zx-card__foot zx-small">{{ t('预览版已提供 · 上游 GPL-3.0，保留署名', 'Available in the preview · upstream GPL-3.0, attribution kept') }}</p>
           </article>
           <article class="zx-card zx-card--lift">
             <div class="zx-card__icon"><ZxIcon name="users" /></div>
@@ -204,18 +208,18 @@ Env      Win10 22H2 / x64 / 32GB`) }}</pre>
         <div class="zx-grid-2" style="margin-top: 18px">
           <article class="zx-card">
             <h3>{{ t('技能：按用途找，按状态试', 'Skills: find by purpose, try by readiness') }}</h3>
-            <p>{{ t('客户端官方技能库支持分类、搜索和分页，明确区分可加载、需要配套与参考内容。可修改或制作技能，本机试用后由你决定是否提交审核；热度和收录数量不代表实测效果。', 'The client skill library supports categories, search and pagination, distinguishing loadable, companion-required and reference entries. Edit or create skills, try them locally and decide whether to submit for review. Popularity and catalogue size do not prove effectiveness.') }}</p>
+            <p>{{ t('官方技能库按分类和用途搜索，瀑布流随下拉继续加载。每项注明可加载、需要配套或仅供参考；你也可以修改或由 AI 引导制作技能，先本机试用，再提交审核。', 'Search the official skill library by category and purpose, with a masonry view that loads more as you scroll. Entries show whether they are loadable, need companion files or are reference material. Edit a skill or create one with AI guidance, try it locally, then submit it for review.') }}</p>
             <RouterLink to="/docs#skills">{{ t('看技能使用说明 →', 'Read the skill guide →') }}</RouterLink>
           </article>
           <article class="zx-card">
-            <h3>{{ t('枕星AI资讯：无需配置也能读', 'Zhenxing AI News: read without setup') }}</h3>
+            <h3>{{ t('枕星AI资讯：无需配置也能读', '枕星AI资讯: read without setup') }}</h3>
             <p>{{ t('服务器每天北京时间 09:00 自动更新，失败保留缓存。没有 AI 配置也能读来源与原文；客户端配置 AI 后可做个人摘要与整理，AI 内容会标明。', 'The server updates daily at 09:00 Beijing time and keeps cached content on failure. Read sources and originals without AI setup; configured client AI can provide personal summaries, labelled as AI content.') }}</p>
-            <a href="/ai-news/">{{ t('打开枕星AI资讯 →', 'Open Zhenxing AI News →') }}</a>
+            <a href="/ai-news/">{{ t('打开枕星AI资讯 →', 'Open 枕星AI资讯 →') }}</a>
           </article>
         </div>
 
         <p class="zx-close">
-          <RouterLink to="/download">{{ t('下载状态与详细进度', 'Release status and detailed progress') }}</RouterLink>
+          <RouterLink to="/download">{{ t('下载、启动与本次更新', 'Download, launch and what changed') }}</RouterLink>
           <span aria-hidden="true">·</span>
           <RouterLink to="/about">{{ t('数据说明、开源署名与许可', 'Data notice, attribution and licenses') }}</RouterLink>
         </p>
@@ -261,7 +265,7 @@ const demoSteps = computed<{
     id: 'pick',
     tab: t('比较并选择工具流', 'Compare and pick a workflow'),
     title: t('候选、理由、代价，摆在一起挑', 'Options, reasons and trade-offs, side by side'),
-    desc: t('在现成工具库里按目标挑出组合：哪些必装、哪些可选、哪些有更省事的替代方案。', 'Pick a combination from the ready-made toolbox for your goal: what is required, what is optional, what has a lighter alternative.'),
+    desc: t('按目标、预算、硬件和服务可用条件选组合：哪些必装、哪些可选。适合的桌面 AI Agent 优先，只有确实需要时才安排命令行工具。', 'Choose a combination for the goal, budget, hardware and service access: what is required and what is optional. Prefer a suitable desktop AI agent; add command-line tools only when needed.'),
     note: t('现状：预览版已有方案卡片。按目标选型，辅助工具只在需要时加入。', 'Status: plan cards are in the preview. Choose for the goal and add auxiliary tools only when needed.'),
     status: 'done',
   },

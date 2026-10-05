@@ -1,9 +1,12 @@
 {
   "schema": "zhenxing-git-source-manifest/1",
-  "tag": "v0.1.0-preview-r10",
+  "snapshotKind": "current source with public documentation refresh",
+  "referenceReleaseTag": "v0.1.0-preview-r10",
+  "baseCodeCommit": "ceb80264d729a1f7517eb557555572aaf5888f04",
+  "releaseNote": "The r10 tag and release ZIP remain immutable. This manifest covers the current source and updated documentation, not the frozen r10 tag tree.",
   "hashScope": "Git index blob content; text is normalized by .gitattributes. This manifest excludes itself.",
-  "fileCount": 1926,
-  "totalBytes": 214585840,
+  "fileCount": 1928,
+  "totalBytes": 214619401,
   "files": [
     {
       "path": ".all-contributorsrc",
@@ -43,9 +46,9 @@
     },
     {
       "path": "AGENTS.md",
-      "gitBlob": "ec701c743afefb2dc4e3932b9f2f14ab9d4e04bb",
-      "bytes": 1378,
-      "sha256": "661b7d715dc2acaf05560b8a3ae640f5c973e4a094173d1b7bce99ce6085914b"
+      "gitBlob": "043283108ee50bc2bf6e122e9cde871dfc9c8da2",
+      "bytes": 1376,
+      "sha256": "fb0b3b3a7e55df9ac2136bb05c8c2f91a297a9624cfaba0af5cce93046e0ba7d"
     },
     {
       "path": "CLI工具使用文档.md",
@@ -55,15 +58,15 @@
     },
     {
       "path": "CODE_OF_CONDUCT.md",
-      "gitBlob": "41437809a5c72365e6915ad659e647f3d076accb",
-      "bytes": 2406,
-      "sha256": "2ed98b3787687499657f37402be11df4eb32d838d13ec5d667f4688a8046dca5"
+      "gitBlob": "3ba32780f62ee85441d8b9d978a8bfacd58cb93c",
+      "bytes": 2635,
+      "sha256": "7e770b9dee1a46a333616d79f695d6850d7f2210919c529ca8bc17c6270be2c9"
     },
     {
       "path": "CONTRIBUTING.md",
-      "gitBlob": "efbced77ec29047f5cbf374582fff9141d0dcf7d",
-      "bytes": 4805,
-      "sha256": "4c82bc0b5083c0061e690520d955dcf6314e58571bece47059ee91ed6f2045b4"
+      "gitBlob": "51400f63cff2253122c4b6d08a9d131892e1925b",
+      "bytes": 4803,
+      "sha256": "b29ab8b768576efc682b3f90ecd82bf19295fc5d1911b0f7633ae0494f76adf6"
     },
     {
       "path": "ChineseSimplified.isl",
@@ -97,15 +100,15 @@
     },
     {
       "path": "License.txt",
-      "gitBlob": "4fa79994e26360eb6f3cc2d96b131f95594f2f07",
-      "bytes": 34435,
-      "sha256": "4924edda5c1f731112780765ae950045699aa0c97d55941c0af35afee4a04227"
+      "gitBlob": "616541faefb74da5743b84fe8c3be5c8a5fe57cf",
+      "bytes": 34933,
+      "sha256": "dd505a49e8a185125d055b716f4025d11ca5cb45f2fca1382dcd497c7838e0e3"
     },
     {
       "path": "NOTICE",
-      "gitBlob": "bb182657ec44ba36ec7f0bd91533bc9d7623c0cc",
-      "bytes": 2849,
-      "sha256": "aa1015015c8fd48933cccb8df0c7e7d1ad4e0ad2a5727cd1fa04dcc86f314671"
+      "gitBlob": "6d5107ba0f12f11ab435066663ccf8ca40118d3f",
+      "bytes": 2843,
+      "sha256": "f0accd41a8869a31aec5b51d7beb3c4285155e631c9d90ebed1f4841da724453"
     },
     {
       "path": "PrivacyPolicy.html",
@@ -121,15 +124,15 @@
     },
     {
       "path": "README.md",
-      "gitBlob": "9ceacba93a11414c8c0927526d7adb0944faeeef",
-      "bytes": 5221,
-      "sha256": "bd4ba3002181497308ac1b786a79ceba333a59e27a5cb39fc3e8436ae4b4959b"
+      "gitBlob": "b11853a24626a919ba78f59d387ef7b473f0bd2a",
+      "bytes": 9876,
+      "sha256": "bd557f71265c9a04c39e51f0a123b939c58c9b23c29b6d9554821b869927ad03"
     },
     {
       "path": "SECURITY.md",
-      "gitBlob": "386ecc806b921419332a541b2d26bbf79a37dab6",
-      "bytes": 2978,
-      "sha256": "b32f21b81025518929e6fcd04ca1ad1e3ec9203a41ca7a8ba7e905b8cde7a60f"
+      "gitBlob": "baaf5df0dfdd95f5ad40675723207fa01e65ace0",
+      "bytes": 2976,
+      "sha256": "7df1f9a3fa07a4f1adbbe8123fc2ce7c7ecb08be8634da4059cc11b41d041024"
     },
     {
       "path": "TubaWinUI3.BackEnd/BackEndJsonContext.cs",
@@ -9354,6 +9357,18 @@
       "sha256": "1eb517ccc0646f3b3bc656079c9a2513e5792ce82f5243e22d8f849a034ed9ee"
     },
     {
+      "path": "docs/faq.md",
+      "gitBlob": "9a74ec0754334aee952ee500f48690f4a5f642b0",
+      "bytes": 7713,
+      "sha256": "f73dbbad5a9b91f41f129dc7a12e4f1feb599bbc25544fdb795a54c5c7398888"
+    },
+    {
+      "path": "docs/getting-started.md",
+      "gitBlob": "1162cb2003cbde3eba8113e0b25b059f0ac6b5fe",
+      "bytes": 6749,
+      "sha256": "7e190c69234b9bc6eff8e6d09013a7b58c056b3be90bdf0f444aa0339992ea05"
+    },
+    {
       "path": "docs/releases/r10-validation.json",
       "gitBlob": "a180f9e2669e0ad1b1cb229886a835de9a3923f2",
       "bytes": 1502,
@@ -9361,9 +9376,9 @@
     },
     {
       "path": "docs/releases/r10.md",
-      "gitBlob": "798be42c6525c159ded7c36c56480595e91f7c75",
-      "bytes": 3753,
-      "sha256": "5b4e259a9717e07114dea9b5f7f67a8709fe4f882244e8a9448d39dae3671efe"
+      "gitBlob": "0327512e9068fb719181ace73924158b656de815",
+      "bytes": 6316,
+      "sha256": "e371da40101f8780f12c02810edd7b541d9b529b18ea413e1b67a78bfeeb8376"
     },
     {
       "path": "file-transfer-web/.gitignore",
@@ -9637,9 +9652,9 @@
     },
     {
       "path": "website-winui3/README.md",
-      "gitBlob": "d800fb2e931c582a7d55bf1df691b94325755e19",
-      "bytes": 2747,
-      "sha256": "3d56b0979ed781f78cce18fd4c1a8a9d64cd9967365166c1095f9fdd8800cc07"
+      "gitBlob": "8a4c2485a87617b8f156904679b6c71664a84bf3",
+      "bytes": 3667,
+      "sha256": "d2976f67ab6f9a30903dd7528f786551bd1831f1330fc3b7ea0e14625111c4dd"
     },
     {
       "path": "website-winui3/env.d.ts",
@@ -9661,21 +9676,21 @@
     },
     {
       "path": "website-winui3/index.html",
-      "gitBlob": "d662fb58d8f3e560894564f9a31b9f6ff5c2ed20",
-      "bytes": 5405,
-      "sha256": "9d62a31f2b1289b9821e92e0936f726e28697c08041e9c7742d75612d24bb73c"
+      "gitBlob": "d5807fb39a36c6ad14af030e73b3e2efe6644352",
+      "bytes": 6016,
+      "sha256": "95f6fd9f7aba48c0e04cd51e9e2bbd26ee64e8d16c6b2869b8783efab69821a0"
     },
     {
       "path": "website-winui3/package-lock.json",
-      "gitBlob": "93a1646f3a549add0b65093b26280e59808de680",
-      "bytes": 164151,
-      "sha256": "1b2c36968c69c5576b3707b5efb50cab7f5a6669233d8c255310d190b17e944e"
+      "gitBlob": "8ef7358032e509ed8f4215eb86c048f4b9504e68",
+      "bytes": 164161,
+      "sha256": "1756ee0ae342c4640dcb9abc4ed43466763076422d9e9de734df293352db7890"
     },
     {
       "path": "website-winui3/package.json",
-      "gitBlob": "4b9a43973d55fdd8b93ef5ffa5d69cabbef46d94",
-      "bytes": 1455,
-      "sha256": "3294835a198d0b53f811ed3e9d8bf779e94be9d1e8e28eccdb5a013078724498"
+      "gitBlob": "5c6b9f187df60777e572c75062c844e491bcce7e",
+      "bytes": 1515,
+      "sha256": "993bc4408c958c41150807d94e7b39bf4f0c27e13045b84a5463921b8105afa8"
     },
     {
       "path": "website-winui3/pnpm-lock.yaml",
@@ -10273,9 +10288,9 @@
     },
     {
       "path": "website-winui3/public/zxai/site.webmanifest",
-      "gitBlob": "12aecca8c3e7e4ac03484138794c32b78a8d3560",
-      "bytes": 638,
-      "sha256": "4fee519bdb9c3dc8433101a43237733a121b44c0bf4f5ec365505667b10c71ea"
+      "gitBlob": "34a7237ab0c0e8b71ec291c6492fd5f53e44c987",
+      "bytes": 696,
+      "sha256": "5c722f6395b7c9b632a2f62cf737e4c73940971b981cc1667371bc6865b7ef52"
     },
     {
       "path": "website-winui3/scripts/audit-layout.mjs",
@@ -11257,15 +11272,15 @@
     },
     {
       "path": "website-winui3/src/zxai/components/ZxFooter.vue",
-      "gitBlob": "49c42f1c5f240fc9950d2ee245ddd95e4bed59f9",
-      "bytes": 6867,
-      "sha256": "a35f1ab5eb6e57e425834775363adb1acbd5863d24a457f7fef6722159e3da02"
+      "gitBlob": "954c7dd02d1de88938b021e5f8a29f1a4767181e",
+      "bytes": 7467,
+      "sha256": "4f117e98b3d29b6cb1ad6b32543a6f877fdedecce33d0e368a40c5a6fdfb579f"
     },
     {
       "path": "website-winui3/src/zxai/components/ZxHeader.vue",
-      "gitBlob": "71a5275c022a2aaa791240c9db541e4457c20bbc",
-      "bytes": 3087,
-      "sha256": "049519ae4d708d780a27dfe9376e7a98a123780c98bc0bedd71dc30e7a23aad1"
+      "gitBlob": "bd84730d894055ea7fd203b2916bb311f573fcf0",
+      "bytes": 3111,
+      "sha256": "00fddc049a8a0582022c0dc07cb741d32625961f8987c28e9507652b69998946"
     },
     {
       "path": "website-winui3/src/zxai/components/ZxIcon.vue",
@@ -11317,39 +11332,39 @@
     },
     {
       "path": "website-winui3/src/zxai/pages/AboutPage.vue",
-      "gitBlob": "37fcaced5fc5535525988e6ac4b486abe719796d",
-      "bytes": 20292,
-      "sha256": "92adaf9e935e29d3250a2112fa8bd7ee2c3e19e37cf30a0d8cff5073b2bca02a"
+      "gitBlob": "88db270107424279d8991c7955a80d97e8bc136f",
+      "bytes": 20029,
+      "sha256": "40390ffa291fcc273b542dbf3c3b6945d96681063f8e2a507b1f86098be20d29"
     },
     {
       "path": "website-winui3/src/zxai/pages/CommunityPage.vue",
-      "gitBlob": "de45359b077674dcbab21d249b57c5e74bace004",
-      "bytes": 7168,
-      "sha256": "7364b3806a645174285690b495946d9ab20f0b845cc7768df156a7ea8e1adc9e"
+      "gitBlob": "d215b24f829c14647cee9dbc4a01df5ccb010b8d",
+      "bytes": 7900,
+      "sha256": "adf4c5d31baba002d669b8f50e376e4842309c9d20990057d2b5e0e26dcdbb43"
     },
     {
       "path": "website-winui3/src/zxai/pages/DocsPage.vue",
-      "gitBlob": "e64b8bdc8ec92a41b737be9667f87963ba208a61",
-      "bytes": 10946,
-      "sha256": "acee6c4d403d17eb8e5719625b91dd497fe69879c9f1379f0bbb9bd581fa5fa7"
+      "gitBlob": "c094f03a1e089cbb9de8c7ec65de9f4a32ae8085",
+      "bytes": 11734,
+      "sha256": "18cc5d2ba0eb9e23c0220ec512f77f7d5229ebbc76cd6100d86741e436c957f2"
     },
     {
       "path": "website-winui3/src/zxai/pages/DownloadPage.vue",
-      "gitBlob": "db33f64cd60342ac744f14265b61dd126d3be302",
-      "bytes": 9078,
-      "sha256": "deab727eb054cbf89f33ac263bf7adbd07b4441ca0df54756df0e8ae40b84930"
+      "gitBlob": "746765d67ad7783fa06416094c9c702ebc0dc215",
+      "bytes": 14963,
+      "sha256": "8f3f7b2c499479f118ef2a15ea6851df10af8f7daf64b6a4a5f647195f1d50a8"
     },
     {
       "path": "website-winui3/src/zxai/pages/HomePage.vue",
-      "gitBlob": "d9d635f6ab966d546d878d549ab28e57583d1218",
-      "bytes": 21386,
-      "sha256": "c90fe9cef116c4764f2b51b4c899dad1e19e8d5b5a584559a669c07134570b72"
+      "gitBlob": "44391c4f29585224aa9b6f1c455915750cd01ae4",
+      "bytes": 21761,
+      "sha256": "84611663844af66303f7b960e5ffac68d23880041bf9aa3c64c9dcc8782218e7"
     },
     {
       "path": "website-winui3/src/zxai/progress.ts",
-      "gitBlob": "ffc0cdc76f8c7f2a8d5accbfd751160a2574acac",
-      "bytes": 8050,
-      "sha256": "f0fdda22e9fc6b2eacbdea37cf2e572c4bfd27e14b8a7483cb37fe3005bcbe63"
+      "gitBlob": "2deed1b34fe3b1d157216b63dea8cdcadf95b62b",
+      "bytes": 8654,
+      "sha256": "a8ea1f2aecc77b5fdb903ce2bf339555653f4d26df7c33118acb698820917d56"
     },
     {
       "path": "website-winui3/src/zxai/router.ts",
@@ -11359,15 +11374,15 @@
     },
     {
       "path": "website-winui3/src/zxai/seo.ts",
-      "gitBlob": "8b58aec8a39a02f930425b25785b3a9eb7b03274",
-      "bytes": 7286,
-      "sha256": "faa8062da88dec4f822c1247e455bbba04380482c857bbba1e8e81acd04b94cb"
+      "gitBlob": "35dd8cef3b0a66895253c293eebfd890af212660",
+      "bytes": 7407,
+      "sha256": "03440ef82c9eccc42c76aaf6408586740e5f6c177ac4abed99754cf8e6e7971a"
     },
     {
       "path": "website-winui3/src/zxai/site.config.ts",
-      "gitBlob": "362cf94c0ef28fbf11065d5293ca5b719a8d07a7",
-      "bytes": 19949,
-      "sha256": "08dc930025ad7a8a162fd5c9495f97a4f01eeb0fb070d070aa4d9f4646559978"
+      "gitBlob": "4945b9c04cdd4fd774cd987bbd17a6ac20e6e183",
+      "bytes": 20590,
+      "sha256": "ef253c9f1c021667eeefed162b9e6dc7b72abf789a0c7e4072330f346689e7ba"
     },
     {
       "path": "website-winui3/src/zxai/styles/zxai.css",

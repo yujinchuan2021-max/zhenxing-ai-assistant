@@ -1,11 +1,11 @@
-枕星图吧 AI 助手 — 来源与第三方署名
+枕星图吧AI助手 — 来源与第三方署名
 
 1. 当前版本
 
 本次公开的 WinUI 3 / .NET 10 源码基于图吧工具箱 CE / TubaWinUi3 继续开发。
 上游项目：https://github.com/luolangaga/tubatools
 上游维护者：luolangaga 及该项目贡献者；保留源码中的版权、作者及贡献者信息。
-枕星版维护者：yujinchuan2021-max 及枕星图吧 AI 助手贡献者。
+枕星版维护者：yujinchuan2021-max 及枕星图吧AI助手贡献者。
 枕星版是独立维护的修改版本；本仓库的官网、社区、更新渠道和发行包不代表上游发行。
 
 当前版本自身源码按根目录 LICENSE 所载 GNU General Public License v3.0 发布。
@@ -48,4 +48,4 @@ LICENSE、NOTICE（如有）及文件头部声明。
 资讯服务的分层设计参考 AIHOT（https://github.com/KKKKhazix/AIHOT，MIT）。
 zxai-ai-news 是独立实现，没有复制 AIHOT 源码或托管资讯库，也没有调用其托管接口。
 新闻标题、来源链接与原文的权利属于相应作者或发布机构。
-枕星 AI 社区由 Discourse 提供技术支持，账号与第三方授权受相应服务规则约束。
+枕星AI社区由 Discourse 提供技术支持，账号与第三方授权受相应服务规则约束。

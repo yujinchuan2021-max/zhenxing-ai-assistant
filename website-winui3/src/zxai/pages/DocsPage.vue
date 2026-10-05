@@ -8,16 +8,16 @@
     <div class="zx-page__body">
       <section class="zx-status">
         <span class="zx-status__icon"><ZxIcon name="info" /></span>
-        <div><h2>{{ t('客户端仍为私有预览，尚未公开发布', 'The client remains a private preview, not a public release') }}</h2>
-          <p>{{ t('已有受邀预览包的用户可以按以下流程试用。官网不提供尚未发布的安装包；正式版本会在下载页列出版本、文件大小与校验值。', 'Invited preview users can try the steps below. This site does not offer an unreleased installer; a public release will list its version, size and checksum on the download page.') }}</p>
-          <RouterLink to="/download">{{ t('查看下载状态 →', 'Check release status →') }}</RouterLink></div>
+        <div><h2>{{ t('r10 公开预览版已提供下载', 'The r10 public preview is available') }}</h2>
+          <p>{{ t('关闭旧客户端，将完整 ZIP 解压到新文件夹，运行根目录的「枕星图吧AI助手.exe」。这是 Windows x64 便携版；请保留整个目录，不要只复制 EXE。', 'Close the older client, extract the complete ZIP into a new folder and run “枕星图吧AI助手.exe” in its root. This is a Windows x64 portable build; keep the entire folder, not just the EXE.') }}</p>
+          <RouterLink to="/download">{{ t('下载与首次启动说明 →', 'Download and first-launch instructions →') }}</RouterLink></div>
       </section>
       <section>
         <h2 class="zx-h3" style="margin-bottom: 14px">{{ t('先走完这四步', 'Follow these four steps') }}</h2>
         <div class="zx-grid-2">
           <article v-for="step in steps" :key="step.title" class="zx-card"><h3>{{ step.title }}</h3><p>{{ step.body }}</p></article>
         </div>
-        <p class="zx-note" style="margin-top: 18px">{{ t('枕星负责搭建整体工具流。真正写代码、生成音乐或制作素材，由你选定的工具或外部 Agent 完成。只需要 AI 生成音乐时，不默认再安排编曲软件。', 'Zhenxing prepares the overall workflow. Your chosen tools or external agent write code, generate music or make assets. A request for AI-generated music does not automatically add a music-production suite.') }}</p>
+        <p class="zx-note" style="margin-top: 18px">{{ t('枕星负责搭建整体工具流。真正写代码、生成音乐或制作素材，由你选定的工具或外部 Agent 完成。只需要 AI 生成音乐时，不默认再安排编曲软件。', '枕星图吧AI助手 prepares the overall workflow. Your chosen tools or external agent write code, generate music or make assets. A request for AI-generated music does not automatically add a music-production suite.') }}</p>
       </section>
       <section>
         <h2 class="zx-h3" style="margin-bottom: 14px">{{ t('工具库与应用中心各做什么', 'Tool library and App Center') }}</h2>
@@ -28,7 +28,7 @@
       </section>
       <section id="skills">
         <h2 class="zx-h3" style="margin-bottom: 14px">{{ t('技能：先看适用条件，再试用', 'Skills: check requirements before trying') }}</h2>
-        <p>{{ t('从会话里的技能菜单进入官方技能库，按分类、搜索和查看条件找技能。目录保留全部内容，具体数量以客户端当前同步结果为准。', 'Open the official skill library from the conversation’s skill menu. Browse by category, search and readiness. The full catalogue is retained; the current synced client view is the reference for its size.') }}</p>
+        <p>{{ t('从左侧“官方技能库”或会话技能菜单进入。卡片采用瀑布流，先预加载内容，向下滚动继续加载；搜索与分类作用于完整目录。具体数量以客户端同步结果为准，当前屏幕显示数量不是全库总数。', 'Open Official skill library in the sidebar or the conversation’s skill menu. A masonry view preloads content and loads more as you scroll; search and category filters cover the full catalogue. The synced catalogue is the reference for its size; the visible card count is not the full library count.') }}</p>
         <ul class="zx-list zx-list--dense">
           <li>{{ t('可加载只表示当前文本结构能加载；需要配套文件或指定引擎的技能应先看详情。没有运行评测时显示待评测，GitHub 星数只代表热度。', 'Loadable means the text structure can be loaded. Check details for companion files or a required engine. Without runtime evaluation the skill remains unevaluated; GitHub stars indicate popularity only.') }}</li>
           <li>{{ t('修改技能或制作技能时，可用已配置的 AI 逐步生成草稿；先在本机保存和试用，再由你决定是否提交后台审核。提交审核不等于已公开，也不代表实测通过。', 'Edit a skill or create a draft with your configured AI. Save and try it locally, then decide whether to submit for review. Submission does not mean publication or a verified runtime result.') }}</li>
@@ -36,15 +36,16 @@
       </section>
       <section>
         <h2 class="zx-h3" style="margin-bottom: 14px">{{ t('资讯与交流', 'News and community') }}</h2>
-        <p>{{ t('枕星AI资讯由服务器每天北京时间 09:00 自动更新，无需保持客户端打开；失败时保留有效缓存。没配置 AI 也能阅读来源更新与原文，客户端配置 AI 后可做个人整理。摘要是辅助阅读，关键信息请核对原文。', 'The server updates Zhenxing AI News daily at 09:00 Beijing time; the client does not need to remain open. Valid cached content remains on failure. Read sources and originals without AI setup, or use configured client AI for a personal view. Verify important summary claims against the source.') }}</p>
-        <p><a href="/ai-news/">{{ t('枕星AI资讯 →', 'Zhenxing AI News →') }}</a> · <a :href="siteConfig.links.community ?? undefined" target="_blank" rel="noopener noreferrer">{{ t('枕星AI社区 →', 'Zhenxing AI Community →') }}</a></p>
+        <p>{{ t('枕星AI资讯由服务器每天北京时间 09:00 自动更新，无需保持客户端打开；失败时保留有效缓存。没配置 AI 也能阅读来源更新与原文，客户端配置 AI 后可做个人整理。摘要是辅助阅读，关键信息请核对原文。', 'The server updates 枕星AI资讯 daily at 09:00 Beijing time; the client does not need to remain open. Valid cached content remains on failure. Read sources and originals without AI setup, or use configured client AI for a personal view. Verify important summary claims against the source.') }}</p>
+        <p><a href="/ai-news/">{{ t('枕星AI资讯 →', '枕星AI资讯 →') }}</a> · <a :href="siteConfig.links.community ?? undefined" target="_blank" rel="noopener noreferrer">{{ t('枕星AI社区 →', '枕星AI社区 →') }}</a></p>
       </section>
       <section>
         <h2 class="zx-h3" style="margin-bottom: 14px">{{ t('遇到失败时怎么继续', 'When a step fails') }}</h2>
         <p>{{ t('先看失败的是下载、安装、入口还是账号连接。只重试对应步骤；正在进行的任务不要重复发起。软件装好但打不开时查看会话入口或应用中心，不需要重新描述整个目标。反馈时提供预览包名称、系统、最后一步和截图，隐藏密码与 Key。', 'Identify whether the failure is in downloading, installation, an app entry or an account connection. Retry the relevant step and avoid duplicating an active task. If an installed tool will not open, use the conversation actions or App Center rather than restating the whole goal. For feedback, include the preview name, system, last action and a screenshot, with passwords and keys hidden.') }}</p>
-        <p>{{ t('工具流分享当前默认开启，可在设置中关闭。开启时会发送相关可见对话和准备结果到官方服务；模型请求另发往你选择的 AI 服务。', 'Workflow sharing is currently on by default and can be disabled in settings. When enabled it sends related visible conversation and preparation results to the official service; model requests separately go to your chosen AI provider.') }} <RouterLink to="/about">{{ t('查看数据说明 →', 'Read the data notice →') }}</RouterLink></p>
+        <p>{{ t('工具流分享当前默认开启，可在设置中关闭。开启时会发送该会话的完整可见对话（不含隐藏思考过程）和准备结果到官方服务；模型请求另发往你选择的 AI 服务。', 'Workflow sharing is currently on by default and can be disabled in settings. When enabled it sends the full visible conversation in that session (excluding hidden reasoning) and preparation results to the official service; model requests separately go to your chosen AI provider.') }} <RouterLink to="/about">{{ t('查看数据说明 →', 'Read the data notice →') }}</RouterLink></p>
+        <p style="margin-top: 14px"><a :href="siteConfig.links.issues ?? undefined" target="_blank" rel="noopener noreferrer">{{ t('反馈问题 →', 'Report an issue →') }}</a> · <a :href="siteConfig.links.releaseNotes ?? undefined" target="_blank" rel="noopener noreferrer">{{ t('查看 r10 已知问题与验证范围 →', 'Read r10 known issues and validation scope →') }}</a></p>
       </section>
-      <section><h2 class="zx-h3" style="margin-bottom: 14px">{{ t('硬件工具参考', 'Hardware-tool reference') }}</h2><p>{{ t('上游图吧工具箱CE文档可帮助了解部分硬件工具；它的下载、商店和社区入口属于上游，客户端 AI 与工具流操作请以本指南和当前预览界面为准。', 'Upstream documentation helps explain some hardware tools. Its downloads, store and community belong to upstream; use this guide and the current preview UI for Zhenxing AI and workflow actions.') }}</p><a :href="siteConfig.upstream.docs" target="_blank" rel="noopener noreferrer">{{ t('打开上游参考（外部链接）↗', 'Open upstream reference (external link) ↗') }}</a></section>
+      <section><h2 class="zx-h3" style="margin-bottom: 14px">{{ t('硬件工具参考', 'Hardware-tool reference') }}</h2><p>{{ t('上游图吧工具箱CE文档可帮助了解部分硬件工具；它的下载、商店和社区入口属于上游，客户端 AI 与工具流操作请以本指南和当前预览界面为准。', 'Upstream documentation helps explain some hardware tools. Its downloads, store and community belong to upstream; use this guide and the current preview UI for 枕星图吧AI助手 AI and workflow actions.') }}</p><a :href="siteConfig.upstream.docs" target="_blank" rel="noopener noreferrer">{{ t('打开上游参考（外部链接）↗', 'Open upstream reference (external link) ↗') }}</a></section>
     </div>
   </div>
 </template>
@@ -56,7 +57,7 @@ import { t } from '../i18n';
 const steps = computed(() => [
   { title: t('1 · 一次配置客户端 AI', '1 · Configure client AI once'), body: t('在 AI 设置统一选择接口、模型与 Agent，保存并测试连接。客户端内助手、技能制作和可选资讯整理共用这份配置。外部 Codex、Claude Code、Cursor 等仍需自己的可用账号或模型接入；本地模型还需合适硬件和已运行的服务。', 'Select the endpoint, model and agent in AI settings, save and test the connection. Assistant chat, skill creation and optional news organisation inside this client reuse it. External tools such as Codex, Claude Code and Cursor still need their own usable accounts or model connections; local models also need suitable hardware and a running service.') },
   { title: t('2 · 说目标，点击选项', '2 · State the goal and choose options'), body: t('例如“做一个 Windows 2D 游戏原型”或“用 AI 生成一首歌”。回答影响方案的预算、平台或服务条件即可，能确定的不用反复输入；网页能打开不等于账号与 API 已验证。', 'For example, “make a Windows 2D game prototype” or “generate a song with AI”. Answer only the budget, platform or service questions that affect the plan. A reachable site is not proof of account or API access.') },
-  { title: t('3 · 选方案，确认准备', '3 · Choose a plan and confirm preparation'), body: t('比较轻量、中量、重量方案，核对目标与清单后确认。已装复用，已支持的软件整份按依赖顺序连续安装；未知软件、登录、会员和授权会明确列出。不要把“我已完成”当作客户端验证成功。', 'Compare light, medium and full plans and confirm the goal and checklist. Reuse installed tools and prepare supported software in dependency order. Unknown software, logins, subscriptions and licences stay explicit. “I have completed this” is not a verified client result.') },
-  { title: t('4 · 打开工具开始做', '4 · Open the tools and start'), body: t('有有效入口的桌面软件会创建桌面图标，也可在会话或应用中心打开。CLI 显示打开方法；支持的编程 Agent 由你选择项目文件夹后启动。把项目说明交给外部 Agent，再验证首次运行与实际效果。', 'Desktop apps with valid entries receive shortcuts and can also open from the conversation or App Center. CLI entries show opening instructions; supported coding agents start after you select a project folder. Hand off the project brief, then verify the first run and actual result.') },
+  { title: t('3 · 选方案，确认准备', '3 · Choose a plan and confirm preparation'), body: t('按目标、预算、硬件与服务条件比较方案，适合的桌面 Agent 优先。核对目标与清单后确认：已有软件复用，已支持的软件按依赖顺序连续安装；登录、会员、授权及暂不支持的安装器明确列为待办。', 'Compare plans by goal, budget, hardware and service access, preferring a suitable desktop agent. Confirm the goal and checklist: reuse installed tools, prepare supported software in dependency order and keep login, subscription, licence and unsupported-installer steps explicit.') },
+  { title: t('4 · 打开工具开始做', '4 · Open the tools and start'), body: t('桌面软件在受支持且入口验证成功时尝试创建桌面图标，也可在会话或应用中心打开。CLI 显示打开方法；支持的编程 Agent 由你选择项目文件夹后启动。把项目说明交给外部 Agent，再验证首次运行与实际效果。', 'For supported desktop apps with a verified launch entry, the client attempts to create a shortcut; you can also open them from the conversation or App Center. CLI entries show opening instructions; supported coding agents start after you select a project folder. Hand off the project brief, then verify the first run and actual result.') },
 ]);
 </script>

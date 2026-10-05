@@ -4,7 +4,7 @@
       <RouterLink class="zx-brand" to="/" @click="closeMenu">
         <ZxStar class="zx-brand__star" />
         <span>{{ siteConfig.brand.name }}</span>
-        <span class="zx-brand__ver" :title="t('官网版本', 'Site version')">{{ siteConfig.brand.version }}</span>
+        <span class="zx-brand__ver" :title="t('当前公开预览版', 'Current public preview')">{{ siteConfig.brand.version }}</span>
       </RouterLink>
 
       <nav
@@ -30,7 +30,7 @@
         <ZxThemeSwitch />
         <RouterLink class="zx-btn zx-btn--primary zx-header__cta" to="/download">
           <ZxIcon name="download" />
-          <span>{{ t('下载状态', 'Release status') }}</span>
+          <span>{{ t('下载预览版', 'Download preview') }}</span>
         </RouterLink>
         <button
           type="button"

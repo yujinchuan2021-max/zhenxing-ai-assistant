@@ -1,6 +1,6 @@
 # 安全反馈说明
 
-本说明适用于 [枕星图吧 AI 助手](https://github.com/yujinchuan2021-max/zhenxing-ai-assistant) 当前公开的 WinUI 3 / .NET 10 实现。本版可能请求管理员权限，并使用系统后端、硬件查询、第三方工具和用户配置的 AI 服务。安全报告请明确版本、受影响模块，以及问题属于本版还是某个第三方组件。
+本说明适用于 [枕星图吧AI助手](https://github.com/yujinchuan2021-max/zhenxing-ai-assistant) 当前公开的 WinUI 3 / .NET 10 实现。本版可能请求管理员权限，并使用系统后端、硬件查询、第三方工具和用户配置的 AI 服务。安全报告请明确版本、受影响模块，以及问题属于本版还是某个第三方组件。
 
 ## 报告方式
 

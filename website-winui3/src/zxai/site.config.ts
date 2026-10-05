@@ -26,23 +26,28 @@ export interface SiteLinks {
    * 页面用 `isConfigured()` 判断：有值就渲染真链接，没值就渲染诚实空态。
    */
   repo: string | null;
-  /** 本项目正式下载入口（发布后填写） */
+  /** 当前公开预览版的完整下载文件 */
   download: string | null;
+  /** 当前版本更新说明与反馈入口 */
+  releaseNotes: string | null;
+  issues: string | null;
   /** 与发布包对应的本项目源码 ZIP；实际归档并验收后填写，不影响便携版发布状态。 */
   sourceArchive: string | null;
   /** 枕星版文档站（整理完成后填写） */
   docs: string | null;
   /** 社区入口：平台已定为自托管 Discourse，2026-09-24 已上线 → 见下方 communityUrl */
   community: string | null;
-  /** 反馈渠道：先用邮箱（2026-09-24 用户确定）。页面文案只说「邮件反馈」，不提 GitHub Issues */
+  /** 邮件反馈入口；公开问题也可使用 issues */
   feedback: string | null;
 }
 
-/** 本项目首个公开包：单一 Windows x64 便携 ZIP。数值在包验收后填写。 */
+/** 当前公开预览包：单一 Windows x64 便携 ZIP。 */
 export interface ReleaseArtifact {
   version: string | null;
+  versionEn: string | null;
   sizeBytes: number | null;
   sha256: string | null;
+  publishedAt: string | null;
 }
 
 export interface UpstreamInfo {
@@ -57,7 +62,7 @@ export interface UpstreamInfo {
 
 /**
  * 反馈邮箱（2026-09-24 用户确定：反馈与建议先用这个邮箱）。
- * 站点只把它当「邮件反馈」用（mailto 链接），不提 GitHub Issues；要换邮箱只改这一处。
+ * 邮件可用于反馈不适合公开的信息；公开问题请使用 GitHub Issues。
  */
 export const feedbackEmail = 'yujinchuan2021@gmail.com';
 
@@ -71,37 +76,38 @@ export const communityUrl = 'https://community.zhenxingai.com';
 export const siteConfig = {
   brand: {
     name: '枕星图吧AI助手',
-    shortName: '枕星图吧',
-    /**
-     * 官网版本标识（2026-09-25 用户指定）：顶栏与页脚显示 `V0.1`。
-     * 与 `releaseArtifact.version`（发布包版本，仍为 null）不是一件事：**不代表已发布**。
-     */
-    version: 'V0.1',
+    shortName: '枕星图吧AI助手',
+    /** 顶栏与页脚标明当前公开预览；产品版本与预览修订号同时保留。 */
+    version: 'V0.1 · r10',
     /** 首页 <title> 的主口径 */
     title: '枕星图吧AI助手 —— 带你把 AI 用起来',
     tagline: '说出你的想法，带你把 AI 用起来',
     description:
-      '围绕目标比较方案，确认后准备已支持的软件，再交接给所选工具或 AI Agent。客户端共用 AI 设置，第三方工具按需下载；外部 Agent 仍需自己的账号或模型接入。客户端仍为私有预览，尚未公开发布。',
+      '从一句目标开始：比较方案、复用已有软件、确认后准备支持的工具，再交给所选工具或 AI Agent。统一 AI 配置，技能制作与官方技能库，枕星AI资讯和社区。V0.1 · r10 Windows x64 公开预览版已提供下载。',
   },
 
   links: {
     // 正式域名已定（2026-09-23）：canonical / og:url / og:image 自动绝对化。
     // 反馈渠道已定（2026-09-24）：先用邮箱，页面按「邮件反馈」呈现（真链接，不是空态）。
     // 社区已上线（2026-09-24，用户确认论坛首页在公网正常显示、管理员已激活）：见 communityUrl。
-    // 客户端只有私有预览，未公开发布；下载/源码仍留空，本站 /docs 提供新手指南。
+    // r10 公开预览使用 GitHub 手动下载；不代表客户端自动更新已接入 GitHub。
     siteUrl: 'https://zhenxingai.com',
-    repo: null,
-    download: null,
-    sourceArchive: null,
+    repo: 'https://github.com/yujinchuan2021-max/zhenxing-ai-assistant',
+    download: 'https://github.com/yujinchuan2021-max/zhenxing-ai-assistant/releases/download/v0.1.0-preview-r10/ZhenxingAI-v0.1-workbench-preview-20261005-r10.zip',
+    sourceArchive: 'https://github.com/yujinchuan2021-max/zhenxing-ai-assistant/archive/refs/tags/v0.1.0-preview-r10.zip',
+    releaseNotes: 'https://github.com/yujinchuan2021-max/zhenxing-ai-assistant/releases/tag/v0.1.0-preview-r10',
+    issues: 'https://github.com/yujinchuan2021-max/zhenxing-ai-assistant/issues',
     docs: 'https://zhenxingai.com/docs',
     community: communityUrl,
     feedback: `mailto:${feedbackEmail}`,
   } as SiteLinks,
 
   releaseArtifact: {
-    version: null,
-    sizeBytes: null,
-    sha256: null,
+    version: 'V0.1 · r10 公开预览版',
+    versionEn: 'V0.1 · r10 public preview',
+    sizeBytes: 431771859,
+    sha256: 'df0d2acd53f7b30faff24fd12125fb8f17676e53175629a9d381fcbac7ad7ca9',
+    publishedAt: '2026-10-05',
   } as ReleaseArtifact,
 
   /**
@@ -132,8 +138,8 @@ export const siteConfig = {
       excludeSearch: true,
     },
     /** 下载量口径（写死在文案里，避免页面各说各话）；英文侧同源 */
-    downloadCountSource: '服务端日志',
-    downloadCountSourceEn: 'server logs',
+    downloadCountSource: '文件托管方的下载记录（当前为 GitHub）',
+    downloadCountSourceEn: 'the file host’s download records (currently GitHub)',
     /** 点击事件名（下载按钮统一用它） */
     downloadEventName: 'download-click',
   },
@@ -162,9 +168,9 @@ export const siteConfig = {
 
   status: {
     /** 包、版本、大小和哈希确认后，才置 true 并填 links.download。 */
-    released: false,
-    label: '开发中 · 尚未公开发布',
-    note: 'Windows x64 私有预览正在验证中；尚无公开稳定包。正式发布后才提供下载地址、版本与校验信息。社区入口已开放。',
+    released: true,
+    label: 'V0.1 · r10 公开预览版 · 已开放下载',
+    note: '2026 年 10 月 5 日发布 Windows x64 便携版。请手动下载并完整解压到新文件夹；本版本为公开预览，真实账号登录和部分原生环境仍待复测。',
   },
 } as const;
 
@@ -174,10 +180,10 @@ export const siteConfig = {
 export const brandCopy = () =>
   lang.value === 'en'
     ? {
-        title: 'Zhenxing Tuba AI Assistant — get AI working for you',
+        title: '枕星图吧AI助手 — get AI working for you',
         tagline: 'Say what you want to do — we get AI working for you',
         description:
-          'Compare goal-based plans, confirm preparation of supported software, then hand off to your chosen tools or AI agent. Client features share AI settings; external agents need their own accounts or model connections. Tools download on demand. The client remains a private preview, not a public release.',
+          'Start with a goal: compare plans, reuse installed software, prepare supported tools after confirmation, then hand off to your chosen tools or AI agent. Unified AI setup, skill creation and a skill library, AI news and community. The V0.1 · r10 Windows x64 public preview is available to download.',
       }
     : {
         title: siteConfig.brand.title,
@@ -220,24 +226,24 @@ export const releaseState = (): { released: boolean; label: string; note: string
     ? lang.value === 'en'
       ? {
           released: true,
-          label: 'Released',
-          note: 'The Windows x64 portable ZIP is out — version, file size and SHA-256 are listed below.',
+          label: 'V0.1 · r10 public preview · available to download',
+          note: 'Windows x64 portable build, released on 5 October 2026. Download manually and extract the complete ZIP into a new folder. This is a public preview; real-account login and some native environments still need retesting.',
         }
       : {
           released: true,
-          label: '已公开发布',
-          note: 'Windows x64 便携版 ZIP 已发布，版本、文件大小和 SHA-256 校验值见下方。',
+          label: siteConfig.status.label,
+          note: siteConfig.status.note,
         }
     : lang.value === 'en'
       ? {
           released: false,
-          label: 'In development · not yet released',
-          note: 'The private Windows x64 preview is being validated. No public stable build is available. Versioned downloads and checksums will appear at public release; the community is already open.',
+          label: 'Download temporarily unavailable',
+          note: 'A download is shown only when the file, version, size and checksum are all configured. Please check the GitHub releases page for the current status.',
         }
       : {
           released: false,
-          label: siteConfig.status.label,
-          note: siteConfig.status.note,
+          label: '下载信息暂不可用',
+          note: '完整文件、版本、大小与校验值确认后才显示下载入口；当前状态请查看 GitHub 发布页。',
         };
 
 /**
@@ -251,17 +257,17 @@ export const communityCopy = () =>
     ? lang.value === 'en'
       ? {
           configured: true as const,
-          statusTitle: 'Status: the community is live (Discourse)',
+          statusTitle: '枕星AI社区 is open',
           statusBody:
-            'The community runs on the self-hosted open-source forum Discourse (GPL-2.0, official Docker deployment): tool tips, AI workflows, skill sharing and troubleshooting notes all live there. The entry link is under “Community platform” below. You can register a forum account yourself — accounts and data stay on our self-hosted instance.',
+            'Ask questions, share your goals and workflows, exchange skills, and keep useful troubleshooting notes. Open the community below to register or log in. The forum uses a separate account; no model API key is needed.',
           sectionTitle: 'What is in the community',
-          seo: 'The Zhenxing Tuba AI Assistant community runs on the self-hosted open-source forum Discourse (GPL-2.0): tool usage, AI workflows, skill sharing and troubleshooting.',
+          seo: 'The 枕星图吧AI助手 community runs on the self-hosted open-source forum Discourse (GPL-2.0): tool usage, AI workflows, skill sharing and troubleshooting.',
         }
       : {
           configured: true as const,
-          statusTitle: '当前状态：社区已开通（Discourse）',
+          statusTitle: '枕星AI社区已开通',
           statusBody:
-            '社区运行在自托管的开源论坛 Discourse（GPL-2.0，官方 Docker 部署）上：工具经验、AI 工作流、技能分享与排障经验都在里面；入口见下方「社区平台」，进站后可自行注册论坛账号（账号与数据都在我们自托管的实例里）。',
+            '交流工具经验，分享目标方案、技能与排障记录。点击下方入口，注册或登录后即可提问与交流。论坛使用独立账号，不需要提交模型 API Key。',
           sectionTitle: '社区里有什么',
           seo: '枕星图吧AI助手的社区采用自托管开源论坛 Discourse（GPL-2.0）：围绕工具使用、AI 工作流、技能分享与排障经验交流。',
         }
@@ -272,7 +278,7 @@ export const communityCopy = () =>
           statusBody:
             'The community will run on the self-hosted open-source forum Discourse (GPL-2.0, official Docker deployment). An address is prepared, but the forum is not online yet and no entry is enabled on this site, so there is no clickable link here for now. We will not register a third-party community or use a placeholder link as an official entry until it is confirmed.',
           sectionTitle: 'Planned community content',
-          seo: 'The Zhenxing Tuba AI Assistant community will run on the self-hosted open-source forum Discourse (GPL-2.0): tool usage, AI workflows, skill sharing and troubleshooting. Not yet open; the address is prepared but not enabled.',
+          seo: 'The 枕星图吧AI助手 community will run on the self-hosted open-source forum Discourse (GPL-2.0): tool usage, AI workflows, skill sharing and troubleshooting. Not yet open; the address is prepared but not enabled.',
         }
       : {
           configured: false as const,
@@ -290,23 +296,23 @@ export const docsCopy = () =>
       ? {
           configured: true as const,
           intro:
-            'Start with the four-step guide below: configure AI, describe the goal, confirm a plan, then open the prepared tools. It documents the private preview and its limits.',
-          statusTitle: 'Getting started with the private preview',
-          seo: 'Zhenxing Tuba AI Assistant getting started: global AI setup, goal workflows, supported installation, local App Center, skills and news. The client is not publicly released yet.',
+            'Download and extract the complete r10 preview, then configure AI, describe your goal, confirm a plan and open the prepared tools. This guide covers first use, skills, news and recovery.',
+          statusTitle: 'Getting started with the r10 public preview',
+          seo: '枕星图吧AI助手 r10 getting started: download and first launch, global AI setup, goal workflows, supported installation, App Center, skills, news and troubleshooting.',
         }
       : {
           configured: true as const,
-          intro: '先看下面四步：配置 AI、说目标、确认方案、打开工具。这里说明私有预览的实际流程与限制。',
-          statusTitle: '私有预览新手指南',
-          seo: '枕星图吧AI助手新手指南：AI 全局配置、目标工具流、支持软件安装、本机应用中心、技能与资讯。客户端尚未公开发布。',
+          intro: '先下载并完整解压 r10 预览包，再按四步开始：配置 AI、说目标、确认方案、打开工具。这里也提供技能、资讯与遇到问题时的操作说明。',
+          statusTitle: 'r10 公开预览新手指南',
+          seo: '枕星图吧AI助手 r10 新手指南：下载与首次启动、AI 全局配置、目标工作台、支持软件安装、应用中心、技能库、资讯与常见问题。',
         }
     : lang.value === 'en'
       ? {
           configured: false as const,
           intro:
-            'The Zhenxing docs site is not up yet: documentation will be organised and released together with the code repository. Until then this page lists trustworthy alternatives and makes clear what does not belong to this project.',
+            'The 枕星图吧AI助手 docs site is not up yet: documentation will be organised and released together with the code repository. Until then this page lists trustworthy alternatives and makes clear what does not belong to this project.',
           statusTitle: 'Status: in preparation, docs site not established',
-          seo: 'Zhenxing Tuba AI Assistant documentation is in preparation; for now you can refer to the upstream “图吧工具箱CE” documentation (external link, not this project’s docs site).',
+          seo: '枕星图吧AI助手 documentation is in preparation; for now you can refer to the upstream “图吧工具箱CE” documentation (external link, not this project’s docs site).',
         }
       : {
           configured: false as const,
@@ -320,11 +326,11 @@ export const docsCopy = () =>
 export const downloadSeoDescription = () =>
   releaseState().released
     ? lang.value === 'en'
-      ? 'Download the Zhenxing Tuba AI Assistant Windows x64 portable ZIP; this page lists the version, file size and SHA-256.'
-      : '下载枕星图吧AI助手 Windows x64 便携版 ZIP；本页提供版本、文件大小和 SHA-256 校验值。'
+      ? 'Download the 枕星图吧AI助手 V0.1 · r10 public preview for Windows x64. Includes the complete portable ZIP, source, SHA-256, first-launch instructions and known limitations.'
+      : '枕星图吧AI助手 V0.1 · r10 公开预览版已公开发布：Windows x64 完整便携 ZIP、对应源码、SHA-256、首次启动说明与已知限制。'
     : lang.value === 'en'
-      ? 'The Zhenxing Tuba AI Assistant is still in development and not yet released; this page explains the release status, system requirements, and the official entries of the upstream open-source project “图吧工具箱CE” (not this project’s release).'
-      : '枕星图吧AI助手当前处于开发阶段，尚未公开发布；本页说明发布状态、系统要求，以及上游开源项目「图吧工具箱CE」的官方入口（非本项目发布）。';
+      ? 'The 枕星图吧AI助手 is still in development and not yet released; this page explains the release status, system requirements, and the official entries of the upstream open-source project “图吧工具箱CE” (not this project’s release).'
+      : '枕星图吧AI助手下载信息暂不可用；请通过本项目 GitHub 发布页核对当前版本，本页也提供系统要求与新手指南。';
 
 /**
  * 数据说明（**单一来源**：首页、下载页与「关于」页共用同一份文字）。
@@ -336,15 +342,15 @@ export const dataNoticeCopy = () => {
   if (lang.value === 'en') {
     return {
       siteTitle: 'This site (in effect now)',
-      site: 'This site has no accounts, no ads and no tracking cookies. Analytics is configurable: the analytics script is loaded only when a self-hosted open-source Umami (MIT) script URL and website ID are configured, and it only counts page views and download-button clicks. The button fires a single “click” marker; real download counts are verified from server logs.',
-      clientStatus: released ? 'Client (current public build)' : 'Client (not yet released)',
-      client: 'The preview has an official workflow-sharing endpoint. Sharing is on by default and can be disabled in settings. When enabled, confirming a plan can send the goal, related visible conversation, selected tools and execution or download results to our server. Skill submissions and benchmark uploads are separate user actions. AI keys are stored locally; model requests go to your chosen provider, so conversations are not guaranteed to remain offline. Public-release behaviour will be documented with that build.',
+      site: 'This product site has no account system or ads. Self-hosted Umami analytics records page views and download-entry clicks without tracking cookies. Theme, font and language preferences stay in your browser. A click does not confirm a completed download; package download records are maintained by the file host, currently GitHub. The community uses its own forum account.',
+      clientStatus: released ? 'Client (r10 public preview)' : 'Client (download unavailable)',
+      client: 'Workflow sharing is on by default and can be disabled in settings. When enabled, confirming a plan can send the goal, the full visible conversation in that session (excluding hidden reasoning), selected tools and execution or download results to our server. Skill submissions and benchmark uploads are separate user actions. AI keys are stored locally; model requests go to your chosen provider. See the r10 release notes for this build’s validation scope and known limitations.',
     };
   }
   return {
     siteTitle: '本站（已生效）',
-    site: '本站没有账号体系，不投放广告，不使用追踪 Cookie。统计是可配置项：只有配置了自托管开源 Umami（MIT）的脚本地址与网站 ID 之后，页面才会加载统计脚本，且只统计页面访问与下载按钮的点击；下载按钮只发一次「点击」标记，真实下载量以服务端日志核对为准。',
-    clientStatus: released ? '客户端（当前公开版）' : '客户端（尚未公开发布）',
-    client: '预览版已有官方工具流分享入口，默认开启，可在设置中关闭。开启时，确认方案会尝试发送目标、相关可见对话、所选工具及执行与下载结果到我们的服务器。技能投稿和性能测试上传是用户另行操作。AI 密钥存于本机，模型请求会发送到你选择的服务；不能将所有对话理解为只在本机处理。正式公开版的行为会随版本说明。',
+    site: '产品介绍站没有账号体系和广告。自托管 Umami 统计页面访问与下载入口点击，不使用追踪 Cookie；主题、字体与语言偏好保存在浏览器本地。点击不代表下载完成，文件下载记录由托管方提供，当前为 GitHub。社区另有独立论坛账号。',
+    clientStatus: released ? '客户端（r10 公开预览版）' : '客户端（下载信息暂不可用）',
+    client: '工具流分享默认开启，可在设置中关闭。开启时，确认方案会尝试发送目标、该会话的完整可见对话（不含隐藏思考过程）、所选工具及执行与下载结果到我们的服务器。技能投稿和性能测试上传是用户另行操作。AI 密钥存于本机，模型请求会发送到你选择的服务。当前版本的验证范围与已知限制见 r10 更新说明。',
   };
 };

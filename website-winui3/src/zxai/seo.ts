@@ -52,20 +52,19 @@ export const buildPageSeoMap = (): Record<string, PageSeo> => {
         '@context': 'https://schema.org',
         '@type': 'SoftwareApplication',
         name: brandName,
-        alternateName: en ? 'Zhenxing Tuba AI Assistant' : '枕星图吧',
         description: brand.description,
         applicationCategory: 'UtilitiesApplication',
         operatingSystem: factSet.minOs,
         softwareRequirements: `${factSet.minOs}；${release.released ? 'x64' : factSet.archs}`,
+        softwareVersion: release.released ? (en ? siteConfig.releaseArtifact.versionEn : siteConfig.releaseArtifact.version) : undefined,
+        datePublished: release.released ? siteConfig.releaseArtifact.publishedAt : undefined,
         license: siteConfig.upstream.licenseUrl,
         isAccessibleForFree: true,
         offers: { '@type': 'Offer', price: '0', priceCurrency: 'CNY' },
         // 不写评分或下载量；下载地址只有在整包信息齐备且发布开关开启后才输出。
         downloadUrl: release.released ? siteConfig.links.download : undefined,
         releaseNotes: release.released
-          ? en
-            ? `Windows x64 portable build ${siteConfig.releaseArtifact.version} is released.`
-            : `Windows x64 便携版 ${siteConfig.releaseArtifact.version} 已发布。`
+          ? siteConfig.links.releaseNotes
           : en
             ? 'A derivative of the upstream open-source project “图吧工具箱CE” (GPL-3.0); currently in development.'
             : '基于上游开源项目「图吧工具箱CE」（GPL-3.0）的衍生改造，当前处于开发阶段。',
@@ -73,13 +72,13 @@ export const buildPageSeoMap = (): Record<string, PageSeo> => {
       },
     },
     download: {
-      title: en ? `Release status — ${brandName}` : `下载状态 —— ${brandName}`,
+      title: en ? `Download r10 preview — ${brandName}` : `下载 r10 公开预览版 —— ${brandName}`,
       // 描述随 releaseState() 切换（与下载页文案同一来源）
       description: downloadSeoDescription(),
       path: '/download',
     },
     docs: {
-      title: en ? `Documentation — ${brandName}` : `文档 —— ${brandName}`,
+      title: en ? `Getting started — ${brandName}` : `新手指南 —— ${brandName}`,
       // 描述随 links.docs 切换：未配置说明「整理中」，配置后不再说未建立
       description: docsCopy().seo,
       path: '/docs',
@@ -93,7 +92,7 @@ export const buildPageSeoMap = (): Record<string, PageSeo> => {
     about: {
       title: en ? `About — ${brandName}` : `关于 —— ${brandName}`,
       description: en
-        ? 'About the Zhenxing Tuba AI Assistant: what it is, how it relates to the upstream open-source project “图吧工具箱CE”, licensing and credits.'
+        ? 'About the 枕星图吧AI助手: what it is, how it relates to the upstream open-source project “图吧工具箱CE”, licensing and credits.'
         : '了解枕星图吧AI助手：产品定位、与上游开源项目「图吧工具箱CE」的关系与署名、开源方向与致谢。',
       path: '/about',
     },
@@ -183,6 +182,8 @@ export function applyPageSeo(routeName: string) {
   setMeta('og:locale', isEn.value ? 'en_US' : 'zh_CN');
   setMeta('og:image', ogImage);
   setNameMeta('twitter:image', ogImage);
+  setNameMeta('twitter:title', seo.title);
+  setNameMeta('twitter:description', seo.description);
 
   if (absoluteUrl) {
     setMeta('og:url', absoluteUrl);

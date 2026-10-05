@@ -1,7 +1,7 @@
 {
   "name": "枕星图吧AI助手",
-  "short_name": "枕星图吧",
-  "description": "Windows 桌面工具箱：AI 助手 + 完整工具集 + 硬件信息。",
+  "short_name": "枕星图吧AI助手",
+  "description": "V0.1 · r10 公开预览版：围绕目标选方案、准备工具，统一 AI 配置，技能库、AI 资讯与社区。",
   "lang": "zh-CN",
   "start_url": "/",
   "display": "standalone",

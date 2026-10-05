@@ -1,7 +1,7 @@
 <template>
   <div class="zx-page zx-container">
     <header class="zx-page__head">
-      <p class="zx-eyebrow">About</p>
+      <p class="zx-eyebrow">{{ t('产品与项目', 'Product and project') }}</p>
       <h1 class="zx-h1" style="font-size: clamp(30px, 3.6vw, 44px)">{{ t(`关于 ${siteConfig.brand.name}`, `About ${siteConfig.brand.name}`) }}</h1>
       <p>
         {{ t('一个', 'A ') }}<strong>{{ t('目标驱动', 'goal-driven') }}</strong>{{ t('的 Windows 桌面工具：说清你想做什么，它先澄清需求、在现成工具库里选出一条工具流，能自动的自动做完、不能自动的一步步带你做，最后把过程整理成一份可以复制给 AI Agent 的项目说明。', ' Windows desktop tool: say what you want to do and it clarifies the requirements, picks a workflow from the ready-made toolbox, automates what it can and walks you through the rest, then turns the process into a project brief you can paste into an AI agent.') }}
@@ -21,9 +21,9 @@
         </article>
         <article class="zx-card">
           <div class="zx-card__icon"><ZxIcon name="info" /></div>
-          <h3>{{ t('它不是什么', 'What it is not') }}</h3>
+          <h3>{{ t('当前版本与适用范围', 'Current version and scope') }}</h3>
           <p>
-            {{ t('枕星帮助你搭建环境，不承诺替你完成开发或创作成品。工具分发、资讯、技能审核和社区由自有服务提供；模型账号、会员和费用归你选择的服务商。客户端尚未公开发布，官网不会提供虚构的下载入口。', 'Zhenxing prepares the environment; it does not promise to finish a development or creative project for you. Our services provide tool distribution, news, skill review and the community. Model accounts, subscriptions and fees belong to your chosen provider. The client is not publicly released and no download is fabricated.') }}
+            {{ t('枕星帮助你准备环境并继续使用工具，实际开发或创作由所选工具与 Agent 完成。模型账号、会员和费用按所选服务商规则处理。当前 V0.1 · r10 为公开预览版，下载、源码和已知问题说明已在本项目 GitHub 发布。', '枕星图吧AI助手 prepares the environment and helps you continue with your tools; your chosen tools and agent perform the actual development or creative work. Model accounts, subscriptions and fees follow each provider’s rules. The current V0.1 · r10 public preview, source and known issues are published on this project’s GitHub.') }}
           </p>
         </article>
       </section>
@@ -32,22 +32,22 @@
       <section>
         <h2 class="zx-h3" style="margin-bottom: 14px">{{ t('开发进度（详细）', 'Development progress (detailed)') }}</h2>
         <p v-if="release().released" class="zx-small" style="margin-bottom: 16px">
-          {{ t('Windows x64 便携版已开放下载；下列功能说明以当前公开版为准，仍在开发中的功能另列。', 'The Windows x64 portable build is available for download; the features below describe the current public build, and work still in progress is listed separately.') }}
+          {{ t('Windows x64 r10 公开预览版已开放下载；下列功能以当前预览为准，需进一步验证的范围另列。', 'The Windows x64 r10 public preview is available to download. Features below describe this preview; areas needing further validation are listed separately.') }}
         </p>
         <p v-else class="zx-small" style="margin-bottom: 16px">
-          {{ t('客户端整体', 'The client as a whole is ') }}<strong>{{ t('尚未公开发布', 'not publicly released yet') }}</strong>{{ t('。「现在就能用」指', '. “Available now” means ') }}<strong>{{ t('开发版里已经能跑', 'it already runs in the dev build') }}</strong>{{ t('，不代表现在可以下载安装。', ', not that you can download and install it today.') }}
+          {{ t('当前下载信息不完整，请到本项目 GitHub 发布页核对版本、文件与校验值。', 'Download information is incomplete. Check the version, file and checksum on this project’s GitHub release page.') }}
         </p>
         <div class="zx-grid-2">
           <article class="zx-card">
             <div class="zx-card__icon"><ZxIcon name="check" /></div>
-            <h3>{{ release().released ? t('当前公开版已实现', 'In the current public build') : t('现在就能用（开发版中已实现）', 'Available now (already in the dev build)') }}</h3>
+            <h3>{{ release().released ? t('当前公开预览版提供', 'In the current public preview') : t('开发版已接入', 'In the development build') }}</h3>
             <ul class="zx-list zx-list--dense">
               <li v-for="item in availableNow" :key="item">{{ item }}</li>
             </ul>
           </article>
           <article class="zx-card">
             <div class="zx-card__icon"><ZxIcon name="sparkle" /></div>
-            <h3>{{ t('正式发布前继续验证', 'Further validation before public release') }}</h3>
+            <h3>{{ t('稳定版前继续验证', 'Further validation before a stable release') }}</h3>
             <ul class="zx-list zx-list--dense">
               <li v-for="item in inProgress" :key="item">{{ item }}</li>
             </ul>
@@ -161,7 +161,7 @@
           <li><strong>{{ t('工程与验收', 'Engineering and acceptance') }}</strong>{{ t('：数据根隔离、启动守卫与回归测试体系，优先保证“测出来的结果可复现”。', ': isolated data roots, startup guards and a regression-test system, with priority on reproducible results.') }}</li>
         </ul>
         <p class="zx-small" style="margin-top: 14px">
-          {{ release().released ? t('以上为方向性概述；具体功能以当前公开版客户端实际界面为准。', 'The list above is a directional overview; what the public build actually shows in its UI is the reference.') : t('以上为方向性概述；具体功能以发布后的客户端为准。当前尚未公开发布。', 'The list above is a directional overview; the finished client is the reference. It has not been publicly released yet.') }}
+          {{ t('具体能力以当前 r10 客户端界面和更新说明为准；本次测试范围不等于所有功能或真实账号已完成验收。', 'Use the current r10 UI and release notes as the reference. The tests for this update do not constitute acceptance of every feature or real-account environment.') }}
         </p>
       </section>
 
