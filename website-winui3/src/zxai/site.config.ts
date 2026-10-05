@@ -168,7 +168,7 @@ export const siteConfig = {
 
   status: {
     /** 包、版本、大小和哈希确认后，才置 true 并填 links.download。 */
-    released: false, // Open only after the real 0.1.1 package and mirrors are verified.
+    released: true, // Open only after the real 0.1.1 package and mirrors are verified.
     label: '0.1.1 公开预览版 · 已开放下载',
     note: '2026 年 10 月 5 日发布 Windows x64 便携版。旧 0.1.0 可检测新版提示；下载与校验后仍需关闭旧版、完整解压到新文件夹并手动启动。本版本为公开预览，真实账号登录和部分原生环境仍待复测。',
   },

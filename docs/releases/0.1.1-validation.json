@@ -85,9 +85,11 @@
   "updateBehavior": {
     "channel": "preview",
     "ownHttpsOnly": true,
-    "legacyPreviewCompatibilityBridgePlanned": true,
     "downloadSizeAndShaVerified": true,
-    "automaticProgramReplacementImplemented": false
+    "automaticProgramReplacementImplemented": false,
+    "legacyPreviewCompatibilityBridgePublished": true,
+    "previewManifestUrl": "https://zhenxingai.com/updates/preview.json",
+    "legacyManifestUrl": "https://zhenxingai.com/updates/stable.json"
   },
   "nativeValidation": {
     "fullNativeClientAcceptancePassed": false,
@@ -98,5 +100,11 @@
   "screenshots": {
     "genuineCurrentFullClientScreenshotsReplaced": false,
     "blocker": "Documented native capture tool could not initialize; screenshot refresh is a separate unfinished task."
+  },
+  "publicArtifactVerification": {
+    "githubVerified": true,
+    "officialMirrorVerified": true,
+    "packageBytes": 397143175,
+    "packageSha256": "1715c3173baee8738aba08177b45a93ca28f320dc4432c746ceffb892244be8d"
   }
 }

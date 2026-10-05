@@ -1,13 +1,12 @@
 {
   "schema": "zhenxing-git-source-manifest/1",
-  "snapshotKind": "0.1.1 preview release source",
-  "tag": "v0.1.1-preview",
-  "version": "0.1.1",
-  "previousReleaseTag": "v0.1.0-preview-r10",
-  "releaseNote": "This source snapshot builds 0.1.1. The previous R10 tag and package remain immutable.",
-  "hashScope": "Git index blob content normalized by .gitattributes; excludes this manifest.",
+  "snapshotKind": "current source with verified 0.1.1 public downloads",
+  "referenceReleaseTag": "v0.1.1-preview",
+  "baseCodeCommit": "5b00bda29577c86ac9e84ca9d8d3c29400e04faa",
+  "releaseNote": "The 0.1.1 release tag and ZIP are immutable. This manifest covers current public documentation and source.",
+  "hashScope": "Git index blobs normalized by .gitattributes; excludes this manifest.",
   "fileCount": 1931,
-  "totalBytes": 214658685,
+  "totalBytes": 214659052,
   "files": [
     {
       "path": ".all-contributorsrc",
@@ -9383,9 +9382,9 @@
     },
     {
       "path": "docs/releases/0.1.1-validation.json",
-      "gitBlob": "c92bdff7c162531fe16c696d171962883ccf76cc",
-      "bytes": 3417,
-      "sha256": "b42fdc5b75f455e12fee1f61ce76b6fbe67dd6dd2870a38bf491f8927261b6e5"
+      "gitBlob": "0c3a17fd268de3ca6a7b45904a4faf7f456c5bc4",
+      "bytes": 3785,
+      "sha256": "a8a4b4f06482e9315936b34328f4da5f3aadd0fdc94e872967d737c48c5a2f6b"
     },
     {
       "path": "docs/releases/r10-validation.json",
@@ -11399,9 +11398,9 @@
     },
     {
       "path": "website-winui3/src/zxai/site.config.ts",
-      "gitBlob": "78fd10f9efe03d551f717800118c7cf7c5c41297",
-      "bytes": 20743,
-      "sha256": "d8c7cacaa468fb5f987ce6b2795d634287eeec19c1b3f0aace4835d0517d575e"
+      "gitBlob": "de39c7f1561de2346142dc470a39c026f2d59f27",
+      "bytes": 20742,
+      "sha256": "f5d73433554241fdc189921e1aa8b9715e8fdd6f08a37765416dbc93b87df23e"
     },
     {
       "path": "website-winui3/src/zxai/styles/zxai.css",
