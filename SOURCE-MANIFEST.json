@@ -1,12 +1,12 @@
 {
   "schema": "zhenxing-git-source-manifest/1",
-  "snapshotKind": "current source with public documentation and portal copy refresh",
+  "snapshotKind": "current source with verified R10 mirror and upgrade documentation",
   "referenceReleaseTag": "v0.1.0-preview-r10",
   "baseCodeCommit": "ceb80264d729a1f7517eb557555572aaf5888f04",
   "releaseNote": "The r10 tag and release ZIP remain immutable. This manifest covers the current source and updated documentation, not the frozen r10 tag tree.",
   "hashScope": "Git index blob content; text is normalized by .gitattributes. This manifest excludes itself.",
   "fileCount": 1928,
-  "totalBytes": 214620033,
+  "totalBytes": 214623442,
   "files": [
     {
       "path": ".all-contributorsrc",
@@ -124,9 +124,9 @@
     },
     {
       "path": "README.md",
-      "gitBlob": "b11853a24626a919ba78f59d387ef7b473f0bd2a",
-      "bytes": 9876,
-      "sha256": "bd557f71265c9a04c39e51f0a123b939c58c9b23c29b6d9554821b869927ad03"
+      "gitBlob": "3b2bebfe47e2f3d080a775a6eb3b44ca6ab6e695",
+      "bytes": 10407,
+      "sha256": "15831928afd08ee1a6ffe31eaf6488c6534dd31f2891940c848b43c27f47aece"
     },
     {
       "path": "SECURITY.md",
@@ -9358,15 +9358,15 @@
     },
     {
       "path": "docs/faq.md",
-      "gitBlob": "9a74ec0754334aee952ee500f48690f4a5f642b0",
-      "bytes": 7713,
-      "sha256": "f73dbbad5a9b91f41f129dc7a12e4f1feb599bbc25544fdb795a54c5c7398888"
+      "gitBlob": "29940e8d351e2ee432452795898370aa9704befd",
+      "bytes": 8492,
+      "sha256": "01114701a07bdea60f38f9641901108eb8797735e8a4838bdefca28715bfa2d1"
     },
     {
       "path": "docs/getting-started.md",
-      "gitBlob": "1162cb2003cbde3eba8113e0b25b059f0ac6b5fe",
-      "bytes": 6749,
-      "sha256": "7e190c69234b9bc6eff8e6d09013a7b58c056b3be90bdf0f444aa0339992ea05"
+      "gitBlob": "4a55d6332c20069fbcd9cb2999c49da0c58c3393",
+      "bytes": 8357,
+      "sha256": "12df52512d853114be198f48daf7078a795cd65c4c995955e3049161655c26b7"
     },
     {
       "path": "docs/releases/r10-validation.json",
@@ -11350,9 +11350,9 @@
     },
     {
       "path": "website-winui3/src/zxai/pages/DownloadPage.vue",
-      "gitBlob": "a8769bd28a1bb35e950c49d78bfcf1013bf93852",
-      "bytes": 14889,
-      "sha256": "8349f7598a9766c179c1645cc86b22fbd2d85ee41685e30b0adb89d583b28d04"
+      "gitBlob": "e5c018fdb10df6c1da2b09bfed7423a9ab21d1f7",
+      "bytes": 15384,
+      "sha256": "63fdd73551e0c5c13a9a46b0e713ec11ad0b209a1cb39e89d9c3c1aee7b220a7"
     },
     {
       "path": "website-winui3/src/zxai/pages/HomePage.vue",
@@ -11380,9 +11380,9 @@
     },
     {
       "path": "website-winui3/src/zxai/site.config.ts",
-      "gitBlob": "4945b9c04cdd4fd774cd987bbd17a6ac20e6e183",
-      "bytes": 20590,
-      "sha256": "ef253c9f1c021667eeefed162b9e6dc7b72abf789a0c7e4072330f346689e7ba"
+      "gitBlob": "c24351367c32cf044f0b71c63f96ad0bfed7b406",
+      "bytes": 20586,
+      "sha256": "b24c62321fd95f10cc232ffa59d531e653e1eb9517f1c07d2ddfc755f6247586"
     },
     {
       "path": "website-winui3/src/zxai/styles/zxai.css",

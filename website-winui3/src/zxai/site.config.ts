@@ -90,10 +90,10 @@ export const siteConfig = {
     // 正式域名已定（2026-09-23）：canonical / og:url / og:image 自动绝对化。
     // 反馈渠道已定（2026-09-24）：先用邮箱，页面按「邮件反馈」呈现（真链接，不是空态）。
     // 社区已上线（2026-09-24，用户确认论坛首页在公网正常显示、管理员已激活）：见 communityUrl。
-    // r10 公开预览使用 GitHub 手动下载；不代表客户端自动更新已接入 GitHub。
+    // 官网镜像逐字节核验 r10 原包；GitHub 发布页保留备用下载和来源。
     siteUrl: 'https://zhenxingai.com',
     repo: 'https://github.com/yujinchuan2021-max/zhenxing-ai-assistant',
-    download: 'https://github.com/yujinchuan2021-max/zhenxing-ai-assistant/releases/download/v0.1.0-preview-r10/ZhenxingAI-v0.1-workbench-preview-20261005-r10.zip',
+    download: 'https://zhenxingai.com/downloads/ZhenxingAI-v0.1-workbench-preview-20261005-r10.zip',
     sourceArchive: 'https://github.com/yujinchuan2021-max/zhenxing-ai-assistant/archive/refs/tags/v0.1.0-preview-r10.zip',
     releaseNotes: 'https://github.com/yujinchuan2021-max/zhenxing-ai-assistant/releases/tag/v0.1.0-preview-r10',
     issues: 'https://github.com/yujinchuan2021-max/zhenxing-ai-assistant/issues',
@@ -138,8 +138,8 @@ export const siteConfig = {
       excludeSearch: true,
     },
     /** 下载量口径（写死在文案里，避免页面各说各话）；英文侧同源 */
-    downloadCountSource: '文件托管方的下载记录（当前为 GitHub）',
-    downloadCountSourceEn: 'the file host’s download records (currently GitHub)',
+    downloadCountSource: '官网下载服务与 GitHub 的文件下载记录，按来源分别核对',
+    downloadCountSourceEn: 'file download records from the official download service and GitHub, verified separately by source',
     /** 点击事件名（下载按钮统一用它） */
     downloadEventName: 'download-click',
   },

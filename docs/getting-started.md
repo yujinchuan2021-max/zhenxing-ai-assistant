@@ -2,7 +2,7 @@
 
 枕星图吧AI助手帮助你把目标拆成可执行的工具使用路径。第一次使用，先完成客户端启动和 AI 配置，再从一个具体目标开始。
 
-[下载 Windows x64 便携包](https://github.com/yujinchuan2021-max/zhenxing-ai-assistant/releases/download/v0.1.0-preview-r10/ZhenxingAI-v0.1-workbench-preview-20261005-r10.zip) · [常见问题](faq.md) · [r10 更新说明](releases/r10.md) · [回到项目首页](../README.md)
+[官网下载 Windows x64 便携包](https://zhenxingai.com/downloads/ZhenxingAI-v0.1-workbench-preview-20261005-r10.zip) · [GitHub 备用下载](https://github.com/yujinchuan2021-max/zhenxing-ai-assistant/releases/tag/v0.1.0-preview-r10) · [常见问题](faq.md) · [r10 更新说明](releases/r10.md) · [回到项目首页](../README.md)
 
 ## 1. 启动客户端
 
@@ -73,7 +73,14 @@
 
 ## 升级与反馈
 
-升级时关闭旧版，将新包完整解压到新文件夹。不要将旧 Electron 版本的更新机制当成 r10 的升级方式。下载前可在 [发布说明](releases/r10.md) 查看文件大小和 SHA-256。
+官网下载镜像与 GitHub 的 r10 原包字节相同，大小与 SHA-256 见 [发布说明](releases/r10.md)。客户端的更新清单已补齐，但 R1 到 R10 使用相同的程序版本号 `0.1.0`，旧版提示“已是最新版本”不能确认是否已安装 r10。因此，升级到 r10 需要手动下载。当前流程支持下载、校验和打开下载文件夹，不会自动替换、解压或重启程序。
+
+1. 升级前，在设置中确认实际配置保存位置，导出配置，并备份需要保留的数据目录。单独保留自行添加的工具和第三方 Agent 配置；客户端配置导出不能保证包含这些外部内容。
+2. 关闭旧客户端，将完整 ZIP 解压到新文件夹，保留旧文件夹供回退。不要覆盖仍在运行的程序，也不要只复制 EXE。
+3. 默认数据目录为 `%LOCALAPPDATA%\TubaWinUi3`，同一 Windows 用户启动新版时继续读取原位置。会话、模型配置等应保留整个数据目录，不能只保留一个设置文件。
+4. 如果选择了应用目录保存，保留旧客户端实际程序目录下的 `Data` 及其中的 `.config_location` 标记，放到新客户端相同位置；便携包中通常是 `src\Data`。如果使用自定义目录，保留位置标记并确认它仍指向原数据目录；相对路径还需保留对应目录结构。确认新版能看到原设置和会话后，再处理旧程序文件夹。
+
+历史 Electron 版本使用另一套更新和数据结构，不能把它的配置文件直接替换进 WinUI 3 数据目录，也不能承诺会话自动迁移。安装 r10 后重新配置模型服务，保留旧版数据供查阅。密钥与 Windows 用户绑定，复制到其他用户或电脑不等于可以继续解密使用。
 
 当前版本为预览版。真实社区账号注册、登录还需要实际复测，原生测试宿主退出异常仍在记录中。遇到问题请向 [社区](https://community.zhenxingai.com/) 或 [GitHub Issues](https://github.com/yujinchuan2021-max/zhenxing-ai-assistant/issues) 提供版本、系统、最后一步操作和脱敏截图。
 

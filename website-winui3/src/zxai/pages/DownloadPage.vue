@@ -28,7 +28,7 @@
             <ZxLinkOr
               name="download"
               :href="status().released ? siteConfig.links.download : null"
-              :text="t('从 GitHub 下载完整 ZIP', 'Download the complete ZIP from GitHub')"
+              :text="t('从官网下载完整 ZIP', 'Download the complete ZIP from this site')"
               :fallback="t('尚未开放下载', 'Download not open yet')"
               :external="false"
               @activate="trackDownloadClick('download-page-entry')"
@@ -68,7 +68,7 @@
         </div>
         <p v-else class="zx-note" style="margin-top: 18px">{{ t('下载文件和校验信息确认后会在这里一起公布。', 'The download file and checksums will be published here together once confirmed.') }}</p>
         <p class="zx-note" style="margin-top: 12px">
-          {{ t('下载文件托管在本项目 GitHub 发布页。官网只统计入口点击，', 'The package is hosted on this project’s GitHub release. This site counts entry clicks; ') }}
+          {{ t('官网提供已校验的完整包镜像，GitHub 发布页保留备用下载。页面只统计入口点击，', 'This site provides a verified package mirror; the GitHub release remains a backup. The page counts entry clicks; ') }}
           <strong>{{ t('点击不代表下载完成', 'a click does not confirm a completed download') }}</strong>{{ t('；下载文件的信息可在 GitHub 核对。数据说明详见', '. File information can be checked on GitHub. See the') }}
           <RouterLink to="/about">{{ t('「关于」页的数据与统计', 'data and analytics section on the About page') }}</RouterLink>{{ t('。', '.') }}
         </p>
@@ -127,11 +127,11 @@ import { isEn, t } from '../i18n';
 const status = () => releaseState();
 const faq = computed(() => [
   { question: t('这是稳定正式版吗？', 'Is this a stable release?'), answer: t('当前是公开预览版，可下载试用。功能会继续迭代，真实账号与部分原生环境尚未完成验收；请先阅读 r10 更新说明中的验证范围和已知问题。', 'This is a downloadable public preview. Features continue to evolve; real-account and some native environments are not fully accepted. Read the validation scope and known issues in the r10 release notes first.') },
-  { question: t('旧版本怎样更新到 r10？', 'How do I update to r10?'), answer: t('关闭旧客户端，手动下载 r10 并完整解压到新文件夹，再使用新文件夹的启动程序。本次 GitHub 预览包不通过客户端“检查更新”自动安装，也不沿用旧 Electron 版本的自动更新方式。', 'Close the older client, download r10 manually, extract it completely into a new folder and use the new launcher. This GitHub preview is not installed automatically by the client’s Check for updates, and it does not use the former Electron updater.') },
+  { question: t('旧版本怎样更新到 r10？', 'How do I update to r10?'), answer: t('先备份原配置和数据目录，关闭旧客户端，再完整解压到新文件夹。R1 到 R10 共用同一个程序版本号，“已是最新版本”不能确认已装 r10，需手动下载。使用应用目录或自定义数据路径时保留 Data/.config_location 标记并核对原路径；本版不会自动替换或重启，也不沿用旧 Electron 更新机制。', 'Back up your configuration and data folder, close the older client, then extract the complete ZIP into a new folder. R1–R10 share one program version, so “up to date” cannot confirm r10; download it manually. Keep Data/.config_location and verify the original path when using application-folder or custom data storage. This build does not replace or restart itself, or use the former Electron updater.') },
   { question: t('需要付费才能开始吗？', 'Must I pay to start?'), answer: t('客户端预览包可免费下载。资讯、硬件信息和工具库无需配置 AI 即可查看；AI 功能使用你配置的接口或本地服务，模型、订阅和第三方软件的费用按各服务商规则处理。本地模型是否适合需看硬件。', 'The preview package is free to download. News, hardware information and the tool library need no AI setup. AI features use your configured API or local service; model, subscription and third-party software fees follow each provider’s terms. Local models require suitable hardware.') },
   { question: t('是否所有软件都能自动装好？', 'Can every tool install automatically?'), answer: t('确认方案后，受支持的软件会连续下载、安装和检测，已有软件优先复用。账号登录、购买、许可授权以及暂不支持的安装器会明确列为待办；网页打开或用户标记完成，不等于安装和连接已验证。', 'After you confirm a plan, supported software is downloaded, installed and checked in sequence, reusing existing tools first. Logins, purchases, licence authorization and unsupported installers remain explicit steps. Opening a page or marking a step complete does not verify installation or connection.') },
   { question: t('社区仍提示授权超时怎么办？', 'What if community authorization still times out?'), answer: t('先在新客户端从社区首页重新点击注册或登录，不继续旧授权页面。若出现“在浏览器重新登录”，从该入口重新开始；浏览器的登录只在该浏览器中生效。反馈时附 r10 版本、最后一步和脱敏截图，不要提交授权链接或密码。', 'Start registration or login again from the community home page in the new client instead of continuing an old authorization page. If “Restart login in browser” appears, restart there; that login applies only to that browser. Report r10, the last action and a sanitized screenshot, with no authorization links or passwords.') },
-  { question: t('下载慢或打不开 GitHub 怎么办？', 'What if GitHub is slow or unreachable?'), answer: t('目前完整包托管在 GitHub。可稍后从同一个发布页重试，下载后核对文件名、大小和 SHA-256；本页没有提供未经确认的镜像。源码 ZIP 是供开发者使用的代码，不是可运行的客户端。', 'The complete package is currently hosted on GitHub. Retry the same release page later and check the filename, size and SHA-256 after downloading. No unverified mirror is offered here. The source ZIP is developer code, not the runnable client.') },
+  { question: t('下载慢或打不开 GitHub 怎么办？', 'What if GitHub is slow or unreachable?'), answer: t('优先使用本页的官网下载按钮。官网镜像与 GitHub 原包具有相同的大小和 SHA-256；如果一处网络不通，可通过 GitHub 更新说明页使用备用下载。下载后按本页信息核对文件。源码 ZIP 是供开发者使用的代码，不是可运行的客户端。', 'Use the official download button on this page first. The site mirror has the same size and SHA-256 as the original GitHub package. If one route is unavailable, use the GitHub release notes page for the backup download, then check the file against the details here. The source ZIP is developer code, not the runnable client.') },
 ]);
 const formatSize = (bytes: number | null) =>
   bytes === null ? '' : bytes >= 1024 ** 3

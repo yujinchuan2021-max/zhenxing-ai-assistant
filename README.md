@@ -6,7 +6,7 @@
 
 当前公开版本：**V0.1 · r10 公开预览版**，2026 年 10 月 5 日发布，采用 **WinUI 3 / .NET 10**，提供 **Windows x64 便携包**。
 
-[**下载 r10 完整包**](https://github.com/yujinchuan2021-max/zhenxing-ai-assistant/releases/download/v0.1.0-preview-r10/ZhenxingAI-v0.1-workbench-preview-20261005-r10.zip) · [新版使用指南](docs/getting-started.md) · [常见问题](docs/faq.md) · [更新说明](docs/releases/r10.md)
+[**官网下载 r10 完整包**](https://zhenxingai.com/downloads/ZhenxingAI-v0.1-workbench-preview-20261005-r10.zip) · [GitHub 备用下载](https://github.com/yujinchuan2021-max/zhenxing-ai-assistant/releases/tag/v0.1.0-preview-r10) · [新版使用指南](docs/getting-started.md) · [常见问题](docs/faq.md) · [更新说明](docs/releases/r10.md)
 
 [官网](https://zhenxingai.com/) · [枕星AI资讯](https://zhenxingai.com/ai-news/) · [枕星AI社区](https://community.zhenxingai.com/) · [反馈问题](https://github.com/yujinchuan2021-max/zhenxing-ai-assistant/issues)
 
@@ -46,6 +46,8 @@
 4. 准备完成后，从任务工作台或应用中心打开工具。支持的桌面软件会尝试创建桌面快捷方式；CLI 会提供终端使用说明和启动命令。
 
 **还没有 AI 接口也能使用本机工具、应用中心和公开技能目录，并阅读服务器已更新的 AI 资讯。** 对话、AI 技能制作和个人资讯整理等模型功能需要可用的 AI 配置。外部 Agent 的账号、订阅和模型接入仍由相应产品决定，客户端的一次配置不会自动登录第三方软件。
+
+**升级到 r10 请完整下载并解压到新文件夹。** R1 到 R10 使用相同的程序版本号，旧预览客户端的“已是最新版本”不能判断是否已安装 r10；本版也不会自动替换和重启。官网下载与 GitHub 原包具有相同的大小和 SHA-256。升级前保留原数据目录；使用应用目录或自定义路径保存数据时，还需保留位置标记，步骤见 [升级说明](docs/getting-started.md#升级与反馈)。
 
 ## 新版有哪些入口
 
