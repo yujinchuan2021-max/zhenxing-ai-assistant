@@ -675,7 +675,7 @@ public partial class App : Application
             // 平台/形态不匹配（如非 x64 便携包）：仅提示去官网手动下载，避免无响应按钮
             if (result.Status == UpdateCheckStatus.ManualDownload && result.Update is not null)
             {
-                if (UpdateService.GetSkippedVersion() == result.Update.Version) return false;
+                if (UpdateService.IsSameVersion(UpdateService.GetSkippedVersion(), result.Update.Version)) return false;
                 if (MainWindow?.DispatcherQueue is null) return false;
 
                 MainWindow.DispatcherQueue.TryEnqueue(() =>
@@ -691,7 +691,7 @@ public partial class App : Application
             if (result.Status != UpdateCheckStatus.UpdateAvailable || update is null) return false;
 
             var skipped = UpdateService.GetSkippedVersion();
-            if (skipped == update.Version) return false;
+            if (UpdateService.IsSameVersion(skipped, update.Version)) return false;
 
             if (MainWindow?.DispatcherQueue is null) return false;
 

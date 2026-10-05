@@ -3,6 +3,8 @@ namespace TubaWinUi3.Models;
 public sealed class UpdateInfo
 {
     public required string Version { get; init; }
+    public string? ReleaseChannel { get; init; }
+    public string? ReleaseLabel { get; init; }
     public required string HtmlUrl { get; init; }
     public string? Body { get; init; }
     public required DateTimeOffset PublishedAt { get; init; }
@@ -18,7 +20,7 @@ public sealed class UpdateAsset
     public string? ContentType { get; init; }
     public string? GitCodeDownloadUrl { get; set; }
 
-    /// <summary>自有更新通道（zhenxingai.com 稳定版清单）提供的 SHA-256（小写十六进制，64 字符）。
+    /// <summary>自有更新通道（zhenxingai.com 预览版清单）提供的 SHA-256（小写十六进制，64 字符）。
     /// 上游通道的资产里没有该字段（保持 null）。</summary>
     public string? Sha256 { get; init; }
 }

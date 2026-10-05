@@ -120,7 +120,7 @@ public static class BenchmarkCloudService
                 image = await File.ReadAllBytesAsync(pngPath, ct);
             }
             var body = BenchmarkProtocol.Create(result, kind, image,
-                typeof(BenchmarkCloudService).Assembly.GetName().Version?.ToString() ?? "0.1", RuntimeInformation.OSDescription);
+                UpdateService.CurrentVersion.ToString(3), RuntimeInformation.OSDescription);
             progress?.Report(PerfTexts.T("正在提交到枕星后台..."));
             var receipt = await JsonAsync<BenchmarkUploadReceipt>(Request(HttpMethod.Post, "v1/benchmarks", Identity.GetOrCreate(), body), ct);
             if (receipt.ReportId != body.ReportId || receipt.Status is not ("pending" or "accepted" or "rejected" or "withdrawn"))

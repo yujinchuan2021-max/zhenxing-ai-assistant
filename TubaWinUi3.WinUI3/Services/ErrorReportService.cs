@@ -198,7 +198,6 @@ public static class ErrorReportService
 
     private static string GetAppVersion()
     {
-        var v = Assembly.GetExecutingAssembly().GetName().Version;
-        return v is not null ? $"{v.Major}.{v.Minor}.{v.Build}" : "1.0.0";
+        return UpdateService.CurrentVersion.ToString(3);
     }
 }

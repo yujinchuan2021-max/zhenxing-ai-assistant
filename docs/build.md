@@ -5,13 +5,13 @@
 ## 开发环境
 
 - Windows 10 2004（build 19041）或更新版本；开发和界面验证建议使用 Windows 11。
-- .NET SDK **10.0.401**：r10 构建使用的版本。
+- .NET SDK **10.0.401**：0.1.1 构建使用的版本。
 - Windows SDK **10.0.26100**。项目目标为 `net10.0-windows10.0.26100.0`，NuGet 引用的 SDK BuildTools 版本见主项目文件。
 - PowerShell、可访问 NuGet 的网络环境；打包和独立服务需要 Python。
 - WebView2 Evergreen Runtime：资讯、社区及部分内置网页功能需要。
 - 原生启动器单独编译时需要 Zig；直接编译主客户端无需先编译启动器。
 
-建议先运行 `dotnet --info` 确认实际使用的 SDK。`TubaWinUi3.Compatible/` 是另一套 .NET Framework 4.8 兼容实现，不作为当前 r10 WinUI 客户端的主构建目标。
+建议先运行 `dotnet --info` 确认实际使用的 SDK。`TubaWinUi3.Compatible/` 是另一套 .NET Framework 4.8 兼容实现，不作为当前 0.1.1 WinUI 客户端的主构建目标。
 
 ## 轻量源码构建
 
@@ -33,9 +33,17 @@ dotnet restore .\TubaWinUi3.Tests\TubaWinUi3.Tests.csproj -p:Platform=x64 -p:Exc
 dotnet test .\TubaWinUi3.Tests\TubaWinUi3.Tests.csproj -c Release -p:Platform=x64 -p:ExcludeToolsFromPublish=true --no-restore --filter "FullyQualifiedName~CommunityAppearanceTests|FullyQualifiedName~CommunitySiteTests|FullyQualifiedName~CommunityAuthenticationTests"
 ```
 
-上述筛选对应 r10 的社区相关逻辑验证，并非全项目测试结果。其他测试应按变更范围选择；不要用真实账号、真实 API Key 或真实安装卸载来代替隔离验证。
+上述筛选对应历史 r10 的社区相关逻辑验证，并非本轮 0.1.1 或全项目测试结果。其他测试应按变更范围选择；不要用真实账号、真实 API Key 或真实安装卸载来代替隔离验证。
 
-2026 年 10 月 5 日，维护者从本次整理的公开源码目录重新还原依赖并构建了主客户端、后端和测试项目，以上 207 项社区相关测试全部通过（0 失败、0 跳过）。构建仍有现有空值和分析器警告；这项结果不代表所有测试或完整发行组装均已验证。
+历史 r10 在 2026 年 10 月 5 日从当时整理的公开源码目录重新还原依赖并构建了主客户端、后端和测试项目，以上 207 项社区相关测试全部通过（0 失败、0 跳过）。这是 r10 的历史结果；构建仍有现有空值和分析器警告，不代表本轮 0.1.1 的全部验证结果。
+
+本轮 0.1.1 的 102 项版本身份、更新通道、更新检查和错误报告相关逻辑测试全部通过（0 失败、0 跳过），对应筛选命令为：
+
+```powershell
+dotnet test .\TubaWinUi3.Tests\TubaWinUi3.Tests.csproj -c Release -p:Platform=x64 -p:ExcludeToolsFromPublish=true --no-restore --filter "FullyQualifiedName~DistributionIdentityTests|FullyQualifiedName~UpdateServiceTests|FullyQualifiedName~PreviewUpdateChannelTests|FullyQualifiedName~ErrorReportTests"
+```
+
+本轮还完成了 8 项离线运行时检查和独立审包；公开范围与结果见 [0.1.1 验证记录](releases/0.1.1-validation.json) 和 [发行说明](releases/0.1.1-preview.md)。这些检查不代表全项目测试、所有用户流程、真实账号登录或完整原生环境均已验收。
 
 `TubaWinUi3.XamlHostRunner/` 是单独的原生 XAML/WebView2 验证宿主，可运行指定用例：
 
@@ -46,7 +54,7 @@ dotnet build .\TubaWinUi3.XamlHostRunner\TubaWinUi3.XamlHostRunner.csproj -c Rel
 
 用例名称与执行参数见宿主的 `Program.cs` 和对应 `*Cases.cs`。设置独立的 `ZXAI_DATA_ROOT` 与临时目录后再执行，避免触碰使用中的客户端数据。社区授权用例拦截网页请求，在内存里提供合成页面、表单和 Cookie，不执行真实账号授权。
 
-r10 的两个原生社区授权功能用例通过；验证宿主退出时，当前验证机的微信输入法 `wetype_tip.dll` 仍触发 `0xc0000409`。应同时记录功能断言和进程退出结果，不能把断言通过当成完整原生验收通过。
+历史 r10 的两个原生社区授权功能用例通过；验证宿主退出时，当前验证机的微信输入法 `wetype_tip.dll` 仍触发 `0xc0000409`。应同时记录功能断言和进程退出结果，不能把断言通过当成完整原生验收通过。
 
 ## 自包含发布
 
@@ -60,7 +68,7 @@ dotnet publish .\TubaWinUi3.WinUI3\TubaWinUi3.csproj -c Release -r win-x64 --sel
 
 ## 私有 Node / dsh 运行时
 
-AI 引擎与 .NET 客户端分开。需要复现 r10 随包的 dsh 引擎时，先准备合法取得的 **Node v22.23.2** 与 **`@deepseek-ai/dsh` 0.1.5-rc.2**。dsh 目录需要包含 `lib/bin.js`、`package.json` 和安装完整的运行依赖，不是只有源码文件。
+AI 引擎与 .NET 客户端分开。需要复现 0.1.1 随包的 dsh 引擎时，先准备合法取得的 **Node v22.23.2** 与 **`@deepseek-ai/dsh` 0.1.5-rc.2**。dsh 目录需要包含 `lib/bin.js`、`package.json` 和安装完整的运行依赖，不是只有源码文件。
 
 下面的输入路径是示例，替换成自己准备的专用目录：
 
@@ -74,7 +82,7 @@ python .\scripts\verify-dsh-runtime.py .\TubaWinUi3.WinUI3\runtime --report .\ar
 
 ## 启动器与发行目录
 
-直接运行发布目录中的 `TubaWinUi3.exe` 可用于开发验证。面向用户的 r10 便携包另有根目录启动器，布局为：
+直接运行发布目录中的 `TubaWinUi3.exe` 可用于开发验证。面向用户的 0.1.1 便携包另有根目录启动器，布局为：
 
 ```text
 枕星图吧AI助手.exe

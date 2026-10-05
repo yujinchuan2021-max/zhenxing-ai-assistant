@@ -37,20 +37,24 @@ public sealed partial class UpdateBanner : UserControl
     /// <summary>Refresh code-behind text when the user changes language in the title bar.</summary>
     private void ApplyLocalization()
     {
-        ChangelogButton.Content = LocalizationService.L("UpdateBanner_ChangelogButton.Content", "查看更新日志");
+        ChangelogButton.Content = LocalizationService.L("UpdateBanner_ChangelogButton.Content", "更新说明");
+        PortableInstructionsText.Text = LocalizationService.L("UpdateBanner_PortableInstructions",
+            "便携版需要手动更新：先备份配置与会话，退出旧版，将完整更新包解压到新目录。系统数据目录可沿用；若使用程序目录 Data 或自定义位置，请保留原数据及配置位置标记，并在新版配置管理中核对。不会自动覆盖运行中的程序。");
+        PortableInstructionsText.Visibility = _state is BannerState.Available or BannerState.Ready
+            ? Visibility.Visible : Visibility.Collapsed;
 
         switch (_state)
         {
             case BannerState.Available when _updateInfo is not null:
                 BannerText.Text = string.Format(
-                    LocalizationService.L("UpdateBanner_NewPortableVersion", "发现新版本 V{0}（便携版更新包）"),
-                    _updateInfo.Version);
+                    LocalizationService.L("UpdateBanner_NewPortableVersion", "发现 {0}（便携版更新包）"),
+                    UpdateService.GetReleaseDisplayName(_updateInfo));
                 ActionButton.Content = LocalizationService.L("UpdateBanner_DownloadPackageButton", "下载更新包");
                 break;
             case BannerState.ManualDownload when _updateInfo is not null:
                 BannerText.Text = string.Format(
-                    LocalizationService.L("UpdateBanner_ManualVersion", "发现新版本 V{0}：当前平台请在官网手动下载"),
-                    _updateInfo.Version);
+                    LocalizationService.L("UpdateBanner_ManualVersion", "发现 {0}：当前平台请在官网手动下载"),
+                    UpdateService.GetReleaseDisplayName(_updateInfo));
                 ActionButton.Content = LocalizationService.L("UpdateBanner_OfficialDownloadButton", "前往官网下载");
                 break;
             case BannerState.Downloading:
@@ -58,7 +62,7 @@ public sealed partial class UpdateBanner : UserControl
                 ActionButton.Content = LocalizationService.L("UpdateBanner_DownloadingButton", "下载中");
                 break;
             case BannerState.Ready:
-                BannerText.Text = LocalizationService.L("UpdateBanner_PortableReady", "更新包已下载并通过校验，解压后即可使用");
+                BannerText.Text = LocalizationService.L("UpdateBanner_PortableReady", "更新包已下载并通过校验，请手动解压到新目录");
                 ActionButton.Content = LocalizationService.L("UpdateBanner_OpenFolderButton", "打开下载文件夹");
                 break;
             case BannerState.Failed:
@@ -179,16 +183,11 @@ public sealed partial class UpdateBanner : UserControl
         Visibility = Visibility.Visible;
     }
 
-    private async void ActionButton_Click(object sender, RoutedEventArgs e)
+    private void ActionButton_Click(object sender, RoutedEventArgs e)
     {
         if (_manualOnly)
         {
-            var url = _updateInfo?.HtmlUrl;
-            if (!string.IsNullOrEmpty(url))
-            {
-                try { await Windows.System.Launcher.LaunchUriAsync(new Uri(url)); }
-                catch { }
-            }
+            Pages.BrowserPage.Open(UpdateService.OwnDownloadPageUrl, LocalizationService.L("UpdateBanner_OfficialDownloadButton", "前往官网下载"));
             return;
         }
 
@@ -245,7 +244,9 @@ public sealed partial class UpdateBanner : UserControl
 
     private void ChangelogButton_Click(object sender, RoutedEventArgs e)
     {
-        WhatsNewWindow.Show();
+        if (_updateInfo is not null)
+            Pages.BrowserPage.Open(UpdateService.GetUpdateNotesUrl(_updateInfo),
+                LocalizationService.L("UpdateBanner_ChangelogButton.Content", "更新说明"));
     }
 
     private void CloseButton_Click(object sender, RoutedEventArgs e)

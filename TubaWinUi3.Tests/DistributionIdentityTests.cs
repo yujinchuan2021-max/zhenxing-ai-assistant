@@ -6,7 +6,7 @@ namespace TubaWinUi3.Tests;
 /// <summary>
 /// 【A15】发行身份防回归：本产品是独立定制发行（枕星图吧AI助手）。
 /// ① 上游（luolangaga/tubatool）程序更新闸门永久关闭（ToolsBundle 与单工具更新闸门各自独立、保持关闭）；
-/// ② 程序更新只走自有通道（https://zhenxingai.com/updates/stable.json），只接受本域 HTTPS x64 便携 ZIP，
+/// ② 程序更新只走自有预览通道（https://zhenxingai.com/updates/preview.json），只接受本域 HTTPS x64 便携 ZIP，
 ///    清单无效或网络失败必须报“检查失败”，不得谎报“已是最新版本”；
 /// ③ 下载完成后按清单 size + SHA-256 校验；就绪判断绑定当前清单（文件名/大小/SHA-256）并在提示前重算哈希，
 ///    未验证的历史残留、同大小换包与失败残留记录都不算“更新就绪”；
@@ -30,9 +30,10 @@ public class DistributionIdentityTests
         long size = 123456,
         string arch = "x64",
         string type = "portable-zip",
-        string channel = "stable")
+        string channel = "preview")
     {
-        var zipName = $"TubaWinUi3-v{version}-portable.zip";
+        var zipName = string.Equals(type, "installer-exe", StringComparison.OrdinalIgnoreCase)
+            ? $"TubaWinUi3-v{version}-setup.exe" : $"TubaWinUi3-v{version}-portable.zip";
         return $$"""
         {
           "channel": "{{channel}}",

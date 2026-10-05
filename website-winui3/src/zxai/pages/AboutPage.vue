@@ -23,7 +23,7 @@
           <div class="zx-card__icon"><ZxIcon name="info" /></div>
           <h3>{{ t('当前版本与适用范围', 'Current version and scope') }}</h3>
           <p>
-            {{ t('枕星帮助你准备环境并继续使用工具，实际开发或创作由所选工具与 Agent 完成。模型账号、会员和费用按所选服务商规则处理。当前 V0.1 · r10 为公开预览版，下载、源码和已知问题说明已在本项目 GitHub 发布。', '枕星图吧AI助手 prepares the environment and helps you continue with your tools; your chosen tools and agent perform the actual development or creative work. Model accounts, subscriptions and fees follow each provider’s rules. The current V0.1 · r10 public preview, source and known issues are published on this project’s GitHub.') }}
+            {{ t('枕星帮助你准备环境并继续使用工具，实际开发或创作由所选工具与 Agent 完成。模型账号、会员和费用按所选服务商规则处理。当前 0.1.1 为公开预览版，下载、源码和已知问题说明已在本项目 GitHub 发布。', '枕星图吧AI助手 prepares the environment and helps you continue with your tools; your chosen tools and agent perform the actual development or creative work. Model accounts, subscriptions and fees follow each provider’s rules. The current 0.1.1 public preview, source and known issues are published on this project’s GitHub.') }}
           </p>
         </article>
       </section>
@@ -32,7 +32,7 @@
       <section>
         <h2 class="zx-h3" style="margin-bottom: 14px">{{ t('开发进度（详细）', 'Development progress (detailed)') }}</h2>
         <p v-if="release().released" class="zx-small" style="margin-bottom: 16px">
-          {{ t('Windows x64 r10 公开预览版已开放下载；下列功能以当前预览为准，需进一步验证的范围另列。', 'The Windows x64 r10 public preview is available to download. Features below describe this preview; areas needing further validation are listed separately.') }}
+          {{ t('Windows x64 0.1.1 公开预览版已开放下载；下列功能以当前预览为准，需进一步验证的范围另列。', 'The Windows x64 0.1.1 public preview is available to download. Features below describe this preview; areas needing further validation are listed separately.') }}
         </p>
         <p v-else class="zx-small" style="margin-bottom: 16px">
           {{ t('当前下载信息不完整，请到本项目 GitHub 发布页核对版本、文件与校验值。', 'Download information is incomplete. Check the version, file and checksum on this project’s GitHub release page.') }}
@@ -161,7 +161,7 @@
           <li><strong>{{ t('工程与验收', 'Engineering and acceptance') }}</strong>{{ t('：数据根隔离、启动守卫与回归测试体系，优先保证“测出来的结果可复现”。', ': isolated data roots, startup guards and a regression-test system, with priority on reproducible results.') }}</li>
         </ul>
         <p class="zx-small" style="margin-top: 14px">
-          {{ t('具体能力以当前 r10 客户端界面和更新说明为准；本次测试范围不等于所有功能或真实账号已完成验收。', 'Use the current r10 UI and release notes as the reference. The tests for this update do not constitute acceptance of every feature or real-account environment.') }}
+          {{ t('具体能力以当前 0.1.1 客户端界面和更新说明为准；本次测试范围不等于所有功能或真实账号已完成验收。', 'Use the current 0.1.1 UI and release notes as the reference. The tests for this update do not constitute acceptance of every feature or real-account environment.') }}
         </p>
       </section>
 

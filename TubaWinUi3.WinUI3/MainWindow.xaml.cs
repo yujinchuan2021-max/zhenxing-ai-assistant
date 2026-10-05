@@ -163,7 +163,7 @@ public sealed partial class MainWindow : Window
         // ZXAI 2026-09-23：社区导航项已删除（用户口径），此前的 MSIX 特判移除逻辑随之移除。
 
         var version = UpdateService.CurrentVersion;
-        SplashVersionText.Text = $"V{version.Major}.{version.Minor}";
+        SplashVersionText.Text = $"V{version.ToString(3)}";
         _ = InitializeAfterSplashAsync();
     }
 

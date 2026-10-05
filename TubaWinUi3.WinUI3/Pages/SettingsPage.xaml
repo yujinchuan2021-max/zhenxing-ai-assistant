@@ -1369,7 +1369,7 @@
                             </Border>
                             <StackPanel Grid.Column="1" VerticalAlignment="Center" Spacing="2">
                                 <TextBlock FontWeight="Bold" Text="新增内容" l:Uids.Uid="Settings_WhatsNew_Title" />
-                                <TextBlock Opacity="1.0" FontSize="13" Text="查看 V0.1 本次更新" l:Uids.Uid="Settings_WhatsNew_Desc" />
+                                <TextBlock Opacity="1.0" FontSize="13" Text="查看 0.1.1 本次更新" l:Uids.Uid="Settings_WhatsNew_Desc" />
                             </StackPanel>
                             <FontIcon Grid.Column="2" FontSize="14" Glyph="&#xE76C;" Opacity="1.0" VerticalAlignment="Center" />
                         </Grid>

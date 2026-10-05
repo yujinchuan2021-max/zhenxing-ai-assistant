@@ -16,7 +16,11 @@
         BorderBrush="{ThemeResource SystemFillColorSuccessBrush}"
         BorderThickness="0,0,0,1"
         CornerRadius="0">
-        <Grid ColumnSpacing="16">
+        <Grid ColumnSpacing="16" RowSpacing="6">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
@@ -71,8 +75,8 @@
                 FontSize="12"
                 Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                 Click="ChangelogButton_Click"
-                AutomationProperties.Name="查看更新日志" l:Uids.Uid="UpdateBanner_ChangelogButton">
-                查看更新日志
+                AutomationProperties.Name="更新说明" l:Uids.Uid="UpdateBanner_ChangelogButton">
+                更新说明
             </HyperlinkButton>
 
             <Button
@@ -87,6 +91,15 @@
                 AutomationProperties.Name="关闭更新提示" l:Uids.Uid="UpdateBanner_Close">
                 <FontIcon FontSize="12" Glyph="&#xE711;" />
             </Button>
+            <TextBlock
+                x:Name="PortableInstructionsText"
+                Grid.Row="1"
+                Grid.Column="1"
+                Grid.ColumnSpan="4"
+                FontSize="12"
+                TextWrapping="Wrap"
+                Visibility="Collapsed"
+                Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
         </Grid>
     </Border>
 </UserControl>

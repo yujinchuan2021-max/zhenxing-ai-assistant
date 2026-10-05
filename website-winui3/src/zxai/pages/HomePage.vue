@@ -12,7 +12,7 @@
         <div class="zx-btn-row zx-rise zx-rise--3">
           <RouterLink class="zx-btn zx-btn--primary" to="/download">
             <ZxIcon name="download" />
-            <span>{{ t('下载 r10 预览版', 'Download r10 preview') }}</span>
+            <span>{{ t('下载 0.1.1 预览版', 'Download 0.1.1 preview') }}</span>
           </RouterLink>
           <a class="zx-btn" href="#demo">
             <span>{{ t('看看怎么用', 'See how it works') }}</span>
@@ -22,7 +22,7 @@
 
         <p class="zx-hero__state zx-rise zx-rise--3">
           <span class="zx-dot" aria-hidden="true"></span>
-          <RouterLink v-if="release().released" to="/download">{{ t('V0.1 · r10 公开预览版 · Windows x64 · 2026-10-05', 'V0.1 · r10 public preview · Windows x64 · 5 Oct 2026') }}</RouterLink>
+          <RouterLink v-if="release().released" to="/download">{{ t('0.1.1 公开预览版 · Windows x64 · 2026-10-05', '0.1.1 public preview · Windows x64 · 5 Oct 2026') }}</RouterLink>
           <template v-else>{{ t('开发中 · 暂未开放下载', 'In development · download not open yet') }}</template>
         </p>
 
@@ -31,7 +31,7 @@
             :dark="shotAiDark"
             :light="shotAiLight"
             :alt="t('枕星图吧AI助手 · AI 助手页面实拍', '枕星图吧AI助手 · screenshot of the AI assistant page')"
-            :caption="t('应用实拍：AI 助手新对话页（界面示例，以当前 r10 客户端为准）', 'App screenshot: the AI assistant’s new-chat page (an interface example; refer to the current r10 client)')" />
+            :caption="t('应用实拍：AI 助手新对话页（界面示例，以当前 0.1.1 客户端为准）', 'App screenshot: the AI assistant’s new-chat page (an interface example; refer to the current 0.1.1 client)')" />
         </div>
       </div>
     </section>

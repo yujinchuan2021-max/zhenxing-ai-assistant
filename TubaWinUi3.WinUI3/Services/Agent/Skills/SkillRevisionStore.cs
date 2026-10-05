@@ -17,7 +17,7 @@ public sealed class SkillRevisionStore
     {
         _root = Path.Combine(Path.GetFullPath(dataRoot ?? ConfigManager.GetDataDir()), "AiAssistant", "SkillRevisions");
         _official = officialDocument ?? AiAgentWorkflowSkill.Document;
-        _clientVersion = clientVersion ?? typeof(AiAgentWorkflowSkill).Assembly.GetName().Version?.ToString() ?? "0.1";
+        _clientVersion = clientVersion ?? UpdateService.CurrentVersion.ToString(3);
         _ = SkillRevisionDocument.Split(_official);
     }
 

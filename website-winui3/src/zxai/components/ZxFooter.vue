@@ -21,7 +21,7 @@
           <h4>{{ t('产品', 'Product') }}</h4>
           <ul>
             <li><RouterLink to="/">{{ t('首页', 'Home') }}</RouterLink></li>
-            <li><RouterLink to="/download">{{ t('下载 r10 预览版', 'Download r10 preview') }}</RouterLink></li>
+            <li><RouterLink to="/download">{{ t('下载 0.1.1 预览版', 'Download 0.1.1 preview') }}</RouterLink></li>
             <li><RouterLink to="/docs">{{ t('文档', 'Docs') }}</RouterLink></li>
             <li><a href="/ai-news/">{{ t('枕星AI资讯', 'AI News') }}</a></li>
             <li><RouterLink to="/community">{{ t('社区', 'Community') }}</RouterLink></li>
@@ -33,7 +33,7 @@
           <ul>
             <li><RouterLink to="/about">{{ t('关于本项目', 'About this project') }}</RouterLink></li>
             <li><a :href="siteConfig.links.repo ?? undefined" target="_blank" rel="noopener noreferrer">{{ t('枕星图吧AI助手 GitHub', '枕星图吧AI助手 on GitHub') }}</a></li>
-            <li><a :href="siteConfig.links.releaseNotes ?? undefined" target="_blank" rel="noopener noreferrer">{{ t('r10 更新说明', 'r10 release notes') }}</a></li>
+            <li><a :href="siteConfig.links.releaseNotes ?? undefined" target="_blank" rel="noopener noreferrer">{{ t('0.1.1 更新说明', '0.1.1 release notes') }}</a></li>
             <li><a :href="siteConfig.links.issues ?? undefined" target="_blank" rel="noopener noreferrer">{{ t('反馈问题', 'Report an issue') }}</a></li>
             <li>
               <a :href="siteConfig.upstream.repo" target="_blank" rel="noopener noreferrer">

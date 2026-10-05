@@ -111,20 +111,24 @@ public sealed partial class WhatsNewWindow : Page
         var title = L("WhatsNew_Title", "新增内容");
         _window.AppWindow.Title = title;
         WindowTitleText.Text = title;
-        WindowSubtitleText.Text = L("WhatsNew_Subtitle", "V0.1 更新说明");
+        WindowSubtitleText.Text = L("WhatsNew_Subtitle", "0.1.1 公开预览版更新说明");
         ContentsTitleText.Text = L("WhatsNew_Contents", "版本");
         CloseButton.Content = L("WhatsNew_Close", "关闭");
-        VersionListLabel.Text = "V0.1";
+        VersionListLabel.Text = "0.1.1";
         RenderChangelog();
     }
 
     private void RenderChangelog()
     {
-        VersionTitleText.Text = L("WhatsNew_VersionTitle", "V0.1 本次更新");
-        VersionDateText.Text = "2026-09-30";
+        VersionTitleText.Text = L("WhatsNew_VersionTitle", "0.1.1 本次更新");
+        VersionDateText.Text = "2026-10-05";
         var changelog = string.Join("\n\n", new[]
         {
-            L("WhatsNew_PreviewNote", "本地体验版更新说明，尚未正式发布。"),
+            L("WhatsNew_PreviewNote", "0.1.1 公开预览版：以下记录本次更新行为与校验修复，实际发布状态以官网下载页为准。"),
+            "- " + L("WhatsNew_PreviewIdentity", "统一客户端与启动器版本为 0.1.1，程序更新使用官方预览通道；同版的三段与四段数字版本不再重复提示。"),
+            "- " + L("WhatsNew_PackageValidation", "更新清单先完整核对架构、包类型、官方 HTTPS 地址、文件大小与 SHA-256，再判断最新版或其他平台。清单缺失或无效时如实报错。"),
+            "- " + L("WhatsNew_ManualUpdate", "便携更新包通过校验后可打开下载目录。先备份配置与会话、退出旧版，再完整解压到新目录并核对数据位置；不会自动替换运行中的程序。更新说明在内置浏览器打开。"),
+            L("WhatsNew_R10History", "此前 V0.1（R10 预览）功能记录"),
             "- " + L("WhatsNew_AiPlan", "AI 给出完整方案后，可在该条回复下点击“使用这套方案”，核对项目和工具清单后继续。"),
             "- " + L("WhatsNew_Model", "完善模型服务接入指引，支持客户端中英文切换。"),
             "- " + L("WhatsNew_Sharing", "选定工具流统一分享到枕星服务器，默认开启，可在设置中关闭。"),

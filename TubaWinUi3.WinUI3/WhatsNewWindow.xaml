@@ -32,7 +32,7 @@
 
             <StackPanel Grid.Column="1" VerticalAlignment="Center" Spacing="2">
                 <TextBlock x:Name="WindowTitleText" FontSize="20" FontWeight="Bold" Text="新增内容" />
-                <TextBlock x:Name="WindowSubtitleText" FontSize="12" Opacity="1.0" Text="V0.1 更新说明" />
+                <TextBlock x:Name="WindowSubtitleText" FontSize="12" Opacity="1.0" Text="0.1.1 公开预览版更新说明" />
             </StackPanel>
 
             <Button
@@ -70,7 +70,7 @@
                     SelectionMode="Single"
                     SelectionChanged="VersionListView_SelectionChanged">
                     <ListViewItem>
-                        <TextBlock x:Name="VersionListLabel" FontSize="14" FontWeight="Bold" Text="V0.1" />
+                        <TextBlock x:Name="VersionListLabel" FontSize="14" FontWeight="Bold" Text="0.1.1" />
                     </ListViewItem>
                 </ListView>
             </Grid>

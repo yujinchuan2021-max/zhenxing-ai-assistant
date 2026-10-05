@@ -77,25 +77,25 @@ export const siteConfig = {
   brand: {
     name: '枕星图吧AI助手',
     shortName: '枕星图吧AI助手',
-    /** 顶栏与页脚标明当前公开预览；产品版本与预览修订号同时保留。 */
-    version: 'V0.1 · r10',
+    /** 顶栏与页脚标明当前独立程序版本和公开预览状态。 */
+    version: '0.1.1',
     /** 首页 <title> 的主口径 */
     title: '枕星图吧AI助手 —— 带你把 AI 用起来',
     tagline: '说出你的想法，带你把 AI 用起来',
     description:
-      '从一句目标开始：比较方案、复用已有软件、确认后准备支持的工具，再交给所选工具或 AI Agent。统一 AI 配置，技能制作与官方技能库，枕星AI资讯和社区。V0.1 · r10 Windows x64 公开预览版已提供下载。',
+      '从一句目标开始：比较方案、复用已有软件、确认后准备支持的工具，再交给所选工具或 AI Agent。统一 AI 配置，技能制作与官方技能库，枕星AI资讯和社区。0.1.1 Windows x64 公开预览版已提供下载。',
   },
 
   links: {
     // 正式域名已定（2026-09-23）：canonical / og:url / og:image 自动绝对化。
     // 反馈渠道已定（2026-09-24）：先用邮箱，页面按「邮件反馈」呈现（真链接，不是空态）。
     // 社区已上线（2026-09-24，用户确认论坛首页在公网正常显示、管理员已激活）：见 communityUrl。
-    // 官网镜像逐字节核验 r10 原包；GitHub 发布页保留备用下载和来源。
+    // 真实包、镜像、发布资产均核验后再开放 0.1.1；当前受发布开关保护。
     siteUrl: 'https://zhenxingai.com',
     repo: 'https://github.com/yujinchuan2021-max/zhenxing-ai-assistant',
-    download: 'https://zhenxingai.com/downloads/ZhenxingAI-v0.1-workbench-preview-20261005-r10.zip',
-    sourceArchive: 'https://github.com/yujinchuan2021-max/zhenxing-ai-assistant/archive/refs/tags/v0.1.0-preview-r10.zip',
-    releaseNotes: 'https://github.com/yujinchuan2021-max/zhenxing-ai-assistant/releases/tag/v0.1.0-preview-r10',
+    download: 'https://zhenxingai.com/downloads/ZhenxingAI-v0.1.1-preview-20261005.zip',
+    sourceArchive: 'https://github.com/yujinchuan2021-max/zhenxing-ai-assistant/archive/refs/tags/v0.1.1-preview.zip',
+    releaseNotes: 'https://github.com/yujinchuan2021-max/zhenxing-ai-assistant/releases/tag/v0.1.1-preview',
     issues: 'https://github.com/yujinchuan2021-max/zhenxing-ai-assistant/issues',
     docs: 'https://zhenxingai.com/docs',
     community: communityUrl,
@@ -103,10 +103,10 @@ export const siteConfig = {
   } as SiteLinks,
 
   releaseArtifact: {
-    version: 'V0.1 · r10 公开预览版',
-    versionEn: 'V0.1 · r10 public preview',
-    sizeBytes: 431771859,
-    sha256: 'df0d2acd53f7b30faff24fd12125fb8f17676e53175629a9d381fcbac7ad7ca9',
+    version: '0.1.1 公开预览版',
+    versionEn: '0.1.1 public preview',
+    sizeBytes: 397143175,
+    sha256: '1715c3173baee8738aba08177b45a93ca28f320dc4432c746ceffb892244be8d',
     publishedAt: '2026-10-05',
   } as ReleaseArtifact,
 
@@ -168,9 +168,9 @@ export const siteConfig = {
 
   status: {
     /** 包、版本、大小和哈希确认后，才置 true 并填 links.download。 */
-    released: true,
-    label: 'V0.1 · r10 公开预览版 · 已开放下载',
-    note: '2026 年 10 月 5 日发布 Windows x64 便携版。请手动下载并完整解压到新文件夹；本版本为公开预览，真实账号登录和部分原生环境仍待复测。',
+    released: false, // Open only after the real 0.1.1 package and mirrors are verified.
+    label: '0.1.1 公开预览版 · 已开放下载',
+    note: '2026 年 10 月 5 日发布 Windows x64 便携版。旧 0.1.0 可检测新版提示；下载与校验后仍需关闭旧版、完整解压到新文件夹并手动启动。本版本为公开预览，真实账号登录和部分原生环境仍待复测。',
   },
 } as const;
 
@@ -183,7 +183,7 @@ export const brandCopy = () =>
         title: '枕星图吧AI助手 — get AI working for you',
         tagline: 'Say what you want to do — we get AI working for you',
         description:
-          'Start with a goal: compare plans, reuse installed software, prepare supported tools after confirmation, then hand off to your chosen tools or AI agent. Unified AI setup, skill creation and a skill library, AI news and community. The V0.1 · r10 Windows x64 public preview is available to download.',
+          'Start with a goal: compare plans, reuse installed software, prepare supported tools after confirmation, then hand off to your chosen tools or AI agent. Unified AI setup, skill creation and a skill library, AI news and community. The 0.1.1 Windows x64 public preview is available to download.',
       }
     : {
         title: siteConfig.brand.title,
@@ -226,8 +226,8 @@ export const releaseState = (): { released: boolean; label: string; note: string
     ? lang.value === 'en'
       ? {
           released: true,
-          label: 'V0.1 · r10 public preview · available to download',
-          note: 'Windows x64 portable build, released on 5 October 2026. Download manually and extract the complete ZIP into a new folder. This is a public preview; real-account login and some native environments still need retesting.',
+          label: '0.1.1 public preview · available to download',
+          note: 'Windows x64 portable build, released on 5 October 2026. Older 0.1.0 clients can detect the new version. After download and verification, close the old client, extract into a new folder and launch manually. This is a public preview; real-account login and some native environments still need retesting.',
         }
       : {
           released: true,
@@ -296,15 +296,15 @@ export const docsCopy = () =>
       ? {
           configured: true as const,
           intro:
-            'Download and extract the complete r10 preview, then configure AI, describe your goal, confirm a plan and open the prepared tools. This guide covers first use, skills, news and recovery.',
-          statusTitle: 'Getting started with the r10 public preview',
-          seo: '枕星图吧AI助手 r10 getting started: download and first launch, global AI setup, goal workflows, supported installation, App Center, skills, news and troubleshooting.',
+            'Download and extract the complete 0.1.1 preview, then configure AI, describe your goal, confirm a plan and open the prepared tools. This guide covers first use, skills, news and recovery.',
+          statusTitle: 'Getting started with the 0.1.1 public preview',
+          seo: '枕星图吧AI助手 0.1.1 getting started: download and first launch, global AI setup, goal workflows, supported installation, App Center, skills, news and troubleshooting.',
         }
       : {
           configured: true as const,
-          intro: '先下载并完整解压 r10 预览包，再按四步开始：配置 AI、说目标、确认方案、打开工具。这里也提供技能、资讯与遇到问题时的操作说明。',
-          statusTitle: 'r10 公开预览新手指南',
-          seo: '枕星图吧AI助手 r10 新手指南：下载与首次启动、AI 全局配置、目标工作台、支持软件安装、应用中心、技能库、资讯与常见问题。',
+          intro: '先下载并完整解压 0.1.1 预览包，再按四步开始：配置 AI、说目标、确认方案、打开工具。这里也提供技能、资讯与遇到问题时的操作说明。',
+          statusTitle: '0.1.1 公开预览新手指南',
+          seo: '枕星图吧AI助手 0.1.1 新手指南：下载与首次启动、AI 全局配置、目标工作台、支持软件安装、应用中心、技能库、资讯与常见问题。',
         }
     : lang.value === 'en'
       ? {
@@ -326,8 +326,8 @@ export const docsCopy = () =>
 export const downloadSeoDescription = () =>
   releaseState().released
     ? lang.value === 'en'
-      ? 'Download the 枕星图吧AI助手 V0.1 · r10 public preview for Windows x64. Includes the complete portable ZIP, source, SHA-256, first-launch instructions and known limitations.'
-      : '枕星图吧AI助手 V0.1 · r10 公开预览版已公开发布：Windows x64 完整便携 ZIP、对应源码、SHA-256、首次启动说明与已知限制。'
+      ? 'Download the 枕星图吧AI助手 0.1.1 public preview for Windows x64. Includes the complete portable ZIP, source, SHA-256, first-launch instructions and known limitations.'
+      : '枕星图吧AI助手 0.1.1 公开预览版已公开发布：Windows x64 完整便携 ZIP、对应源码、SHA-256、首次启动说明与已知限制。'
     : lang.value === 'en'
       ? 'The 枕星图吧AI助手 is still in development and not yet released; this page explains the release status, system requirements, and the official entries of the upstream open-source project “图吧工具箱CE” (not this project’s release).'
       : '枕星图吧AI助手下载信息暂不可用；请通过本项目 GitHub 发布页核对当前版本，本页也提供系统要求与新手指南。';
@@ -343,14 +343,14 @@ export const dataNoticeCopy = () => {
     return {
       siteTitle: 'This site (in effect now)',
       site: 'This product site has no account system or ads. Self-hosted Umami analytics records page views and download-entry clicks without tracking cookies. Theme, font and language preferences stay in your browser. A click does not confirm a completed download; package download records are maintained by the file host, currently GitHub. The community uses its own forum account.',
-      clientStatus: released ? 'Client (r10 public preview)' : 'Client (download unavailable)',
-      client: 'Workflow sharing is on by default and can be disabled in settings. When enabled, confirming a plan can send the goal, the full visible conversation in that session (excluding hidden reasoning), selected tools and execution or download results to our server. Skill submissions and benchmark uploads are separate user actions. AI keys are stored locally; model requests go to your chosen provider. See the r10 release notes for this build’s validation scope and known limitations.',
+      clientStatus: released ? 'Client (0.1.1 public preview)' : 'Client (download unavailable)',
+      client: 'Workflow sharing is on by default and can be disabled in settings. When enabled, confirming a plan can send the goal, the full visible conversation in that session (excluding hidden reasoning), selected tools and execution or download results to our server. Skill submissions and benchmark uploads are separate user actions. AI keys are stored locally; model requests go to your chosen provider. See the 0.1.1 release notes for this build’s validation scope and known limitations.',
     };
   }
   return {
     siteTitle: '本站（已生效）',
     site: '产品介绍站没有账号体系和广告。自托管 Umami 统计页面访问与下载入口点击，不使用追踪 Cookie；主题、字体与语言偏好保存在浏览器本地。点击不代表下载完成，文件下载记录由托管方提供，当前为 GitHub。社区另有独立论坛账号。',
-    clientStatus: released ? '客户端（r10 公开预览版）' : '客户端（下载信息暂不可用）',
-    client: '工具流分享默认开启，可在设置中关闭。开启时，确认方案会尝试发送目标、该会话的完整可见对话（不含隐藏思考过程）、所选工具及执行与下载结果到我们的服务器。技能投稿和性能测试上传是用户另行操作。AI 密钥存于本机，模型请求会发送到你选择的服务。当前版本的验证范围与已知限制见 r10 更新说明。',
+    clientStatus: released ? '客户端（0.1.1 公开预览版）' : '客户端（下载信息暂不可用）',
+    client: '工具流分享默认开启，可在设置中关闭。开启时，确认方案会尝试发送目标、该会话的完整可见对话（不含隐藏思考过程）、所选工具及执行与下载结果到我们的服务器。技能投稿和性能测试上传是用户另行操作。AI 密钥存于本机，模型请求会发送到你选择的服务。当前版本的验证范围与已知限制见 0.1.1 更新说明。',
   };
 };

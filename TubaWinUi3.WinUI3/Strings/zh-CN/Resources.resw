@@ -505,13 +505,13 @@
 
   <!-- 更新提示条 -->
   <data name="UpdateBanner_ChangelogButton.Content" xml:space="preserve">
-    <value>查看更新日志</value>
+    <value>更新说明</value>
   </data>
   <data name="UpdateBanner_ActionButton" xml:space="preserve">
     <value>开始更新</value>
   </data>
   <data name="UpdateBanner_ChangelogButton" xml:space="preserve">
-    <value>查看更新日志</value>
+    <value>更新说明</value>
   </data>
   <data name="UpdateBanner_CloseButton" xml:space="preserve">
     <value>关闭更新提示</value>
@@ -1383,7 +1383,7 @@
     <value>正在检查更新...</value>
   </data>
   <data name="Settings_UpdateFound" xml:space="preserve">
-    <value>发现新版本 v{0}，请查看顶部更新提示</value>
+    <value>发现 {0}，请查看顶部更新提示</value>
   </data>
   <data name="Settings_UpdateLatest" xml:space="preserve">
     <value>已是最新版本</value>
@@ -3652,7 +3652,7 @@
     <value>检查更新失败：{0}</value>
   </data>
   <data name="Settings_UpdateUpToDate" xml:space="preserve">
-    <value>已是最新版本 v{0}</value>
+    <value>已是当前预览通道最新版：{0}（v{1}）</value>
   </data>
   <data name="Shell_AppCenter" xml:space="preserve">
     <value>应用中心</value>
@@ -3730,16 +3730,16 @@
     <value>更新包未通过校验或已被清理，请重新下载</value>
   </data>
   <data name="UpdateBanner_ManualVersion" xml:space="preserve">
-    <value>发现新版本 V{0}：当前平台请在官网手动下载</value>
+    <value>发现 {0}：当前平台请在官网手动下载</value>
   </data>
   <data name="UpdateBanner_NewPortableVersion" xml:space="preserve">
-    <value>发现新版本 V{0}（便携版更新包）</value>
+    <value>发现 {0}（便携版更新包）</value>
   </data>
   <data name="UpdateBanner_OfficialDownloadButton" xml:space="preserve">
     <value>前往官网下载</value>
   </data>
   <data name="UpdateBanner_PortableReady" xml:space="preserve">
-    <value>更新包已下载并通过校验，解压后即可使用</value>
+    <value>更新包已下载并通过校验，请手动解压到新目录</value>
   </data>
   <data name="Wizard_Back" xml:space="preserve">
     <value>上一步</value>
@@ -10275,7 +10275,7 @@
     <value>新增内容</value>
   </data>
   <data name="WhatsNew_Subtitle" xml:space="preserve">
-    <value>V0.1 更新说明</value>
+    <value>0.1.1 公开预览版更新说明</value>
   </data>
   <data name="WhatsNew_Contents" xml:space="preserve">
     <value>版本</value>
@@ -10284,10 +10284,10 @@
     <value>关闭</value>
   </data>
   <data name="WhatsNew_VersionTitle" xml:space="preserve">
-    <value>V0.1 本次更新</value>
+    <value>0.1.1 本次更新</value>
   </data>
   <data name="WhatsNew_PreviewNote" xml:space="preserve">
-    <value>本地体验版更新说明，尚未正式发布。</value>
+    <value>0.1.1 公开预览版：以下记录本次更新行为与校验修复，实际发布状态以官网下载页为准。</value>
   </data>
   <data name="WhatsNew_AiPlan" xml:space="preserve">
     <value>AI 给出完整方案后，可在该条回复下点击“使用这套方案”，核对项目和工具清单后继续。</value>
@@ -10672,4 +10672,40 @@
   <data name="AiWorkbench_Confirmed" xml:space="preserve"><value>已确认</value></data>
   <data name="AiWorkbench_Current" xml:space="preserve"><value>当前阶段</value></data>
   <data name="AiWorkbench_Upcoming" xml:space="preserve"><value>接下来</value></data>
+  <data name="Update_CurrentPreviewLabel" xml:space="preserve">
+    <value>0.1.1 公开预览版</value>
+  </data>
+  <data name="Update_PreviewVersionLabel" xml:space="preserve">
+    <value>V{0} 公开预览版</value>
+  </data>
+  <data name="Update_ManualPreviewDetail" xml:space="preserve">
+    <value>发现 {0}，当前平台（{1}）请前往官网手动下载：{2}</value>
+  </data>
+  <data name="UpdateBanner_PortableInstructions" xml:space="preserve">
+    <value>便携版需要手动更新：先备份配置与会话，退出旧版，将完整更新包解压到新目录。系统数据目录可沿用；若使用程序目录 Data 或自定义位置，请保留原数据及配置位置标记，并在新版配置管理中核对。不会自动覆盖运行中的程序。</value>
+  </data>
+  <data name="Update_InvalidPackageArchitecture" xml:space="preserve">
+    <value>更新包架构无效（只接受 x64、x86 或 arm64）</value>
+  </data>
+  <data name="Update_InvalidPackageType" xml:space="preserve">
+    <value>更新包类型无效（只接受 portable-zip 或 installer-exe）</value>
+  </data>
+  <data name="Update_InvalidPackageAddress" xml:space="preserve">
+    <value>更新包地址无效（需要官方 HTTPS 直链，且文件后缀与包类型一致）</value>
+  </data>
+  <data name="Settings_WhatsNew_Desc" xml:space="preserve">
+    <value>查看 0.1.1 本次更新</value>
+  </data>
+  <data name="WhatsNew_PreviewIdentity" xml:space="preserve">
+    <value>统一客户端与启动器版本为 0.1.1，程序更新使用官方预览通道；同版的三段与四段数字版本不再重复提示。</value>
+  </data>
+  <data name="WhatsNew_PackageValidation" xml:space="preserve">
+    <value>更新清单先完整核对架构、包类型、官方 HTTPS 地址、文件大小与 SHA-256，再判断最新版或其他平台。清单缺失或无效时如实报错。</value>
+  </data>
+  <data name="WhatsNew_ManualUpdate" xml:space="preserve">
+    <value>便携更新包通过校验后可打开下载目录。先备份配置与会话、退出旧版，再完整解压到新目录并核对数据位置；不会自动替换运行中的程序。更新说明在内置浏览器打开。</value>
+  </data>
+  <data name="WhatsNew_R10History" xml:space="preserve">
+    <value>此前 V0.1（R10 预览）功能记录</value>
+  </data>
 </root>

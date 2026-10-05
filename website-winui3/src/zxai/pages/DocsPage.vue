@@ -8,7 +8,7 @@
     <div class="zx-page__body">
       <section class="zx-status">
         <span class="zx-status__icon"><ZxIcon name="info" /></span>
-        <div><h2>{{ t('r10 公开预览版已提供下载', 'The r10 public preview is available') }}</h2>
+        <div><h2>{{ t('0.1.1 公开预览版已提供下载', 'The 0.1.1 public preview is available') }}</h2>
           <p>{{ t('关闭旧客户端，将完整 ZIP 解压到新文件夹，运行根目录的「枕星图吧AI助手.exe」。这是 Windows x64 便携版；请保留整个目录，不要只复制 EXE。', 'Close the older client, extract the complete ZIP into a new folder and run “枕星图吧AI助手.exe” in its root. This is a Windows x64 portable build; keep the entire folder, not just the EXE.') }}</p>
           <RouterLink to="/download">{{ t('下载与首次启动说明 →', 'Download and first-launch instructions →') }}</RouterLink></div>
       </section>
@@ -18,6 +18,11 @@
           <article v-for="step in steps" :key="step.title" class="zx-card"><h3>{{ step.title }}</h3><p>{{ step.body }}</p></article>
         </div>
         <p class="zx-note" style="margin-top: 18px">{{ t('枕星负责搭建整体工具流。真正写代码、生成音乐或制作素材，由你选定的工具或外部 Agent 完成。只需要 AI 生成音乐时，不默认再安排编曲软件。', '枕星图吧AI助手 prepares the overall workflow. Your chosen tools or external agent write code, generate music or make assets. A request for AI-generated music does not automatically add a music-production suite.') }}</p>
+      </section>
+      <section>
+        <h2 class="zx-h3" style="margin-bottom: 14px">{{ t('从旧版更新到 0.1.1', 'Update an older client to 0.1.1') }}</h2>
+        <p>{{ t('旧 0.1.0 客户端可以检测新版提示。先导出配置并备份实际数据目录，下载并校验完整 ZIP，然后关闭旧版、解压到新文件夹并运行新启动器。检测与下载不代表已完成升级，本版不会自动替换、解压或重启。', 'Older 0.1.0 clients can detect the new version. Export configuration and back up the actual data folder first, download and verify the complete ZIP, then close the old client, extract into a new folder and run its launcher. Detection or download does not complete an upgrade; this build does not replace, extract or restart itself.') }}</p>
+        <p>{{ t('同一 Windows 用户默认继续读取原数据位置。应用目录保存用户需保留实际程序目录下的 Data 与 .config_location 标记，便携包中通常为 src\\Data；自定义位置还要核对原路径，相对路径需保留目录结构。确认设置和会话可见后再处理旧文件夹；自行添加的工具与第三方 Agent 配置也应单独备份。', 'The same Windows user continues to read the default data location. For application-folder storage keep Data and the .config_location marker in the actual program folder, usually src\\Data in the portable package. For custom storage verify the original path and preserve folder structure for relative paths. Check that settings and chats are visible before removing the old folder; separately back up added tools and third-party agent configuration.') }}</p>
       </section>
       <section>
         <h2 class="zx-h3" style="margin-bottom: 14px">{{ t('工具库与应用中心各做什么', 'Tool library and App Center') }}</h2>
@@ -43,7 +48,7 @@
         <h2 class="zx-h3" style="margin-bottom: 14px">{{ t('遇到失败时怎么继续', 'When a step fails') }}</h2>
         <p>{{ t('先看失败的是下载、安装、入口还是账号连接。只重试对应步骤；正在进行的任务不要重复发起。软件装好但打不开时查看会话入口或应用中心，不需要重新描述整个目标。反馈时提供预览包名称、系统、最后一步和截图，隐藏密码与 Key。', 'Identify whether the failure is in downloading, installation, an app entry or an account connection. Retry the relevant step and avoid duplicating an active task. If an installed tool will not open, use the conversation actions or App Center rather than restating the whole goal. For feedback, include the preview name, system, last action and a screenshot, with passwords and keys hidden.') }}</p>
         <p>{{ t('工具流分享当前默认开启，可在设置中关闭。开启时会发送该会话的完整可见对话（不含隐藏思考过程）和准备结果到官方服务；模型请求另发往你选择的 AI 服务。', 'Workflow sharing is currently on by default and can be disabled in settings. When enabled it sends the full visible conversation in that session (excluding hidden reasoning) and preparation results to the official service; model requests separately go to your chosen AI provider.') }} <RouterLink to="/about">{{ t('查看数据说明 →', 'Read the data notice →') }}</RouterLink></p>
-        <p style="margin-top: 14px"><a :href="siteConfig.links.issues ?? undefined" target="_blank" rel="noopener noreferrer">{{ t('反馈问题 →', 'Report an issue →') }}</a> · <a :href="siteConfig.links.releaseNotes ?? undefined" target="_blank" rel="noopener noreferrer">{{ t('查看 r10 已知问题与验证范围 →', 'Read r10 known issues and validation scope →') }}</a></p>
+        <p style="margin-top: 14px"><a :href="siteConfig.links.issues ?? undefined" target="_blank" rel="noopener noreferrer">{{ t('反馈问题 →', 'Report an issue →') }}</a> · <a :href="siteConfig.links.releaseNotes ?? undefined" target="_blank" rel="noopener noreferrer">{{ t('查看 0.1.1 已知问题与验证范围 →', 'Read 0.1.1 known issues and validation scope →') }}</a></p>
       </section>
       <section><h2 class="zx-h3" style="margin-bottom: 14px">{{ t('硬件工具参考', 'Hardware-tool reference') }}</h2><p>{{ t('上游图吧工具箱CE文档可帮助了解部分硬件工具；它的下载、商店和社区入口属于上游，客户端 AI 与工具流操作请以本指南和当前预览界面为准。', 'Upstream documentation helps explain some hardware tools. Its downloads, store and community belong to upstream; use this guide and the current preview UI for 枕星图吧AI助手 AI and workflow actions.') }}</p><a :href="siteConfig.upstream.docs" target="_blank" rel="noopener noreferrer">{{ t('打开上游参考（外部链接）↗', 'Open upstream reference (external link) ↗') }}</a></section>
     </div>

@@ -505,13 +505,13 @@
 
   <!-- Update banner -->
   <data name="UpdateBanner_ChangelogButton.Content" xml:space="preserve">
-    <value>View Changelog</value>
+    <value>Release notes</value>
   </data>
   <data name="UpdateBanner_ActionButton" xml:space="preserve">
     <value>Update Now</value>
   </data>
   <data name="UpdateBanner_ChangelogButton" xml:space="preserve">
-    <value>View Changelog</value>
+    <value>Release notes</value>
   </data>
   <data name="UpdateBanner_CloseButton" xml:space="preserve">
     <value>Dismiss update notice</value>
@@ -1370,7 +1370,7 @@
     <value>Checking for updates...</value>
   </data>
   <data name="Settings_UpdateFound" xml:space="preserve">
-    <value>New version v{0} found; see the banner at the top</value>
+    <value>{0} available; see the banner at the top</value>
   </data>
   <data name="Settings_UpdateLatest" xml:space="preserve">
     <value>You are up to date</value>
@@ -3637,7 +3637,7 @@ Permissions
     <value>Update check failed: {0}</value>
   </data>
   <data name="Settings_UpdateUpToDate" xml:space="preserve">
-    <value>You're on the latest version, v{0}</value>
+    <value>Latest on the preview channel: {0} (v{1})</value>
   </data>
   <data name="Shell_AppCenter" xml:space="preserve">
     <value>App Center</value>
@@ -3715,16 +3715,16 @@ Permissions
     <value>The update package failed verification or was cleaned up; please download it again</value>
   </data>
   <data name="UpdateBanner_ManualVersion" xml:space="preserve">
-    <value>New version V{0} available: for this platform, please download it manually from the official site</value>
+    <value>{0} available: download manually from the official site for this platform</value>
   </data>
   <data name="UpdateBanner_NewPortableVersion" xml:space="preserve">
-    <value>New version V{0} available (portable update package)</value>
+    <value>{0} available (portable update package)</value>
   </data>
   <data name="UpdateBanner_OfficialDownloadButton" xml:space="preserve">
     <value>Download from official site</value>
   </data>
   <data name="UpdateBanner_PortableReady" xml:space="preserve">
-    <value>Update package downloaded and verified — unzip it and you're good to go</value>
+    <value>Update package downloaded and verified; extract it into a new folder manually</value>
   </data>
   <data name="Wizard_Back" xml:space="preserve">
     <value>Back</value>
@@ -10260,7 +10260,7 @@ Fill in per current project; leave unused fields blank.</value>
     <value>What's New</value>
   </data>
   <data name="WhatsNew_Subtitle" xml:space="preserve">
-    <value>V0.1 update notes</value>
+    <value>0.1.1 public preview release notes</value>
   </data>
   <data name="WhatsNew_Contents" xml:space="preserve">
     <value>Versions</value>
@@ -10269,10 +10269,10 @@ Fill in per current project; leave unused fields blank.</value>
     <value>Close</value>
   </data>
   <data name="WhatsNew_VersionTitle" xml:space="preserve">
-    <value>V0.1 changes</value>
+    <value>Changes in 0.1.1</value>
   </data>
   <data name="WhatsNew_PreviewNote" xml:space="preserve">
-    <value>Local preview update notes. This version has not been officially released.</value>
+    <value>0.1.1 public preview: these notes describe the update and validation changes. Check the official download page for publication status.</value>
   </data>
   <data name="WhatsNew_AiPlan" xml:space="preserve">
     <value>After the AI provides a complete plan, choose “Use this plan” under that reply and review your project and tools before continuing.</value>
@@ -10657,4 +10657,40 @@ The goal assistant is invoked directly; custom skills are supplied as scenario r
   <data name="AiWorkbench_Confirmed" xml:space="preserve"><value>Confirmed</value></data>
   <data name="AiWorkbench_Current" xml:space="preserve"><value>Current stage</value></data>
   <data name="AiWorkbench_Upcoming" xml:space="preserve"><value>Up next</value></data>
+  <data name="Update_CurrentPreviewLabel" xml:space="preserve">
+    <value>0.1.1 public preview</value>
+  </data>
+  <data name="Update_PreviewVersionLabel" xml:space="preserve">
+    <value>V{0} public preview</value>
+  </data>
+  <data name="Update_ManualPreviewDetail" xml:space="preserve">
+    <value>{0} available. For this platform ({1}), download manually from the official site: {2}</value>
+  </data>
+  <data name="UpdateBanner_PortableInstructions" xml:space="preserve">
+    <value>Portable updates are manual: back up settings and conversations, close the old app, and extract the complete package into a new folder. The system data folder can be reused. If you use an app-local Data folder or a custom location, keep the original data and location marker, and check the data location in the new app’s configuration manager. The running app is not replaced automatically.</value>
+  </data>
+  <data name="Update_InvalidPackageArchitecture" xml:space="preserve">
+    <value>Invalid package architecture (expected x64, x86, or arm64)</value>
+  </data>
+  <data name="Update_InvalidPackageType" xml:space="preserve">
+    <value>Invalid package type (expected portable-zip or installer-exe)</value>
+  </data>
+  <data name="Update_InvalidPackageAddress" xml:space="preserve">
+    <value>Invalid package address (requires an official HTTPS URL and a file extension matching the package type)</value>
+  </data>
+  <data name="Settings_WhatsNew_Desc" xml:space="preserve">
+    <value>View the 0.1.1 changes</value>
+  </data>
+  <data name="WhatsNew_PreviewIdentity" xml:space="preserve">
+    <value>The client and launcher use version 0.1.1 and the official preview update channel. Equivalent three- and four-part versions no longer trigger repeated update notices.</value>
+  </data>
+  <data name="WhatsNew_PackageValidation" xml:space="preserve">
+    <value>The update manifest is checked for architecture, package type, official HTTPS URL, file size and SHA-256 before reporting the latest version or an unsupported platform. Missing or invalid manifests report a failure.</value>
+  </data>
+  <data name="WhatsNew_ManualUpdate" xml:space="preserve">
+    <value>Verified portable update packages can be opened in the download folder. Back up settings and conversations, close the old app, then extract the complete package into a new folder and check the data location. The running app is not replaced automatically. Release notes open in the built-in browser.</value>
+  </data>
+  <data name="WhatsNew_R10History" xml:space="preserve">
+    <value>Previous V0.1 (R10 preview) feature record</value>
+  </data>
 </root>

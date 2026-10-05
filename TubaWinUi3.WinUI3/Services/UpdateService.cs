@@ -18,10 +18,10 @@ public static class UpdateService
     public static bool UpstreamUpdatesEnabled => false;
 
     /// <summary>
-    /// 【自有更新通道】枕星自有稳定版清单（只经 HTTPS、只接受本域 zhenxingai.com）。
+    /// 【自有更新通道】枕星公开预览版清单（只经 HTTPS、只接受本域 zhenxingai.com）。
     /// 客户端程序更新的唯一来源；清单由服务器侧在候选包确定后发布。
     /// </summary>
-    public const string OwnUpdateManifestUrl = "https://zhenxingai.com/updates/stable.json";
+    public const string OwnUpdateManifestUrl = "https://zhenxingai.com/updates/preview.json";
 
     /// <summary>自有通道唯一允许的域名（HTTPS）。</summary>
     public const string OwnUpdateHost = "zhenxingai.com";
@@ -30,7 +30,9 @@ public static class UpdateService
     public const string OwnDownloadPageUrl = "https://zhenxingai.com/download";
 
     /// <summary>自有清单的 channel 值。</summary>
-    private const string OwnChannelName = "stable";
+    public const string OwnChannelName = "preview";
+
+    public static string CurrentReleaseLabel => LocalizationService.L("Update_CurrentPreviewLabel", "0.1.1 公开预览版");
 
 
     public static string CurrentArchitecture { get; } = RuntimeInformation.OSArchitecture switch
@@ -43,7 +45,11 @@ public static class UpdateService
 
     private static HttpClient CreateHttpClient(TimeSpan? timeout = null)
     {
-        var client = ProxyService.CreateClient(timeout ?? TimeSpan.FromSeconds(30));
+        // 更新清单不跟随重定向到其他来源；不改变其他功能共用的 HTTP 连接池。
+        var client = new HttpClient(new HttpClientHandler { AllowAutoRedirect = false })
+        {
+            Timeout = timeout ?? TimeSpan.FromSeconds(30)
+        };
         if (!client.DefaultRequestHeaders.Contains("User-Agent"))
             client.DefaultRequestHeaders.Add("User-Agent", "TubaWinUi3-UpdateChecker");
         return client;
@@ -54,9 +60,36 @@ public static class UpdateService
         get
         {
             var v = Assembly.GetExecutingAssembly().GetName().Version;
-            return v is not null ? new Version(v.Major, v.Minor, v.Build) : new Version(0, 1, 0);
+            return NormalizeVersion(v ?? new Version(0, 1, 1, 0));
         }
     }
+
+    /// <summary>三个数字段与末尾零 revision 等价；保留非零 revision，避免同版本循环提示或漏报补丁。</summary>
+    internal static Version NormalizeVersion(Version version)
+        => new(version.Major, version.Minor, Math.Max(version.Build, 0), Math.Max(version.Revision, 0));
+
+    internal static bool TryParseReleaseVersion(string? value, out Version version)
+    {
+        version = null!;
+        if (string.IsNullOrWhiteSpace(value)) return false;
+        var parts = value.Trim().Split('.');
+        if (parts.Length is not (3 or 4) || parts.Any(p => p.Length == 0 || p.Any(c => c is < '0' or > '9'))
+            || !Version.TryParse(value.Trim(), out var parsed)) return false;
+        version = NormalizeVersion(parsed);
+        return true;
+    }
+
+    internal static bool IsSameVersion(string? left, string? right)
+        => TryParseReleaseVersion(left, out var a) && TryParseReleaseVersion(right, out var b) && a == b;
+
+    public static string GetReleaseDisplayName(UpdateInfo update)
+        => !string.IsNullOrWhiteSpace(update.ReleaseLabel) ? update.ReleaseLabel
+            : string.Format(LocalizationService.L("Update_PreviewVersionLabel", "V{0} 公开预览版"), update.Version);
+
+    /// <summary>更新说明只在应用内打开已验证的官方 HTTPS 页面；无有效说明时回到官网下载页。</summary>
+    internal static string GetUpdateNotesUrl(UpdateInfo update)
+        => TryValidateOwnHttpsUrl(update.HtmlUrl, requireZip: false, out var notes, out _)
+            ? notes!.AbsoluteUri : OwnDownloadPageUrl;
 
     /// <summary>
     /// 检查更新（自有通道）：发现可自动下载的新版时返回其 UpdateInfo；已是最新、仅需手动下载或失败时返回 null。
@@ -75,7 +108,7 @@ public static class UpdateService
     public static Task<UpdateCheckResult> CheckForUpdateResultAsync(CancellationToken ct = default)
         => CheckOwnChannelAsync(FetchOwnManifestJsonAsync, ct);
 
-    /// <summary>拉取自有稳定版清单原文（仅 HTTPS 本域 zhenxingai.com）。失败返回 null，由调用方判为 Failed。</summary>
+    /// <summary>拉取自有预览版清单原文（仅 HTTPS 本域 zhenxingai.com）。失败返回 null，由调用方判为 Failed。</summary>
     private static async Task<string?> FetchOwnManifestJsonAsync(CancellationToken ct)
     {
         try
@@ -106,12 +139,14 @@ public static class UpdateService
     }
 
     /// <summary>
-    /// 解析并严格校验自有稳定版清单（离线可测）。字段名按下发规范（camelCase，大小写不敏感容错）：
-    /// channel / version / publishedAt / notesUrl / package{architecture, type, url, sizeBytes, sha256}。
-    /// 只接受 zhenxingai.com 的 HTTPS 链接、x64 便携 ZIP、合法版本与安全文件名、sizeBytes&gt;0、64 位十六进制 SHA-256。
+    /// 解析并严格校验自有预览版清单（离线可测）。字段名按下发规范（camelCase，大小写不敏感容错）：
+    /// channel / version / releaseLabel（可选）/ publishedAt / notesUrl / package{architecture, type, url, sizeBytes, sha256}。
+    /// package 架构契约为 x64/x86/arm64，形态为 portable-zip（.zip）或 installer-exe（.exe）；
+    /// 所有形态在版本/平台分流前都校验官方 HTTPS 地址、安全文件名、sizeBytes&gt;0、64 位十六进制 SHA-256。
+    /// 只有与当前架构匹配的便携 ZIP 可入下载队列。
     /// 版本不高于当前程序集版本 → UpToDate；平台/形态不匹配 → ManualDownload（引导官网）；否则 → UpdateAvailable。
     /// </summary>
-    internal static UpdateCheckResult ParseOwnManifest(string json)
+    internal static UpdateCheckResult ParseOwnManifest(string json, Version? currentVersion = null)
     {
         try
         {
@@ -124,11 +159,14 @@ public static class UpdateService
                 return InvalidManifest(MiscTexts.T("更新清单通道无效"));
 
             var versionStr = TryGetProp(root, "version", out var vEl) ? vEl.GetString()?.Trim() : null;
-            if (string.IsNullOrEmpty(versionStr) || !Version.TryParse(versionStr, out var remoteVersion))
+            if (!TryParseReleaseVersion(versionStr, out var remoteVersion))
                 return InvalidManifest(MiscTexts.T("更新清单版本号无效"));
 
-            if (remoteVersion <= CurrentVersion)
-                return new UpdateCheckResult(UpdateCheckStatus.UpToDate, null, null);
+            var hasNewerVersion = remoteVersion > NormalizeVersion(currentVersion ?? CurrentVersion);
+
+            var releaseLabel = TryGetProp(root, "releaseLabel", out var labelEl) ? labelEl.GetString()?.Trim() : null;
+            if (releaseLabel is { Length: > 80 } || releaseLabel?.Any(char.IsControl) == true)
+                return InvalidManifest(MiscTexts.T("更新清单版本名称无效"));
 
             var publishedAt = TryGetProp(root, "publishedAt", out var pEl) && pEl.TryGetDateTimeOffset(out var pAt)
                 ? pAt
@@ -142,27 +180,20 @@ public static class UpdateService
             if (!TryGetProp(root, "package", out var pkg) || pkg.ValueKind != JsonValueKind.Object)
                 return InvalidManifest(MiscTexts.T("更新清单缺少 package"));
 
-            var arch = TryGetProp(pkg, "architecture", out var aEl) ? aEl.GetString() : null;
-            var type = TryGetProp(pkg, "type", out var tEl) ? tEl.GetString() : null;
+            var arch = TryGetProp(pkg, "architecture", out var aEl) && aEl.ValueKind == JsonValueKind.String
+                ? aEl.GetString()?.Trim() : null;
+            var type = TryGetProp(pkg, "type", out var tEl) && tEl.ValueKind == JsonValueKind.String
+                ? tEl.GetString()?.Trim() : null;
+            if (arch?.ToLowerInvariant() is not ("x64" or "x86" or "arm64"))
+                return InvalidManifest(LocalizationService.L("Update_InvalidPackageArchitecture", "更新包架构无效（只接受 x64、x86 或 arm64）"));
+            if (type?.ToLowerInvariant() is not ("portable-zip" or "installer-exe"))
+                return InvalidManifest(LocalizationService.L("Update_InvalidPackageType", "更新包类型无效（只接受 portable-zip 或 installer-exe）"));
 
-            // 只自动处理与当前平台匹配的便携 ZIP；其他架构/安装形态引导到官网手动下载（避免无响应按钮）
-            if (!string.Equals(arch, CurrentArchitecture, StringComparison.OrdinalIgnoreCase) ||
-                !string.Equals(type, "portable-zip", StringComparison.OrdinalIgnoreCase))
-            {
-                var manual = new UpdateInfo
-                {
-                    Version = versionStr!,
-                    HtmlUrl = notesUri?.ToString() ?? OwnDownloadPageUrl,
-                    PublishedAt = publishedAt,
-                    Assets = []
-                };
-                return new UpdateCheckResult(UpdateCheckStatus.ManualDownload, manual,
-                    MiscTexts.TSub($"发现新版本 v{versionStr}，但当前平台（{CurrentArchitecture}）暂不支持自动下载便携更新包，请前往官网手动下载：{OwnDownloadPageUrl}"));
-            }
-
+            var isPortableZip = string.Equals(type, "portable-zip", StringComparison.OrdinalIgnoreCase);
             var urlStr = TryGetProp(pkg, "url", out var uEl) ? uEl.GetString() : null;
-            if (!TryValidateOwnHttpsUrl(urlStr, requireZip: true, out var uri, out var fileName))
-                return InvalidManifest(MiscTexts.T("更新包地址无效（只接受 zhenxingai.com 的 HTTPS .zip 直链）"));
+            if (!TryValidateOwnHttpsUrl(urlStr, requireZip: isPortableZip, out var uri, out var fileName)
+                || (!isPortableZip && !fileName!.EndsWith(".exe", StringComparison.OrdinalIgnoreCase)))
+                return InvalidManifest(LocalizationService.L("Update_InvalidPackageAddress", "更新包地址无效（需要官方 HTTPS 直链，且文件后缀与包类型一致）"));
 
             var size = TryGetProp(pkg, "sizeBytes", out var sEl) && sEl.TryGetInt64(out var s) ? s : 0;
             if (size <= 0) return InvalidManifest(MiscTexts.T("更新包大小无效"));
@@ -170,9 +201,32 @@ public static class UpdateService
             var sha = TryGetProp(pkg, "sha256", out var shaEl) ? shaEl.GetString()?.Trim() : null;
             if (!IsValidSha256(sha)) return InvalidManifest(MiscTexts.T("更新包 SHA-256 无效"));
 
+            if (!hasNewerVersion)
+                return new UpdateCheckResult(UpdateCheckStatus.UpToDate, null, null);
+
+            // 只自动处理与当前平台匹配的便携 ZIP；其他架构/安装形态引导到官网手动下载（避免无响应按钮）
+            if (!string.Equals(arch, CurrentArchitecture, StringComparison.OrdinalIgnoreCase) ||
+                !isPortableZip)
+            {
+                var manual = new UpdateInfo
+                {
+                    Version = versionStr!,
+                    ReleaseChannel = OwnChannelName,
+                    ReleaseLabel = releaseLabel,
+                    HtmlUrl = notesUri?.ToString() ?? OwnDownloadPageUrl,
+                    PublishedAt = publishedAt,
+                    Assets = []
+                };
+                return new UpdateCheckResult(UpdateCheckStatus.ManualDownload, manual,
+                    string.Format(LocalizationService.L("Update_ManualPreviewDetail", "发现 {0}，当前平台（{1}）请前往官网手动下载：{2}"),
+                        GetReleaseDisplayName(manual), CurrentArchitecture, OwnDownloadPageUrl));
+            }
+
             var info = new UpdateInfo
             {
                 Version = versionStr!,
+                ReleaseChannel = OwnChannelName,
+                ReleaseLabel = releaseLabel,
                 HtmlUrl = notesUri?.ToString() ?? OwnDownloadPageUrl,
                 PublishedAt = publishedAt,
                 Assets =
@@ -256,7 +310,7 @@ public static class UpdateService
         {
             var info = new FileInfo(filePath);
             if (!info.Exists || info.Length <= 0) return false;
-            if (expectedSize > 0 && info.Length != expectedSize) return false;
+            if (expectedSize <= 0 || info.Length != expectedSize) return false;
             if (!IsValidSha256(expectedSha256)) return false;
 
             await using var fs = File.OpenRead(filePath);
@@ -343,7 +397,7 @@ public static class UpdateService
         if (!TryGetBoundPortableZipAsset(update, out var asset)) return false;
         if (!TryGetVerifiedUpdateRecord(out var record) || record is null) return false;
         if (!RecordMatchesManifest(record, update, asset)) return false;
-        return await VerifyFileAsync(Path.Combine(UpdateTempDir, asset.Name), asset.Size, asset.Sha256, ct);
+        return await VerifyFileAsync(Path.Combine(UpdateTempDir, asset.Name), asset.Size, asset.Sha256!, ct);
     }
 
     /// <summary>可自动更新的资产 = 第一个合法的便携 ZIP 条目（.zip 文件名 + 合法 SHA-256）。</summary>
@@ -354,7 +408,9 @@ public static class UpdateService
         if (candidate is null) return false;
         if (string.IsNullOrEmpty(candidate.Name) ||
             !candidate.Name.EndsWith(".zip", StringComparison.OrdinalIgnoreCase)) return false;
-        if (!IsValidSha256(candidate.Sha256)) return false;
+        if (!IsValidSha256(candidate.Sha256) || candidate.Size <= 0) return false;
+        if (!TryValidateOwnHttpsUrl(candidate.BrowserDownloadUrl, requireZip: true, out _, out var fileName)
+            || !string.Equals(candidate.Name, fileName, StringComparison.Ordinal)) return false;
         asset = candidate;
         return true;
     }
@@ -362,7 +418,7 @@ public static class UpdateService
     /// <summary>验证记录必须绑定当前清单：版本 + 文件名 + 大小 + SHA-256 全一致（同版本换包会因后两项不符被拒）。</summary>
     private static bool RecordMatchesManifest(VerifiedUpdateRecord record, UpdateInfo update, UpdateAsset asset)
     {
-        return string.Equals(record.Version, update.Version, StringComparison.OrdinalIgnoreCase)
+        return IsSameVersion(record.Version, update.Version)
             && string.Equals(record.FileName, asset.Name, StringComparison.OrdinalIgnoreCase)
             && record.SizeBytes == asset.Size
             && string.Equals(record.Sha256, asset.Sha256, StringComparison.OrdinalIgnoreCase);
@@ -424,8 +480,7 @@ public static class UpdateService
     /// </summary>
     public static DownloadItem? AutoDownloadUpdate(UpdateInfo update)
     {
-        var asset = update.Assets.FirstOrDefault();
-        if (asset is null || string.IsNullOrEmpty(asset.BrowserDownloadUrl) || !IsValidSha256(asset.Sha256))
+        if (!TryGetBoundPortableZipAsset(update, out var asset))
             return null;
 
         var expectedSha = asset.Sha256!;

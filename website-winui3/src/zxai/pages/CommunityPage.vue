@@ -45,7 +45,7 @@
           </article>
         </div>
 
-        <p class="zx-note" style="margin-top: 18px">{{ t('第一次来先读欢迎帖与社区指引。当前客户端为 V0.1 · r10 公开预览版；反馈时请写明版本、系统、最后一次操作和实际结果，截图隐藏密码与 Key。', 'Start with the welcome topic and community guidelines. The current client is the V0.1 · r10 public preview. For feedback, include the version, system, last action and actual result, with passwords and keys hidden in screenshots.') }}</p>
+        <p class="zx-note" style="margin-top: 18px">{{ t('第一次来先读欢迎帖与社区指引。当前客户端为 0.1.1 公开预览版；反馈时请写明版本、系统、最后一次操作和实际结果，截图隐藏密码与 Key。', 'Start with the welcome topic and community guidelines. The current client is the 0.1.1 public preview. For feedback, include the version, system, last action and actual result, with passwords and keys hidden in screenshots.') }}</p>
         <p><a href="https://community.zhenxingai.com/t/14" target="_blank" rel="noopener noreferrer">{{ t('欢迎与产品现状 →', 'Welcome and product status →') }}</a> · <a href="https://community.zhenxingai.com/t/15" target="_blank" rel="noopener noreferrer">{{ t('社区指引 →', 'Community guidelines →') }}</a></p>
 
         <div class="zx-entry-list" style="margin-top: 18px">

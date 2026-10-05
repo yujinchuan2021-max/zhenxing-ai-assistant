@@ -1,8 +1,8 @@
 # 枕星图吧AI助手官网
 
-本模块提供 [枕星图吧AI助手官网](https://zhenxingai.com/) 的页面实现。当前产品为 **V0.1 · r10 公开预览版**：面向 Windows 的 AI 助手与电脑工具工作台，以“明确目标 → 选择方案 → 准备工具 → 开始使用”组织介绍、下载和使用指南。
+本模块提供 [枕星图吧AI助手官网](https://zhenxingai.com/) 的页面实现。当前产品为 **0.1.1 公开预览版**：面向 Windows 的 AI 助手与电脑工具工作台，以“明确目标 → 选择方案 → 准备工具 → 开始使用”组织介绍、下载和使用指南。
 
-[当前客户端下载](https://github.com/yujinchuan2021-max/zhenxing-ai-assistant/releases/tag/v0.1.0-preview-r10) · [公开源码](https://github.com/yujinchuan2021-max/zhenxing-ai-assistant) · [新版使用指南](../docs/getting-started.md) · [r10 更新与验证范围](../docs/releases/r10.md)
+[当前客户端下载](https://github.com/yujinchuan2021-max/zhenxing-ai-assistant/releases/tag/v0.1.1-preview) · [公开源码](https://github.com/yujinchuan2021-max/zhenxing-ai-assistant) · [新版使用指南](../docs/getting-started.md) · [0.1.1 更新与验证范围](../docs/releases/0.1.1-preview.md)
 
 当前产品站入口是 `src/main.ts` → `src/zxai/App.vue`；`src/site/` 与上游文档保留作来源参考，与枕星当前首页入口不同。界面基于 Vue 3 与 WinUIonWeb，支持中文、English、浅色、深色与跟随系统。
 
@@ -24,7 +24,7 @@ npm run build
 - `src/zxai/pages/`：首页四步示意、新手指南、下载状态、社区和关于。
 - `index.html`：无 JavaScript 的介绍与静态元信息，应与页面文案同步。
 
-对外版本统一为 **V0.1 · r10 公开预览版**，公开下载链接、大小和 SHA-256 以 GitHub 发行资产为准。旧 Electron 标签只用于历史追溯，不能当成当前客户端或其更新通道。技能数量以实时目录为准，不写固定营销数字；可加载、审核通过和 GitHub 热度都不等于实测有效。
+对外版本统一为 **0.1.1 公开预览版**，公开下载链接、大小和 SHA-256 以 GitHub 发行资产为准。旧 Electron 标签只用于历史追溯，不能当成当前客户端或其更新通道。技能数量以实时目录为准，不写固定营销数字；可加载、审核通过和 GitHub 热度都不等于实测有效。
 
 “工具已准备”不等于用户目标已经完成，外部 Agent 仍需自己的账号或兼容接入。社区授权的逻辑和隔离功能测试已通过，真实账号注册与登录未验证，原生验证宿主退出异常须继续如实说明。
 

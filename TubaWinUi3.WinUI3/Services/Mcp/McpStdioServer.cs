@@ -29,7 +29,7 @@ internal static class McpStdioServer
     };
 
     private const string ServerName = "zhenxing-tubatools";
-    private const string ServerVersion = "0.1.0";
+    private static string ServerVersion => UpdateService.CurrentVersion.ToString(3);
 
     /// <summary>MCP 确认流队列目录（与主应用 McpConfirmWatcher 共用；见 McpConfirmWatcher 注释）。
     /// 【GUI 隔离】测试模式走隔离根队列，绝不读写真实 %LocalAppData%\TubaWinUi3\mcp-queue：

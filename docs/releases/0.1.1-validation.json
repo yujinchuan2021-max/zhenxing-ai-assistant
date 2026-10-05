@@ -1,0 +1,102 @@
+{
+  "schema": "zhenxing-public-release-validation/1",
+  "version": "0.1.1",
+  "tag": "v0.1.1-preview",
+  "releaseChannel": "preview",
+  "previousReleaseTag": "v0.1.0-preview-r10",
+  "publicSourceBuild": {
+    "passed": true,
+    "sdk": "10.0.401",
+    "platform": "Windows x64",
+    "selfContained": true,
+    "vendorToolsExcluded": true,
+    "warningsPresent": true
+  },
+  "relatedLogicTests": {
+    "total": 102,
+    "passed": 102,
+    "failed": 0,
+    "skipped": 0,
+    "allProjectTestsRun": false
+  },
+  "actualProgramVersions": [
+    {
+      "file": "枕星图吧AI助手.exe",
+      "fileVersion": "0.1.1.0",
+      "productVersion": "0.1.1.0",
+      "assemblyVersion": null,
+      "sha256": "2bf6223f54607813a49ec171be79787feb5c85154640bb56aa25cdbd65b4f6d8",
+      "authenticodeStatus": "NotSigned"
+    },
+    {
+      "file": "src/TubaWinUi3.exe",
+      "fileVersion": "0.1.1.0",
+      "productVersion": "0.1.1-preview",
+      "assemblyVersion": null,
+      "sha256": "419e2c96101df742242e193d0696ced6ae431137a508e0e387cf4f8da7df9061",
+      "authenticodeStatus": "NotSigned"
+    },
+    {
+      "file": "src/TubaWinUi3.dll",
+      "fileVersion": "0.1.1.0",
+      "productVersion": "0.1.1-preview",
+      "assemblyVersion": "0.1.1.0",
+      "sha256": "599e96d6702d128cf6c62222c0f900f8c0320379125db70d02cc72c6652e7fc2",
+      "authenticodeStatus": "NotSigned"
+    },
+    {
+      "file": "src/backend/TubaWinUI3.BackEnd.exe",
+      "fileVersion": "0.1.1.0",
+      "productVersion": "0.1.1+9071202dd2524b604867671f19b21b3fb49e63bb",
+      "assemblyVersion": null,
+      "sha256": "00cb0ed85981e82b1c7a6b442dddcde78342462cc101ed17a04aa84aed0381da",
+      "authenticodeStatus": "NotSigned"
+    },
+    {
+      "file": "src/backend/TubaWinUI3.BackEnd.dll",
+      "fileVersion": "0.1.1.0",
+      "productVersion": "0.1.1+9071202dd2524b604867671f19b21b3fb49e63bb",
+      "assemblyVersion": "0.1.1.0",
+      "sha256": "d0026759b773858995b455669664a7cccee0e2b5bc03751a1f2feb6a4b957259",
+      "authenticodeStatus": "NotSigned"
+    }
+  ],
+  "offlineRuntime": {
+    "passed": true,
+    "steps": 8,
+    "modelCalled": false,
+    "realApiKeyUsed": false,
+    "nodeVersion": "v22.23.2",
+    "dshVersion": "0.1.5-rc.2",
+    "source": "Unchanged complete runtime from verified immutable R10 ZIP"
+  },
+  "independentPackageAudit": {
+    "passed": true,
+    "allFileHashesChecked": true,
+    "privateUserDataExcluded": true,
+    "debugSymbolsExcluded": true
+  },
+  "package": {
+    "name": "ZhenxingAI-v0.1.1-preview-20261005.zip",
+    "bytes": 397143175,
+    "files": 27063,
+    "sha256": "1715c3173baee8738aba08177b45a93ca28f320dc4432c746ceffb892244be8d"
+  },
+  "updateBehavior": {
+    "channel": "preview",
+    "ownHttpsOnly": true,
+    "legacyPreviewCompatibilityBridgePlanned": true,
+    "downloadSizeAndShaVerified": true,
+    "automaticProgramReplacementImplemented": false
+  },
+  "nativeValidation": {
+    "fullNativeClientAcceptancePassed": false,
+    "nativeUiRerunForThisVersion": false,
+    "realAccountRegistrationOrLoginVerified": false,
+    "previousR10KnownIssue": "Isolated community functional assertions passed, but test host exit triggered wetype_tip.dll 2.1.4.6 / 0xc0000409 on the validation machine."
+  },
+  "screenshots": {
+    "genuineCurrentFullClientScreenshotsReplaced": false,
+    "blocker": "Documented native capture tool could not initialize; screenshot refresh is a separate unfinished task."
+  }
+}

@@ -72,7 +72,7 @@ export const buildPageSeoMap = (): Record<string, PageSeo> => {
       },
     },
     download: {
-      title: en ? `Download r10 preview — ${brandName}` : `下载 r10 公开预览版 —— ${brandName}`,
+      title: en ? `Download 0.1.1 preview — ${brandName}` : `下载 0.1.1 公开预览版 —— ${brandName}`,
       // 描述随 releaseState() 切换（与下载页文案同一来源）
       description: downloadSeoDescription(),
       path: '/download',

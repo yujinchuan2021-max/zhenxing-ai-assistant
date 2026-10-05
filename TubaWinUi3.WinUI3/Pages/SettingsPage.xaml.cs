@@ -431,7 +431,7 @@ public sealed partial class SettingsPage : Page, ILocalizablePage
             switch (result.Status)
             {
                 case UpdateCheckStatus.UpdateAvailable when result.Update is not null:
-                    UpdateStatusText.Text = string.Format(LocalizationService.L("Settings_UpdateFound", "发现新版本 v{0}，请查看顶部更新提示"), result.Update.Version);
+                    UpdateStatusText.Text = string.Format(LocalizationService.L("Settings_UpdateFound", "发现 {0}，请查看顶部更新提示"), UpdateService.GetReleaseDisplayName(result.Update));
                     (App.MainWindow as MainWindow)?.ShowUpdateBanner(result.Update, false);
                     break;
 
@@ -442,7 +442,7 @@ public sealed partial class SettingsPage : Page, ILocalizablePage
                     break;
 
                 case UpdateCheckStatus.UpToDate:
-                    UpdateStatusText.Text = string.Format(LocalizationService.L("Settings_UpdateUpToDate", "已是最新版本 v{0}"), UpdateService.CurrentVersion);
+                    UpdateStatusText.Text = string.Format(LocalizationService.L("Settings_UpdateUpToDate", "已是当前预览通道最新版：{0}（v{1}）"), UpdateService.CurrentReleaseLabel, UpdateService.CurrentVersion);
                     break;
 
                 default:
