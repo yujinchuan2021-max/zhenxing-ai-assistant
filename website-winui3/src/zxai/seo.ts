@@ -84,6 +84,11 @@ export const buildPageSeoMap = (): Record<string, PageSeo> => {
         : '从枕星直接下载已提供的原厂工具文件，按 Windows 架构选择版本、核对文件大小和 SHA-256，再按厂商要求完成安装。',
       path: '/tools/download',
     },
+    'tool-acquisition': {
+      title: en ? `Tools and acquisition — ${brandName}` : `工具与获取方式 —— ${brandName}`,
+      description: en ? 'Get portable files, vendor installers, online tools and Store applications through verified acquisition steps.' : '按已核实的步骤获取便携文件、原厂安装器、在线工具与商店应用，查看使用条件和准确入口。',
+      path: '/tools/acquire',
+    },
     docs: {
       title: en ? `Getting started — ${brandName}` : `新手指南 —— ${brandName}`,
       // 描述随 links.docs 切换：未配置说明「整理中」，配置后不再说未建立

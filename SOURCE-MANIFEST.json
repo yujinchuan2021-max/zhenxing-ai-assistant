@@ -4,10 +4,10 @@
   "referenceSourceTag": "v0.1.1-revision-20261007-complete",
   "baseCodeCommit": "e93d6b3286c871db9122d4b13311b4d01d1587fb",
   "hashScope": "Git index blobs normalized by .gitattributes; excludes this manifest.",
-  "snapshotKind": "0.1.1 unchanged application with published cloud download expansion and website source (2026-10-07)",
-  "releaseNote": "Application source and existing fix2 client package remain bound to v0.1.1-revision-20261007-complete / e93d6b3286c871db9122d4b13311b4d01d1587fb. This index snapshot additionally includes the subsequently published website download page and cloud-resource documentation; see docs/releases/0.1.1-cloud-download-expansion-20261007-validation.json. Vendor installers, source archives and private operator artifacts are not included. Prior application release tags, archives and validation records remain unchanged.",
-  "fileCount": 1967,
-  "totalBytes": 215842345,
+  "snapshotKind": "0.1.1 unchanged application with published 33-tool acquisition flows and FlashMaster offline resource documentation (2026-10-07)",
+  "releaseNote": "Application source and existing fix2 client package remain bound to v0.1.1-revision-20261007-complete / e93d6b3286c871db9122d4b13311b4d01d1587fb. This index snapshot additionally includes the published acquisition website source, 33 acquisition dispositions, public verification records, FlashMaster corresponding-source bindings and unsent permission-request drafts; see docs/releases/0.1.1-tool-acquisition-20261007-validation.json. Vendor binaries, source archives, user data, credentials and private publication operators are not included. Prior application tags, archives and verification records remain unchanged.",
+  "fileCount": 1974,
+  "totalBytes": 215979691,
   "files": [
     {
       "path": ".all-contributorsrc",
@@ -125,9 +125,9 @@
     },
     {
       "path": "README.md",
-      "gitBlob": "4a7038f1d2a9d01291fb0d725336c094b9bd97fd",
-      "bytes": 14980,
-      "sha256": "046c6f4f29cc690959c11ee1604738c3ef381096048fe9fdbfeb757299bbbbb5"
+      "gitBlob": "ad3241a0f28ddf7382327ad93f24ec90306b8093",
+      "bytes": 15422,
+      "sha256": "a17cbeac7843b5219c8bb0195337e1546334ce8f0b282073d87c9619c8a0e07b"
     },
     {
       "path": "SECURITY.md",
@@ -9490,6 +9490,24 @@
       "sha256": "e3ca573f1bc13e26116161c63555c7d499d4d487337beb3bcc5cd7640c8aa15d"
     },
     {
+      "path": "docs/catalogs/flashmaster-2.6.0-source-verification.json",
+      "gitBlob": "cfa3f4f5bc441b43c16b13bc0dbc5552e4326e97",
+      "bytes": 3436,
+      "sha256": "7cc96efd1de9887f8c5c286d980afe6ed27a1951c86fd8c7bec3cbd1463c3243"
+    },
+    {
+      "path": "docs/catalogs/tool-acquisition-audit.json",
+      "gitBlob": "37e892d8516b9c5a6fc4c1ab4a38de4ded654756",
+      "bytes": 20224,
+      "sha256": "44c3a58b20a984662be61a2bb125c604784ff3468440d310f2c71c9a5cda6aa6"
+    },
+    {
+      "path": "docs/catalogs/tool-acquisition.json",
+      "gitBlob": "4a9b89d658982ff47e2912263782c521b40d68bb",
+      "bytes": 63059,
+      "sha256": "621a95eed5793eb53fc8cd10cdf91be610a4c2de7143504a678d1b43d76e85b5"
+    },
+    {
       "path": "docs/faq.md",
       "gitBlob": "796adc1537b450caef129808b09213a4a329f0c2",
       "bytes": 8544,
@@ -9568,6 +9586,18 @@
       "sha256": "601ec69a5e844ae44bbac3d2c0e8509484c6b57ce927008eb7364cf3208934a4"
     },
     {
+      "path": "docs/releases/0.1.1-tool-acquisition-20261007-validation.json",
+      "gitBlob": "830f9357ab05b70892ad513dc51d82289e1c4394",
+      "bytes": 7693,
+      "sha256": "760adcadd45f0d25f22673f99cd940f1be0efb611587b10966bb1500fe9f60ba"
+    },
+    {
+      "path": "docs/releases/0.1.1-tool-acquisition-20261007.md",
+      "gitBlob": "bec6bd293f53488b4d7c849b53c8fb741dfa2681",
+      "bytes": 9294,
+      "sha256": "36a835630ca8534d2c1514749367d5b22c790fa1662e6514c98333fad7874989"
+    },
+    {
       "path": "docs/releases/0.1.1-validation.json",
       "gitBlob": "0c3a17fd268de3ca6a7b45904a4faf7f456c5bc4",
       "bytes": 3785,
@@ -9587,15 +9617,21 @@
     },
     {
       "path": "docs/third-party-downloads.md",
-      "gitBlob": "18bdd0c0c874d108738d8cf1c31ea92f1398efea",
-      "bytes": 4312,
-      "sha256": "e98c32368d03eacb4dbe87045d846d00de3c0e7f97d8f3a9f82aa927c9efc0fc"
+      "gitBlob": "ae6d9c9506fbcbdcd7de84ddc48847868512854f",
+      "bytes": 4988,
+      "sha256": "4205096aac9e1276bf19756d18d7e423a77b927568c10bb31a9f489edbd2f9e9"
+    },
+    {
+      "path": "docs/third-party-permission-requests.md",
+      "gitBlob": "56e8c89216bcc765d39d070b79b76cd8b7e3676f",
+      "bytes": 11585,
+      "sha256": "e11924c572c84c10b51041424f29aa1f539937e704a1d62a8b0a016981960f78"
     },
     {
       "path": "docs/tool-distribution.md",
-      "gitBlob": "e3b1aa54c305b6ba7002cc3635aa37a9ae0785e7",
-      "bytes": 15687,
-      "sha256": "4174b2eaea3da1659f908fd03e095812cd9e277d63a5bc9a2c1dbb7e96ad90b4"
+      "gitBlob": "1240d6e6ef20a0c4990f3a69e14e1bf05c4e981a",
+      "bytes": 16724,
+      "sha256": "d4e3d76ddb79ee48d46698e583c9cced3884cf2e75f3c78a09126f99e1179e90"
     },
     {
       "path": "file-transfer-web/.gitignore",
@@ -11567,9 +11603,9 @@
     },
     {
       "path": "website-winui3/src/zxai/pages/DocsPage.vue",
-      "gitBlob": "5268f246bd0ca9fc0edce66af1d4808b50264482",
-      "bytes": 17153,
-      "sha256": "61168253e93854bc1684b54bd8709f8dff4f669f7f532e616a7ff8c00e280f8c"
+      "gitBlob": "1d18193409d27696a1a3b331524733a9e63d05db",
+      "bytes": 17828,
+      "sha256": "74dcacb3124ce764e2167d44bde53416a918e500cf3cae180afd800383fa24c0"
     },
     {
       "path": "website-winui3/src/zxai/pages/DownloadPage.vue",
@@ -11584,10 +11620,16 @@
       "sha256": "ec8b69b183c922b87dda3a664e732d1bc1917206bad2b1662911ba610ebf01b8"
     },
     {
+      "path": "website-winui3/src/zxai/pages/ToolAcquisitionPage.vue",
+      "gitBlob": "97c55481fafac7b3bc2032e797f21586ff5c7381",
+      "bytes": 18543,
+      "sha256": "e28bb2dae4ed018bfe9b7ef350f333d2629d0ae9e2d5a004e991dbd790108bbd"
+    },
+    {
       "path": "website-winui3/src/zxai/pages/ToolDownloadsPage.vue",
-      "gitBlob": "f8f233d0fc67d357851d7b8b55dc4cd134d61da8",
-      "bytes": 22464,
-      "sha256": "02d69a4df40c18407d442c14364c613f18badff5509011722ad516d1e818f525"
+      "gitBlob": "83a5d454c67e3e7f8f5c2a073ba52e537ec62c8f",
+      "bytes": 22587,
+      "sha256": "4dd0f81508b6d82f35b702095c38f6b7adfaed401b57ee55c152175f48aa9b85"
     },
     {
       "path": "website-winui3/src/zxai/progress.ts",
@@ -11597,15 +11639,15 @@
     },
     {
       "path": "website-winui3/src/zxai/router.ts",
-      "gitBlob": "3f1885e54f3a39dba8caf4b6eccd27cdc2690a4f",
-      "bytes": 1788,
-      "sha256": "08dc4d11c83614d4aada4858f3dc3ce4beebc63664152f7e1686b63eab6dac2a"
+      "gitBlob": "491c0d4e3ba437535e54b6e3168ba28844de5842",
+      "bytes": 1909,
+      "sha256": "281d645065c5d67caacccf3873d95cd88243b14e18671201fa1fd4ed9f5bbd80"
     },
     {
       "path": "website-winui3/src/zxai/seo.ts",
-      "gitBlob": "2c86a7040aea005a32a391cc40dd860231674022",
-      "bytes": 7962,
-      "sha256": "f2a078d9ef984b1a7b6f8362fcea2f81958b06484884b08300f15cbb5767180e"
+      "gitBlob": "3dbf25eb47c849b7d1b307776420c2af37db4f3d",
+      "bytes": 8400,
+      "sha256": "87f1ba13807916db7379c10c4dc1f507edf109b258f93f481aa24c70bbe9c3f5"
     },
     {
       "path": "website-winui3/src/zxai/site.config.ts",

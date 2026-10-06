@@ -1,0 +1,78 @@
+{
+  "toolId": "tool-flashmaster",
+  "name": "FlashMaster 离线芯片查询",
+  "version": "2.6.0",
+  "platformKind": "offline-web",
+  "architecture": "any",
+  "entry": "FlashMaster-2.6.0+05038fa.html",
+  "license": "AGPL-3.0; embedded fdnext AGPL-3.0-or-later; MIT/Apache notices included",
+  "sourceBinding": {
+    "tag": "v2.6.0",
+    "applicationCommit": "05038fa55cdfae649dde246535908643c9524f52",
+    "fdnextCommit": "5b2e3df00e49482177a4e67088e69f92bf63cc86",
+    "frontendBlobHashesVerifiedAgainstOfficialTree": true,
+    "originalArchivesCommitCommentsVerified": true,
+    "dependencyLockfilesPreserved": true,
+    "thirdPartyOriginalNpmPackages": 22,
+    "thirdPartySourceArchives": 9
+  },
+  "verification": {
+    "originalChecksumsVerified": true,
+    "allOutputZipCrcAndEntryShaVerified": true,
+    "htmlExecuted": false,
+    "javascriptExecuted": false,
+    "wasmExecuted": false,
+    "nativeSoftwareInstalled": false,
+    "runtimeFunctionalityVerified": false,
+    "bitIdenticalRebuildClaimed": false
+  },
+  "remainingLimitations": [
+    "Offline behavior is supported by author documentation and static source, not an independently executed runtime test.",
+    "Exact frontend original Git blobs are verified; fdnext archive is pinned by original gitlink and GitHub commit comment (its tree API returned rate limit).",
+    "Third-party archives are pinned by original npm integrity or package version tags/commits; no new build was run."
+  ],
+  "assets": [
+    {
+      "kind": "offline-web-zip",
+      "url": "https://zhenxingai.com/downloads/tools/tool-flashmaster/da950c6c6de5957eaf2b/FlashMaster-2.6.0-offline.zip",
+      "sizeBytes": 826758,
+      "sha256": "da950c6c6de5957eaf2b7e6cfa20155b7a3e0599e65194f7210baa882ae2f3a1"
+    },
+    {
+      "kind": "corresponding-source-zip",
+      "url": "https://zhenxingai.com/downloads/tools/tool-flashmaster/sources/cde3f362b67e0faeab90/FlashMaster-2.6.0-complete-source.zip",
+      "sizeBytes": 40607957,
+      "sha256": "cde3f362b67e0faeab90d216dab5b0997b15ee2700a7be49610f933823df27fe"
+    },
+    {
+      "kind": "license",
+      "url": "https://zhenxingai.com/downloads/tools/tool-flashmaster/licenses/4df3c306dddaaf4baffd/AGPL-3.0.txt",
+      "sizeBytes": 34522,
+      "sha256": "4df3c306dddaaf4baffdff5ca820cc679ac8cd6dc263c6a74517783e42fa7a3b"
+    },
+    {
+      "kind": "third-party-notices",
+      "url": "https://zhenxingai.com/downloads/tools/tool-flashmaster/licenses/11bd3e4ccd6cd8105ef2/NOTICES.txt",
+      "sizeBytes": 65740,
+      "sha256": "11bd3e4ccd6cd8105ef21cbf90f8fe3ab0c3e6a7c22c565bff958fc6893a2a8f"
+    },
+    {
+      "kind": "source-availability",
+      "url": "https://zhenxingai.com/downloads/tools/tool-flashmaster/licenses/7c166f41435ca2525064/SOURCE-AVAILABILITY.txt",
+      "sizeBytes": 1038,
+      "sha256": "7c166f41435ca2525064eeae6945b50ae5baa9fb27c0e554de8f6cb4d950d5ae"
+    },
+    {
+      "kind": "offline-instructions",
+      "url": "https://zhenxingai.com/downloads/tools/tool-flashmaster/licenses/4723ccf56777721c5cb4/README-offline.txt",
+      "sizeBytes": 1387,
+      "sha256": "4723ccf56777721c5cb4467d75bf7fcc1fdb86fda6e0d51f7f12318dfdf81419"
+    }
+  ],
+  "originalHtml": {
+    "bytes": 4136672,
+    "sha256": "8a5cd87ab60a46df2a8f247aaf181d1065ce3dc2b6c91985ee613d2a807c366a",
+    "publisherChecksumMatched": true,
+    "url": "https://github.com/iTXTech/FlashMaster/releases/download/v2.6.0/FlashMaster-2.6.0+05038fa.html"
+  }
+}

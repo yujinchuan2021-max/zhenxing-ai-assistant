@@ -24,3 +24,8 @@
 | Victoria | 5.37，保持原厂完整 ZIP 及所有随包文件，保留 [HDD.by 原作者官网](https://hdd.by)归属与支持链接。 | 真实入口为 x86，作者支持 Windows x86/x64，ARM64 未验证。客户端可以下载校验并解压；驱动不自动安装。 |
 
 没有可靠下载文件、没有确定产品身份或需要原厂专门获取流程的条目，不显示一键安装成功。工具来源与上游许可是分别核对的事项；当前目录没有声明独立备用存储或大陆 CDN。
+
+
+## 后续 33 项获取维护
+
+[完整处理说明](releases/0.1.1-tool-acquisition-20261007.md)记录每项的实际获取方式。[统一获取页面](https://zhenxingai.com/tools/acquire)与[公开数据](catalogs/tool-acquisition.json)分别展示原厂下载、在线工具、商店和停用条目；新增 FlashMaster 2.6.0 自有离线网页 ZIP、精确对应源码和必要许可。它不属于 portable-EXE，不增加客户端便携目录现有的 74 个工具/86 个架构入口或原厂 EXE 数字。Dism++、FanControl 仍有原厂 GitHub 依赖，MemTest86 原包未取得，鲁大师商业分发条件未确认为已满足，没有冒充全量国内镜像。

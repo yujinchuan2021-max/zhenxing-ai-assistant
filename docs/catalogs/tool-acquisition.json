@@ -1,0 +1,1561 @@
+{
+  "schemaVersion": 1,
+  "revision": 1,
+  "publishedAt": "2026-10-06T21:44:26.817228Z",
+  "tools": [
+    {
+      "id": "tool-throttlestop",
+      "name": "ThrottleStop",
+      "version": "9.7.3",
+      "method": "vendor",
+      "summary": {
+        "zh": "Intel 处理器降频监控和功耗调节工具；支持范围与版本以发布者说明为准。",
+        "en": "Intel CPU monitoring and tuning."
+      },
+      "notice": {
+        "zh": "面向兼容的 Intel CPU；是否支持电压/功耗调节取决于 CPU、BIOS 和原厂版本。保留原厂完整文件，不能仅提取 EXE 冒充免依赖安装。",
+        "en": "Support depends on the Intel processor, firmware and vendor version. Keep the complete original archive."
+      },
+      "steps": [
+        {
+          "zh": "进入 TechPowerUp 官方 ThrottleStop 页面，选择 9.7.3 的 Download。",
+          "en": "Choose the current ThrottleStop download on TechPowerUp."
+        },
+        {
+          "zh": "在官方页面选择可用镜像；下载地址由原厂动态生成，不保存带有效期的镜像直链。",
+          "en": "Choose a vendor mirror and download the complete ZIP."
+        },
+        {
+          "zh": "解压完整 ZIP 到独立文件夹，阅读 ReadMe，再以管理员权限启动 ThrottleStop.exe。",
+          "en": "Extract the complete archive, read its ReadMe and open ThrottleStop.exe as administrator."
+        }
+      ],
+      "action": {
+        "label": {
+          "zh": "打开官方下载",
+          "en": "Open vendor download"
+        },
+        "url": "https://www.techpowerup.com/download/techpowerup-throttlestop/"
+      },
+      "files": [],
+      "references": []
+    },
+    {
+      "id": "tool-dism",
+      "name": "Dism++",
+      "version": "10.1.1002.2",
+      "method": "vendor",
+      "summary": {
+        "zh": "Dism++ Windows 系统维护工具，提供更新清理、映像与驱动管理等功能；使用前阅读发布者协议。",
+        "en": "Windows image and system maintenance with Dism++."
+      },
+      "notice": {
+        "zh": "原厂最新下载目前依赖 GitHub，枕星国内直连包尚未提供。如当前网络打不开，暂不能完成此项获取。",
+        "en": "The current vendor download uses GitHub. An owned mirror is not available; access from your network is not guaranteed."
+      },
+      "steps": [
+        {
+          "zh": "打开初雨团队当前官网，使用“最新稳定版本”链接。",
+          "en": "Open the Chuyu Team page and choose the latest stable release."
+        },
+        {
+          "zh": "在原厂 Release 下载完整 Dism++ ZIP，勿把 GitHub 网页另存成 ZIP。",
+          "en": "Download the complete original ZIP from the vendor release, then extract all files."
+        },
+        {
+          "zh": "先完整解压，再按系统架构启动 Dism++x64.exe / Dism++x86.exe / Dism++ARM64.exe；阅读程序协议。",
+          "en": "Choose Dism++x64.exe, Dism++x86.exe or Dism++ARM64.exe for your system and read the program agreement."
+        }
+      ],
+      "action": {
+        "label": {
+          "zh": "查看官方获取方式",
+          "en": "View vendor acquisition"
+        },
+        "url": "https://www.chuyu.me/zh-Hans/"
+      },
+      "files": [],
+      "references": [
+        {
+          "label": {
+            "zh": "官方最新版本",
+            "en": "Alternative vendor entry 1"
+          },
+          "url": "https://github.com/Chuyu-Team/Dism-Multi-language/releases/latest"
+        },
+        {
+          "label": {
+            "zh": "厂商说明与许可",
+            "en": "Vendor information and licence"
+          },
+          "url": "https://github.com/Chuyu-Team/Dism-Multi-language/releases/tag/v10.1.1002.2"
+        }
+      ]
+    },
+    {
+      "id": "tool-hibit-uninstaller",
+      "name": "HiBit Uninstaller",
+      "version": "4.0.10",
+      "method": "vendor",
+      "summary": {
+        "zh": "HiBit Uninstaller 软件卸载与残留清理工具，可从官网获取便携版或安装版。",
+        "en": "Uninstall applications and review related entries."
+      },
+      "notice": {
+        "zh": "官网支持 Windows Vista/7/8/10/11 的 32/64 位系统。便携版完整解压后使用，安装版按厂商安装向导完成。",
+        "en": "The vendor lists Windows Vista through Windows 11, 32-bit and 64-bit. Portable and installed editions have separate entry points."
+      },
+      "steps": [
+        {
+          "zh": "选便携版：下载完整 ZIP，解压后运行 HiBitUninstaller-Portable.exe。",
+          "en": "For the portable edition, download the original ZIP, extract it and open HiBitUninstaller-Portable.exe."
+        },
+        {
+          "zh": "选安装版：下载原厂 setup，按安装程序确认并完成；启动安装器不等于安装成功。",
+          "en": "For the installed edition, use the alternative installer link and complete the vendor setup wizard."
+        }
+      ],
+      "action": {
+        "label": {
+          "zh": "下载原厂便携版",
+          "en": "Download vendor portable ZIP"
+        },
+        "url": "https://www.hibitsoft.ir/HiBitUninstaller/HiBitUninstaller-Portable-4.0.10.zip"
+      },
+      "files": [],
+      "references": [
+        {
+          "label": {
+            "zh": "下载原厂安装版",
+            "en": "Alternative vendor entry 1"
+          },
+          "url": "https://www.hibitsoft.ir/HiBitUninstaller/HiBitUninstaller-setup-4.0.10.exe"
+        },
+        {
+          "label": {
+            "zh": "版本与说明",
+            "en": "Alternative vendor entry 2"
+          },
+          "url": "https://www.hibitsoft.ir/Uninstaller.html"
+        },
+        {
+          "label": {
+            "zh": "厂商说明与许可",
+            "en": "Vendor information and licence"
+          },
+          "url": "https://www.hibitsoft.ir/About.html"
+        }
+      ]
+    },
+    {
+      "id": "tool-geek-uninstaller",
+      "name": "Geek Uninstaller",
+      "version": "1.5.5.185",
+      "method": "vendor",
+      "summary": {
+        "zh": "Geek Uninstaller 软件卸载与残留清理工具，官网提供个人使用的免费版。",
+        "en": "The free personal edition of Geek Uninstaller."
+      },
+      "notice": {
+        "zh": "免费版仅个人使用；Uninstall Tool PRO 是另一款产品。官网列出 Windows 7/8/8.1/10/11 的 32/64 位支持。",
+        "en": "The free edition is for personal use. Uninstall Tool PRO is a separate product; do not mistake its trial for Geek Free."
+      },
+      "steps": [
+        {
+          "zh": "下载官方 FREE 的 ZIP，勿误选 Uninstall Tool PRO 试用版。",
+          "en": "Download the vendor FREE ZIP."
+        },
+        {
+          "zh": "完整解压 geek.zip，以管理员权限运行 geek.exe。",
+          "en": "Extract the complete archive and open geek.exe as administrator."
+        }
+      ],
+      "action": {
+        "label": {
+          "zh": "下载原厂免费版 ZIP",
+          "en": "Download vendor Free ZIP"
+        },
+        "url": "https://geekuninstaller.com/geek.zip"
+      },
+      "files": [],
+      "references": [
+        {
+          "label": {
+            "zh": "版本与授权说明",
+            "en": "Alternative vendor entry 1"
+          },
+          "url": "https://geekuninstaller.com/download"
+        }
+      ]
+    },
+    {
+      "id": "tool-hddscan",
+      "name": "HDDScan",
+      "version": "4.1",
+      "method": "vendor",
+      "summary": {
+        "zh": "HDDScan 免费硬盘诊断工具，可查看 SMART、执行表面测试与保存报告。",
+        "en": "Hard-drive diagnostics and test selection."
+      },
+      "notice": {
+        "zh": "作者文档列出 Windows XP/2003/Vista/7/8/10；Windows 11 与 ARM64 的兼容性未在本轮验证。请保留完整资源和手册。",
+        "en": "The published support list includes Windows XP through Windows 10. Windows 11 and ARM64 compatibility has not been verified here."
+      },
+      "steps": [
+        {
+          "zh": "下载原厂完整 HDDScan.zip。",
+          "en": "Download the original HDDScan ZIP."
+        },
+        {
+          "zh": "完整解压，保留 res 和 UserManual.pdf 后运行 HDDScan.exe。",
+          "en": "Extract all files, including res and UserManual.pdf, then open HDDScan.exe."
+        },
+        {
+          "zh": "按原厂说明选择硬盘与测试类型；需要读写测试时先查看其影响。",
+          "en": "Select the drive and test described in the manual; review the effect before choosing write operations."
+        }
+      ],
+      "action": {
+        "label": {
+          "zh": "下载原厂 HDDScan ZIP",
+          "en": "Download vendor HDDScan ZIP"
+        },
+        "url": "https://hddscan.com/download/HDDScan.zip"
+      },
+      "files": [],
+      "references": [
+        {
+          "label": {
+            "zh": "官方下载页",
+            "en": "Alternative vendor entry 1"
+          },
+          "url": "https://hddscan.com/download.html"
+        },
+        {
+          "label": {
+            "zh": "厂商说明与许可",
+            "en": "Vendor information and licence"
+          },
+          "url": "https://hddscan.com/"
+        }
+      ]
+    },
+    {
+      "id": "tool-hdtune",
+      "name": "HD Tune",
+      "version": "Pro 6.10 / Free 2.55",
+      "method": "vendor",
+      "summary": {
+        "zh": "HD Tune 硬盘基准、健康与错误扫描工具；免费版和 Pro 试用版有不同功能及授权。",
+        "en": "Choose between HD Tune Pro and the older free edition."
+      },
+      "notice": {
+        "zh": "Pro 支持 Windows 7/8/10/11 的 64 位系统，属于限期试用。Free 2.55 是旧免费版，支持范围更早；试用时长以原厂程序为准。",
+        "en": "Pro supports 64-bit Windows 7/8/10/11 and has a limited trial. Free 2.55 has an older support list. Follow the actual program for the trial duration."
+      },
+      "steps": [
+        {
+          "zh": "根据目标选 Pro 6.10 试用版或 Free 2.55，两个版本的功能与许可不同。",
+          "en": "Compare Pro 6.10 and Free 2.55; their features and licences differ."
+        },
+        {
+          "zh": "运行所选原厂安装程序，阅读相应许可，再完成安装。",
+          "en": "Download the chosen original installer, read its terms and complete installation."
+        },
+        {
+          "zh": "Pro 试用结束后按原厂流程购买注册码，不能标为永久免费。",
+          "en": "After the Pro trial, obtain a licence through the vendor to keep using it."
+        }
+      ],
+      "action": {
+        "label": {
+          "zh": "比较并选择 HD Tune 版本",
+          "en": "Compare HD Tune editions"
+        },
+        "url": "https://www.hdtune.com/download.html"
+      },
+      "files": [],
+      "references": [
+        {
+          "label": {
+            "zh": "下载原厂 Pro 6.10 试用版",
+            "en": "Pro 6.10 trial installer"
+          },
+          "url": "https://www.hdtune.com/files/HDTunePro_610_trial.exe"
+        },
+        {
+          "label": {
+            "zh": "下载原厂 Free 2.55",
+            "en": "Free 2.55 installer"
+          },
+          "url": "https://www.hdtune.com/files/hdtune_255.exe"
+        }
+      ]
+    },
+    {
+      "id": "tool-msiafterburner",
+      "name": "MSI Afterburner",
+      "version": "4.6.6 final",
+      "method": "vendor",
+      "summary": {
+        "zh": "MSI Afterburner 显卡监控、频率与风扇调节工具。安装及可选组件按厂商流程处理。",
+        "en": "Graphics monitoring and supported GPU tuning."
+      },
+      "notice": {
+        "zh": "适用于支持的显卡，安装涉及驱动/可选 RTSS 和 VC++ 运行库；不把安装器启动写成安装完成，不静默接受厂商许可。",
+        "en": "Setup may include drivers, optional RTSS and Visual C++ dependencies. Complete the vendor wizard before opening the app."
+      },
+      "steps": [
+        {
+          "zh": "进入 MSI 官网 Afterburner 页面，选择 Download Afterburner 的 Final 稳定版。",
+          "en": "On the MSI page choose the Final stable Afterburner download."
+        },
+        {
+          "zh": "解压原厂下载文件，运行原厂安装程序。",
+          "en": "Extract the original download and run the vendor installer."
+        },
+        {
+          "zh": "需要游戏内叠加显示时按安装程序选择 RTSS；由用户确认许可及所需组件。",
+          "en": "If you need an in-game overlay, select RTSS as offered by setup and review the component licences."
+        }
+      ],
+      "action": {
+        "label": {
+          "zh": "MSI 官方下载",
+          "en": "Open MSI download"
+        },
+        "url": "https://www.msi.com/Landing/Afterburner"
+      },
+      "files": [],
+      "references": [
+        {
+          "label": {
+            "zh": "维护者版本与说明",
+            "en": "Alternative vendor entry 1"
+          },
+          "url": "https://www.guru3d.com/download/msi-afterburner-beta-download/"
+        }
+      ]
+    },
+    {
+      "id": "tool-rtss",
+      "name": "RivaTuner Statistics Server (RTSS)",
+      "version": "7.3.7 final",
+      "method": "vendor",
+      "summary": {
+        "zh": "RivaTuner Statistics Server 游戏帧率、帧时间与屏幕显示服务，可与 Afterburner 配合使用。",
+        "en": "RivaTuner Statistics Server for supported overlays."
+      },
+      "notice": {
+        "zh": "通过当前原厂下载页面选择下载镜像；临时下载链接可能过期，请重新从原页面获取。",
+        "en": "Use the current vendor download page; temporary mirror links may expire."
+      },
+      "steps": [
+        {
+          "zh": "进入 Guru3D RTSS 官方页面，选 7.3.7 Final。",
+          "en": "On Guru3D choose the RTSS 7.3.7 Final download."
+        },
+        {
+          "zh": "通过页面提供的官方 Download mirror 完成下载，再解压原厂包。",
+          "en": "Use a vendor mirror to download and extract the original archive."
+        },
+        {
+          "zh": "运行原厂安装程序；安装完成后从开始菜单打开 RTSS，按需与 Afterburner 配合。",
+          "en": "Complete the vendor setup and open RTSS from Start."
+        }
+      ],
+      "action": {
+        "label": {
+          "zh": "RTSS 官方获取",
+          "en": "Open vendor RTSS download"
+        },
+        "url": "https://www.guru3d.com/download/rtss-rivatuner-statistics-server-download/"
+      },
+      "files": [],
+      "references": [
+        {
+          "label": {
+            "zh": "厂商说明与许可",
+            "en": "Vendor information and licence"
+          },
+          "url": "https://www.guru3d.com/download/msi-afterburner-beta-download/"
+        }
+      ]
+    },
+    {
+      "id": "tool-fancontrol",
+      "name": "FanControl",
+      "version": "V282",
+      "method": "vendor",
+      "summary": {
+        "zh": "Fan Control 风扇与传感器控制工具；按发布者说明安装所需硬件访问组件。",
+        "en": "Fan curves and compatible hardware monitoring."
+      },
+      "notice": {
+        "zh": "FanControl 应用本身采用专有的个人非商业许可。当前原厂发布文件仍在 GitHub；请先核对 PawnIO 与 .NET 要求。",
+        "en": "FanControl itself uses a proprietary personal noncommercial licence. Current vendor release files use GitHub; this is not an owned download."
+      },
+      "steps": [
+        {
+          "zh": "先阅读作者官方 README 中当前版本的系统要求和 PawnIO/运行库要求。",
+          "en": "Check the vendor requirements for PawnIO and the .NET runtime."
+        },
+        {
+          "zh": "从作者 V282 Release 选择 setup 或对应 .NET 版本的完整 ZIP。",
+          "en": "Choose the matching complete ZIP or setup file on the current vendor release."
+        },
+        {
+          "zh": "安装版按原厂安装程序完成；便携版完整解压后运行 FanControl，首次设置所需硬件访问组件时由用户确认。",
+          "en": "Finish setup or extract the portable archive. Confirm any required hardware-access components yourself."
+        }
+      ],
+      "action": {
+        "label": {
+          "zh": "FanControl 官方说明",
+          "en": "View FanControl requirements"
+        },
+        "url": "https://getfancontrol.com/"
+      },
+      "files": [],
+      "references": [
+        {
+          "label": {
+            "zh": "官方 V282 获取",
+            "en": "Alternative vendor entry 1"
+          },
+          "url": "https://github.com/Rem0o/FanControl.Releases/releases/tag/V282"
+        },
+        {
+          "label": {
+            "zh": "厂商说明与许可",
+            "en": "Vendor information and licence"
+          },
+          "url": "https://github.com/Rem0o/FanControl.Releases/blob/master/LICENSE"
+        }
+      ]
+    },
+    {
+      "id": "tool-samsung-magician",
+      "name": "Samsung Magician",
+      "version": "9.0.1.950",
+      "method": "vendor",
+      "summary": {
+        "zh": "Samsung Magician 固态硬盘健康、性能与固件管理工具；支持功能以硬盘型号和厂商说明为准。",
+        "en": "SSD management within Samsung’s supported device range."
+      },
+      "notice": {
+        "zh": "当前 EULA 许可仅配合 Samsung SSD。型号/OEM/接口影响支持功能；更新固件、模块和 SSD 认证仍需要原厂网络服务，不承诺所有操作离线。",
+        "en": "The current licence is for Samsung SSDs. Features depend on model and interface; firmware and authentication may still require Samsung services."
+      },
+      "steps": [
+        {
+          "zh": "先在官网确认所用 Samsung SSD 型号及受支持功能。",
+          "en": "Check support for the exact Samsung SSD model."
+        },
+        {
+          "zh": "下载 Windows 9.0.1.950 原厂安装器，核对 Samsung Electronics 签名。",
+          "en": "Download the original Windows installer and check the Samsung Electronics signature."
+        },
+        {
+          "zh": "按原厂程序阅读协议并完成安装，从开始菜单打开 Samsung Magician。",
+          "en": "Review the vendor terms, finish setup and open Samsung Magician from Start."
+        }
+      ],
+      "action": {
+        "label": {
+          "zh": "下载原厂 Windows 安装器",
+          "en": "Download vendor Windows installer"
+        },
+        "url": "https://download.semiconductor.samsung.com/resources/software-resources/Samsung_Magician_Installer_Official_9.0.1.950.exe"
+      },
+      "files": [],
+      "references": [
+        {
+          "label": {
+            "zh": "支持型号与版本",
+            "en": "Alternative vendor entry 1"
+          },
+          "url": "https://semiconductor.samsung.com/consumer-storage/support/tools/"
+        }
+      ]
+    },
+    {
+      "id": "tool-seatools",
+      "name": "SeaTools",
+      "version": "5.3.1",
+      "method": "vendor",
+      "summary": {
+        "zh": "Seagate SeaTools 硬盘健康与诊断工具；Windows 安装版和启动 U 盘版使用方式不同。",
+        "en": "SeaTools Windows drive diagnostics."
+      },
+      "notice": {
+        "zh": "Windows 安装器当前版本为 5.3.1；启动 U 盘版使用方式不同。可检测多个品牌硬盘，非 Seagate 设备的功能可能受限。",
+        "en": "Windows setup is version 5.3.1. The bootable USB edition is a different workflow; features for non-Seagate drives can be limited."
+      },
+      "steps": [
+        {
+          "zh": "需在 Windows 检测硬盘时选 SeaTools 5 Windows；启动 U 盘版是另一种用法。",
+          "en": "Choose SeaTools 5 Windows when testing inside Windows."
+        },
+        {
+          "zh": "下载 Seagate 当前 Windows 原厂安装器，核对 SEAGATE TECHNOLOGY LLC 签名，再按安装程序完成。",
+          "en": "Download the Seagate installer, verify its publisher and complete setup."
+        },
+        {
+          "zh": "首次启动选择语言，阅读并接受原厂许可后使用；不要把原厂系统测试、擦除操作默认执行。",
+          "en": "On first launch choose the language and review the licence before selecting tests."
+        }
+      ],
+      "action": {
+        "label": {
+          "zh": "下载原厂 SeaTools 5 Windows",
+          "en": "Download vendor SeaTools installer"
+        },
+        "url": "https://www.seagate.com/content/dam/seagate/migrated-assets/www-content/support-content/downloads/seatools/_shared/downloads/SeaToolsWindowsInstaller.exe"
+      },
+      "files": [],
+      "references": [
+        {
+          "label": {
+            "zh": "Windows / 启动 U 盘版本说明",
+            "en": "Alternative vendor entry 1"
+          },
+          "url": "https://www.seagate.com/support/downloads/seatools/"
+        },
+        {
+          "label": {
+            "zh": "厂商说明与许可",
+            "en": "Vendor information and licence"
+          },
+          "url": "https://www.seagate.com/content/dam/seagate/migrated-assets/www-content/support-content/downloads/seatools/_shared/downloads/100869623_B.pdf"
+        }
+      ]
+    },
+    {
+      "id": "tool-memtest86",
+      "name": "MemTest86 Free",
+      "version": "11.7 Build 1000",
+      "method": "vendor",
+      "summary": {
+        "zh": "PassMark MemTest86 内存检测工具，需要制作启动 U 盘并重启测试，不是在 Windows 中直接运行的常规软件。",
+        "en": "Memory testing from a UEFI bootable USB drive."
+      },
+      "notice": {
+        "zh": "写入启动盘会覆盖所选 U 盘，先备份并核对目标盘。11.7 需 UEFI，不是普通 Windows 应用；枕星直连 ZIP 尚未提供。",
+        "en": "Writing the boot image replaces data on the selected USB drive. Version 11.7 requires UEFI; it is not a normal Windows app. An owned ZIP is not available."
+      },
+      "steps": [
+        {
+          "zh": "在官方页面下载 MemTest86 Free 完整 USB ZIP，解压到新目录。",
+          "en": "Download the complete MemTest86 Free USB ZIP from the vendor page and extract it."
+        },
+        {
+          "zh": "准备并备份一个大于 1 GB 的 U 盘，按原厂工具明确选择目标 U 盘后制作启动盘。",
+          "en": "Back up a USB drive larger than 1 GB and explicitly select it in the vendor imaging tool."
+        },
+        {
+          "zh": "保存工作并重启电脑，从 UEFI 启动菜单选择该 U 盘，进入检测界面。",
+          "en": "Save your work, restart and choose the USB drive in the UEFI boot menu to begin testing."
+        }
+      ],
+      "action": {
+        "label": {
+          "zh": "制作内存检测 U 盘",
+          "en": "Get the USB boot package"
+        },
+        "url": "https://www.memtest86.com/download.htm"
+      },
+      "files": [],
+      "references": [
+        {
+          "label": {
+            "zh": "厂商许可与说明",
+            "en": "Vendor licence and information"
+          },
+          "url": "https://forums.passmark.com/memtest86/44494-version-8-1-distribution-file-is-not-versioned"
+        },
+        {
+          "label": {
+            "zh": "厂商许可与说明",
+            "en": "Vendor licence and information"
+          },
+          "url": "https://forums.passmark.com/memtest86/49403-redistribution-of-memtest86-free-edition-via-linux-distro"
+        }
+      ]
+    },
+    {
+      "id": "tool-occt",
+      "name": "OCCT Personal",
+      "version": "17.1.7",
+      "method": "vendor",
+      "summary": {
+        "zh": "OCCT 硬件稳定性测试与监控工具，提供 CPU、内存、显卡及电源压力测试；授权以厂商说明为准。",
+        "en": "OCCT Personal hardware monitoring and stress tests."
+      },
+      "notice": {
+        "zh": "个人版用于个人、非商业用途；商业使用须按厂商许可选择版本。 压力测试会造成高负载；打开下载页或保存 EXE 都不表示测试已经通过。",
+        "en": "The Personal edition has personal noncommercial usage terms. Stress tests create high loads; downloading the app does not establish test results."
+      },
+      "steps": [
+        {
+          "zh": "打开 OCCT 官方个人版下载页，选择 Windows 个人版并完成厂商要求的协议确认。",
+          "en": "Choose the Windows Personal download and review the vendor terms."
+        },
+        {
+          "zh": "保存原厂 OCCT.exe 文件，核对系统要求后按官方说明打开。",
+          "en": "Save and open the original OCCT.exe according to the vendor requirements."
+        },
+        {
+          "zh": "选择测试组件和测试时长，先查看温度、电压及测试注意事项再开始压力测试。",
+          "en": "Review the selected component, test duration and temperatures before starting a stress test."
+        }
+      ],
+      "action": {
+        "label": {
+          "zh": "下载 OCCT 个人版",
+          "en": "Get OCCT Personal"
+        },
+        "url": "https://www.ocbase.com/download-personal"
+      },
+      "files": [],
+      "references": [
+        {
+          "label": {
+            "zh": "厂商许可与说明",
+            "en": "Vendor licence and information"
+          },
+          "url": "https://www.ocbase.com/eula"
+        }
+      ]
+    },
+    {
+      "id": "tool-unigine-heaven",
+      "name": "UNIGINE Heaven",
+      "version": "4.0",
+      "method": "vendor",
+      "summary": {
+        "zh": "UNIGINE Heaven GPU 基准测试，提供渲染场景与显卡性能、稳定性测试。",
+        "en": "UNIGINE Heaven graphics benchmark."
+      },
+      "notice": {
+        "zh": "基础版与个人/非商业使用范围按厂商现行协议执行；专业用途需要相应许可。 这是原厂安装程序，应完成原厂安装向导后再打开测试；下载完成不等于已安装。",
+        "en": "The original file is an installer. Complete vendor setup; edition and commercial-use rights follow the vendor licence."
+      },
+      "steps": [
+        {
+          "zh": "从原厂 HTTPS 地址下载完整安装程序。",
+          "en": "Download the complete original installer from the vendor asset server."
+        },
+        {
+          "zh": "运行原厂安装向导并完成许可确认与安装。",
+          "en": "Review the licence and complete the setup wizard."
+        },
+        {
+          "zh": "从桌面或开始菜单打开 UNIGINE Heaven，设置分辨率/画质后运行测试。",
+          "en": "Open Heaven from Start or its shortcut and choose resolution and quality before running the benchmark."
+        }
+      ],
+      "action": {
+        "label": {
+          "zh": "下载 UNIGINE Heaven 安装包",
+          "en": "Download vendor Heaven installer"
+        },
+        "url": "https://assets.unigine.com/d/Unigine_Heaven-4.0.exe"
+      },
+      "files": [],
+      "references": [
+        {
+          "label": {
+            "zh": "厂商许可与说明",
+            "en": "Vendor licence and information"
+          },
+          "url": "https://benchmark.unigine.com/policies/heaven-eula"
+        }
+      ]
+    },
+    {
+      "id": "tool-unigine-valley",
+      "name": "UNIGINE Valley",
+      "version": "1.0",
+      "method": "vendor",
+      "summary": {
+        "zh": "UNIGINE Valley GPU 基准测试，提供山谷场景渲染性能与显卡稳定性测试。",
+        "en": "UNIGINE Valley graphics benchmark."
+      },
+      "notice": {
+        "zh": "基础版与个人/非商业使用范围按厂商现行协议执行；专业用途需要相应许可。 这是原厂安装程序，应完成原厂安装向导后再打开测试；下载完成不等于已安装。",
+        "en": "The original file is an installer. Complete vendor setup; edition and commercial-use rights follow the vendor licence."
+      },
+      "steps": [
+        {
+          "zh": "从原厂 HTTPS 地址下载完整安装程序。",
+          "en": "Download the complete original installer from the vendor asset server."
+        },
+        {
+          "zh": "运行原厂安装向导并完成许可确认与安装。",
+          "en": "Review the licence and complete the setup wizard."
+        },
+        {
+          "zh": "从桌面或开始菜单打开 UNIGINE Valley，设置分辨率/画质后运行测试。",
+          "en": "Open Valley from Start or its shortcut and choose resolution and quality before running the benchmark."
+        }
+      ],
+      "action": {
+        "label": {
+          "zh": "下载 UNIGINE Valley 安装包",
+          "en": "Download vendor Valley installer"
+        },
+        "url": "https://assets.unigine.com/d/Unigine_Valley-1.0.exe"
+      },
+      "files": [],
+      "references": [
+        {
+          "label": {
+            "zh": "厂商许可与说明",
+            "en": "Vendor licence and information"
+          },
+          "url": "https://benchmark.unigine.com/policies/valley-eula"
+        }
+      ]
+    },
+    {
+      "id": "tool-unigine-superposition",
+      "name": "UNIGINE Superposition",
+      "version": "1.1",
+      "method": "vendor",
+      "summary": {
+        "zh": "UNIGINE Superposition GPU 基准测试，提供多分辨率渲染性能与稳定性测试。",
+        "en": "UNIGINE Superposition graphics benchmark."
+      },
+      "notice": {
+        "zh": "基础版与个人/非商业使用范围按厂商现行协议执行；专业用途需要相应许可。 这是原厂安装程序，应完成原厂安装向导后再打开测试；下载完成不等于已安装。",
+        "en": "This is a large original installer for supported 64-bit Windows systems. Allow enough download and installation space."
+      },
+      "steps": [
+        {
+          "zh": "从原厂 HTTPS 地址下载完整安装程序。",
+          "en": "Download the complete original installer from the vendor asset server."
+        },
+        {
+          "zh": "运行原厂安装向导并完成许可确认与安装。",
+          "en": "Review the licence and complete the setup wizard."
+        },
+        {
+          "zh": "从桌面或开始菜单打开 UNIGINE Superposition，设置分辨率/画质后运行测试。",
+          "en": "Open Superposition and choose a supported preset before running the benchmark."
+        }
+      ],
+      "action": {
+        "label": {
+          "zh": "下载 UNIGINE Superposition 安装包",
+          "en": "Download vendor Superposition installer"
+        },
+        "url": "https://assets.unigine.com/d/Unigine_Superposition-1.1.exe"
+      },
+      "files": [],
+      "references": [
+        {
+          "label": {
+            "zh": "厂商许可与说明",
+            "en": "Vendor licence and information"
+          },
+          "url": "https://benchmark.unigine.com/policies/superposition-eula"
+        }
+      ]
+    },
+    {
+      "id": "tool-3dmark",
+      "name": "3DMark",
+      "version": "",
+      "method": "vendor",
+      "summary": {
+        "zh": "UL Solutions 3DMark 图形基准测试官方获取入口，版本、测试项目与授权以厂商说明为准。",
+        "en": "Acquire 3DMark through its official distribution channels."
+      },
+      "notice": {
+        "zh": "Steam 账号/网络和库管理属于独立流程；本客户端下载页不能代替账号登录或购买。 只展示 3DMark 正式产品入口，不把 jabswitch、slinfo 等辅助程序识别为 3DMark。",
+        "en": "The demo is available through Steam. A purchased edition needs its own account or licence; helper programs are not the benchmark."
+      },
+      "steps": [
+        {
+          "zh": "打开 Steam 的 3DMark 产品页，安装并登录 Steam 后点击“下载试玩”。",
+          "en": "Use the official page to open the Steam demo or your purchased distribution channel."
+        },
+        {
+          "zh": "在 Steam 库中等待下载/安装完成，再从库中运行 3DMark。",
+          "en": "Sign in yourself and download the correct edition through Steam, Epic or the vendor licence channel."
+        },
+        {
+          "zh": "已购买版本的用户从购买时的 Steam / Epic 库安装；持原厂密钥者使用 UL 官方密钥下载入口。",
+          "en": "After installation, open 3DMark and choose a supported test."
+        }
+      ],
+      "action": {
+        "label": {
+          "zh": "通过 Steam 获取 3DMark 试玩版",
+          "en": "View official 3DMark acquisition"
+        },
+        "url": "https://store.steampowered.com/app/223850/3DMark/"
+      },
+      "files": [],
+      "references": [
+        {
+          "label": {
+            "zh": "厂商许可与说明",
+            "en": "Vendor licence and information"
+          },
+          "url": "https://benchmarks.ul.com/eula"
+        },
+        {
+          "label": {
+            "zh": "厂商许可与说明",
+            "en": "Vendor licence and information"
+          },
+          "url": "https://benchmarks.ul.com/3dmark/download"
+        }
+      ]
+    },
+    {
+      "id": "tool-cinebench",
+      "name": "Cinebench 2026",
+      "version": "2026",
+      "method": "vendor",
+      "summary": {
+        "zh": "Maxon Cinebench CPU/GPU 渲染基准测试官方获取入口，按处理器架构与系统要求选择版本。",
+        "en": "Cinebench 2026 rendering benchmark."
+      },
+      "notice": {
+        "zh": "x64 原包约 2.70 GB，ARM64 约 0.78 GB，均超过当前便携包 512 MiB 门禁；需要独立的大文件获取流程。 未完整取得 ZIP，尚未核验 CRC、最终 PE 入口和整包 SHA；不能当作已准备好的便携工具目录。",
+        "en": "Select Windows x64 or ARM64 as appropriate. These large original ZIPs are outside the client’s current managed portable-package limit."
+      },
+      "steps": [
+        {
+          "zh": "在 Maxon 官方页面按电脑架构选择 Windows x64 或 ARM64 包。",
+          "en": "Open the Maxon download page and choose the correct Windows architecture."
+        },
+        {
+          "zh": "下载完整 ZIP 并全部解压，保留目录内的数据和许可文件。",
+          "en": "Download the complete original ZIP and extract it with enough free space."
+        },
+        {
+          "zh": "从解压目录打开 Cinebench，确认系统要求后运行所需测试。",
+          "en": "Read the included terms and open the designated Cinebench program."
+        }
+      ],
+      "action": {
+        "label": {
+          "zh": "下载 Cinebench 2026",
+          "en": "Choose a Cinebench download"
+        },
+        "url": "https://www.maxon.net/en/downloads/cinebench-downloads"
+      },
+      "files": [],
+      "references": [
+        {
+          "label": {
+            "zh": "厂商许可与说明",
+            "en": "Vendor licence and information"
+          },
+          "url": "https://www.maxon.net/en/legal/eula"
+        }
+      ]
+    },
+    {
+      "id": "tool-4da62b9959ceb5ff",
+      "name": "鲁大师电脑版",
+      "version": "6.1026.4830.924",
+      "method": "vendor",
+      "summary": {
+        "zh": "鲁大师硬件信息与性能测试软件官方获取入口，安装组件和授权以发布者说明为准。",
+        "en": "The complete LuDaShi desktop installer."
+      },
+      "notice": {
+        "zh": "本次已核验完整 EXE 的 SHA、PE 头、产品版本和有效数字签名；未执行或安装厂商程序。 离线包表示本体安装文件完整，不表示厂商账号、更新、联网检测等功能永远无需网络。",
+        "en": "Choose the complete offline desktop package. Review setup options; it is a different product from standalone monitoring editions."
+      },
+      "steps": [
+        {
+          "zh": "下载厂商完整离线安装包。",
+          "en": "Use the vendor link to download the complete offline desktop installer."
+        },
+        {
+          "zh": "运行原厂向导，核对协议、安装位置和可选推荐项目后完成安装。",
+          "en": "Check the original publisher signature, read the terms and review installation choices."
+        },
+        {
+          "zh": "从桌面/开始菜单打开鲁大师电脑版，按需要查看硬件或开始检测。",
+          "en": "Finish the vendor wizard, then open LuDaShi from Start or its shortcut."
+        }
+      ],
+      "action": {
+        "label": {
+          "zh": "下载鲁大师完整离线安装包",
+          "en": "Download complete vendor desktop setup"
+        },
+        "url": "https://www.ludashi.com/pc/download/getDownloadUrl?type=2"
+      },
+      "files": [],
+      "references": [
+        {
+          "label": {
+            "zh": "厂商许可与说明",
+            "en": "Vendor licence and information"
+          },
+          "url": "https://www.ludashi.com/licence.html"
+        }
+      ]
+    },
+    {
+      "id": "tool-geekbench",
+      "name": "Geekbench 7",
+      "version": "7.0.0",
+      "method": "vendor",
+      "summary": {
+        "zh": "Primate Labs Geekbench 跨平台 CPU/GPU 基准测试官方获取入口，版本与授权以厂商说明为准。",
+        "en": "Geekbench 7 for supported Windows systems."
+      },
+      "notice": {
+        "zh": "官方要求 Windows 11 或更新版本、至少 8 GB 内存。 个人免费使用、商业用途及离线/自动化限制按当前 Geekbench 7 协议和对应版本执行。",
+        "en": "Choose the Windows package and check current system requirements. The original installer is larger than the current managed portable-package limit."
+      },
+      "steps": [
+        {
+          "zh": "打开官方 Windows 下载页面，等待下载或点页面中的手动下载链接。",
+          "en": "Download the original Windows installer from the Geekbench page."
+        },
+        {
+          "zh": "完成原厂安装向导后，从开始菜单打开 Geekbench 7。",
+          "en": "Review the current licence and complete the vendor setup."
+        },
+        {
+          "zh": "按个人免费版或已购买 Pro 版的许可使用；运行测试并查看官方结果。",
+          "en": "Open Geekbench 7 and choose the test supported by your edition."
+        }
+      ],
+      "action": {
+        "label": {
+          "zh": "下载 Geekbench 7 Windows 版",
+          "en": "Get Geekbench for Windows"
+        },
+        "url": "https://www.geekbench.com/download/windows/"
+      },
+      "files": [],
+      "references": [
+        {
+          "label": {
+            "zh": "厂商许可与说明",
+            "en": "Vendor licence and information"
+          },
+          "url": "https://www.primatelabs.com/legal/eula-v7.html"
+        }
+      ]
+    },
+    {
+      "id": "tool-amd",
+      "name": "AMD 显卡驱动",
+      "version": "",
+      "method": "vendor",
+      "summary": {
+        "zh": "AMD 显卡驱动官方获取入口。按显卡型号与 Windows 版本选择驱动，再完成厂商安装流程。",
+        "en": "Find the matching AMD graphics driver."
+      },
+      "notice": {
+        "zh": "驱动按显卡与系统匹配。自动检测工具仍会联网下载驱动；不能作为通用离线驱动包。",
+        "en": "Drivers depend on the exact device and operating system. The automatic detection tool still downloads matching drivers online."
+      },
+      "steps": [
+        {
+          "zh": "先确认 AMD 显卡型号、Windows 版本及电脑厂商。",
+          "en": "Confirm the AMD graphics model, Windows version and computer manufacturer."
+        },
+        {
+          "zh": "在 AMD 官方支持页选择准确设备；或下载官方自动检测工具。",
+          "en": "Choose the exact device on AMD support, or use its automatic detection tool."
+        },
+        {
+          "zh": "确认支持列表与版本说明，接受厂商条款后安装相应驱动。",
+          "en": "Check the supported hardware and release notes before downloading and installing."
+        }
+      ],
+      "action": {
+        "label": {
+          "zh": "选择并下载驱动",
+          "en": "Select and download a driver"
+        },
+        "url": "https://www.amd.com/en/support/download/drivers.html"
+      },
+      "files": [],
+      "references": [
+        {
+          "label": {
+            "zh": "厂商许可与说明",
+            "en": "Vendor licence and information"
+          },
+          "url": "https://www.amd.com/en/legal/eula/amd-software-eula.html"
+        }
+      ]
+    },
+    {
+      "id": "tool-nvidia",
+      "name": "NVIDIA 显卡驱动",
+      "version": "",
+      "method": "vendor",
+      "summary": {
+        "zh": "NVIDIA 显卡驱动官方获取入口。按显卡型号、Windows 版本与驱动分支选择安装包。",
+        "en": "Find the matching NVIDIA graphics driver."
+      },
+      "notice": {
+        "zh": "不存在覆盖所有 NVIDIA 设备的固定通用安装包；部分笔记本优先使用整机厂商提供的驱动。",
+        "en": "There is no single fixed offline package for all NVIDIA devices. A laptop may need its computer manufacturer’s driver."
+      },
+      "steps": [
+        {
+          "zh": "确认显卡型号、桌面或笔记本类型、Windows 版本。",
+          "en": "Confirm the GPU model, desktop or laptop type and Windows version."
+        },
+        {
+          "zh": "在 NVIDIA 中国官网选择设备与 Game Ready 或 Studio 驱动分支。",
+          "en": "Choose the device and Game Ready or Studio branch on NVIDIA China."
+        },
+        {
+          "zh": "核对支持设备和系统，下载对应厂商原包并完成安装。",
+          "en": "Check supported hardware and systems, then download and install the original matching package."
+        }
+      ],
+      "action": {
+        "label": {
+          "zh": "选择并下载驱动",
+          "en": "Select and download a driver"
+        },
+        "url": "https://www.nvidia.cn/geforce/drivers/"
+      },
+      "files": [],
+      "references": [
+        {
+          "label": {
+            "zh": "厂商许可与说明",
+            "en": "Vendor licence and information"
+          },
+          "url": "https://www.nvidia.com/content/DriverDownloads/licence.php?lang=us&type=GeForce"
+        }
+      ]
+    },
+    {
+      "id": "tool-amd-ryzen-master",
+      "name": "AMD Ryzen Master",
+      "version": "3.1.1.5502",
+      "method": "vendor",
+      "summary": {
+        "zh": "AMD Ryzen Master 处理器监控与调节工具；按 Ryzen 平台支持范围选择版本并完成厂商安装流程。",
+        "en": "Choose Ryzen Master for your supported processor generation."
+      },
+      "notice": {
+        "zh": "版本须匹配处理器；这类调校工具不适用于所有 AMD 设备。下载链接不代表已经验证安装。",
+        "en": "The current version depends on the CPU generation; the tuning tool is not compatible with every AMD device."
+      },
+      "steps": [
+        {
+          "zh": "确认 Ryzen 处理器代数以及官方支持列表。",
+          "en": "Confirm the Ryzen generation and vendor support list."
+        },
+        {
+          "zh": "5000 系列及以后、3000/4000 系列、2000 系列及更早分别选择对应下载。",
+          "en": "Choose the appropriate download for Ryzen 5000 and later, 3000/4000, or 2000 and earlier."
+        },
+        {
+          "zh": "阅读安装要求及厂商条款，完成安装后从开始菜单打开 Ryzen Master。",
+          "en": "Review the vendor requirements, finish installation and open Ryzen Master from Start."
+        }
+      ],
+      "action": {
+        "label": {
+          "zh": "选择 Ryzen Master 版本",
+          "en": "Choose a Ryzen Master version"
+        },
+        "url": "https://www.amd.com/en/products/software/ryzen-master.html"
+      },
+      "files": [],
+      "references": [
+        {
+          "label": {
+            "zh": "厂商许可与说明",
+            "en": "Vendor licence and information"
+          },
+          "url": "https://www.amd.com/en/legal/eula/amd-software-eula.html"
+        }
+      ]
+    },
+    {
+      "id": "tool-intel-xtu",
+      "name": "Intel Extreme Tuning Utility",
+      "version": "7.14.2.93 / 10.0.1.188",
+      "method": "vendor",
+      "summary": {
+        "zh": "Intel Extreme Tuning Utility 处理器调节与稳定性测试工具；先核对 CPU 与主板支持范围，再选择厂商版本。",
+        "en": "Choose Intel XTU for a supported unlocked processor."
+      },
+      "notice": {
+        "zh": "XTU 需要匹配处理器、芯片组和系统设置。版本下载区与说明段存在版本差异，以具体下载文件及哈希为准。",
+        "en": "Version selection depends on CPU, chipset and Windows settings. Follow the actual download version and vendor checksum."
+      },
+      "steps": [
+        {
+          "zh": "确认是官方支持的未锁频 Intel 处理器及受支持的超频主板。",
+          "en": "Confirm an officially supported unlocked Intel processor and motherboard."
+        },
+        {
+          "zh": "第 14 代及以前 Core 选择 7.14；Core Ultra 系列 2 及以后选择 10.0，并核对当期支持列表。",
+          "en": "Select 7.14 for supported Core generations up to the 14th generation, or 10.0 for supported Core Ultra Series 2 and later."
+        },
+        {
+          "zh": "在 Intel 官方中文页下载对应原包，查看许可及安装要求后安装。",
+          "en": "Download the matching original package from Intel China and review its licence and installation requirements."
+        }
+      ],
+      "action": {
+        "label": {
+          "zh": "选择 Intel XTU 版本",
+          "en": "Choose an Intel XTU version"
+        },
+        "url": "https://www.intel.cn/content/www/cn/zh/download/17881/intel-extreme-tuning-utility-intel-xtu.html"
+      },
+      "files": [],
+      "references": [
+        {
+          "label": {
+            "zh": "厂商许可与说明",
+            "en": "Vendor licence and information"
+          },
+          "url": "https://www.intel.cn/etc.clientlibs/intel/clientlibs/bundles/resources/js/downloadcenter.components.content.dcPageLicenseModal.script.d5fff54a.bundle.js"
+        }
+      ]
+    },
+    {
+      "id": "tool-360",
+      "name": "360 驱动大师",
+      "version": "2.0.0.2190",
+      "method": "vendor",
+      "summary": {
+        "zh": "360 驱动大师官方获取入口，用于识别设备与匹配驱动；驱动操作按软件提示完成。",
+        "en": "Choose the appropriate 360 Driver Master edition."
+      },
+      "notice": {
+        "zh": "软件及驱动仍通过厂商服务更新；不承诺所有设备离线可装。无需引导用户额外安装软件管家来替代原厂下载。",
+        "en": "Drivers still update through vendor services. The network-card edition does not guarantee offline support for every device."
+      },
+      "steps": [
+        {
+          "zh": "打开 360 驱动大师官方网站的产品主页。",
+          "en": "Open the official 360 Driver Master product page."
+        },
+        {
+          "zh": "已有网络可选轻巧版；需离线网卡支持时查看网卡版说明。",
+          "en": "Choose the compact edition if networking works, or review the network-card edition if you need offline networking support."
+        },
+        {
+          "zh": "运行厂商安装程序，查看协议与安装选项，完成后按本机硬件检测更新驱动。",
+          "en": "Review the original setup options, complete installation and select updates for your hardware."
+        }
+      ],
+      "action": {
+        "label": {
+          "zh": "前往官网下载",
+          "en": "Choose a vendor download"
+        },
+        "url": "https://dm.weishi.360.cn/home.html"
+      },
+      "files": [],
+      "references": [
+        {
+          "label": {
+            "zh": "厂商许可与说明",
+            "en": "Vendor licence and information"
+          },
+          "url": "https://dm.weishi.360.cn/agreement.html?type=agreement"
+        },
+        {
+          "label": {
+            "zh": "厂商许可与说明",
+            "en": "Vendor licence and information"
+          },
+          "url": "https://s1.ssl.qhimg.com/static/a2c7c318ca757ba5.js"
+        },
+        {
+          "label": {
+            "zh": "厂商许可与说明",
+            "en": "Vendor licence and information"
+          },
+          "url": "https://www.360.cn/xukexieyi.html"
+        }
+      ]
+    },
+    {
+      "id": "tool-3cc9ad1ea4110b0c",
+      "name": "卡巴斯基免费版",
+      "version": "",
+      "method": "vendor",
+      "summary": {
+        "zh": "卡巴斯基安全软件官方获取入口。安装、账号、许可与兼容要求以厂商说明为准。",
+        "en": "Kaspersky’s official free antivirus acquisition page."
+      },
+      "notice": {
+        "zh": "卡巴斯基包含多个付费及免费产品，本入口明确为免费版。联网激活或更新要求以厂商当期提示为准。",
+        "en": "Kaspersky has multiple products. This entry targets the free edition; activation and updates follow the vendor’s current requirements."
+      },
+      "steps": [
+        {
+          "zh": "在卡巴斯基中国官方网站确认选择免费版及支持的 Windows 系统。",
+          "en": "Confirm the free edition and supported Windows systems on Kaspersky China."
+        },
+        {
+          "zh": "通过官网当期下载按钮获取厂商原安装程序。",
+          "en": "Download the original installer using the current vendor button."
+        },
+        {
+          "zh": "由用户阅读并接受所选产品许可；按厂商提示完成账号、安装和病毒库更新。",
+          "en": "Review the terms yourself and complete any account, setup and database-update steps."
+        }
+      ],
+      "action": {
+        "label": {
+          "zh": "前往官网下载免费版",
+          "en": "Get the vendor free edition"
+        },
+        "url": "https://www.kaspersky.com.cn/downloads/free-antivirus"
+      },
+      "files": [],
+      "references": [
+        {
+          "label": {
+            "zh": "厂商许可与说明",
+            "en": "Vendor licence and information"
+          },
+          "url": "https://www.kaspersky.com.cn/end-user-license-agreement"
+        },
+        {
+          "label": {
+            "zh": "厂商许可与说明",
+            "en": "Vendor licence and information"
+          },
+          "url": "https://support.kaspersky.com/kfa/2019/en-us/70647.htm"
+        }
+      ]
+    },
+    {
+      "id": "tool-ed6923139ee816c2",
+      "name": "游戏加加 GamePP",
+      "version": "",
+      "method": "vendor",
+      "summary": {
+        "zh": "游戏加加获取入口，提供游戏帧率与硬件状态显示等功能；安装程序与版本以发布者提供内容为准。",
+        "en": "Choose the GamePP edition you need."
+      },
+      "notice": {
+        "zh": "基础功能、账号与付费服务以厂商说明为准。轻巧版和经典版属于不同原包，不能合并成一个版本。",
+        "en": "Compact and classic editions have different original files. Account and paid-service requirements follow the vendor."
+      },
+      "steps": [
+        {
+          "zh": "打开游戏加加官网，比较轻巧版与经典版。",
+          "en": "Compare the compact and classic editions on the GamePP website."
+        },
+        {
+          "zh": "选择需要的版本并获取官网原安装程序。",
+          "en": "Choose and download the original installer for the edition you need."
+        },
+        {
+          "zh": "查看厂商许可与安装选项，安装后从开始菜单或桌面快捷方式打开。",
+          "en": "Review setup options, complete installation and open it from Start or a shortcut."
+        }
+      ],
+      "action": {
+        "label": {
+          "zh": "前往官网下载",
+          "en": "Choose a GamePP download"
+        },
+        "url": "https://www.gamepp.com/"
+      },
+      "files": [],
+      "references": [
+        {
+          "label": {
+            "zh": "厂商许可与说明",
+            "en": "Vendor licence and information"
+          },
+          "url": "https://gamepp.com/terms-of-use.html"
+        }
+      ]
+    },
+    {
+      "id": "tool-ufo",
+      "name": "TestUFO 显示器测试",
+      "version": "",
+      "method": "website",
+      "summary": {
+        "zh": "在线显示器运动清晰度与刷新率测试，打开网页即可使用。",
+        "en": "Online display refresh-rate and motion tests."
+      },
+      "notice": {
+        "zh": "在线显示器测试，无需下载或安装。浏览器同步和帧率会影响结果，不能代替设备硬件参数认证。",
+        "en": "No installer is needed. Browser synchronization and frame rate affect the result."
+      },
+      "steps": [
+        {
+          "zh": "在正常浏览器打开 TestUFO 刷新率测试并将窗口放到要测的显示器上。",
+          "en": "Open TestUFO in a normal browser and move the window to the display you want to test."
+        },
+        {
+          "zh": "关闭占用浏览器的后台标签，保持窗口可见，等待页面测试稳定。",
+          "en": "Close busy background tabs, keep the test visible and wait for stable timing."
+        },
+        {
+          "zh": "根据需要从网站菜单选择动态清晰度等测试项目。",
+          "en": "Use the site menu to choose other motion tests as needed."
+        }
+      ],
+      "action": {
+        "label": {
+          "zh": "打开在线测试",
+          "en": "Open online display tests"
+        },
+        "url": "https://testufo.com/refreshrate"
+      },
+      "files": [],
+      "references": [
+        {
+          "label": {
+            "zh": "厂商许可与说明",
+            "en": "Vendor licence and information"
+          },
+          "url": "https://blurbusters.com/about/terms-of-use/"
+        }
+      ]
+    },
+    {
+      "id": "tool-e064c8b42ca4d137",
+      "name": "PCbox 在线外设测试",
+      "version": "",
+      "method": "website",
+      "summary": {
+        "zh": "在线键盘、鼠标与其他外设测试，打开网页即可使用。",
+        "en": "Online keyboard and mouse tests from PCbox."
+      },
+      "notice": {
+        "zh": "在线键盘、鼠标测试，无需安装。如网站检查浏览器，请按网页提示完成后再使用。",
+        "en": "No installer is needed. If the site performs a browser check, follow its on-page instructions."
+      },
+      "steps": [
+        {
+          "zh": "在正常浏览器打开 PCbox 官方网站；如出现浏览器检查则按网站提示等待完成。",
+          "en": "Open the PCbox website in a normal browser."
+        },
+        {
+          "zh": "选择键盘或鼠标测试，按页面指示逐个测试按键、点击和滚轮。",
+          "en": "Choose keyboard or mouse testing and follow the page instructions for keys, buttons and the wheel."
+        },
+        {
+          "zh": "记录异常按键或输入结果，无需下载安装程序。",
+          "en": "Record unusual input results."
+        }
+      ],
+      "action": {
+        "label": {
+          "zh": "打开在线外设测试",
+          "en": "Open online peripheral tests"
+        },
+        "url": "https://www.pcbox.tech/"
+      },
+      "files": [],
+      "references": []
+    },
+    {
+      "id": "tool-windows-hdr-calibration",
+      "name": "Windows HDR Calibration",
+      "version": "",
+      "method": "store",
+      "summary": {
+        "zh": "微软 Windows HDR Calibration，用于支持 HDR 的屏幕校准；通过 Microsoft Store 获取。",
+        "en": "Windows HDR Calibration from Microsoft Store."
+      },
+      "notice": {
+        "zh": "由 Microsoft Store 获取和更新。Windows 11、HDR 显示器、已开启 HDR 及受支持显示驱动是必要条件。",
+        "en": "Requires Windows 11, an HDR display, HDR enabled in settings and a supported display driver. Microsoft Store handles updates."
+      },
+      "steps": [
+        {
+          "zh": "确认使用 Windows 11 和支持 HDR 的显示器。",
+          "en": "Confirm Windows 11 and an HDR-compatible display."
+        },
+        {
+          "zh": "在设置 → 系统 → 显示 → HDR 中开启 HDR。",
+          "en": "Enable HDR in Settings > System > Display > HDR."
+        },
+        {
+          "zh": "在 Microsoft Store 安装微软的 Windows HDR Calibration。",
+          "en": "Install Microsoft’s Windows HDR Calibration through Microsoft Store."
+        },
+        {
+          "zh": "将应用放在需要校准的显示器上全屏运行，完成三种图案及颜色饱和度调整并保存配置。",
+          "en": "Run it fullscreen on the target display, complete the patterns and saturation adjustment, then save the profile."
+        }
+      ],
+      "action": {
+        "label": {
+          "zh": "在 Microsoft Store 安装",
+          "en": "Install from Microsoft Store"
+        },
+        "url": "https://apps.microsoft.com/detail/9N7F2SM5D1LR"
+      },
+      "files": [],
+      "references": []
+    },
+    {
+      "id": "tool-next-itellyou",
+      "name": "next.itellyou 原版软件索引",
+      "version": "",
+      "method": "website",
+      "summary": {
+        "zh": "操作系统镜像与软件资源检索网站，按网站账号和获取说明使用。",
+        "en": "An index of original software acquisition methods."
+      },
+      "notice": {
+        "zh": "这是原版软件获取方法索引，不提供密钥或正版授权。账号、软件使用许可和下载要求由用户及来源厂商处理。",
+        "en": "The site does not provide product keys or a software licence. Account and product-use requirements remain separate."
+      },
+      "steps": [
+        {
+          "zh": "打开 next.itellyou 官方网站。",
+          "en": "Open the next.itellyou website."
+        },
+        {
+          "zh": "由用户自行注册或登录官方账号。",
+          "en": "Register or sign in to your own account if required."
+        },
+        {
+          "zh": "选择需要的系统或软件，按站内提供的原版获取方法操作并核对文件信息。",
+          "en": "Choose the software and follow the acquisition and file-verification information provided by the site."
+        }
+      ],
+      "action": {
+        "label": {
+          "zh": "打开原版软件索引",
+          "en": "Open the original-software index"
+        },
+        "url": "https://next.itellyou.cn/"
+      },
+      "files": [],
+      "references": []
+    },
+    {
+      "id": "tool-flashmaster",
+      "name": "FlashMaster 离线芯片查询",
+      "version": "2.6.0",
+      "method": "owned",
+      "summary": {
+        "zh": "离线网页形式的内存料号解码、NAND Flash ID 和芯片查询工具。",
+        "en": "An offline browser tool for memory part-number decoding, NAND Flash IDs and chip queries."
+      },
+      "notice": {
+        "zh": "核心芯片查询使用作者内嵌引擎；原版保留联网行情、外部报告链接和 Google 统计。无需 Windows 安装，下载后用浏览器打开。",
+        "en": "Core queries use the author’s embedded engine. The original file retains online pricing, external report links and Google analytics. No Windows installation is required; open the extracted HTML in a browser."
+      },
+      "steps": [
+        {
+          "zh": "下载并解压 ZIP。",
+          "en": "Download and extract the complete ZIP."
+        },
+        {
+          "zh": "使用现代浏览器打开 FlashMaster-2.6.0+05038fa.html。",
+          "en": "Open FlashMaster-2.6.0+05038fa.html in a modern browser."
+        },
+        {
+          "zh": "输入芯片料号或 Flash ID 开始查询。",
+          "en": "Enter a chip part number or Flash ID to query the included engine."
+        }
+      ],
+      "action": null,
+      "files": [
+        {
+          "architecture": "any",
+          "version": "2.6.0",
+          "format": "zip",
+          "url": "https://zhenxingai.com/downloads/tools/tool-flashmaster/da950c6c6de5957eaf2b/FlashMaster-2.6.0-offline.zip",
+          "sizeBytes": 826758,
+          "sha256": "da950c6c6de5957eaf2b7e6cfa20155b7a3e0599e65194f7210baa882ae2f3a1"
+        }
+      ],
+      "references": [
+        {
+          "label": {
+            "zh": "对应完整源码",
+            "en": "Complete corresponding source"
+          },
+          "url": "https://zhenxingai.com/downloads/tools/tool-flashmaster/sources/cde3f362b67e0faeab90/FlashMaster-2.6.0-complete-source.zip"
+        },
+        {
+          "label": {
+            "zh": "AGPL 许可",
+            "en": "AGPL licence"
+          },
+          "url": "https://zhenxingai.com/downloads/tools/tool-flashmaster/licenses/4df3c306dddaaf4baffd/AGPL-3.0.txt"
+        },
+        {
+          "label": {
+            "zh": "第三方许可说明",
+            "en": "Third-party notices"
+          },
+          "url": "https://zhenxingai.com/downloads/tools/tool-flashmaster/licenses/11bd3e4ccd6cd8105ef2/NOTICES.txt"
+        },
+        {
+          "label": {
+            "zh": "源码获取说明",
+            "en": "Source availability"
+          },
+          "url": "https://zhenxingai.com/downloads/tools/tool-flashmaster/licenses/7c166f41435ca2525064/SOURCE-AVAILABILITY.txt"
+        },
+        {
+          "label": {
+            "zh": "离线使用说明",
+            "en": "Offline instructions"
+          },
+          "url": "https://zhenxingai.com/downloads/tools/tool-flashmaster/licenses/4723ccf56777721c5cb4/README-offline.txt"
+        }
+      ]
+    },
+    {
+      "id": "tool-cb762dcbc3ad51dd",
+      "name": "图吧工具箱旧版皮肤编辑器",
+      "version": "2022.07",
+      "method": "unavailable",
+      "summary": {
+        "zh": "旧版皮肤编辑器与当前客户端不兼容。",
+        "en": "The legacy upstream skin editor is incompatible with this client."
+      },
+      "notice": {
+        "zh": "仅适用于上游图吧工具箱 2022.07 / 2022.11，不支持当前客户端。请使用设置中的外观功能。",
+        "en": "It targets upstream releases 2022.07 and 2022.11. Use this client’s Settings > Appearance to change its theme."
+      },
+      "steps": [
+        {
+          "zh": "打开当前客户端的“设置”。",
+          "en": "Open Settings in the current client."
+        },
+        {
+          "zh": "在“外观”中选择支持的主题和主题色。",
+          "en": "Choose Appearance, then select a supported theme or accent colour."
+        }
+      ],
+      "action": null,
+      "files": [],
+      "references": [
+        {
+          "label": {
+            "zh": "上游旧版适用说明",
+            "en": "Legacy upstream compatibility information"
+          },
+          "url": "https://www.tbtool.cn/skin/index.html"
+        }
+      ]
+    }
+  ]
+}

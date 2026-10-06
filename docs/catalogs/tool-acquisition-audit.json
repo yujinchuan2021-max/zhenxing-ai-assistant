@@ -1,0 +1,490 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-06T21:44:26.817228Z",
+  "scope": "33 remaining acquisition entries; metadata and workflows, not 33 owned binary mirrors",
+  "counts": {
+    "vendor": 27,
+    "website": 3,
+    "store": 1,
+    "owned": 1,
+    "unavailable": 1
+  },
+  "tools": [
+    {
+      "id": "tool-throttlestop",
+      "name": "ThrottleStop",
+      "method": "vendor",
+      "version": "9.7.3",
+      "actionUrl": "https://www.techpowerup.com/download/techpowerup-throttlestop/",
+      "ownServerMirrorReady": false,
+      "mirrorDecision": "no-explicit-mirror-grant",
+      "primarySources": [
+        "https://www.techpowerup.com/download/techpowerup-throttlestop/"
+      ],
+      "evidenceSha256": "855ed90c040cca4626c3d116667423831a3720b244244ee4435940cf3951bc01"
+    },
+    {
+      "id": "tool-dism",
+      "name": "Dism++",
+      "method": "vendor",
+      "version": "10.1.1002.2",
+      "actionUrl": "https://www.chuyu.me/zh-Hans/",
+      "ownServerMirrorReady": false,
+      "mirrorDecision": "unchanged-original-mirror-authorization-unconfirmed",
+      "primarySources": [
+        "https://github.com/Chuyu-Team/Dism-Multi-language/releases/latest",
+        "https://github.com/Chuyu-Team/Dism-Multi-language/releases/tag/v10.1.1002.2",
+        "https://www.chuyu.me/zh-Hans/"
+      ],
+      "evidenceSha256": "855ed90c040cca4626c3d116667423831a3720b244244ee4435940cf3951bc01"
+    },
+    {
+      "id": "tool-hibit-uninstaller",
+      "name": "HiBit Uninstaller",
+      "method": "vendor",
+      "version": "4.0.10",
+      "actionUrl": "https://www.hibitsoft.ir/HiBitUninstaller/HiBitUninstaller-Portable-4.0.10.zip",
+      "ownServerMirrorReady": false,
+      "mirrorDecision": "no-explicit-mirror-grant",
+      "primarySources": [
+        "https://www.hibitsoft.ir/About.html",
+        "https://www.hibitsoft.ir/HiBitUninstaller/HiBitUninstaller-Portable-4.0.10.zip",
+        "https://www.hibitsoft.ir/HiBitUninstaller/HiBitUninstaller-setup-4.0.10.exe",
+        "https://www.hibitsoft.ir/Uninstaller.html"
+      ],
+      "evidenceSha256": "855ed90c040cca4626c3d116667423831a3720b244244ee4435940cf3951bc01"
+    },
+    {
+      "id": "tool-geek-uninstaller",
+      "name": "Geek Uninstaller",
+      "method": "vendor",
+      "version": "1.5.5.185",
+      "actionUrl": "https://geekuninstaller.com/geek.zip",
+      "ownServerMirrorReady": false,
+      "mirrorDecision": "no-explicit-mirror-grant",
+      "primarySources": [
+        "https://geekuninstaller.com/download",
+        "https://geekuninstaller.com/geek.zip"
+      ],
+      "evidenceSha256": "855ed90c040cca4626c3d116667423831a3720b244244ee4435940cf3951bc01"
+    },
+    {
+      "id": "tool-hddscan",
+      "name": "HDDScan",
+      "method": "vendor",
+      "version": "4.1",
+      "actionUrl": "https://hddscan.com/download/HDDScan.zip",
+      "ownServerMirrorReady": false,
+      "mirrorDecision": "no-explicit-mirror-grant",
+      "primarySources": [
+        "https://hddscan.com/",
+        "https://hddscan.com/download.html",
+        "https://hddscan.com/download/HDDScan.zip"
+      ],
+      "evidenceSha256": "855ed90c040cca4626c3d116667423831a3720b244244ee4435940cf3951bc01"
+    },
+    {
+      "id": "tool-hdtune",
+      "name": "HD Tune",
+      "method": "vendor",
+      "version": "Pro 6.10 / Free 2.55",
+      "actionUrl": "https://www.hdtune.com/download.html",
+      "ownServerMirrorReady": false,
+      "mirrorDecision": "explicit-prior-permission-required-for-pro",
+      "primarySources": [
+        "https://www.hdtune.com/download.html",
+        "https://www.hdtune.com/files/HDTunePro_610_trial.exe",
+        "https://www.hdtune.com/files/hdtune_255.exe"
+      ],
+      "evidenceSha256": "855ed90c040cca4626c3d116667423831a3720b244244ee4435940cf3951bc01"
+    },
+    {
+      "id": "tool-msiafterburner",
+      "name": "MSI Afterburner",
+      "method": "vendor",
+      "version": "4.6.6 final",
+      "actionUrl": "https://www.msi.com/Landing/Afterburner",
+      "ownServerMirrorReady": false,
+      "mirrorDecision": "explicit-restricted-distributors",
+      "primarySources": [
+        "https://www.guru3d.com/download/msi-afterburner-beta-download/",
+        "https://www.msi.com/Landing/Afterburner"
+      ],
+      "evidenceSha256": "855ed90c040cca4626c3d116667423831a3720b244244ee4435940cf3951bc01"
+    },
+    {
+      "id": "tool-rtss",
+      "name": "RivaTuner Statistics Server (RTSS)",
+      "method": "vendor",
+      "version": "7.3.7 final",
+      "actionUrl": "https://www.guru3d.com/download/rtss-rivatuner-statistics-server-download/",
+      "ownServerMirrorReady": false,
+      "mirrorDecision": "explicit-restricted-distributors",
+      "primarySources": [
+        "https://www.guru3d.com/download/msi-afterburner-beta-download/",
+        "https://www.guru3d.com/download/rtss-rivatuner-statistics-server-download/"
+      ],
+      "evidenceSha256": "855ed90c040cca4626c3d116667423831a3720b244244ee4435940cf3951bc01"
+    },
+    {
+      "id": "tool-fancontrol",
+      "name": "FanControl",
+      "method": "vendor",
+      "version": "V282",
+      "actionUrl": "https://getfancontrol.com/",
+      "ownServerMirrorReady": false,
+      "mirrorDecision": "explicit-prior-permission-required",
+      "primarySources": [
+        "https://getfancontrol.com/",
+        "https://github.com/Rem0o/FanControl.Releases/blob/master/LICENSE",
+        "https://github.com/Rem0o/FanControl.Releases/releases/tag/V282"
+      ],
+      "evidenceSha256": "855ed90c040cca4626c3d116667423831a3720b244244ee4435940cf3951bc01"
+    },
+    {
+      "id": "tool-samsung-magician",
+      "name": "Samsung Magician",
+      "method": "vendor",
+      "version": "9.0.1.950",
+      "actionUrl": "https://download.semiconductor.samsung.com/resources/software-resources/Samsung_Magician_Installer_Official_9.0.1.950.exe",
+      "ownServerMirrorReady": false,
+      "mirrorDecision": "explicit-no-redistribution",
+      "primarySources": [
+        "https://download.semiconductor.samsung.com/resources/software-resources/Samsung_Magician_Installer_Official_9.0.1.950.exe",
+        "https://semiconductor.samsung.com/consumer-storage/support/tools/"
+      ],
+      "evidenceSha256": "855ed90c040cca4626c3d116667423831a3720b244244ee4435940cf3951bc01"
+    },
+    {
+      "id": "tool-seatools",
+      "name": "SeaTools",
+      "method": "vendor",
+      "version": "5.3.1",
+      "actionUrl": "https://www.seagate.com/content/dam/seagate/migrated-assets/www-content/support-content/downloads/seatools/_shared/downloads/SeaToolsWindowsInstaller.exe",
+      "ownServerMirrorReady": false,
+      "mirrorDecision": "no-explicit-mirror-grant",
+      "primarySources": [
+        "https://www.seagate.com/content/dam/seagate/migrated-assets/www-content/support-content/downloads/seatools/_shared/downloads/100869623_B.pdf",
+        "https://www.seagate.com/content/dam/seagate/migrated-assets/www-content/support-content/downloads/seatools/_shared/downloads/SeaToolsWindowsInstaller.exe",
+        "https://www.seagate.com/support/downloads/seatools/"
+      ],
+      "evidenceSha256": "855ed90c040cca4626c3d116667423831a3720b244244ee4435940cf3951bc01"
+    },
+    {
+      "id": "tool-memtest86",
+      "name": "MemTest86 Free",
+      "method": "vendor",
+      "version": "11.7 Build 1000",
+      "actionUrl": "https://www.memtest86.com/download.htm",
+      "ownServerMirrorReady": false,
+      "mirrorDecision": "publisher-permission-evidenced-current-binary-license-still-to-check",
+      "primarySources": [
+        "https://forums.passmark.com/memtest86/44494-version-8-1-distribution-file-is-not-versioned",
+        "https://forums.passmark.com/memtest86/49403-redistribution-of-memtest86-free-edition-via-linux-distro",
+        "https://www.memtest86.com/download.htm"
+      ],
+      "evidenceSha256": "25c926c90fa8e19ac0670136997eac8944273186e8545da333c04a81e4120a0c"
+    },
+    {
+      "id": "tool-occt",
+      "name": "OCCT Personal",
+      "method": "vendor",
+      "version": "17.1.7",
+      "actionUrl": "https://www.ocbase.com/download-personal",
+      "ownServerMirrorReady": false,
+      "mirrorDecision": "additional-publisher-redistribution-permission-required",
+      "primarySources": [
+        "https://www.ocbase.com/download-personal",
+        "https://www.ocbase.com/eula"
+      ],
+      "evidenceSha256": "25c926c90fa8e19ac0670136997eac8944273186e8545da333c04a81e4120a0c"
+    },
+    {
+      "id": "tool-unigine-heaven",
+      "name": "UNIGINE Heaven",
+      "method": "vendor",
+      "version": "4.0",
+      "actionUrl": "https://assets.unigine.com/d/Unigine_Heaven-4.0.exe",
+      "ownServerMirrorReady": false,
+      "mirrorDecision": "additional-written-publisher-redistribution-permission-required",
+      "primarySources": [
+        "https://assets.unigine.com/d/Unigine_Heaven-4.0.exe",
+        "https://benchmark.unigine.com/policies/heaven-eula"
+      ],
+      "evidenceSha256": "25c926c90fa8e19ac0670136997eac8944273186e8545da333c04a81e4120a0c"
+    },
+    {
+      "id": "tool-unigine-valley",
+      "name": "UNIGINE Valley",
+      "method": "vendor",
+      "version": "1.0",
+      "actionUrl": "https://assets.unigine.com/d/Unigine_Valley-1.0.exe",
+      "ownServerMirrorReady": false,
+      "mirrorDecision": "additional-written-publisher-redistribution-permission-required",
+      "primarySources": [
+        "https://assets.unigine.com/d/Unigine_Valley-1.0.exe",
+        "https://benchmark.unigine.com/policies/valley-eula"
+      ],
+      "evidenceSha256": "25c926c90fa8e19ac0670136997eac8944273186e8545da333c04a81e4120a0c"
+    },
+    {
+      "id": "tool-unigine-superposition",
+      "name": "UNIGINE Superposition",
+      "method": "vendor",
+      "version": "1.1",
+      "actionUrl": "https://assets.unigine.com/d/Unigine_Superposition-1.1.exe",
+      "ownServerMirrorReady": false,
+      "mirrorDecision": "additional-written-publisher-redistribution-permission-required",
+      "primarySources": [
+        "https://assets.unigine.com/d/Unigine_Superposition-1.1.exe",
+        "https://benchmark.unigine.com/policies/superposition-eula"
+      ],
+      "evidenceSha256": "25c926c90fa8e19ac0670136997eac8944273186e8545da333c04a81e4120a0c"
+    },
+    {
+      "id": "tool-3dmark",
+      "name": "3DMark",
+      "method": "vendor",
+      "version": "",
+      "actionUrl": "https://store.steampowered.com/app/223850/3DMark/",
+      "ownServerMirrorReady": false,
+      "mirrorDecision": "additional-publisher-redistribution-permission-required",
+      "primarySources": [
+        "https://benchmarks.ul.com/3dmark/download",
+        "https://benchmarks.ul.com/eula",
+        "https://store.steampowered.com/app/223850/3DMark/"
+      ],
+      "evidenceSha256": "25c926c90fa8e19ac0670136997eac8944273186e8545da333c04a81e4120a0c"
+    },
+    {
+      "id": "tool-cinebench",
+      "name": "Cinebench 2026",
+      "method": "vendor",
+      "version": "2026",
+      "actionUrl": "https://www.maxon.net/en/downloads/cinebench-downloads",
+      "ownServerMirrorReady": false,
+      "mirrorDecision": "additional-publisher-redistribution-permission-required",
+      "primarySources": [
+        "https://www.maxon.net/en/downloads/cinebench-downloads",
+        "https://www.maxon.net/en/legal/eula"
+      ],
+      "evidenceSha256": "25c926c90fa8e19ac0670136997eac8944273186e8545da333c04a81e4120a0c"
+    },
+    {
+      "id": "tool-4da62b9959ceb5ff",
+      "name": "鲁大师电脑版",
+      "method": "vendor",
+      "version": "6.1026.4830.924",
+      "actionUrl": "https://www.ludashi.com/pc/download/getDownloadUrl?type=2",
+      "ownServerMirrorReady": false,
+      "mirrorDecision": "conditional-noncommercial-complete-original-distribution",
+      "primarySources": [
+        "https://www.ludashi.com/licence.html",
+        "https://www.ludashi.com/pc/download/getDownloadUrl?type=2"
+      ],
+      "evidenceSha256": "25c926c90fa8e19ac0670136997eac8944273186e8545da333c04a81e4120a0c"
+    },
+    {
+      "id": "tool-geekbench",
+      "name": "Geekbench 7",
+      "method": "vendor",
+      "version": "7.0.0",
+      "actionUrl": "https://www.geekbench.com/download/windows/",
+      "ownServerMirrorReady": false,
+      "mirrorDecision": "additional-publisher-redistribution-permission-required",
+      "primarySources": [
+        "https://www.geekbench.com/download/windows/",
+        "https://www.primatelabs.com/legal/eula-v7.html"
+      ],
+      "evidenceSha256": "25c926c90fa8e19ac0670136997eac8944273186e8545da333c04a81e4120a0c"
+    },
+    {
+      "id": "tool-amd",
+      "name": "AMD 显卡驱动",
+      "method": "vendor",
+      "version": "",
+      "actionUrl": "https://www.amd.com/en/support/download/drivers.html",
+      "ownServerMirrorReady": false,
+      "mirrorDecision": "explicit-prior-consent-or-ban",
+      "primarySources": [
+        "https://www.amd.com/en/legal/eula/amd-software-eula.html",
+        "https://www.amd.com/en/support/download/drivers.html"
+      ],
+      "evidenceSha256": "ea4842874b11d57f5b812c5ca818eef9d83f8323be8277c59d4944625d02b5f6"
+    },
+    {
+      "id": "tool-nvidia",
+      "name": "NVIDIA 显卡驱动",
+      "method": "vendor",
+      "version": "",
+      "actionUrl": "https://www.nvidia.cn/geforce/drivers/",
+      "ownServerMirrorReady": false,
+      "mirrorDecision": "explicit-prior-consent-or-ban",
+      "primarySources": [
+        "https://www.nvidia.cn/geforce/drivers/",
+        "https://www.nvidia.com/content/DriverDownloads/licence.php?lang=us&type=GeForce"
+      ],
+      "evidenceSha256": "ea4842874b11d57f5b812c5ca818eef9d83f8323be8277c59d4944625d02b5f6"
+    },
+    {
+      "id": "tool-amd-ryzen-master",
+      "name": "AMD Ryzen Master",
+      "method": "vendor",
+      "version": "3.1.1.5502",
+      "actionUrl": "https://www.amd.com/en/products/software/ryzen-master.html",
+      "ownServerMirrorReady": false,
+      "mirrorDecision": "explicit-prior-consent-or-ban",
+      "primarySources": [
+        "https://www.amd.com/en/legal/eula/amd-software-eula.html",
+        "https://www.amd.com/en/products/software/ryzen-master.html"
+      ],
+      "evidenceSha256": "ea4842874b11d57f5b812c5ca818eef9d83f8323be8277c59d4944625d02b5f6"
+    },
+    {
+      "id": "tool-intel-xtu",
+      "name": "Intel Extreme Tuning Utility",
+      "method": "vendor",
+      "version": "7.14.2.93 / 10.0.1.188",
+      "actionUrl": "https://www.intel.cn/content/www/cn/zh/download/17881/intel-extreme-tuning-utility-intel-xtu.html",
+      "ownServerMirrorReady": false,
+      "mirrorDecision": "no-explicit-permission-found",
+      "primarySources": [
+        "https://www.intel.cn/content/www/cn/zh/download/17881/intel-extreme-tuning-utility-intel-xtu.html",
+        "https://www.intel.cn/etc.clientlibs/intel/clientlibs/bundles/resources/js/downloadcenter.components.content.dcPageLicenseModal.script.d5fff54a.bundle.js"
+      ],
+      "evidenceSha256": "ea4842874b11d57f5b812c5ca818eef9d83f8323be8277c59d4944625d02b5f6"
+    },
+    {
+      "id": "tool-360",
+      "name": "360 驱动大师",
+      "method": "vendor",
+      "version": "2.0.0.2190",
+      "actionUrl": "https://dm.weishi.360.cn/home.html",
+      "ownServerMirrorReady": false,
+      "mirrorDecision": "no-explicit-permission-found",
+      "primarySources": [
+        "https://dm.weishi.360.cn/agreement.html?type=agreement",
+        "https://dm.weishi.360.cn/home.html",
+        "https://s1.ssl.qhimg.com/static/a2c7c318ca757ba5.js",
+        "https://www.360.cn/xukexieyi.html"
+      ],
+      "evidenceSha256": "ea4842874b11d57f5b812c5ca818eef9d83f8323be8277c59d4944625d02b5f6"
+    },
+    {
+      "id": "tool-3cc9ad1ea4110b0c",
+      "name": "卡巴斯基免费版",
+      "method": "vendor",
+      "version": "",
+      "actionUrl": "https://www.kaspersky.com.cn/downloads/free-antivirus",
+      "ownServerMirrorReady": false,
+      "mirrorDecision": "no-explicit-permission-found",
+      "primarySources": [
+        "https://support.kaspersky.com/kfa/2019/en-us/70647.htm",
+        "https://www.kaspersky.com.cn/downloads/free-antivirus",
+        "https://www.kaspersky.com.cn/end-user-license-agreement"
+      ],
+      "evidenceSha256": "ea4842874b11d57f5b812c5ca818eef9d83f8323be8277c59d4944625d02b5f6"
+    },
+    {
+      "id": "tool-ed6923139ee816c2",
+      "name": "游戏加加 GamePP",
+      "method": "vendor",
+      "version": "",
+      "actionUrl": "https://www.gamepp.com/",
+      "ownServerMirrorReady": false,
+      "mirrorDecision": "explicit-prior-consent-or-ban",
+      "primarySources": [
+        "https://gamepp.com/terms-of-use.html",
+        "https://www.gamepp.com/"
+      ],
+      "evidenceSha256": "ea4842874b11d57f5b812c5ca818eef9d83f8323be8277c59d4944625d02b5f6"
+    },
+    {
+      "id": "tool-ufo",
+      "name": "TestUFO 显示器测试",
+      "method": "website",
+      "version": "",
+      "actionUrl": "https://testufo.com/refreshrate",
+      "ownServerMirrorReady": false,
+      "mirrorDecision": "vendor-device-workflow",
+      "primarySources": [
+        "https://blurbusters.com/about/terms-of-use/",
+        "https://testufo.com/refreshrate"
+      ],
+      "evidenceSha256": "ea4842874b11d57f5b812c5ca818eef9d83f8323be8277c59d4944625d02b5f6"
+    },
+    {
+      "id": "tool-e064c8b42ca4d137",
+      "name": "PCbox 在线外设测试",
+      "method": "website",
+      "version": "",
+      "actionUrl": "https://www.pcbox.tech/",
+      "ownServerMirrorReady": false,
+      "mirrorDecision": "vendor-device-workflow",
+      "primarySources": [
+        "https://www.pcbox.tech/"
+      ],
+      "evidenceSha256": "ea4842874b11d57f5b812c5ca818eef9d83f8323be8277c59d4944625d02b5f6"
+    },
+    {
+      "id": "tool-windows-hdr-calibration",
+      "name": "Windows HDR Calibration",
+      "method": "store",
+      "version": "",
+      "actionUrl": "https://apps.microsoft.com/detail/9N7F2SM5D1LR",
+      "ownServerMirrorReady": false,
+      "mirrorDecision": "vendor-device-workflow",
+      "primarySources": [
+        "https://apps.microsoft.com/detail/9N7F2SM5D1LR"
+      ],
+      "evidenceSha256": "ea4842874b11d57f5b812c5ca818eef9d83f8323be8277c59d4944625d02b5f6"
+    },
+    {
+      "id": "tool-next-itellyou",
+      "name": "next.itellyou 原版软件索引",
+      "method": "website",
+      "version": "",
+      "actionUrl": "https://next.itellyou.cn/",
+      "ownServerMirrorReady": false,
+      "mirrorDecision": "vendor-device-workflow",
+      "primarySources": [
+        "https://next.itellyou.cn/"
+      ],
+      "evidenceSha256": "ea4842874b11d57f5b812c5ca818eef9d83f8323be8277c59d4944625d02b5f6"
+    },
+    {
+      "id": "tool-flashmaster",
+      "name": "FlashMaster 离线芯片查询",
+      "method": "owned",
+      "version": "2.6.0",
+      "actionUrl": null,
+      "ownServerMirrorReady": true,
+      "mirrorDecision": "AGPL-and-corresponding-source-ready",
+      "primarySources": [
+        "https://zhenxingai.com/downloads/tools/tool-flashmaster/da950c6c6de5957eaf2b/FlashMaster-2.6.0-offline.zip",
+        "https://zhenxingai.com/downloads/tools/tool-flashmaster/licenses/11bd3e4ccd6cd8105ef2/NOTICES.txt",
+        "https://zhenxingai.com/downloads/tools/tool-flashmaster/licenses/4723ccf56777721c5cb4/README-offline.txt",
+        "https://zhenxingai.com/downloads/tools/tool-flashmaster/licenses/4df3c306dddaaf4baffd/AGPL-3.0.txt",
+        "https://zhenxingai.com/downloads/tools/tool-flashmaster/licenses/7c166f41435ca2525064/SOURCE-AVAILABILITY.txt",
+        "https://zhenxingai.com/downloads/tools/tool-flashmaster/sources/cde3f362b67e0faeab90/FlashMaster-2.6.0-complete-source.zip"
+      ],
+      "evidenceSha256": "fe72e601c9fb9bf936663f7bf3f312652d375ae4ff0906ab799b0dc65c2d6a55"
+    },
+    {
+      "id": "tool-cb762dcbc3ad51dd",
+      "name": "图吧工具箱旧版皮肤编辑器",
+      "method": "unavailable",
+      "version": "2022.07",
+      "actionUrl": null,
+      "ownServerMirrorReady": false,
+      "mirrorDecision": "no-explicit-permission-found",
+      "primarySources": [
+        "https://www.tbtool.cn/skin/index.html"
+      ],
+      "evidenceSha256": "ea4842874b11d57f5b812c5ca818eef9d83f8323be8277c59d4944625d02b5f6"
+    }
+  ],
+  "vendorProgramsExecuted": false,
+  "newOwnedPackages": 1,
+  "memtestOriginalAttempts": "Local Windows and owned-server HTTPS GET returned 403 at both publisher domains; no complete ZIP or digest was obtained."
+}

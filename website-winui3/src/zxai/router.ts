@@ -13,6 +13,7 @@ const routes: RouteRecordRaw[] = [
   { path: '/', name: 'home', component: () => import('./pages/HomePage.vue') },
   { path: '/download', name: 'download', component: () => import('./pages/DownloadPage.vue') },
   { path: '/tools/download/:id?', name: 'tool-downloads', component: () => import('./pages/ToolDownloadsPage.vue') },
+  { path: '/tools/acquire/:id?', name: 'tool-acquisition', component: () => import('./pages/ToolAcquisitionPage.vue') },
   { path: '/docs', name: 'docs', component: () => import('./pages/DocsPage.vue') },
   { path: '/community', name: 'community', component: () => import('./pages/CommunityPage.vue') },
   { path: '/about', name: 'about', component: () => import('./pages/AboutPage.vue') },

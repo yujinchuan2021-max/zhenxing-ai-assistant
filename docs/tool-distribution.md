@@ -2,7 +2,7 @@
 
 本文说明 2026-10-07 下载修订的实际分发状态、协议和后续部署要求。对外版本为 **0.1.1 公开预览版**，程序和更新清单内部版本为 `0.1.1.1`。本轮服务端、自有工具包、安装器目录及客户端发布包已经上线并完成对应回读验收；事实依据见[完整发布验收记录](releases/0.1.1-revision-20261007-complete-validation.json)和[下载修订说明](releases/0.1.1-revision-20261007-downloads.md)。
 
-当前 v1 为 revision 4，111 个工具中 73 个提供受管便携包；v2 为 revision 5，111 个工具中 74 个提供受管便携包，声明 86 个架构入口。独立原厂 EXE 清单 revision 2 提供 Optimizer、PawnIO、Sandboxie、UniGetUI、PowerToys 五个工具的八个文件。最新扩展新增 Victoria 原 ZIP 和 PowerToys x64/ARM64 原安装器及配套许可、对应源码，共八项新资产；服务器和 Windows 本机分别完成完整 HTTPS 大小与 SHA-256 回读。详见[云端扩展说明](releases/0.1.1-cloud-download-expansion-20261007.md)及[验收记录](releases/0.1.1-cloud-download-expansion-20261007-validation.json)。此前三份 ZIP、六份 EXE 和九份许可/源码资源的验收保留于历史记录。文件验收没有执行厂商程序，不能据此认定实际安装或功能已通过。
+当前 v1 为 revision 5，111 个工具中 73 个提供受管便携包；v2 为 revision 6，111 个工具中 74 个提供受管便携包，声明 86 个架构入口。独立原厂 EXE 清单 revision 2 提供 Optimizer、PawnIO、Sandboxie、UniGetUI、PowerToys 五个工具的八个文件。此前的二进制扩展新增 Victoria 原 ZIP 和 PowerToys x64/ARM64 原安装器及配套许可、对应源码，共八项新资产；服务器和 Windows 本机分别完成完整 HTTPS 大小与 SHA-256 回读。详见[云端扩展说明](releases/0.1.1-cloud-download-expansion-20261007.md)及[验收记录](releases/0.1.1-cloud-download-expansion-20261007-validation.json)。本次随后补齐 33 项获取流程并新增 FlashMaster 离线网页 ZIP 与对应资料，见[获取维护说明](releases/0.1.1-tool-acquisition-20261007.md)和[本次验收记录](releases/0.1.1-tool-acquisition-20261007-validation.json)。此前三份 ZIP、六份 EXE 和九份许可/源码资源的验收保留于历史记录。文件验收没有执行厂商程序，不能据此认定实际安装或功能已通过。
 
 正式来源目前使用 `zhenxingai.com`。v2 包的 `mirrors` 均为空；`download.zhenxingai.com` 与 `download-backup.zhenxingai.com` 仍是预留的受信域名，未部署独立备用存储，也未声称部署大陆 CDN。白名单和一次公开直连成功不证明覆盖国内所有地区、运营商或持续可用。
 
@@ -12,7 +12,7 @@
 
 自有便携工具包、厂商安装器、应用商店软件、CLI及需要账户登录的软件有不同验收要求。下文 `ToolCatalogStore` 门禁只接受 `portable-zip` 和安全的 `.exe` 主入口；安装器通过独立 `/downloads/installers/catalog.json` 目录提供，不能借便携包门禁的通过结果证明 MSI/EXE 安装、软件登录、依赖下载或工具功能通过。桌面软件和驱动的原厂 EXE/MSI 在明确分发许可、真实文件和更新来源的前提下，技术上也能由自有服务器原样托管；无需为了统一下载而强行改成便携 ZIP。
 
-本次从此前 35 项中将 Victoria 接入便携目录、PowerToys 接入自有官网下载页，剩余 33 项仍提供官方或维护者获取入口。这是当前包、许可及专门流程尚未全部完成的发布状态，不是认定这些工具永远只能打开厂商网站。应逐项确认分发权、真实主产品、架构、版本和依赖，再接入原样文件托管与对应安装流程。驱动还须验证设备匹配、系统签名、权限、安装后的服务或设备状态与重启要求；启动 U 盘工具需要单独的介质写入确认。下载并启动安装器只能显示等待系统安装结果，不能显示软件已安装。
+此前从 35 项中将 Victoria 接入便携目录、PowerToys 接入自有官网下载页。本次对另外 33 项补齐获取流程：27 项原厂获取、3 项在线使用、1 项商店应用、1 项自有 FlashMaster 离线网页 ZIP，1 项旧皮肤编辑器不适用并隐藏。尚未取得适用镜像权限或完整原包的工具保留真实原厂流程；这不是认定它们永远只能打开厂商网站。后续须逐项确认分发权、真实主产品、架构、版本和依赖，再接入原样文件托管与对应安装流程。驱动还须验证设备匹配、系统签名、权限、安装后的服务或设备状态与重启要求；启动 U 盘工具需要单独的介质写入确认。下载并启动安装器只能显示等待系统安装结果，不能显示软件已安装。
 
 账户登录和商店授权是独立边界：自有服务器可提供获准分发的安装文件，但不能代替用户登录模型账户、订阅授权或 Microsoft Store 许可，也不能保证安装后的厂商服务无需外网。网页工具应显示“打开网页”。三个缺少可靠 HTTPS 来源或准确产品身份的未安装空条目已隐藏，不能提供无效安装按钮。工具转载许可与版权证据仍需人工审核，现有第三方发布审核脚本独立保留；已发布许可和对应源码见[第三方下载说明](third-party-downloads.md)。
 
@@ -34,11 +34,11 @@ Dism++ 的本机官方原 ZIP 已完整静态校验，大小为 3,767,974 字节
 | 私有发布 | `POST /v1/admin/tools/publish` | `POST /v2/admin/tools/publish` |
 | 本机管理页面 | `/admin/tools` | `/admin/tools-v2` |
 
-本轮服务与 v1/v2 目录已部署，公开目录分别回读为 revision 4 和 revision 5。对尚未初始化的环境，v1未发布返回 `503`，v2尚未发布返回 `404`；未部署的新路由可能由旧服务/代理返回 `404`。新客户端的兼容行为仍须覆盖这些状态，不能把“v2暂未发布”理解为清空 v1 已有工具，也不能把错误的 `200` 网页或鉴权、服务故障当成正常回退。
+本轮服务与 v1/v2 目录已部署，公开目录分别回读为 revision 5 和 revision 6。对尚未初始化的环境，v1未发布返回 `503`，v2尚未发布返回 `404`；未部署的新路由可能由旧服务/代理返回 `404`。新客户端的兼容行为仍须覆盖这些状态，不能把“v2暂未发布”理解为清空 v1 已有工具，也不能把错误的 `200` 网页或鉴权、服务故障当成正常回退。
 
 两个协议分别存储在数据目录的 `tool-catalog/catalog.sqlite3` 与 `tool-catalog-v2/catalog.sqlite3`，各自保留 `catalogs`、`catalog_current`、`verification_receipts`。向 v2 发布不会切换 v1 指针；v1发布接口拒绝 v2 清单，反向也一样。来源URL的不可变绑定共同存储在 `tool-package-assets.sqlite3`，防止同一URL跨协议更换哈希或大小。回退时把已验收的旧内容作为更高的新修订发布，不能覆盖历史修订。
 
-客户端保留全局递增修订，不能在同一修订号接受不同目录。因此首次v2发布还须大于当前v1修订及客户端内置seed；生产Store在事务内强制这一条件。本轮内置 `Metadata/cloud-tools.json` 为 schema 1、revision 3、`minClientVersion=0.1.0.0`，线上 v2 使用更高的 revision 5。兼容 v1 没有添加 DDU 包，避免旧客户端的安装器关键词检查拒绝真实的 `Display Driver Uninstaller.exe` 后使整库失效；新版 v2 使用经审核的精确入口例外。以后提升客户端seed时，应同步维护服务端初始修订下限，部署人员也须协调两份目录修订，而非把v2从1重新编号。
+客户端保留全局递增修订，不能在同一修订号接受不同目录。因此首次v2发布还须大于当前v1修订及客户端内置seed；生产Store在事务内强制这一条件。本轮内置 `Metadata/cloud-tools.json` 为 schema 1、revision 3、`minClientVersion=0.1.0.0`，线上 v2 使用更高的 revision 6。兼容 v1 没有添加 DDU 包，避免旧客户端的安装器关键词检查拒绝真实的 `Display Driver Uninstaller.exe` 后使整库失效；新版 v2 使用经审核的精确入口例外。以后提升客户端seed时，应同步维护服务端初始修订下限，部署人员也须协调两份目录修订，而非把v2从1重新编号。
 
 v1 包只含 `architecture/url/sizeBytes/sha256/entryPoint/kind`，禁止额外的 `mirrors` 字段，主地址仍只接受 `https://zhenxingai.com/downloads/tools/...zip`。v2 保留这些字段，另外必填 `mirrors:[]`，最多3个备源，加主源总计最多4个。v2允许主备使用以下3个准确的主机名：
 
@@ -105,3 +105,8 @@ CLI只读取文件和自有下载来源，不发布清单；失败时退出码1�
 6. 本轮已完成线上声明便携包及新增资源的完整文件验收，不能仅凭历史metadata或部分ZIP头探测扩大为所有工具可用。依赖/启动、厂商实际安装、国内不同地区及电信/联通/移动网络测试和持续失败率监测仍需另外完成；这些结果不包含在离线测试或一次完整GET通过的范围内。
 
 本轮已上线的自有文件分发与更新清单具有真实来源验收记录，不能据此宣称“国内双源已上线”“所有工具都能安装”或“全国网络永远100%成功”。客户端程序更新当前是下载、校验后由用户手动关闭旧版、完整解压并启动，尚未实现自动替换或重启。后续新增工具和备源应继续保留真实来源验收回执、明确的待补充条目、安装/启动结果及独立备源部署记录。
+
+
+## 后续 33 项获取维护
+
+[完整处理说明](releases/0.1.1-tool-acquisition-20261007.md)记录每项的实际获取方式。[统一获取页面](https://zhenxingai.com/tools/acquire)与[公开数据](catalogs/tool-acquisition.json)分别展示原厂下载、在线工具、商店和停用条目；新增 FlashMaster 2.6.0 自有离线网页 ZIP、精确对应源码和必要许可。它不属于 portable-EXE，不增加上述 74 个工具/86 个入口或原厂 EXE 数字。Dism++/FanControl仍有原厂GitHub依赖，MemTest86原包未取得，鲁大师商业分发条件未确认为已满足，没有冒充全量国内镜像。

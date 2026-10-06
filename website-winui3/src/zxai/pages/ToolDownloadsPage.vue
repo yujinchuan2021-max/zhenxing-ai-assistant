@@ -6,6 +6,7 @@
       <p>{{ t('选择与你的 Windows 系统匹配的版本。文件从本站直接提供，无需先访问 GitHub；下载后按原厂说明安装或运行。', 'Choose a file that matches your Windows system. Files are served directly by this site, without visiting GitHub first. After downloading, follow the vendor’s installation or launch instructions.') }}</p>
       <div class="tool-downloads__nav">
         <RouterLink to="/download">{{ t('客户端下载', 'Client download') }}</RouterLink>
+        <RouterLink to="/tools/acquire">{{ t('其他工具与获取方式', 'Other tools and acquisition') }}</RouterLink>
         <RouterLink to="/docs#third-party-licences">{{ t('许可与使用说明', 'Licences and usage instructions') }}</RouterLink>
         <RouterLink v-if="selectedId" to="/tools/download">{{ t('查看全部工具', 'View all tools') }}</RouterLink>
       </div>

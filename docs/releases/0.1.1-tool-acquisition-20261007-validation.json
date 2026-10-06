@@ -1,0 +1,201 @@
+{
+  "schema": "zhenxing-tool-acquisition-publication-validation/1",
+  "verifiedAt": "2026-10-06T21:55:33.690085Z",
+  "publicationComplete": true,
+  "scope": "33 acquisition dispositions and website/cloud metadata; only FlashMaster adds an owned offline browser ZIP.",
+  "application": {
+    "publicVersion": "0.1.1",
+    "internalVersion": "0.1.1.1",
+    "packageUnchanged": true,
+    "fileName": "ZhenxingAI-v0.1.1-preview-20261007-fix2.zip",
+    "sizeBytes": 393090180,
+    "sha256": "44761000ea51fb70c9b060b20deff1228a480fdc22813290f6656be99b170fe8",
+    "sourceTag": "v0.1.1-revision-20261007-complete",
+    "sourceCommit": "e93d6b3286c871db9122d4b13311b4d01d1587fb",
+    "newNativeRuntimeVerification": false
+  },
+  "website": {
+    "url": "https://zhenxingai.com/tools/acquire",
+    "fileCount": 117,
+    "indexSha256": "b216ddd96e131174f75170990396c48a49cae8bcb5546b7d4a99cb230405a0bb",
+    "typecheckAndBuildPassed": true,
+    "visualReview": [
+      "light Chinese desktop 1440px",
+      "dark English mobile 390px"
+    ]
+  },
+  "acquisitionMetadata": {
+    "revision": 1,
+    "tools": 33,
+    "sha256": "7ff65a8ceecad1a2fc425bee4222b61d27bbe604b026591ae048a4b9e7165416",
+    "exactBytesMatched": true,
+    "schemaVersion": 1,
+    "sizeBytes": 64620,
+    "methods": {
+      "vendor": 27,
+      "website": 3,
+      "store": 1,
+      "owned": 1,
+      "unavailable": 1
+    },
+    "defaultAvailableEntries": 32
+  },
+  "cloudCatalogs": [
+    {
+      "url": "https://zhenxingai.com/api/toolflows/v1/tools/catalog",
+      "sha256": "ea2d8df2e6655bf3c014dc35133f4bdc5b612231d356d799375e715147046717",
+      "revision": 5,
+      "tools": 111,
+      "managedPortableTools": 73,
+      "architectureEntries": 85,
+      "acquisitionPathsMatch": true
+    },
+    {
+      "url": "https://zhenxingai.com/api/toolflows/v2/tools/catalog",
+      "sha256": "cebb78499f3f4d2f0b6ec3ecb84599677274cf73b80df67a54ebd90772a37c47",
+      "revision": 6,
+      "tools": 111,
+      "managedPortableTools": 74,
+      "architectureEntries": 86,
+      "acquisitionPathsMatch": true
+    }
+  ],
+  "cloudPublicationCompletePackageGates": [
+    {
+      "kind": "v1",
+      "revision": 5,
+      "catalogSha256": "ea2d8df2e6655bf3c014dc35133f4bdc5b612231d356d799375e715147046717",
+      "catalogBytes": 71927,
+      "originCount": 73,
+      "downloadedBytes": 374738695,
+      "toolsExecuted": false
+    },
+    {
+      "kind": "v2",
+      "revision": 6,
+      "catalogSha256": "cebb78499f3f4d2f0b6ec3ecb84599677274cf73b80df67a54ebd90772a37c47",
+      "catalogBytes": 73321,
+      "originCount": 74,
+      "downloadedBytes": 376259027,
+      "toolsExecuted": false
+    }
+  ],
+  "unchangedFeedsAndInstallerCatalog": [
+    {
+      "name": "installers",
+      "url": "https://zhenxingai.com/downloads/installers/catalog.json",
+      "sha256": "948c35b8dba0c13d5f30542365ec68bb832fc68d1057dc20226eec104014edf8",
+      "unchanged": true
+    },
+    {
+      "name": "preview",
+      "url": "https://zhenxingai.com/updates/preview.json",
+      "sha256": "5c1f046359f6237c91914a08f0aff188149ad9546565b9aaa67cfe6e1bee996a",
+      "unchanged": true
+    },
+    {
+      "name": "stable",
+      "url": "https://zhenxingai.com/updates/stable.json",
+      "sha256": "3affd61998f3c4ccd3f1f85840f50d8eb14deb0ad85809d73737817bf2f00e2e",
+      "unchanged": true
+    }
+  ],
+  "ownedAssets": [
+    {
+      "url": "https://zhenxingai.com/downloads/tools/tool-flashmaster/da950c6c6de5957eaf2b/FlashMaster-2.6.0-offline.zip",
+      "sizeBytes": 826758,
+      "sha256": "da950c6c6de5957eaf2b7e6cfa20155b7a3e0599e65194f7210baa882ae2f3a1",
+      "completeGET": true,
+      "zipAllCrcPassed": true,
+      "zipEntries": 6
+    },
+    {
+      "url": "https://zhenxingai.com/downloads/tools/tool-flashmaster/sources/cde3f362b67e0faeab90/FlashMaster-2.6.0-complete-source.zip",
+      "sizeBytes": 40607957,
+      "sha256": "cde3f362b67e0faeab90d216dab5b0997b15ee2700a7be49610f933823df27fe",
+      "completeGET": true,
+      "zipAllCrcPassed": true,
+      "zipEntries": 636
+    },
+    {
+      "url": "https://zhenxingai.com/downloads/tools/tool-flashmaster/licenses/4df3c306dddaaf4baffd/AGPL-3.0.txt",
+      "sizeBytes": 34522,
+      "sha256": "4df3c306dddaaf4baffdff5ca820cc679ac8cd6dc263c6a74517783e42fa7a3b",
+      "completeGET": true
+    },
+    {
+      "url": "https://zhenxingai.com/downloads/tools/tool-flashmaster/licenses/11bd3e4ccd6cd8105ef2/NOTICES.txt",
+      "sizeBytes": 65740,
+      "sha256": "11bd3e4ccd6cd8105ef21cbf90f8fe3ab0c3e6a7c22c565bff958fc6893a2a8f",
+      "completeGET": true
+    },
+    {
+      "url": "https://zhenxingai.com/downloads/tools/tool-flashmaster/licenses/7c166f41435ca2525064/SOURCE-AVAILABILITY.txt",
+      "sizeBytes": 1038,
+      "sha256": "7c166f41435ca2525064eeae6945b50ae5baa9fb27c0e554de8f6cb4d950d5ae",
+      "completeGET": true
+    },
+    {
+      "url": "https://zhenxingai.com/downloads/tools/tool-flashmaster/licenses/4723ccf56777721c5cb4/README-offline.txt",
+      "sizeBytes": 1387,
+      "sha256": "4723ccf56777721c5cb4467d75bf7fcc1fdb86fda6e0d51f7f12318dfdf81419",
+      "completeGET": true
+    }
+  ],
+  "flashmaster": {
+    "originalHtmlUnchanged": true,
+    "originalHtmlSha256": "8a5cd87ab60a46df2a8f247aaf181d1065ce3dc2b6c91985ee613d2a807c366a",
+    "applicationCommit": "05038fa55cdfae649dde246535908643c9524f52",
+    "fdnextCommit": "5b2e3df00e49482177a4e67088e69f92bf63cc86",
+    "correspondingSourcePublished": true,
+    "rebuilt": false,
+    "bitReproducibleBuildClaimed": false,
+    "htmlJavascriptWasmExecuted": false,
+    "originalOnlineFeaturesAndAnalyticsRetained": true,
+    "independentReceipt": {
+      "sha256": "5a75f881afa290785babcdb608cd6dbb5bda12178fe42d320f835e2f9239e815",
+      "sizeBytes": 417
+    }
+  },
+  "checks": {
+    "isolatedBrowser": {
+      "passed": 75,
+      "total": 75,
+      "mockedMetadata": true,
+      "sha256": "a9dc837a82d5bfe74bd396ef87e101bcb1800a45d9acbb352e8a9f7b75d941c3",
+      "sizeBytes": 5891
+    },
+    "productionBrowser": {
+      "passed": 37,
+      "total": 37,
+      "mockedMetadata": false,
+      "sha256": "f3ef2d4283fdf8ec47b1b2d7cee3f6ce5287258fd8a162390370d8eca478d9ca",
+      "sizeBytes": 3163
+    },
+    "metadataPublisherFixtures": {
+      "passed": 19,
+      "total": 19,
+      "limits": "Executed on private fixture paths; Linux flock and directory fsync simulated on Windows, concurrency and crash durability reviewed statically.",
+      "sha256": "5079586f8ee399982e53261c10b2e3835f73328cb61a0275f7d30cee94539def",
+      "sizeBytes": 2633
+    },
+    "staticPublisherPreflight": {
+      "passed": 6,
+      "total": 6,
+      "sha256": "3a05412ee2d045362ba7b531e745c3bc4e94e198decfbbd671254fd36fa40c4e",
+      "sizeBytes": 288
+    },
+    "nativeInstallersExecuted": false,
+    "vendorProgramsExecuted": false,
+    "browserTriggeredExecutableRequests": 0
+  },
+  "remainingExternalConstraints": [
+    "Dism++ original mirror authorization not confirmed; current vendor download remains on GitHub.",
+    "FanControl proprietary license requires applicable prior consent; current vendor download remains on GitHub.",
+    "MemTest86 current complete official ZIP returned 403 on both workstation and server; no unverified mirror published.",
+    "LuDaShi allows noncommercial complete distribution, but applicable commercial distribution requires written authorization; original offline vendor link retained.",
+    "Other vendor distribution restrictions or unconfirmed rights are recorded in docs/catalogs/tool-acquisition-audit.json.",
+    "Permission inquiry drafts prepared, not sent; no author contact or permission receipt claimed.",
+    "No mainland CDN, independent backup storage or universal regional availability guarantee."
+  ]
+}
