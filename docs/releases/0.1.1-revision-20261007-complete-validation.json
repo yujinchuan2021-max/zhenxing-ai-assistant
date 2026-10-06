@@ -1,0 +1,94 @@
+{
+  "schema": "zxai-public-release-validation/2",
+  "recordedUtc": "2026-10-06T19:16:34.359340+00:00",
+  "publicVersion": "0.1.1",
+  "programAndFeedVersion": "0.1.1.1",
+  "releaseChannel": "preview",
+  "sourceCommit": "e93d6b3286c871db9122d4b13311b4d01d1587fb",
+  "sourceTag": "v0.1.1-revision-20261007-complete",
+  "package": {
+    "fileName": "ZhenxingAI-v0.1.1-preview-20261007-fix2.zip",
+    "bytes": 393090180,
+    "sha256": "44761000ea51fb70c9b060b20deff1228a480fdc22813290f6656be99b170fe8",
+    "officialUrl": "https://zhenxingai.com/downloads/ZhenxingAI-v0.1.1-preview-20261007-fix2.zip",
+    "githubUrl": "https://github.com/yujinchuan2021-max/zhenxing-ai-assistant/releases/download/v0.1.1-preview/ZhenxingAI-v0.1.1-preview-20261007-fix2.zip",
+    "payloadFiles": 27057,
+    "fullyCheckedZipMembersIncludingBuildInfo": 27058
+  },
+  "clientChecks": {
+    "dotnetBatches": [
+      {
+        "batch": "download-completion-20261007.trx",
+        "passed": 359,
+        "failed": 0
+      },
+      {
+        "batch": "portable-entry-completion-20261007.trx",
+        "passed": 62,
+        "failed": 0
+      }
+    ],
+    "batchesOverlap": true,
+    "pythonMainBatchPassed": 136,
+    "pythonSupplementalBatchPassed": 10,
+    "nativeCasesPassed": 1,
+    "nativeScope": "Default owned community catalog, light and dark themes, isolated host",
+    "realVendorExecutableFilesValidated": 6,
+    "runtimeStepsPassed": 8,
+    "fullZipCrcAndEveryMemberSha256Verified": true,
+    "runtimeProcessesReclaimed": true
+  },
+  "toolDistribution": {
+    "catalogTools": 111,
+    "v1Revision": 3,
+    "v1PortableTools": 72,
+    "v2Revision": 4,
+    "v2PortableTools": 73,
+    "v2DeclaredArchitecturePackages": 85,
+    "installerCatalogRevision": 1,
+    "installerTools": 4,
+    "installerExecutables": 6,
+    "newImmutableAssetsFullHttpsSha256Verified": 18,
+    "v2UniquePortableSourcesFullGetVerified": 73,
+    "v2PortableBytesRead": 374681428,
+    "officialAcquisitionOnlyTools": 35,
+    "unverifiedUninstalledEntriesHidden": 3
+  },
+  "publication": {
+    "serverAndToolCatalogsDeployed": true,
+    "officialPackageFullHttpsSha256Verified": true,
+    "windowsClientDirectNoProxyFullDownloadSha256Verified": true,
+    "windowsClientDirectDownloadSeconds": 113.282,
+    "githubAssetPlatformDigestAndSizeMatched": true,
+    "githubSourceAndTagPushed": true,
+    "previewAndLegacyStableFeedsUpdated": true,
+    "feedSha256": {
+      "preview.json": "5c1f046359f6237c91914a08f0aff188149ad9546565b9aaa67cfe6e1bee996a",
+      "stable.json": "3affd61998f3c4ccd3f1f85840f50d8eb14deb0ad85809d73737817bf2f00e2e"
+    },
+    "staticWebsiteFilesPublished": 112,
+    "staticPublicRoutesVerified": 5,
+    "productionBrowserPageLanguageRendersPassed": 10,
+    "websiteIndexSha256": "298fd9e7b0ad6443ce7b75ba3cc1a9b2eeb6d75c7d1280f577e49ac212fccec4"
+  },
+  "scope": {
+    "vendorProgramsExecuted": false,
+    "mainClientLaunchedDuringQa": false,
+    "personalDataCopied": false,
+    "automaticUpgradeReplacementImplemented": false,
+    "upgradeMode": "download-verify-manual-extract",
+    "allThirdPartyToolsActuallyInstalled": false,
+    "independentBackupStorageDeployed": false,
+    "mainlandCdnDeploymentClaimed": false,
+    "nationwideNetworkGuaranteeClaimed": false,
+    "historicalValidationRecordsPreserved": true
+  },
+  "evidenceSha256": {
+    "clientAndRuntime": "c66b3d2a07ce3444cdd9b755be1f5792156dc91d7c5eeb41fe4a7f760691c7ce",
+    "toolCatalogProductionReport": "883ab2937f22f9568628f9846129c55a39a432020510b168033bf556f85e8c4a",
+    "packageAndFeedProductionReport": "78c02189c0014b45b692e221107f0a34f084eeb032e8e8a82eed1f00ee5b8013",
+    "staticWebsiteProductionReport": "61c9e1ad7148573aa7adf0a4e574fb639b227417cfb3a9b0c9fcc1143b53670e",
+    "productionBrowserReport": "ee9b718ee4d88769a89438dab24a042e79fedc09b524b7c1be0c14f5589e5bf2",
+    "windowsClientDirectDownload": "4f1aa148e8f550f5df69681eae556bf304f935294d2046e84d9b74b52aa0a875"
+  }
+}

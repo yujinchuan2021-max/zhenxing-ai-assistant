@@ -10,6 +10,8 @@
 
 本次维护包文件名为 `ZhenxingAI-v0.1.1-preview-20261007-fix2.zip`，保留此前工具列表、主题和配置修改器修复，并完善官网直连、云端工具目录和下载完整性检查。公开名称继续使用 0.1.1；程序与更新清单的内部版本提升为 `0.1.1.1`，让旧版 `0.1.1.0` 能检测到本次修订。核对下载页的文件名、大小和 SHA-256 后再启动。
 
+官网、GitHub 附件、云端工具目录与两个更新入口均已完成本次发布验收。自有目录目前有 **73 个具备受管便携包的工具**，另提供 **4 类工具的 6 个原厂安装文件**；需要原厂专门获取流程的条目按实际状态显示。客户端直连官网下载完整包的 SHA-256 与发布文件一致，详见[本轮发布验收记录](docs/releases/0.1.1-revision-20261007-complete-validation.json)。
+
 [2026-10-07 修订包官网下载](https://zhenxingai.com/downloads/ZhenxingAI-v0.1.1-preview-20261007-fix2.zip) · [修订包 GitHub 下载](https://github.com/yujinchuan2021-max/zhenxing-ai-assistant/releases/download/v0.1.1-preview/ZhenxingAI-v0.1.1-preview-20261007-fix2.zip)
 
 [官网](https://zhenxingai.com/) · [枕星AI资讯](https://zhenxingai.com/ai-news/) · [枕星AI社区](https://community.zhenxingai.com/) · [反馈问题](https://github.com/yujinchuan2021-max/zhenxing-ai-assistant/issues)

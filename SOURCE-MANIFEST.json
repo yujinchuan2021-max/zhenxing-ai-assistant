@@ -1,13 +1,13 @@
 {
   "schema": "zhenxing-git-source-manifest/1",
-  "snapshotKind": "0.1.1 maintenance source snapshot (2026-10-07 completed download revision)",
+  "snapshotKind": "0.1.1 completed publication source and documentation (2026-10-07)",
   "referenceReleaseTag": "v0.1.1-preview",
   "referenceSourceTag": "v0.1.1-revision-20261007-complete",
-  "baseCodeCommit": "909bfceac0aaf60e1e1e65c37b78e5679a94278f",
-  "releaseNote": "The v0.1.1-revision-20261007-complete source tag identifies this maintenance snapshot; the exact client build is 0.1.1.1 with public version 0.1.1; package publication and production readback receipts are recorded separately from this source snapshot. Prior release tags, archives and verification records are preserved.",
+  "baseCodeCommit": "e93d6b3286c871db9122d4b13311b4d01d1587fb",
+  "releaseNote": "The v0.1.1-revision-20261007-complete tag identifies the exact 0.1.1.1 application source. This index manifest also includes final publication documentation; complete package and production readback evidence is recorded in docs/releases/0.1.1-revision-20261007-complete-validation.json. Prior release tags, archives and verification records are preserved.",
   "hashScope": "Git index blobs normalized by .gitattributes; excludes this manifest.",
-  "fileCount": 1963,
-  "totalBytes": 215785793,
+  "fileCount": 1964,
+  "totalBytes": 215793365,
   "files": [
     {
       "path": ".all-contributorsrc",
@@ -125,9 +125,9 @@
     },
     {
       "path": "README.md",
-      "gitBlob": "1fdabd3fb864193c6d12dca7f59c7939dec4e009",
-      "bytes": 14273,
-      "sha256": "c1a06542f518a56c8cc4ebf16e87b1d7f2e2101bb025d0e2b5a2a063db337ffa"
+      "gitBlob": "67122c6f6f935667d15cf74ab264dc71f538c262",
+      "bytes": 14726,
+      "sha256": "659fbd6bd66786419d08415cb1108ca46441cd3d51cddf2aba5eb8d363ab3cee"
     },
     {
       "path": "SECURITY.md",
@@ -9532,6 +9532,12 @@
       "sha256": "f951a6217d31da924a21f822c1bef591c9236646318d92f6a2dfba1a598d3fd1"
     },
     {
+      "path": "docs/releases/0.1.1-revision-20261007-complete-validation.json",
+      "gitBlob": "8a635270b0cfebe9a5671b78c706362784416630",
+      "bytes": 3931,
+      "sha256": "bf58ece7fbce56fc1dccb1bce8e4f38f4da9018543c010412ded5750f72b1496"
+    },
+    {
       "path": "docs/releases/0.1.1-revision-20261007-downloads-validation.json",
       "gitBlob": "c3b6b61689940ca61653fe63183bf3c9497deaf1",
       "bytes": 1839,
@@ -9539,9 +9545,9 @@
     },
     {
       "path": "docs/releases/0.1.1-revision-20261007-downloads.md",
-      "gitBlob": "51206478c93dc90d646ca65afda0cfdd2e986b6d",
-      "bytes": 4968,
-      "sha256": "689baab4255786525d379f32c88476a7a41e2823ecb775e4fba644f28032a88e"
+      "gitBlob": "e0fd7e3d4009494db693ef3f1cdf99f3c052de15",
+      "bytes": 8127,
+      "sha256": "8610bdb98a99b0ee93733b03627e8238f9b28d136514f49509f9ffc5836d400b"
     },
     {
       "path": "docs/releases/0.1.1-source-manifest.json",
@@ -9881,9 +9887,9 @@
     },
     {
       "path": "website-winui3/index.html",
-      "gitBlob": "4ce67d0cceab206677077d7d6b34baa39c94aacb",
-      "bytes": 6369,
-      "sha256": "d023c2d468eebb32e5a72c0cec4fc3e7ebbb08e72ab51010745b105a6184c1f6"
+      "gitBlob": "3e63df02dfd6a290d98786b89f963c3059063906",
+      "bytes": 6374,
+      "sha256": "30acc13dd3091c2fffe65d116b28471fd8aae9fdff99feee43002f34753f3336"
     },
     {
       "path": "website-winui3/package-lock.json",
@@ -11585,9 +11591,9 @@
     },
     {
       "path": "website-winui3/src/zxai/site.config.ts",
-      "gitBlob": "ed8e377a4d5596c8395ddf3c84a65a22085b329b",
-      "bytes": 20802,
-      "sha256": "e9d58bf2b3b60b3744098a3db8021c2a719122cb9297786ab373aaaafeed65d2"
+      "gitBlob": "11f7496706f4ec708f6f4e781de1bb5ca52e8976",
+      "bytes": 20826,
+      "sha256": "8c6a30752e71344cc0ad923cd6ee032460c67e276ee4755572f83169b5aa8c14"
     },
     {
       "path": "website-winui3/src/zxai/styles/zxai.css",
