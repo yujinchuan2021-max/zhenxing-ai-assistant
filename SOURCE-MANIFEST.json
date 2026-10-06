@@ -2,12 +2,12 @@
   "schema": "zhenxing-git-source-manifest/1",
   "referenceReleaseTag": "v0.1.1-preview",
   "referenceSourceTag": "v0.1.1-revision-20261007-batch-update",
-  "baseCodeCommit": "e8ed85fb2e53b882980478398ee88570a8ce4999",
+  "baseCodeCommit": "8b5b1007c150fafb0da4f4cc94101e9f77e437ef",
   "hashScope": "Git index blobs normalized by .gitattributes; excludes this manifest.",
   "snapshotKind": "0.1.1 / 0.1.1.2 managed tool batch update and MemTest86 owned acquisition revision (2026-10-07)",
   "releaseNote": "The batch-update tag binds the native application and source snapshot for fix3. Subsequent documentation and website metadata may be added to main without changing this application tag. Historical packages, tags and verification records are retained. Vendor binaries, user data, credentials, native profiles and private publication operators are excluded.",
-  "fileCount": 1982,
-  "totalBytes": 216101868,
+  "fileCount": 1983,
+  "totalBytes": 216118179,
   "files": [
     {
       "path": ".all-contributorsrc",
@@ -125,9 +125,9 @@
     },
     {
       "path": "README.md",
-      "gitBlob": "79c38ee76ce2d650a46198375d112b51b0c1a465",
-      "bytes": 15309,
-      "sha256": "266f4c58cd3596ffdb254562b18bdf8bc76f4f97dc8ad8eb4362fa50999ca0e6"
+      "gitBlob": "468d7419d0b6e60fcee090c80c4e9d5ac522bc43",
+      "bytes": 15783,
+      "sha256": "9073ebcf97d65b177a93da688a08d0991b3872179996e35c0b8ebb90863e4988"
     },
     {
       "path": "SECURITY.md",
@@ -9545,9 +9545,15 @@
     },
     {
       "path": "docs/getting-started.md",
-      "gitBlob": "3c358d6a8480271ea5ae9ecf50c19a3f8d82b095",
-      "bytes": 8826,
-      "sha256": "0340f0c720094884f8f4a437e3d504c2a173f93289f0f277c5dee88a54e51d44"
+      "gitBlob": "854c431d62965818d7f01b21e08536ea8b3d8b97",
+      "bytes": 8866,
+      "sha256": "95c43c92d78338ce7ed56b3d936eb5c1f5d558811a3d40b7c064475b5427a2e3"
+    },
+    {
+      "path": "docs/releases/0.1.1-batch-update-20261007-publication-validation.json",
+      "gitBlob": "e1008a59ee49c88f05ca96e63af8e6b1990a4df6",
+      "bytes": 13019,
+      "sha256": "59b8b6f56499da3ec2bb39c436c0b7d8de9a6490da5622a32af7cad31267e3ae"
     },
     {
       "path": "docs/releases/0.1.1-batch-update-20261007-source-validation.json",
@@ -9557,9 +9563,9 @@
     },
     {
       "path": "docs/releases/0.1.1-batch-update-20261007.md",
-      "gitBlob": "2db560195cd40b1fe75b1e5a4143deaa901731f3",
-      "bytes": 2869,
-      "sha256": "ba7234900d710ab3e964837c215f8ebbec22b40be136c108815671791509e2f4"
+      "gitBlob": "e11ea5bba31e719e9eb7a84e99f3cb03c17207a4",
+      "bytes": 5643,
+      "sha256": "5279396393efc6226c975771807bce89e918be02bc1db3c4e5d8318f87237c2b"
     },
     {
       "path": "docs/releases/0.1.1-cloud-download-expansion-20261007-validation.json",
@@ -11699,9 +11705,9 @@
     },
     {
       "path": "website-winui3/src/zxai/site.config.ts",
-      "gitBlob": "11f7496706f4ec708f6f4e781de1bb5ca52e8976",
-      "bytes": 20826,
-      "sha256": "8c6a30752e71344cc0ad923cd6ee032460c67e276ee4755572f83169b5aa8c14"
+      "gitBlob": "6bb02474d15c8f9dcc29e1eb1c2cde7670546e5f",
+      "bytes": 20830,
+      "sha256": "5e5a9fd68ff41af9c681fbb9662c91322bb7396d36bb12932d65f5225d854c04"
     },
     {
       "path": "website-winui3/src/zxai/styles/zxai.css",

@@ -1,0 +1,327 @@
+{
+  "schema": "zxai-batch-update-publication-validation/1",
+  "verifiedAtUtc": "2026-10-06T22:47:44.512220+00:00",
+  "ok": true,
+  "publicVersion": "0.1.1",
+  "internalVersion": "0.1.1.2",
+  "releaseChannel": "preview",
+  "sourceCommit": "8b5b1007c150fafb0da4f4cc94101e9f77e437ef",
+  "sourceTag": "v0.1.1-revision-20261007-batch-update",
+  "package": {
+    "name": "ZhenxingAI-v0.1.1-preview-20261007-fix3.zip",
+    "sizeBytes": 336234234,
+    "sha256": "30f24bd47f6b67e3a09578e6a4383d2d08ccde367ca2c6dbbb48f1fc266b85fa",
+    "fileMembersFullyVerified": 26836,
+    "wholeZipCrcAndPayloadSha256Passed": true
+  },
+  "unitTests": {
+    "passed": 348,
+    "failed": 0,
+    "skipped": 0,
+    "scope": "CloudTool, AppCenter, PreviewUpdateChannel, DistributionIdentity, UpdateService",
+    "trxSha256": "f37e579d32dc87e1d439946ca64558a9400295fbf3aee12119bba62b56734c5f"
+  },
+  "nativeUi": {
+    "passed": 6,
+    "failed": 0,
+    "processExitCode": 0,
+    "themes": [
+      "light",
+      "dark",
+      "light"
+    ],
+    "widths": [
+      360,
+      1120
+    ],
+    "cases": [
+      "AppCenter_NativeTemplates_Narrow_TwoThemes",
+      "AppCenter_NativeTemplates_Wide_TwoThemes",
+      "AppCenter_RegisteredClaude_VerifiedUninstall_NativeTemplates_TwoThemes",
+      "AppCenter_CloudSnapshot_OnlyLocalAndRequestedTasks_Offline",
+      "AppCenter_BatchUpdate_Narrow_TwoThemes",
+      "AppCenter_BatchUpdate_Wide_TwoThemes"
+    ],
+    "logSha256": "9b011d1d39fe7322ef4fafdd6878217738c8aad243d47e834296165ed10af372",
+    "processReceiptSha256": "bc33cdbe906dec702e7eb53340bd25d25b91f3389c15bdc33641273c42c8a985",
+    "syntheticOnly": true,
+    "realHttpRequests": 0,
+    "vendorProgramsExecuted": false
+  },
+  "earlierNativeFailure": {
+    "combinedHostCompleted": false,
+    "processExitCode": -1073741189,
+    "passedBeforeCrash": 4,
+    "repair": "Test host now retains one shared native control resource dictionary for deferred layout across cases; product UI did not change during this repair.",
+    "finalCombinedRunPassed": true
+  },
+  "runtime": {
+    "ok": true,
+    "stepsPassed": 8,
+    "processExitCodes": [
+      0,
+      0
+    ],
+    "allProcessesReclaimed": true,
+    "tempDirsRemoved": {
+      "home": true,
+      "work": true
+    },
+    "allTaskTemporaryRootsRemoved": true,
+    "closureEntriesBefore": 488,
+    "closureEntriesAfter": 488,
+    "nodeVersion": "v22.23.2",
+    "dshVersion": "0.1.5-rc.2",
+    "promptSent": false,
+    "earlierCleanupFailurePreserved": true,
+    "earlierCleanupFailureCause": "QA temporary work path was encoded again into the session path, producing a 346-character Windows path. The original verifier passed with a fresh shorter temporary path. Exact old fixture remnants and native caches were removed without following reparse points.",
+    "verifierChanged": false
+  },
+  "ownServer": {
+    "ok": true,
+    "fullHttpsReadbacks": [
+      {
+        "url": "https://zhenxingai.com/downloads/ZhenxingAI-v0.1.1-preview-20261007-fix3.zip",
+        "sizeBytes": 336234234,
+        "sha256": "30f24bd47f6b67e3a09578e6a4383d2d08ccde367ca2c6dbbb48f1fc266b85fa",
+        "fullHttpsGetVerified": true
+      },
+      {
+        "url": "https://zhenxingai.com/downloads/ZhenxingAI-v0.1.1-preview-20261007-fix3.zip.sha256",
+        "sizeBytes": 110,
+        "sha256": "17b7e9c650c323ad2ae1b16fab04e168c6c98137cc5c520243d2fc58d37604fd",
+        "fullHttpsGetVerified": true
+      },
+      {
+        "url": "https://zhenxingai.com/updates/preview.json",
+        "sizeBytes": 548,
+        "sha256": "a6a06ffd24603e93e9f26260f27ba5a0c9dc64ed49fe0319f8ad59a9093e16db",
+        "fullHttpsGetVerified": true
+      },
+      {
+        "url": "https://zhenxingai.com/updates/stable.json",
+        "sizeBytes": 923,
+        "sha256": "ec7885b108276155ecd3cb4efcb061768f6f38ad37deb7461d9668511ba30d28",
+        "fullHttpsGetVerified": true
+      }
+    ],
+    "feedVersion": "0.1.1.2",
+    "upgradeMode": "download-verify-manual-extract",
+    "automaticClientReplacementImplemented": false,
+    "legacyStableEndpointStillPreviewCompatibility": true,
+    "rollBackNeeded": false
+  },
+  "github": {
+    "ok": true,
+    "url": "https://github.com/yujinchuan2021-max/zhenxing-ai-assistant/releases/tag/v0.1.1-preview",
+    "releaseTag": "v0.1.1-preview",
+    "prereleasePreserved": true,
+    "oldAssetCount": 8,
+    "newAssetCount": 2,
+    "oldAssetsUnchanged": true,
+    "newAssets": [
+      {
+        "id": 616841786,
+        "name": "ZhenxingAI-v0.1.1-preview-20261007-fix3.zip",
+        "size": 336234234,
+        "digest": "sha256:30f24bd47f6b67e3a09578e6a4383d2d08ccde367ca2c6dbbb48f1fc266b85fa",
+        "state": "uploaded",
+        "content_type": "application/zip"
+      },
+      {
+        "id": 616842643,
+        "name": "ZhenxingAI-v0.1.1-preview-20261007-fix3.zip.sha256",
+        "size": 110,
+        "digest": "sha256:17b7e9c650c323ad2ae1b16fab04e168c6c98137cc5c520243d2fc58d37604fd",
+        "state": "uploaded",
+        "content_type": "application/octet-stream"
+      }
+    ],
+    "releaseName": "枕星图吧AI助手 0.1.1 公开预览版（2026-10-07 全部更新修订）",
+    "bodySha256": "351c88bfd2eb0bbacb55636a375e2116a9f2df29a80d5d9130fa336c469cfb4f",
+    "clobberOrDeleteUsed": false
+  },
+  "website": {
+    "ok": true,
+    "typecheckAndBuildPassed": true,
+    "fileCount": 117,
+    "indexSha256": "8e49278638c0855a0b3c0d2189b7c1283fe81dd03f9915002c43769ec061a9a9",
+    "publicRoutes": [
+      {
+        "route": "/",
+        "status": 200,
+        "indexSha256": "8e49278638c0855a0b3c0d2189b7c1283fe81dd03f9915002c43769ec061a9a9"
+      },
+      {
+        "route": "/download",
+        "status": 200,
+        "indexSha256": "8e49278638c0855a0b3c0d2189b7c1283fe81dd03f9915002c43769ec061a9a9"
+      },
+      {
+        "route": "/docs",
+        "status": 200,
+        "indexSha256": "8e49278638c0855a0b3c0d2189b7c1283fe81dd03f9915002c43769ec061a9a9"
+      },
+      {
+        "route": "/about",
+        "status": 200,
+        "indexSha256": "8e49278638c0855a0b3c0d2189b7c1283fe81dd03f9915002c43769ec061a9a9"
+      },
+      {
+        "route": "/community",
+        "status": 200,
+        "indexSha256": "8e49278638c0855a0b3c0d2189b7c1283fe81dd03f9915002c43769ec061a9a9"
+      }
+    ],
+    "releaseArtifact": {
+      "fileName": "ZhenxingAI-v0.1.1-preview-20261007-fix3.zip",
+      "downloadUrl": "https://zhenxingai.com/downloads/ZhenxingAI-v0.1.1-preview-20261007-fix3.zip",
+      "sizeBytes": 336234234,
+      "sha256": "30f24bd47f6b67e3a09578e6a4383d2d08ccde367ca2c6dbbb48f1fc266b85fa",
+      "publishedAt": "2026-10-07"
+    },
+    "oldReleasePreservedForRollback": true,
+    "downloadsApiForumAndUpdateFeedsTouchedByStaticPublisher": false,
+    "browserTests": 12,
+    "browserPassed": 12,
+    "browserUsesActualProductionMetadata": true,
+    "strictWholePageDownloadLinkTests": 4,
+    "strictWholePageDownloadLinkPassed": 4,
+    "allWholePageCandidateLinksExactSameReviewedPackage": true,
+    "publicNewStaticFullGetCount": 11,
+    "sourceTagVerificationMethod": "Exact corresponding source URL in actually loaded and verified public runtime config module",
+    "manualMemtestUsbFlowPreserved": true,
+    "binaryRequests": 0,
+    "loginAttempted": false,
+    "vendorProgramsExecuted": false,
+    "firstBrowserQaFailurePreserved": true,
+    "browserQaCorrectionScope": "Only QA selector restricted to page body; nav and body both correctly link to the same fix3 package. No website build/freeze/config or deployment changed."
+  },
+  "publicMetadataReadbacks": [
+    {
+      "url": "https://zhenxingai.com/api/toolflows/v1/tools/catalog",
+      "status": 200,
+      "sizeBytes": 71927,
+      "sha256": "ea2d8df2e6655bf3c014dc35133f4bdc5b612231d356d799375e715147046717",
+      "fullGetVerified": true,
+      "revision": 5
+    },
+    {
+      "url": "https://zhenxingai.com/api/toolflows/v2/tools/catalog",
+      "status": 200,
+      "sizeBytes": 73321,
+      "sha256": "cebb78499f3f4d2f0b6ec3ecb84599677274cf73b80df67a54ebd90772a37c47",
+      "fullGetVerified": true,
+      "revision": 6
+    },
+    {
+      "url": "https://zhenxingai.com/downloads/installers/catalog.json",
+      "status": 200,
+      "sizeBytes": 3759,
+      "sha256": "948c35b8dba0c13d5f30542365ec68bb832fc68d1057dc20226eec104014edf8",
+      "fullGetVerified": true,
+      "revision": 2
+    },
+    {
+      "url": "https://zhenxingai.com/downloads/installers/acquisition.json",
+      "status": 200,
+      "sizeBytes": 65819,
+      "sha256": "1520ed68f70c05a803998be810b7f1aff444079739fb95b5d48d3046b720226d",
+      "fullGetVerified": true,
+      "revision": 2
+    },
+    {
+      "url": "https://zhenxingai.com/updates/preview.json",
+      "status": 200,
+      "sizeBytes": 548,
+      "sha256": "a6a06ffd24603e93e9f26260f27ba5a0c9dc64ed49fe0319f8ad59a9093e16db",
+      "fullGetVerified": true,
+      "version": "0.1.1.2",
+      "releaseChannel": "preview",
+      "packageName": "ZhenxingAI-v0.1.1-preview-20261007-fix3.zip"
+    },
+    {
+      "url": "https://zhenxingai.com/updates/stable.json",
+      "status": 200,
+      "sizeBytes": 923,
+      "sha256": "ec7885b108276155ecd3cb4efcb061768f6f38ad37deb7461d9668511ba30d28",
+      "fullGetVerified": true,
+      "version": "0.1.1.2",
+      "releaseChannel": "preview",
+      "packageName": "ZhenxingAI-v0.1.1-preview-20261007-fix3.zip"
+    }
+  ],
+  "memtest86AcquisitionValidation": "0.1.1-memtest86-acquisition-20261007-validation.json",
+  "evidenceSha256": {
+    "clientVerification": "59d0eac902660fa91873e6a631c0d9b824224ee26ee1091cae498333f61f5459",
+    "zipVerification": "5d4a045e1a3b0c81f213712a35e72cfcaa3346942ede7ac8d8c6deda029677ea",
+    "runtimePassed": "d76e3d59895a0520bdbf15999c8cbe1e36fc061434ed4a81acc4625835c5ac7f",
+    "runtimeEarlierFailure": "245bf6290f5f0ec49d0c1e3a02ea7284283520bbfa96c00e3da84a6717f6b858",
+    "runtimeCleanup": "b67e70abfa9f3aa62c63bd5e5d0d1f9f034d8c81c15e9684996d94832fd3e1ff",
+    "ownServerPublication": "a7628c84ccb2ee89397e4a408094c309447a8f41a8b1fd4d10d3a4e2219b8254",
+    "githubPublication": "e68be0a5a032167e882a80d2b99169402f225eebbf2b6d900a96bba85c2e3bc0",
+    "publicMetadata": "c2f9ca7f15513e53f6613b584b8258f5760f0b666e56f07a2762fcff07f6f0d9",
+    "websitePublication": "7267a4c62f00912c63f8f5efe6a400542d1ec8fa11f1e6c72d88bae990fef413",
+    "websiteBuild": "ad57165c3c6c744ffe27296238b960979c104927c4642552173fb758f364b9cf",
+    "websiteFinalValidation": "1be64f1eb1c97461eb08d143954e5b52879ff06b3621a3ddf7221c9131233814",
+    "websiteBrowser": "86a5ef62a97a8effcdcbaee44481430da7f8e9d4a4887ef946b06e01b59c10e0",
+    "websiteStrictDownloadLinks": "0f8805530ac3bbbd850c10ce59892902ade8520506b288de7b6a26c39ea76650",
+    "websiteFirstSelectorFailure": "86e0aae8cbb25883aaeb346f3465cd915db80ae8aa56bc796542a818caca5797"
+  },
+  "limitations": [
+    "Batch updates include installed managed portable tools with a verified available package and valid entry. Vendor installers, registered external software, stores, account login and USB creation retain their appropriate flows.",
+    "Native and logic tests use isolated fixtures; no real third-party installation, login, USB write or hardware modification was executed.",
+    "The client itself still requires closing the old program, extracting the full verified package into a new folder, and relaunching.",
+    "Own-server HTTPS downloads were verified; no mainland CDN or independent secondary storage is claimed."
+  ],
+  "postWebsiteMetadataReadbacks": [
+    {
+      "url": "https://zhenxingai.com/api/toolflows/v1/tools/catalog",
+      "sizeBytes": 71927,
+      "sha256": "ea2d8df2e6655bf3c014dc35133f4bdc5b612231d356d799375e715147046717",
+      "fullGetVerified": true,
+      "revision": 5,
+      "version": null
+    },
+    {
+      "url": "https://zhenxingai.com/api/toolflows/v2/tools/catalog",
+      "sizeBytes": 73321,
+      "sha256": "cebb78499f3f4d2f0b6ec3ecb84599677274cf73b80df67a54ebd90772a37c47",
+      "fullGetVerified": true,
+      "revision": 6,
+      "version": null
+    },
+    {
+      "url": "https://zhenxingai.com/downloads/installers/catalog.json",
+      "sizeBytes": 3759,
+      "sha256": "948c35b8dba0c13d5f30542365ec68bb832fc68d1057dc20226eec104014edf8",
+      "fullGetVerified": true,
+      "revision": 2,
+      "version": null
+    },
+    {
+      "url": "https://zhenxingai.com/downloads/installers/acquisition.json",
+      "sizeBytes": 65819,
+      "sha256": "1520ed68f70c05a803998be810b7f1aff444079739fb95b5d48d3046b720226d",
+      "fullGetVerified": true,
+      "revision": 2,
+      "version": null
+    },
+    {
+      "url": "https://zhenxingai.com/updates/preview.json",
+      "sizeBytes": 548,
+      "sha256": "a6a06ffd24603e93e9f26260f27ba5a0c9dc64ed49fe0319f8ad59a9093e16db",
+      "fullGetVerified": true,
+      "revision": null,
+      "version": "0.1.1.2"
+    },
+    {
+      "url": "https://zhenxingai.com/updates/stable.json",
+      "sizeBytes": 923,
+      "sha256": "ec7885b108276155ecd3cb4efcb061768f6f38ad37deb7461d9668511ba30d28",
+      "fullGetVerified": true,
+      "revision": null,
+      "version": "0.1.1.2"
+    }
+  ]
+}

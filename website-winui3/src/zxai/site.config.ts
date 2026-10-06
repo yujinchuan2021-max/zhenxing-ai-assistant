@@ -93,8 +93,8 @@ export const siteConfig = {
     // 真实包、镜像、发布资产均核验后再开放 0.1.1；当前受发布开关保护。
     siteUrl: 'https://zhenxingai.com',
     repo: 'https://github.com/yujinchuan2021-max/zhenxing-ai-assistant',
-    download: 'https://zhenxingai.com/downloads/ZhenxingAI-v0.1.1-preview-20261007-fix2.zip',
-    sourceArchive: 'https://github.com/yujinchuan2021-max/zhenxing-ai-assistant/archive/refs/tags/v0.1.1-revision-20261007-complete.zip',
+    download: 'https://zhenxingai.com/downloads/ZhenxingAI-v0.1.1-preview-20261007-fix3.zip',
+    sourceArchive: 'https://github.com/yujinchuan2021-max/zhenxing-ai-assistant/archive/refs/tags/v0.1.1-revision-20261007-batch-update.zip',
     releaseNotes: 'https://github.com/yujinchuan2021-max/zhenxing-ai-assistant/releases/tag/v0.1.1-preview',
     issues: 'https://github.com/yujinchuan2021-max/zhenxing-ai-assistant/issues',
     docs: 'https://zhenxingai.com/docs',
@@ -105,8 +105,8 @@ export const siteConfig = {
   releaseArtifact: {
     version: '0.1.1 公开预览版',
     versionEn: '0.1.1 public preview',
-    sizeBytes: 393090180,
-    sha256: '44761000ea51fb70c9b060b20deff1228a480fdc22813290f6656be99b170fe8',
+    sizeBytes: 336234234,
+    sha256: '30f24bd47f6b67e3a09578e6a4383d2d08ccde367ca2c6dbbb48f1fc266b85fa',
     publishedAt: '2026-10-07',
   } as ReleaseArtifact,
 
