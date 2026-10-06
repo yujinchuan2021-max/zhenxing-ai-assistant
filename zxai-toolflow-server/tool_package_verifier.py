@@ -152,6 +152,50 @@ def _pe_architecture(stream, size):
     return architecture
 
 
+def _zip_effective_name(info):
+    """Accept authenticated Info-ZIP Unicode names without permitting truncation."""
+    original = info.orig_filename
+    if "\0" in original:
+        _fail("ZIP contains a truncated path")
+    unicode_name = None
+    extra = info.extra
+    offset = 0
+    while offset < len(extra):
+        if len(extra) - offset < 4:
+            _fail("ZIP extra field is truncated")
+        kind, size = struct.unpack_from("<HH", extra, offset)
+        offset += 4
+        if offset + size > len(extra):
+            _fail("ZIP extra field is truncated")
+        value = extra[offset:offset + size]
+        offset += size
+        if kind != 0x7075:
+            continue
+        if unicode_name is not None or len(value) < 5 or value[0] != 1:
+            _fail("ZIP Unicode path field is invalid")
+        try:
+            raw_name = original.encode("utf-8" if info.flag_bits & 0x800 else "cp437")
+            if struct.unpack_from("<I", value, 1)[0] != zlib.crc32(raw_name):
+                _fail("ZIP Unicode path checksum differs")
+            unicode_name = value[5:].decode("utf-8", "strict")
+        except (UnicodeError, ValueError):
+            _fail("ZIP Unicode path encoding is invalid")
+        if not unicode_name or "\0" in unicode_name or unicode_name.endswith("/") != original.endswith("/"):
+            _fail("ZIP Unicode path is unsafe")
+        if info.flag_bits & 0x800 and unicode_name != original:
+            _fail("ZIP has conflicting UTF-8 path declarations")
+    if info.filename != original and info.filename != unicode_name:
+        _fail("ZIP contains an unsafe or implicitly normalized path")
+    for candidate in (original, unicode_name):
+        if candidate is None:
+            continue
+        try:
+            _relative_path(candidate[:-1] if candidate.endswith("/") else candidate, "ZIP entry")
+        except ToolCatalogError:
+            _fail("ZIP contains an unsafe Windows path")
+    return unicode_name or info.filename
+
+
 def _verify_archive(path, deadline):
     # Check both ends so HTML/EXE prefixed archives and truncated files cannot
     # pass merely because ZipFile found a central directory somewhere inside.
@@ -164,6 +208,7 @@ def _verify_archive(path, deadline):
         if eocd < 0 or len(tail) - eocd < 22 or eocd + 22 + struct.unpack_from("<H", tail, eocd + 20)[0] != len(tail):
             _fail("ZIP end-of-directory record is missing or invalid")
     result, seen, implied_directories, expanded = {}, {}, set(), 0
+    alias_paths, alias_directories = {}, set()
     try:
         with zipfile.ZipFile(path) as archive:
             entries = archive.infolist()
@@ -171,9 +216,25 @@ def _verify_archive(path, deadline):
                 _fail("ZIP entry count exceeds the limit")
             for info in entries:
                 _check_deadline(deadline)
-                if info.filename != info.orig_filename:
-                    _fail("ZIP contains an unsafe or implicitly normalized path")
-                name = info.filename[:-1] if info.is_dir() else info.filename
+                effective_name = _zip_effective_name(info)
+                name = effective_name[:-1] if info.is_dir() else effective_name
+                # Different runtimes may use either the legacy spelling or the
+                # authenticated Unicode spelling. Both must remain collision-free.
+                aliases = {name, info.orig_filename[:-1] if info.is_dir() else info.orig_filename}
+                for alias in aliases:
+                    alias_folded = alias.casefold()
+                    if alias_folded in alias_paths:
+                        _fail("ZIP contains colliding legacy or Unicode paths")
+                    for parent in Path(alias).parents:
+                        parent_name = parent.as_posix().casefold()
+                        if str(parent) != "." and alias_paths.get(parent_name) == "file":
+                            _fail("ZIP legacy or Unicode file and directory paths collide")
+                        if str(parent) != ".":
+                            alias_directories.add(parent_name)
+                    if not info.is_dir() and alias_folded in alias_directories:
+                        _fail("ZIP legacy or Unicode file and directory paths collide")
+                for alias in aliases:
+                    alias_paths[alias.casefold()] = "directory" if info.is_dir() else "file"
                 try:
                     _relative_path(name, "ZIP entry")
                 except ToolCatalogError:

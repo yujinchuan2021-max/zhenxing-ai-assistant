@@ -25,6 +25,7 @@ import unittest
 from unittest.mock import patch
 from urllib.parse import urlsplit
 import zipfile
+import zlib
 
 from server import Store, make_handler
 from tool_catalog import ToolCatalogError, ToolCatalogStore, validate_catalog
@@ -291,6 +292,20 @@ class CatalogValidationTests(unittest.TestCase):
             with self.subTest(entry_point=entry_point):
                 catalog = sample_catalog()
                 catalog["tools"][0]["packages"][0]["entryPoint"] = entry_point
+                self.assert_invalid(catalog)
+
+    def test_reviewed_removal_tools_keep_their_exact_vendor_entry_names(self):
+        for entry in ("Display Driver Uninstaller.exe", "DDU/Display Driver Uninstaller.exe",
+                      "HiBitUninstaller-Portable.exe"):
+            with self.subTest(entry=entry):
+                catalog = sample_catalog()
+                catalog["tools"][0]["packages"][0]["entryPoint"] = entry
+                self.assertEqual(validate_catalog(catalog)["tools"][0]["packages"][0]["entryPoint"], entry)
+        for entry in ("Display Driver Uninstaller-setup.exe", "HiBitUninstaller-Portable-Installer.exe",
+                      "../Display Driver Uninstaller.exe"):
+            with self.subTest(entry=entry):
+                catalog = sample_catalog()
+                catalog["tools"][0]["packages"][0]["entryPoint"] = entry
                 self.assert_invalid(catalog)
 
     def test_relative_paths_enforce_total_and_segment_utf8_byte_limits(self):
@@ -641,6 +656,32 @@ class CatalogHttpTests(unittest.TestCase):
 class PackageVerificationTests(unittest.TestCase):
     def setUp(self):
         self.packages = use_package_fixture(self)
+
+    def test_valid_unicode_path_extra_is_not_misreported_as_a_bad_package(self):
+        info = zipfile.ZipInfo("legacy-help.txt")
+        path = "帮助.txt".encode("utf-8")
+        value = b"\x01" + struct.pack("<I", zlib.crc32(info.filename.encode("cp437"))) + path
+        info.extra = struct.pack("<HH", 0x7075, len(value)) + value
+        self.assertEqual(tool_package_verifier._zip_effective_name(info), "帮助.txt")
+        # Python releases that interpret this standard field change filename;
+        # orig_filename still retains the central-directory spelling.
+        info.filename = "帮助.txt"
+        self.assertEqual(tool_package_verifier._zip_effective_name(info), "帮助.txt")
+
+    def test_unicode_path_field_cannot_hide_traversal_or_wrong_name_checksum(self):
+        for decoded, checksum in (("../escaped.txt", True), ("safe.txt", False), ("safe\0.txt", True)):
+            with self.subTest(decoded=decoded, checksum=checksum):
+                info = zipfile.ZipInfo("legacy.txt")
+                value = b"\x01" + struct.pack("<I", zlib.crc32(b"legacy.txt") if checksum else 0) + decoded.encode("utf-8")
+                info.extra = struct.pack("<HH", 0x7075, len(value)) + value
+                with self.assertRaises(ToolCatalogError):
+                    tool_package_verifier._zip_effective_name(info)
+
+    def test_plain_path_truncation_still_fails_without_unicode_evidence(self):
+        info = zipfile.ZipInfo("safe.txt")
+        info.orig_filename = "safe.txt\0hidden.txt"
+        with self.assertRaises(ToolCatalogError):
+            tool_package_verifier._zip_effective_name(info)
 
     def candidate_with_bytes(self, body, *, catalog=None):
         catalog = deepcopy(catalog or sample_catalog())

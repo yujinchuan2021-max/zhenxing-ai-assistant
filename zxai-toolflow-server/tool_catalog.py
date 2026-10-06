@@ -89,7 +89,9 @@ def _relative_path(value: Any, field: str, *, executable: bool = False, empty: b
             raise ToolCatalogError(400, "unsafe " + field)
     if executable and not path.lower().endswith(".exe"):
         raise ToolCatalogError(400, "entryPoint must be a relative .exe path")
-    if executable and any(word in parts[-1].casefold() for word in ("setup", "install", "uninstall", "redist")):
+    portable_removal_tools = {"display driver uninstaller.exe", "hibituninstaller-portable.exe"}
+    if (executable and parts[-1].casefold() not in portable_removal_tools
+            and any(word in parts[-1].casefold() for word in ("setup", "install", "uninstall", "redist"))):
         raise ToolCatalogError(400, "entryPoint must be a portable tool, not an installer")
     return path
 

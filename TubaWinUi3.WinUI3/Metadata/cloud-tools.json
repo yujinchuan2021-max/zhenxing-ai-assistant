@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "revision": 1,
-  "publishedAt": "2026-10-04T17:17:11.031525Z",
+  "revision": 3,
+  "publishedAt": "2026-10-06T18:41:15.252168Z",
   "minClientVersion": "0.1.0.0",
   "tools": [
     {
@@ -20,8 +20,6 @@
         "硬件检测"
       ],
       "homepage": "",
-      "legacyPath": "处理器工具/CPUZ",
-      "order": 1,
       "packages": [
         {
           "architecture": "x64",
@@ -39,7 +37,9 @@
           "entryPoint": "cpuz_arm64.exe",
           "kind": "portable-zip"
         }
-      ]
+      ],
+      "legacyPath": "处理器工具/CPUZ",
+      "order": 1
     },
     {
       "id": "tool-coretemp",
@@ -57,8 +57,6 @@
         "温度监控"
       ],
       "homepage": "",
-      "legacyPath": "处理器工具/CoreTemp",
-      "order": 2,
       "packages": [
         {
           "architecture": "x64",
@@ -68,7 +66,9 @@
           "entryPoint": "Core Temp x64.exe",
           "kind": "portable-zip"
         }
-      ]
+      ],
+      "legacyPath": "处理器工具/CoreTemp",
+      "order": 2
     },
     {
       "id": "tool-c2clatency",
@@ -85,8 +85,6 @@
         "延迟测试"
       ],
       "homepage": "",
-      "legacyPath": "处理器工具/C2CLatency",
-      "order": 3,
       "packages": [
         {
           "architecture": "x64",
@@ -96,7 +94,9 @@
           "entryPoint": "C2CLatency.exe",
           "kind": "portable-zip"
         }
-      ]
+      ],
+      "legacyPath": "处理器工具/C2CLatency",
+      "order": 3
     },
     {
       "id": "tool-linx",
@@ -115,8 +115,6 @@
         "稳定性测试"
       ],
       "homepage": "",
-      "legacyPath": "处理器工具/LinX",
-      "order": 4,
       "packages": [
         {
           "architecture": "x86",
@@ -126,7 +124,9 @@
           "entryPoint": "LinX.exe",
           "kind": "portable-zip"
         }
-      ]
+      ],
+      "legacyPath": "处理器工具/LinX",
+      "order": 4
     },
     {
       "id": "tool-prime95",
@@ -145,8 +145,6 @@
         "稳定性测试"
       ],
       "homepage": "",
-      "legacyPath": "处理器工具/Prime95",
-      "order": 5,
       "packages": [
         {
           "architecture": "x64",
@@ -156,7 +154,9 @@
           "entryPoint": "prime95.exe",
           "kind": "portable-zip"
         }
-      ]
+      ],
+      "legacyPath": "处理器工具/Prime95",
+      "order": 5
     },
     {
       "id": "tool-superpi",
@@ -174,8 +174,6 @@
         "性能测试"
       ],
       "homepage": "",
-      "legacyPath": "处理器工具/superpi",
-      "order": 6,
       "packages": [
         {
           "architecture": "x86",
@@ -185,7 +183,9 @@
           "entryPoint": "Superpi.exe",
           "kind": "portable-zip"
         }
-      ]
+      ],
+      "legacyPath": "处理器工具/superpi",
+      "order": 6
     },
     {
       "id": "tool-throttlestop",
@@ -194,18 +194,18 @@
       "categories": [
         "处理器工具"
       ],
-      "description": "CPU 降频监控和功耗控制工具，可解除笔记本 CPU 功耗限制。",
-      "publisher": "uWebb Software",
-      "version": "1",
+      "description": "Intel 处理器降频监控和功耗调节工具；支持范围与版本以发布者说明为准。",
+      "publisher": "Kevin Glynn / TechPowerUp",
+      "version": "9.7.3",
       "tags": [
         "CPU",
         "降频",
         "功耗控制"
       ],
-      "homepage": "https://gitcode.com/luolangaga/tubatoolsPlugin/-/raw/main/plugins/%%E5%%A4%%84%%E7%%90%%86%%E5%%99%%A8%%E5%%B7%%A5%%E5%%85%%B7/throttlestop/ThrottleStop_9.7.3.zip",
+      "homepage": "https://www.techpowerup.com/download/techpowerup-throttlestop/",
+      "packages": [],
       "legacyPath": "处理器工具/ThrottleStop",
-      "order": 7,
-      "packages": []
+      "order": 7
     },
     {
       "id": "tool-wprime",
@@ -223,8 +223,6 @@
         "性能测试"
       ],
       "homepage": "",
-      "legacyPath": "处理器工具/wPrime",
-      "order": 8,
       "packages": [
         {
           "architecture": "x86",
@@ -234,7 +232,9 @@
           "entryPoint": "wPrime.exe",
           "kind": "portable-zip"
         }
-      ]
+      ],
+      "legacyPath": "处理器工具/wPrime",
+      "order": 8
     },
     {
       "id": "tool-xiangqi",
@@ -252,8 +252,6 @@
         "性能测试"
       ],
       "homepage": "",
-      "legacyPath": "处理器工具/XIANGQI",
-      "order": 9,
       "packages": [
         {
           "architecture": "x86",
@@ -263,7 +261,9 @@
           "entryPoint": "xiangqi.exe",
           "kind": "portable-zip"
         }
-      ]
+      ],
+      "legacyPath": "处理器工具/XIANGQI",
+      "order": 9
     },
     {
       "id": "tool-gpu-z",
@@ -280,8 +280,6 @@
         "硬件检测"
       ],
       "homepage": "",
-      "legacyPath": "显卡工具/GPUZ",
-      "order": 10,
       "packages": [
         {
           "architecture": "x86",
@@ -291,7 +289,9 @@
           "entryPoint": "GPU-Z.exe",
           "kind": "portable-zip"
         }
-      ]
+      ],
+      "legacyPath": "显卡工具/GPUZ",
+      "order": 10
     },
     {
       "id": "tool-ddu",
@@ -301,17 +301,17 @@
         "显卡工具",
         "综合检测"
       ],
-      "description": "显卡驱动彻底卸载工具，安全清除 AMD/NVIDIA/Intel 显卡驱动残留。",
+      "description": "显卡驱动卸载与残留清理工具。下载仅准备软件，清理驱动需在工具中由用户选择。",
       "publisher": "Wagnardsoft",
-      "version": "1",
+      "version": "18.1.5.7",
       "tags": [
         "显卡",
         "驱动卸载"
       ],
       "homepage": "https://www.wagnardsoft.com/content/ddu-guide-tutorial",
+      "packages": [],
       "legacyPath": "显卡工具/DDU",
-      "order": 11,
-      "packages": []
+      "order": 11
     },
     {
       "id": "tool-dxvachecker",
@@ -328,8 +328,6 @@
         "解码检测"
       ],
       "homepage": "",
-      "legacyPath": "显卡工具/dxvachecker",
-      "order": 12,
       "packages": [
         {
           "architecture": "x86",
@@ -339,7 +337,9 @@
           "entryPoint": "DXVAChecker.exe",
           "kind": "portable-zip"
         }
-      ]
+      ],
+      "legacyPath": "显卡工具/dxvachecker",
+      "order": 12
     },
     {
       "id": "tool-gputest",
@@ -357,8 +357,6 @@
         "性能测试"
       ],
       "homepage": "",
-      "legacyPath": "显卡工具/GpuTest_Windows x64",
-      "order": 13,
       "packages": [
         {
           "architecture": "x86",
@@ -368,7 +366,9 @@
           "entryPoint": "GpuTest_GUI.exe",
           "kind": "portable-zip"
         }
-      ]
+      ],
+      "legacyPath": "显卡工具/GpuTest_Windows x64",
+      "order": 13
     },
     {
       "id": "tool-nvidiainspector",
@@ -387,8 +387,6 @@
         "超频"
       ],
       "homepage": "",
-      "legacyPath": "显卡工具/nvidiaInspector",
-      "order": 14,
       "packages": [
         {
           "architecture": "x86",
@@ -398,7 +396,9 @@
           "entryPoint": "nvidiaInspector.exe",
           "kind": "portable-zip"
         }
-      ]
+      ],
+      "legacyPath": "显卡工具/nvidiaInspector",
+      "order": 14
     },
     {
       "id": "tool-nvidiaprofileinspector",
@@ -416,8 +416,6 @@
         "驱动配置"
       ],
       "homepage": "",
-      "legacyPath": "显卡工具/nvidiaProfileInspector",
-      "order": 15,
       "packages": [
         {
           "architecture": "x86",
@@ -427,7 +425,9 @@
           "entryPoint": "nvidiaProfileInspector.exe",
           "kind": "portable-zip"
         }
-      ]
+      ],
+      "legacyPath": "显卡工具/nvidiaProfileInspector",
+      "order": 15
     },
     {
       "id": "tool-amd",
@@ -436,17 +436,17 @@
       "categories": [
         "显卡工具"
       ],
-      "description": "AMD 显卡驱动程序官方下载入口。",
+      "description": "AMD 显卡驱动官方获取入口。按显卡型号与 Windows 版本选择驱动，再完成厂商安装流程。",
       "publisher": "AMD",
       "version": "1",
       "tags": [
         "显卡",
         "驱动下载"
       ],
-      "homepage": "https://www.amd.com/zh-hans/support",
+      "homepage": "https://www.amd.com/zh-cn/support/download/drivers.html",
+      "packages": [],
       "legacyPath": "显卡工具/AMD显卡驱动下载",
-      "order": 16,
-      "packages": []
+      "order": 16
     },
     {
       "id": "tool-nvidia",
@@ -455,7 +455,7 @@
       "categories": [
         "显卡工具"
       ],
-      "description": "NVIDIA 显卡驱动程序官方下载入口。",
+      "description": "NVIDIA 显卡驱动官方获取入口。按显卡型号、Windows 版本与驱动分支选择安装包。",
       "publisher": "NVIDIA",
       "version": "1",
       "tags": [
@@ -463,9 +463,9 @@
         "驱动下载"
       ],
       "homepage": "https://www.nvidia.cn/geforce/drivers/",
+      "packages": [],
       "legacyPath": "显卡工具/Nvidia显卡驱动下载",
-      "order": 17,
-      "packages": []
+      "order": 17
     },
     {
       "id": "tool-furmark-win64",
@@ -485,8 +485,6 @@
         "x64"
       ],
       "homepage": "https://www.geeks3d.com/furmark/",
-      "legacyPath": "烤鸡工具/FurMark_win64",
-      "order": 18,
       "packages": [
         {
           "architecture": "x64",
@@ -496,7 +494,9 @@
           "entryPoint": "furmark.exe",
           "kind": "portable-zip"
         }
-      ]
+      ],
+      "legacyPath": "烤鸡工具/FurMark_win64",
+      "order": 18
     },
     {
       "id": "tool-crystaldiskinfo",
@@ -514,8 +514,6 @@
         "健康检测"
       ],
       "homepage": "https://git.xiph.org/?p=opus-tools.git",
-      "legacyPath": "硬盘工具/CrystalDiskInfo",
-      "order": 19,
       "packages": [
         {
           "architecture": "x64",
@@ -525,7 +523,9 @@
           "entryPoint": "DiskInfo64S.exe",
           "kind": "portable-zip"
         }
-      ]
+      ],
+      "legacyPath": "硬盘工具/CrystalDiskInfo",
+      "order": 19
     },
     {
       "id": "tool-crystaldiskmark",
@@ -542,8 +542,6 @@
         "速度测试"
       ],
       "homepage": "",
-      "legacyPath": "硬盘工具/CrystalDiskMark",
-      "order": 20,
       "packages": [
         {
           "architecture": "x64",
@@ -553,7 +551,9 @@
           "entryPoint": "DiskMark64.exe",
           "kind": "portable-zip"
         }
-      ]
+      ],
+      "legacyPath": "硬盘工具/CrystalDiskMark",
+      "order": 20
     },
     {
       "id": "tool-as-ssd",
@@ -571,8 +571,6 @@
         "速度测试"
       ],
       "homepage": "",
-      "legacyPath": "硬盘工具/ASSSDBenchmark",
-      "order": 21,
       "packages": [
         {
           "architecture": "x86",
@@ -582,7 +580,9 @@
           "entryPoint": "ASSSDBenchmark.exe",
           "kind": "portable-zip"
         }
-      ]
+      ],
+      "legacyPath": "硬盘工具/ASSSDBenchmark",
+      "order": 21
     },
     {
       "id": "tool-atto",
@@ -599,8 +599,6 @@
         "速度测试"
       ],
       "homepage": "",
-      "legacyPath": "硬盘工具/ATTODISKBENCHMARK",
-      "order": 22,
       "packages": [
         {
           "architecture": "x86",
@@ -610,7 +608,9 @@
           "entryPoint": "ATTO 磁盘基准测试.exe",
           "kind": "portable-zip"
         }
-      ]
+      ],
+      "legacyPath": "硬盘工具/ATTODISKBENCHMARK",
+      "order": 22
     },
     {
       "id": "tool-diskgenius",
@@ -628,8 +628,6 @@
         "数据恢复"
       ],
       "homepage": "",
-      "legacyPath": "硬盘工具/DiskGenius",
-      "order": 23,
       "packages": [
         {
           "architecture": "x64",
@@ -639,7 +637,9 @@
           "entryPoint": "DiskGenius.exe",
           "kind": "portable-zip"
         }
-      ]
+      ],
+      "legacyPath": "硬盘工具/DiskGenius",
+      "order": 23
     },
     {
       "id": "tool-defraggler",
@@ -656,8 +656,6 @@
         "碎片整理"
       ],
       "homepage": "",
-      "legacyPath": "硬盘工具/Defraggler",
-      "order": 24,
       "packages": [
         {
           "architecture": "x86",
@@ -667,7 +665,9 @@
           "entryPoint": "Defraggler.exe",
           "kind": "portable-zip"
         }
-      ]
+      ],
+      "legacyPath": "硬盘工具/Defraggler",
+      "order": 24
     },
     {
       "id": "tool-h2testw",
@@ -685,8 +685,6 @@
         "真伪检测"
       ],
       "homepage": "",
-      "legacyPath": "硬盘工具/H2testw",
-      "order": 26,
       "packages": [
         {
           "architecture": "x86",
@@ -696,7 +694,9 @@
           "entryPoint": "h2testw_1.4.exe",
           "kind": "portable-zip"
         }
-      ]
+      ],
+      "legacyPath": "硬盘工具/H2testw",
+      "order": 26
     },
     {
       "id": "tool-llftool",
@@ -713,8 +713,6 @@
         "格式化"
       ],
       "homepage": "",
-      "legacyPath": "硬盘工具/LLFTOOL",
-      "order": 28,
       "packages": [
         {
           "architecture": "x86",
@@ -724,7 +722,9 @@
           "entryPoint": "LLFTOOL.exe",
           "kind": "portable-zip"
         }
-      ]
+      ],
+      "legacyPath": "硬盘工具/LLFTOOL",
+      "order": 28
     },
     {
       "id": "tool-mydisktest",
@@ -742,8 +742,6 @@
         "真伪检测"
       ],
       "homepage": "",
-      "legacyPath": "硬盘工具/mydisktest",
-      "order": 29,
       "packages": [
         {
           "architecture": "x86",
@@ -753,7 +751,9 @@
           "entryPoint": "MyDiskTest_v298.exe",
           "kind": "portable-zip"
         }
-      ]
+      ],
+      "legacyPath": "硬盘工具/mydisktest",
+      "order": 29
     },
     {
       "id": "tool-spacesniffer",
@@ -770,8 +770,6 @@
         "空间分析"
       ],
       "homepage": "",
-      "legacyPath": "硬盘工具/SpaceSniffer",
-      "order": 30,
       "packages": [
         {
           "architecture": "x86",
@@ -781,7 +779,9 @@
           "entryPoint": "SpaceSniffer.exe",
           "kind": "portable-zip"
         }
-      ]
+      ],
+      "legacyPath": "硬盘工具/SpaceSniffer",
+      "order": 30
     },
     {
       "id": "tool-ssd-utils",
@@ -790,7 +790,7 @@
       "categories": [
         "硬盘工具"
       ],
-      "description": "SSD 固态硬盘在线工具入口，提供 SSD 相关在线检测和优化。",
+      "description": "SSD 控制器识别与厂商辅助工具集合；不同控制器使用不同程序，当前未提供可直接安装的统一版本。",
       "publisher": "",
       "version": "1",
       "tags": [
@@ -798,9 +798,9 @@
         "SSD"
       ],
       "homepage": "",
+      "packages": [],
       "legacyPath": "硬盘工具/SSD utils",
-      "order": 31,
-      "packages": []
+      "order": 31
     },
     {
       "id": "tool-ssdz",
@@ -818,8 +818,6 @@
         "健康检测"
       ],
       "homepage": "",
-      "legacyPath": "硬盘工具/SSDZ",
-      "order": 32,
       "packages": [
         {
           "architecture": "x86",
@@ -829,7 +827,9 @@
           "entryPoint": "SSDZ.exe",
           "kind": "portable-zip"
         }
-      ]
+      ],
+      "legacyPath": "硬盘工具/SSDZ",
+      "order": 32
     },
     {
       "id": "tool-txbench",
@@ -847,8 +847,6 @@
         "速度测试"
       ],
       "homepage": "",
-      "legacyPath": "硬盘工具/TxBENCH",
-      "order": 33,
       "packages": [
         {
           "architecture": "x86",
@@ -858,7 +856,9 @@
           "entryPoint": "TxBENCH.exe",
           "kind": "portable-zip"
         }
-      ]
+      ],
+      "legacyPath": "硬盘工具/TxBENCH",
+      "order": 33
     },
     {
       "id": "tool-urwtest",
@@ -876,8 +876,6 @@
         "速度测试"
       ],
       "homepage": "",
-      "legacyPath": "硬盘工具/URWTEST",
-      "order": 34,
       "packages": [
         {
           "architecture": "x86",
@@ -887,7 +885,9 @@
           "entryPoint": "urwtest_v18.exe",
           "kind": "portable-zip"
         }
-      ]
+      ],
+      "legacyPath": "硬盘工具/URWTEST",
+      "order": 34
     },
     {
       "id": "tool-windirstat",
@@ -904,8 +904,6 @@
         "空间分析"
       ],
       "homepage": "",
-      "legacyPath": "硬盘工具/windirstat",
-      "order": 35,
       "packages": [
         {
           "architecture": "x64",
@@ -915,7 +913,9 @@
           "entryPoint": "windirstat.exe",
           "kind": "portable-zip"
         }
-      ]
+      ],
+      "legacyPath": "硬盘工具/windirstat",
+      "order": 35
     },
     {
       "id": "tool-wiztree",
@@ -932,8 +932,6 @@
         "空间分析"
       ],
       "homepage": "",
-      "legacyPath": "硬盘工具/WizTree",
-      "order": 36,
       "packages": [
         {
           "architecture": "x86",
@@ -943,7 +941,9 @@
           "entryPoint": "WizTree.exe",
           "kind": "portable-zip"
         }
-      ]
+      ],
+      "legacyPath": "硬盘工具/WizTree",
+      "order": 36
     },
     {
       "id": "tool-flashmaster",
@@ -952,7 +952,7 @@
       "categories": [
         "硬盘工具"
       ],
-      "description": "U盘量产工具，用于 U盘芯片检测和量产修复。",
+      "description": "FlashMaster 发布者获取入口。软件、设备兼容范围与账号要求以发布者页面为准。",
       "publisher": "",
       "version": "1",
       "tags": [
@@ -961,9 +961,9 @@
         "量产"
       ],
       "homepage": "https://fm-us.xfjportal.com/",
+      "packages": [],
       "legacyPath": "硬盘工具/FlashMaster",
-      "order": 37,
-      "packages": []
+      "order": 37
     },
     {
       "id": "tool-95125102e3811982",
@@ -980,8 +980,6 @@
         "数据恢复"
       ],
       "homepage": "",
-      "legacyPath": "硬盘工具/魔方数据恢复",
-      "order": 38,
       "packages": [
         {
           "architecture": "x86",
@@ -991,7 +989,9 @@
           "entryPoint": "魔方数据恢复.exe",
           "kind": "portable-zip"
         }
-      ]
+      ],
+      "legacyPath": "硬盘工具/魔方数据恢复",
+      "order": 38
     },
     {
       "id": "tool-memtest",
@@ -1009,8 +1009,6 @@
         "稳定性测试"
       ],
       "homepage": "",
-      "legacyPath": "内存工具/memtest",
-      "order": 39,
       "packages": [
         {
           "architecture": "x86",
@@ -1020,7 +1018,9 @@
           "entryPoint": "memtest.exe",
           "kind": "portable-zip"
         }
-      ]
+      ],
+      "legacyPath": "内存工具/memtest",
+      "order": 39
     },
     {
       "id": "tool-memtest64",
@@ -1038,8 +1038,6 @@
         "稳定性测试"
       ],
       "homepage": "",
-      "legacyPath": "内存工具/memtest64",
-      "order": 40,
       "packages": [
         {
           "architecture": "x64",
@@ -1049,7 +1047,9 @@
           "entryPoint": "MemTest64.exe",
           "kind": "portable-zip"
         }
-      ]
+      ],
+      "legacyPath": "内存工具/memtest64",
+      "order": 40
     },
     {
       "id": "tool-memtestpro",
@@ -1067,8 +1067,6 @@
         "稳定性测试"
       ],
       "homepage": "",
-      "legacyPath": "内存工具/memtestpro",
-      "order": 41,
       "packages": [
         {
           "architecture": "x86",
@@ -1078,7 +1076,9 @@
           "entryPoint": "memtestpro.exe",
           "kind": "portable-zip"
         }
-      ]
+      ],
+      "legacyPath": "内存工具/memtestpro",
+      "order": 41
     },
     {
       "id": "tool-thaiphoon",
@@ -1096,8 +1096,6 @@
         "硬件检测"
       ],
       "homepage": "",
-      "legacyPath": "内存工具/Thaiphoon",
-      "order": 42,
       "packages": [
         {
           "architecture": "x86",
@@ -1107,7 +1105,9 @@
           "entryPoint": "Thaiphoon.exe",
           "kind": "portable-zip"
         }
-      ]
+      ],
+      "legacyPath": "内存工具/Thaiphoon",
+      "order": 42
     },
     {
       "id": "tool-testmem5",
@@ -1126,8 +1126,6 @@
         "tm5"
       ],
       "homepage": "https://github.com/CoolCmd/TestMem5",
-      "legacyPath": "内存工具/tm5",
-      "order": 43,
       "packages": [
         {
           "architecture": "x86",
@@ -1137,7 +1135,9 @@
           "entryPoint": "TM5.exe",
           "kind": "portable-zip"
         }
-      ]
+      ],
+      "legacyPath": "内存工具/tm5",
+      "order": 43
     },
     {
       "id": "tool-07e360ba238b7d8c",
@@ -1154,8 +1154,6 @@
         "虚拟磁盘"
       ],
       "homepage": "",
-      "legacyPath": "内存工具/魔方内存盘",
-      "order": 44,
       "packages": [
         {
           "architecture": "x86",
@@ -1165,7 +1163,9 @@
           "entryPoint": "ramdisk.exe",
           "kind": "portable-zip"
         }
-      ]
+      ],
+      "legacyPath": "内存工具/魔方内存盘",
+      "order": 44
     },
     {
       "id": "tool-zentimings",
@@ -1184,8 +1184,6 @@
         "硬件检测"
       ],
       "homepage": "https://github.com/irusanov/ZenTimings/issues/33",
-      "legacyPath": "内存工具/ZenTimings",
-      "order": 45,
       "packages": [
         {
           "architecture": "x86",
@@ -1195,7 +1193,9 @@
           "entryPoint": "ZenTimings.exe",
           "kind": "portable-zip"
         }
-      ]
+      ],
+      "legacyPath": "内存工具/ZenTimings",
+      "order": 45
     },
     {
       "id": "tool-monitorinfo",
@@ -1212,8 +1212,6 @@
         "色域检测"
       ],
       "homepage": "",
-      "legacyPath": "显示器工具/色域检测",
-      "order": 46,
       "packages": [
         {
           "architecture": "x86",
@@ -1223,7 +1221,9 @@
           "entryPoint": "monitorinfo.exe",
           "kind": "portable-zip"
         }
-      ]
+      ],
+      "legacyPath": "显示器工具/色域检测",
+      "order": 46
     },
     {
       "id": "tool-ufo",
@@ -1232,7 +1232,7 @@
       "categories": [
         "显示器工具"
       ],
-      "description": "UFO Test 在线显示器刷新率和运动模糊测试工具。",
+      "description": "在线显示器运动清晰度与刷新率测试，打开网页即可使用。",
       "publisher": "",
       "version": "1",
       "tags": [
@@ -1240,9 +1240,9 @@
         "刷新率测试"
       ],
       "homepage": "https://www.testufo.com/",
+      "packages": [],
       "legacyPath": "显示器工具/UFO测试",
-      "order": 47,
-      "packages": []
+      "order": 47
     },
     {
       "id": "tool-windows-hdr-calibration",
@@ -1251,7 +1251,7 @@
       "categories": [
         "显示器工具"
       ],
-      "description": "微软官方 HDR 校准工具，用于校准显示器 HDR 亮度和色彩表现，通过 Microsoft Store 安装。",
+      "description": "微软 Windows HDR Calibration，用于支持 HDR 的屏幕校准；通过 Microsoft Store 获取。",
       "publisher": "Microsoft",
       "version": "1",
       "tags": [
@@ -1259,10 +1259,10 @@
         "HDR",
         "校准"
       ],
-      "homepage": "",
+      "homepage": "https://apps.microsoft.com/detail/9N7F2SM5D1LR",
+      "packages": [],
       "legacyPath": "显示器工具/Windows HDR Calibration",
-      "order": 48,
-      "packages": []
+      "order": 48
     },
     {
       "id": "tool-aresonmousetest",
@@ -1279,8 +1279,6 @@
         "鼠标测试"
       ],
       "homepage": "",
-      "legacyPath": "外设工具/AresonMouseTest",
-      "order": 49,
       "packages": [
         {
           "architecture": "x86",
@@ -1290,7 +1288,9 @@
           "entryPoint": "鼠标测试软件AresonMouseTestProgram.exe",
           "kind": "portable-zip"
         }
-      ]
+      ],
+      "legacyPath": "外设工具/AresonMouseTest",
+      "order": 49
     },
     {
       "id": "tool-keyboard-test-utility",
@@ -1307,8 +1307,6 @@
         "键盘测试"
       ],
       "homepage": "",
-      "legacyPath": "外设工具/Keyboard Test Utility",
-      "order": 50,
       "packages": [
         {
           "architecture": "x86",
@@ -1318,7 +1316,9 @@
           "entryPoint": "Keyboard Test Utility.exe",
           "kind": "portable-zip"
         }
-      ]
+      ],
+      "legacyPath": "外设工具/Keyboard Test Utility",
+      "order": 50
     },
     {
       "id": "tool-keytweak",
@@ -1336,8 +1336,6 @@
         "按键映射"
       ],
       "homepage": "",
-      "legacyPath": "外设工具/KeyTweak",
-      "order": 51,
       "packages": [
         {
           "architecture": "x86",
@@ -1347,7 +1345,9 @@
           "entryPoint": "KeyTweak.exe",
           "kind": "portable-zip"
         }
-      ]
+      ],
+      "legacyPath": "外设工具/KeyTweak",
+      "order": 51
     },
     {
       "id": "tool-mouserate",
@@ -1365,8 +1365,6 @@
         "回报率"
       ],
       "homepage": "",
-      "legacyPath": "外设工具/MOUSERATE",
-      "order": 52,
       "packages": [
         {
           "architecture": "x86",
@@ -1376,7 +1374,9 @@
           "entryPoint": "MOUSERATE.EXE",
           "kind": "portable-zip"
         }
-      ]
+      ],
+      "legacyPath": "外设工具/MOUSERATE",
+      "order": 52
     },
     {
       "id": "tool-mousetester",
@@ -1393,8 +1393,6 @@
         "鼠标测试"
       ],
       "homepage": "",
-      "legacyPath": "外设工具/MouseTester",
-      "order": 53,
       "packages": [
         {
           "architecture": "x86",
@@ -1404,7 +1402,9 @@
           "entryPoint": "MouseTester.exe",
           "kind": "portable-zip"
         }
-      ]
+      ],
+      "legacyPath": "外设工具/MouseTester",
+      "order": 53
     },
     {
       "id": "tool-0b08727a0da9be21",
@@ -1421,8 +1421,6 @@
         "鼠标测试"
       ],
       "homepage": "",
-      "legacyPath": "外设工具/鼠标单机变双击测试器",
-      "order": 54,
       "packages": [
         {
           "architecture": "x86",
@@ -1432,7 +1430,9 @@
           "entryPoint": "鼠标单击变双击测试器V2.0.exe",
           "kind": "portable-zip"
         }
-      ]
+      ],
+      "legacyPath": "外设工具/鼠标单机变双击测试器",
+      "order": 54
     },
     {
       "id": "tool-e064c8b42ca4d137",
@@ -1441,7 +1441,7 @@
       "categories": [
         "外设工具"
       ],
-      "description": "在线外设综合测试中心，通过浏览器测试鼠标、键盘和显示器。",
+      "description": "在线键盘、鼠标与其他外设测试，打开网页即可使用。",
       "publisher": "",
       "version": "1",
       "tags": [
@@ -1449,9 +1449,9 @@
         "在线测试"
       ],
       "homepage": "https://www.pcbox.tech/",
+      "packages": [],
       "legacyPath": "外设工具/在线外设测试中心",
-      "order": 55,
-      "packages": []
+      "order": 55
     },
     {
       "id": "tool-aida64",
@@ -1470,8 +1470,6 @@
         "传感器"
       ],
       "homepage": "",
-      "legacyPath": "综合检测/AIDA64",
-      "order": 56,
       "packages": [
         {
           "architecture": "x64",
@@ -1481,7 +1479,9 @@
           "entryPoint": "aida64.exe",
           "kind": "portable-zip"
         }
-      ]
+      ],
+      "legacyPath": "综合检测/AIDA64",
+      "order": 56
     },
     {
       "id": "tool-hwinfo",
@@ -1500,8 +1500,6 @@
         "传感器"
       ],
       "homepage": "",
-      "legacyPath": "综合检测/hwinfo",
-      "order": 57,
       "packages": [
         {
           "architecture": "x64",
@@ -1519,7 +1517,9 @@
           "entryPoint": "HWiNFO_ARM64.exe",
           "kind": "portable-zip"
         }
-      ]
+      ],
+      "legacyPath": "综合检测/hwinfo",
+      "order": 57
     },
     {
       "id": "tool-hwmonitor",
@@ -1536,8 +1536,6 @@
         "温度监控"
       ],
       "homepage": "https://www.cpuid.com/softwares/hwmonitor-arm64.html",
-      "legacyPath": "综合检测/HWMonitor",
-      "order": 58,
       "packages": [
         {
           "architecture": "x64",
@@ -1555,7 +1553,9 @@
           "entryPoint": "hwmonitor_arm64.exe",
           "kind": "portable-zip"
         }
-      ]
+      ],
+      "legacyPath": "综合检测/HWMonitor",
+      "order": 58
     },
     {
       "id": "tool-rweverything",
@@ -1572,8 +1572,6 @@
         "底层读写"
       ],
       "homepage": "",
-      "legacyPath": "综合检测/RWEverything",
-      "order": 59,
       "packages": [
         {
           "architecture": "x86",
@@ -1583,7 +1581,9 @@
           "entryPoint": "Rw.exe",
           "kind": "portable-zip"
         }
-      ]
+      ],
+      "legacyPath": "综合检测/RWEverything",
+      "order": 59
     },
     {
       "id": "tool-speccy",
@@ -1600,8 +1600,6 @@
         "硬件信息"
       ],
       "homepage": "",
-      "legacyPath": "综合检测/speccy",
-      "order": 60,
       "packages": [
         {
           "architecture": "x64",
@@ -1611,7 +1609,9 @@
           "entryPoint": "Speccy64.exe",
           "kind": "portable-zip"
         }
-      ]
+      ],
+      "legacyPath": "综合检测/speccy",
+      "order": 60
     },
     {
       "id": "tool-latencymon",
@@ -1630,8 +1630,6 @@
         "DPC"
       ],
       "homepage": "",
-      "legacyPath": "其他工具/LatencyMon",
-      "order": 61,
       "packages": [
         {
           "architecture": "x86",
@@ -1641,7 +1639,9 @@
           "entryPoint": "LatMon.exe",
           "kind": "portable-zip"
         }
-      ]
+      ],
+      "legacyPath": "其他工具/LatencyMon",
+      "order": 61
     },
     {
       "id": "tool-batteryinfoview",
@@ -1658,8 +1658,6 @@
         "硬件检测"
       ],
       "homepage": "",
-      "legacyPath": "其他工具/BatteryInfoView",
-      "order": 62,
       "packages": [
         {
           "architecture": "x86",
@@ -1669,7 +1667,9 @@
           "entryPoint": "BatteryInfoView.exe",
           "kind": "portable-zip"
         }
-      ]
+      ],
+      "legacyPath": "其他工具/BatteryInfoView",
+      "order": 62
     },
     {
       "id": "tool-bluescreenview",
@@ -1686,8 +1686,6 @@
         "蓝屏分析"
       ],
       "homepage": "",
-      "legacyPath": "其他工具/bluescreenview",
-      "order": 63,
       "packages": [
         {
           "architecture": "x64",
@@ -1697,7 +1695,9 @@
           "entryPoint": "BlueScreenViewx64.exe",
           "kind": "portable-zip"
         }
-      ]
+      ],
+      "legacyPath": "其他工具/bluescreenview",
+      "order": 63
     },
     {
       "id": "tool-desktopok",
@@ -1714,8 +1714,6 @@
         "桌面管理"
       ],
       "homepage": "",
-      "legacyPath": "其他工具/DesktopOK",
-      "order": 64,
       "packages": [
         {
           "architecture": "x86",
@@ -1725,7 +1723,9 @@
           "entryPoint": "DesktopOK.exe",
           "kind": "portable-zip"
         }
-      ]
+      ],
+      "legacyPath": "其他工具/DesktopOK",
+      "order": 64
     },
     {
       "id": "tool-directx-repair",
@@ -1744,8 +1744,6 @@
         "修复"
       ],
       "homepage": "",
-      "legacyPath": "其他工具/DirectX_Repair",
-      "order": 65,
       "packages": [
         {
           "architecture": "x86",
@@ -1755,7 +1753,9 @@
           "entryPoint": "DirectX Repair.exe",
           "kind": "portable-zip"
         }
-      ]
+      ],
+      "legacyPath": "其他工具/DirectX_Repair",
+      "order": 65
     },
     {
       "id": "tool-dism",
@@ -1764,18 +1764,18 @@
       "categories": [
         "其他工具"
       ],
-      "description": "Windows 系统精简和优化工具，基于 DISM 的图形化系统管理工具。",
+      "description": "Dism++ Windows 系统维护工具，提供更新清理、映像与驱动管理等功能；使用前阅读发布者协议。",
       "publisher": "Chuyu Team",
-      "version": "2",
+      "version": "10.1.1002.2",
       "tags": [
         "系统",
         "系统优化",
         "精简"
       ],
-      "homepage": "",
+      "homepage": "https://www.chuyu.me/",
+      "packages": [],
       "legacyPath": "",
-      "order": 66,
-      "packages": []
+      "order": 66
     },
     {
       "id": "tool-everything",
@@ -1792,8 +1792,6 @@
         "文件搜索"
       ],
       "homepage": "",
-      "legacyPath": "其他工具/Everything",
-      "order": 67,
       "packages": [
         {
           "architecture": "x64",
@@ -1803,7 +1801,9 @@
           "entryPoint": "everything.exe",
           "kind": "portable-zip"
         }
-      ]
+      ],
+      "legacyPath": "其他工具/Everything",
+      "order": 67
     },
     {
       "id": "tool-hibit-uninstaller",
@@ -1812,17 +1812,17 @@
       "categories": [
         "其他工具"
       ],
-      "description": "强大的软件卸载工具，支持强制卸载、批量卸载和清理残留注册表。",
+      "description": "HiBit Uninstaller 软件卸载与残留清理工具，可从官网获取便携版或安装版。",
       "publisher": "HiBitSoft",
-      "version": "1",
+      "version": "4.0.10",
       "tags": [
         "系统",
         "软件卸载"
       ],
-      "homepage": "",
+      "homepage": "https://www.hibitsoft.ir/Uninstaller.html",
+      "packages": [],
       "legacyPath": "其他工具/HiBit Uninstaller",
-      "order": 68,
-      "packages": []
+      "order": 68
     },
     {
       "id": "tool-gifcam",
@@ -1839,8 +1839,6 @@
         "GIF录制"
       ],
       "homepage": "",
-      "legacyPath": "其他工具/gifcam",
-      "order": 69,
       "packages": [
         {
           "architecture": "x86",
@@ -1850,7 +1848,9 @@
           "entryPoint": "GifCam.exe",
           "kind": "portable-zip"
         }
-      ]
+      ],
+      "legacyPath": "其他工具/gifcam",
+      "order": 69
     },
     {
       "id": "tool-msiafterburner",
@@ -1860,18 +1860,18 @@
         "其他工具",
         "显卡工具"
       ],
-      "description": "MSI Afterburner 显卡超频监控工具下载入口，支持所有品牌显卡。",
+      "description": "MSI Afterburner 显卡监控、频率与风扇调节工具。安装及可选组件按厂商流程处理。",
       "publisher": "MSI",
-      "version": "1",
+      "version": "4.6.6",
       "tags": [
         "显卡",
         "超频",
         "监控"
       ],
-      "homepage": "",
+      "homepage": "https://www.msi.com/Landing/Afterburner",
+      "packages": [],
       "legacyPath": "其他工具/MSIAfterburnerSetup",
-      "order": 70,
-      "packages": []
+      "order": 70
     },
     {
       "id": "tool-next-itellyou",
@@ -1880,7 +1880,7 @@
       "categories": [
         "其他工具"
       ],
-      "description": "MSDN I Tell You 在线系统镜像下载入口，提供微软原版系统镜像。",
+      "description": "操作系统镜像与软件资源检索网站，按网站账号和获取说明使用。",
       "publisher": "",
       "version": "1",
       "tags": [
@@ -1888,9 +1888,9 @@
         "系统镜像"
       ],
       "homepage": "https://next.itellyou.cn/",
+      "packages": [],
       "legacyPath": "其他工具/next_itellyou",
-      "order": 71,
-      "packages": []
+      "order": 71
     },
     {
       "id": "tool-process-explorer",
@@ -1908,8 +1908,6 @@
         "procexp"
       ],
       "homepage": "",
-      "legacyPath": "其他工具/procexp",
-      "order": 72,
       "packages": [
         {
           "architecture": "x86",
@@ -1927,7 +1925,9 @@
           "entryPoint": "procexp64.exe",
           "kind": "portable-zip"
         }
-      ]
+      ],
+      "legacyPath": "其他工具/procexp",
+      "order": 72
     },
     {
       "id": "tool-rufus",
@@ -1944,8 +1944,6 @@
         "U盘启动"
       ],
       "homepage": "",
-      "legacyPath": "其他工具/rufus",
-      "order": 73,
       "packages": [
         {
           "architecture": "x64",
@@ -1955,7 +1953,9 @@
           "entryPoint": "rufus.exe",
           "kind": "portable-zip"
         }
-      ]
+      ],
+      "legacyPath": "其他工具/rufus",
+      "order": 73
     },
     {
       "id": "tool-ventoy",
@@ -1972,8 +1972,6 @@
         "U盘启动"
       ],
       "homepage": "",
-      "legacyPath": "其他工具/ventoy",
-      "order": 75,
       "packages": [
         {
           "architecture": "x86",
@@ -1999,7 +1997,9 @@
           "entryPoint": "altexe/Ventoy2Disk_ARM64.exe",
           "kind": "portable-zip"
         }
-      ]
+      ],
+      "legacyPath": "其他工具/ventoy",
+      "order": 75
     },
     {
       "id": "tool-windbg",
@@ -2016,8 +2016,6 @@
         "调试"
       ],
       "homepage": "",
-      "legacyPath": "其他工具/WinDbg",
-      "order": 76,
       "packages": [
         {
           "architecture": "x64",
@@ -2027,7 +2025,9 @@
           "entryPoint": "windbg.exe",
           "kind": "portable-zip"
         }
-      ]
+      ],
+      "legacyPath": "其他工具/WinDbg",
+      "order": 76
     },
     {
       "id": "tool-fptw64",
@@ -2045,8 +2045,6 @@
         "Intel"
       ],
       "homepage": "",
-      "legacyPath": "显卡工具/FPT64",
-      "order": 77,
       "packages": [
         {
           "architecture": "x64",
@@ -2056,7 +2054,9 @@
           "entryPoint": "fptw64.exe",
           "kind": "portable-zip"
         }
-      ]
+      ],
+      "legacyPath": "显卡工具/FPT64",
+      "order": 77
     },
     {
       "id": "tool-fancontrol",
@@ -2065,18 +2065,18 @@
       "categories": [
         "其他工具"
       ],
-      "description": "开源风扇曲线控制工具，支持自定义风扇转速策略和多风扇联动控制。",
+      "description": "Fan Control 风扇与传感器控制工具；按发布者说明安装所需硬件访问组件。",
       "publisher": "Rem0o",
-      "version": "1",
+      "version": "V282",
       "tags": [
         "风扇",
         "温控",
         "开源"
       ],
-      "homepage": "https://github.com/Rem0o/FanControl.Releases",
+      "homepage": "https://getfancontrol.com/",
+      "packages": [],
       "legacyPath": "",
-      "order": 78,
-      "packages": []
+      "order": 78
     },
     {
       "id": "tool-powertoys",
@@ -2085,7 +2085,7 @@
       "categories": [
         "其他工具"
       ],
-      "description": "微软官方系统增强工具集，包含窗口管理、颜色拾取、批量重命名、快捷键指南等实用功能。",
+      "description": "Microsoft PowerToys Windows 效率工具集，可按微软说明通过安装器或商店获取。",
       "publisher": "Microsoft",
       "version": "1",
       "tags": [
@@ -2093,10 +2093,10 @@
         "系统增强",
         "微软官方"
       ],
-      "homepage": "https://github.com/microsoft/PowerToys",
+      "homepage": "https://learn.microsoft.com/en-us/windows/powertoys/install",
+      "packages": [],
       "legacyPath": "",
-      "order": 79,
-      "packages": []
+      "order": 79
     },
     {
       "id": "tool-usbdeview",
@@ -2114,8 +2114,6 @@
         "硬件检测"
       ],
       "homepage": "",
-      "legacyPath": "其他工具/USBDeview",
-      "order": 80,
       "packages": [
         {
           "architecture": "x64",
@@ -2125,7 +2123,9 @@
           "entryPoint": "USBDeview.exe",
           "kind": "portable-zip"
         }
-      ]
+      ],
+      "legacyPath": "其他工具/USBDeview",
+      "order": 80
     },
     {
       "id": "tool-usbtreeview",
@@ -2143,8 +2143,6 @@
         "硬件检测"
       ],
       "homepage": "",
-      "legacyPath": "其他工具/USBTreeView",
-      "order": 81,
       "packages": [
         {
           "architecture": "x64",
@@ -2154,7 +2152,9 @@
           "entryPoint": "UsbTreeView.exe",
           "kind": "portable-zip"
         }
-      ]
+      ],
+      "legacyPath": "其他工具/USBTreeView",
+      "order": 81
     },
     {
       "id": "tool-rammap",
@@ -2173,8 +2173,6 @@
         "系统工具"
       ],
       "homepage": "",
-      "legacyPath": "其他工具/RAMMap",
-      "order": 82,
       "packages": [
         {
           "architecture": "x86",
@@ -2200,7 +2198,9 @@
           "entryPoint": "RAMMap64a.exe",
           "kind": "portable-zip"
         }
-      ]
+      ],
+      "legacyPath": "其他工具/RAMMap",
+      "order": 82
     },
     {
       "id": "tool-autoruns",
@@ -2218,8 +2218,6 @@
         "系统优化"
       ],
       "homepage": "",
-      "legacyPath": "其他工具/Autoruns",
-      "order": 83,
       "packages": [
         {
           "architecture": "x86",
@@ -2245,7 +2243,9 @@
           "entryPoint": "Autoruns64a.exe",
           "kind": "portable-zip"
         }
-      ]
+      ],
+      "legacyPath": "其他工具/Autoruns",
+      "order": 83
     },
     {
       "id": "tool-procmon",
@@ -2263,8 +2263,6 @@
         "系统诊断"
       ],
       "homepage": "",
-      "legacyPath": "其他工具/ProcessMonitor",
-      "order": 84,
       "packages": [
         {
           "architecture": "x86",
@@ -2290,7 +2288,9 @@
           "entryPoint": "Procmon64a.exe",
           "kind": "portable-zip"
         }
-      ]
+      ],
+      "legacyPath": "其他工具/ProcessMonitor",
+      "order": 84
     },
     {
       "id": "tool-bootice",
@@ -2309,8 +2309,6 @@
         "GPT"
       ],
       "homepage": "",
-      "legacyPath": "硬盘工具/BOOTICE",
-      "order": 85,
       "packages": [
         {
           "architecture": "x64",
@@ -2320,7 +2318,9 @@
           "entryPoint": "BOOTICEx64_2016.06.17_v1.3.4.0.exe",
           "kind": "portable-zip"
         }
-      ]
+      ],
+      "legacyPath": "硬盘工具/BOOTICE",
+      "order": 85
     },
     {
       "id": "tool-freemove",
@@ -2338,8 +2338,6 @@
         "分区"
       ],
       "homepage": "",
-      "legacyPath": "硬盘工具/FreeMove",
-      "order": 86,
       "packages": [
         {
           "architecture": "x86",
@@ -2349,7 +2347,9 @@
           "entryPoint": "FreeMove.exe",
           "kind": "portable-zip"
         }
-      ]
+      ],
+      "legacyPath": "硬盘工具/FreeMove",
+      "order": 86
     },
     {
       "id": "tool-3cc9ad1ea4110b0c",
@@ -2358,7 +2358,7 @@
       "categories": [
         "其他工具"
       ],
-      "description": "目前最厉害的杀毒软件",
+      "description": "卡巴斯基安全软件官方获取入口。安装、账号、许可与兼容要求以厂商说明为准。",
       "publisher": "Kaspersky",
       "version": "1",
       "tags": [
@@ -2366,9 +2366,9 @@
         "安全"
       ],
       "homepage": "https://www.kaspersky.com.cn/downloads/free-antivirus",
+      "packages": [],
       "legacyPath": "其他工具/卡巴斯基",
-      "order": 87,
-      "packages": []
+      "order": 87
     },
     {
       "id": "tool-robocopyex",
@@ -2377,7 +2377,7 @@
       "categories": [
         "其他工具"
       ],
-      "description": "取代 Windows 自带复制和粘贴的高性能文件复制工具",
+      "description": "RoboCopyEx 文件复制工具；确认准确的发布者和商店条目后再提供安装入口。",
       "publisher": "RoboCopyEx",
       "version": "1",
       "tags": [
@@ -2385,9 +2385,9 @@
         "文件管理"
       ],
       "homepage": "",
+      "packages": [],
       "legacyPath": "其他工具/RoboCopyEx",
-      "order": 88,
-      "packages": []
+      "order": 88
     },
     {
       "id": "tool-360",
@@ -2396,7 +2396,7 @@
       "categories": [
         "其他工具"
       ],
-      "description": "360 驱动大师纯净版，自动检测、安装和更新电脑硬件驱动。",
+      "description": "360 驱动大师官方获取入口，用于识别设备与匹配驱动；驱动操作按软件提示完成。",
       "publisher": "奇虎360",
       "version": "1",
       "tags": [
@@ -2404,10 +2404,10 @@
         "驱动更新",
         "硬件检测"
       ],
-      "homepage": "",
+      "homepage": "https://dm.weishi.360.cn/",
+      "packages": [],
       "legacyPath": "",
-      "order": 89,
-      "packages": []
+      "order": 89
     },
     {
       "id": "tool-y-cruncher",
@@ -2417,14 +2417,23 @@
         "烤鸡工具",
         "处理器工具"
       ],
-      "description": "",
+      "description": "y-cruncher 命令行 CPU 计算与稳定性测试工具。下载后在终端运行 y-cruncher.exe，启动器会选择适合处理器的运算后端。",
       "publisher": "",
-      "version": "1",
+      "version": "0.8.7.9547b",
       "tags": [],
-      "homepage": "",
+      "homepage": "https://www.numberworld.org/y-cruncher/",
+      "packages": [
+        {
+          "architecture": "x86",
+          "url": "https://zhenxingai.com/downloads/tools/tool-y-cruncher/3be696c1cc44907f2ea7/portable.zip",
+          "sizeBytes": 47198240,
+          "sha256": "3be696c1cc44907f2ea73aac35de4a5d45048255308f34ed4410a743163a4f87",
+          "entryPoint": "y-cruncher v0.8.7.9547b/y-cruncher.exe",
+          "kind": "portable-zip"
+        }
+      ],
       "legacyPath": "烤鸡工具/y-cruncher",
-      "order": 0,
-      "packages": []
+      "order": 0
     },
     {
       "id": "tool-geek-uninstaller",
@@ -2433,14 +2442,14 @@
       "categories": [
         "其他工具"
       ],
-      "description": "",
+      "description": "Geek Uninstaller 软件卸载与残留清理工具，官网提供个人使用的免费版。",
       "publisher": "",
-      "version": "1",
+      "version": "1.5.5.185",
       "tags": [],
-      "homepage": "",
+      "homepage": "https://geekuninstaller.com/download",
+      "packages": [],
       "legacyPath": "其他工具/Geek Uninstaller",
-      "order": 0,
-      "packages": []
+      "order": 0
     },
     {
       "id": "tool-ed6923139ee816c2",
@@ -2449,14 +2458,14 @@
       "categories": [
         "其他工具"
       ],
-      "description": "",
+      "description": "游戏加加获取入口，提供游戏帧率与硬件状态显示等功能；安装程序与版本以发布者提供内容为准。",
       "publisher": "",
       "version": "1",
       "tags": [],
-      "homepage": "",
+      "homepage": "https://www.tbtool.cn/gamepp/index.html",
+      "packages": [],
       "legacyPath": "其他工具/游戏加加",
-      "order": 0,
-      "packages": []
+      "order": 0
     },
     {
       "id": "tool-cb762dcbc3ad51dd",
@@ -2465,14 +2474,14 @@
       "categories": [
         "其他工具"
       ],
-      "description": "",
+      "description": "图吧工具箱皮肤编辑器的维护者获取入口；软件文件与使用说明以维护者提供内容为准。",
       "publisher": "",
       "version": "1",
       "tags": [],
-      "homepage": "",
+      "homepage": "https://www.tbtool.cn/skin/index.html",
+      "packages": [],
       "legacyPath": "其他工具/皮肤编辑器",
-      "order": 0,
-      "packages": []
+      "order": 0
     },
     {
       "id": "tool-cdrtfe",
@@ -2491,8 +2500,6 @@
         "开源"
       ],
       "homepage": "",
-      "legacyPath": "其他工具/cdrtfe",
-      "order": 90,
       "packages": [
         {
           "architecture": "x86",
@@ -2502,7 +2509,9 @@
           "entryPoint": "cdrtfe.exe",
           "kind": "portable-zip"
         }
-      ]
+      ],
+      "legacyPath": "其他工具/cdrtfe",
+      "order": 90
     },
     {
       "id": "tool-testdisk-photorec",
@@ -2520,8 +2529,6 @@
         "开源"
       ],
       "homepage": "https://wiki.debian.org/ReproducibleBuilds",
-      "legacyPath": "硬盘工具/TestDisk-PhotoRec",
-      "order": 91,
       "packages": [
         {
           "architecture": "x64",
@@ -2531,7 +2538,9 @@
           "entryPoint": "qphotorec_win.exe",
           "kind": "portable-zip"
         }
-      ]
+      ],
+      "legacyPath": "硬盘工具/TestDisk-PhotoRec",
+      "order": 91
     },
     {
       "id": "tool-hddscan",
@@ -2540,19 +2549,19 @@
       "categories": [
         "硬盘工具"
       ],
-      "description": "开源硬盘诊断工具：表面扫描逐扇区读取测试、SMART 属性读取、驱动器自检执行。",
-      "publisher": "HDDScan",
-      "version": "1",
+      "description": "HDDScan 免费硬盘诊断工具，可查看 SMART、执行表面测试与保存报告。",
+      "publisher": "Artem Rubtsov / HDDScan.com",
+      "version": "4.1",
       "tags": [
         "硬盘",
         "表面扫描",
         "SMART",
         "坏道检测"
       ],
-      "homepage": "https://hddscan.com/download/HDDScan.zip",
+      "homepage": "https://hddscan.com/",
+      "packages": [],
       "legacyPath": "硬盘工具/HDDScan",
-      "order": 92,
-      "packages": []
+      "order": 92
     },
     {
       "id": "tool-victoria",
@@ -2561,19 +2570,19 @@
       "categories": [
         "硬盘工具"
       ],
-      "description": "硬盘低级扫描与坏道处理神器：逐扇区读写测试、S.M.A.R.T. 查看、不稳定扇区重映射。",
+      "description": "Victoria 硬盘诊断工具，可查看 SMART 与执行表面测试；写入、擦除等操作需在工具内明确选择。",
       "publisher": "hdd.by",
-      "version": "1",
+      "version": "5.37",
       "tags": [
         "硬盘",
         "坏道",
         "扫描",
         "SSD"
       ],
-      "homepage": "https://hdd.by/Victoria/Victoria537.zip",
+      "homepage": "https://hdd.by/victoria/",
+      "packages": [],
       "legacyPath": "硬盘工具/Victoria",
-      "order": 93,
-      "packages": []
+      "order": 93
     },
     {
       "id": "tool-hdtune",
@@ -2582,7 +2591,7 @@
       "categories": [
         "硬盘工具"
       ],
-      "description": "经典硬盘测试工具（2.55 免费版）：基准测试 / 健康状态 / 错误扫描 / 文件基准。",
+      "description": "HD Tune 硬盘基准、健康与错误扫描工具；免费版和 Pro 试用版有不同功能及授权。",
       "publisher": "EFD Software",
       "version": "1",
       "tags": [
@@ -2590,10 +2599,10 @@
         "基准测试",
         "健康检测"
       ],
-      "homepage": "https://www.hdtune.com/",
+      "homepage": "https://www.hdtune.com/download.html",
+      "packages": [],
       "legacyPath": "硬盘工具/HDTune",
-      "order": 94,
-      "packages": []
+      "order": 94
     },
     {
       "id": "tool-memtest86",
@@ -2602,18 +2611,18 @@
       "categories": [
         "内存工具"
       ],
-      "description": "权威内存检测工具（PassMark 官方 U盘版）：深度内存稳定性测试，支持 DDR4/DDR5。",
+      "description": "PassMark MemTest86 内存检测工具，需要制作启动 U 盘并重启测试，不是在 Windows 中直接运行的常规软件。",
       "publisher": "PassMark",
-      "version": "1",
+      "version": "11.7 Build 1000",
       "tags": [
         "内存",
         "稳定性",
         "U盘启动"
       ],
-      "homepage": "https://www.memtest86.com/downloads/memtest86-usb.zip",
+      "homepage": "https://www.memtest86.com/download.htm",
+      "packages": [],
       "legacyPath": "内存工具/MemTest86",
-      "order": 46,
-      "packages": []
+      "order": 46
     },
     {
       "id": "tool-occt",
@@ -2622,7 +2631,7 @@
       "categories": [
         "烤鸡工具"
       ],
-      "description": "专业烤机与监控：CPU / 内存 / 显卡 / 电源压力测试，实时电压温度曲线记录。",
+      "description": "OCCT 硬件稳定性测试与监控工具，提供 CPU、内存、显卡及电源压力测试；授权以厂商说明为准。",
       "publisher": "OCBase",
       "version": "1",
       "tags": [
@@ -2631,10 +2640,10 @@
         "监控",
         "电源测试"
       ],
-      "homepage": "https://www.ocbase.com/download-bin/edition:free",
+      "homepage": "https://www.ocbase.com/download-personal",
+      "packages": [],
       "legacyPath": "烤鸡工具/OCCT",
-      "order": 19,
-      "packages": []
+      "order": 19
     },
     {
       "id": "tool-unigine-heaven",
@@ -2643,18 +2652,18 @@
       "categories": [
         "显卡工具"
       ],
-      "description": "GPU 基准测试经典（Unigine 引擎）：DX11 高负载渲染测试与显卡稳定性验证。",
+      "description": "UNIGINE Heaven GPU 基准测试，提供渲染场景与显卡性能、稳定性测试。",
       "publisher": "Unigine",
-      "version": "1",
+      "version": "4.0",
       "tags": [
         "显卡",
         "基准测试",
         "跑分"
       ],
-      "homepage": "https://assets.unigine.com/d/Unigine_Heaven-4.0.exe",
+      "homepage": "https://benchmark.unigine.com/heaven",
+      "packages": [],
       "legacyPath": "显卡工具/Unigine Heaven",
-      "order": 78,
-      "packages": []
+      "order": 78
     },
     {
       "id": "tool-unigine-superposition",
@@ -2663,19 +2672,19 @@
       "categories": [
         "显卡工具"
       ],
-      "description": "次世代 GPU 基准测试：4K 优化 / VR 就绪，跨平台显卡跑分标准。",
+      "description": "UNIGINE Superposition GPU 基准测试，提供多分辨率渲染性能与稳定性测试。",
       "publisher": "Unigine",
-      "version": "1",
+      "version": "1.1",
       "tags": [
         "显卡",
         "基准测试",
         "跑分",
         "VR"
       ],
-      "homepage": "https://assets.unigine.com/d/Unigine_Superposition-1.1.exe",
+      "homepage": "https://benchmark.unigine.com/superposition",
+      "packages": [],
       "legacyPath": "显卡工具/Unigine Superposition",
-      "order": 79,
-      "packages": []
+      "order": 79
     },
     {
       "id": "tool-3dmark",
@@ -2684,7 +2693,7 @@
       "categories": [
         "显卡工具"
       ],
-      "description": "专业图形性能基准测试（官方入口）：Time Spy / Fire Strike 显卡跑分标准。",
+      "description": "UL Solutions 3DMark 图形基准测试官方获取入口，版本、测试项目与授权以厂商说明为准。",
       "publisher": "UL Solutions",
       "version": "1",
       "tags": [
@@ -2692,10 +2701,10 @@
         "跑分",
         "基准测试"
       ],
-      "homepage": "https://www.3dmark.com/",
+      "homepage": "https://benchmarks.ul.com/3dmark",
+      "packages": [],
       "legacyPath": "显卡工具/3DMark",
-      "order": 80,
-      "packages": []
+      "order": 80
     },
     {
       "id": "tool-cinebench",
@@ -2704,19 +2713,19 @@
       "categories": [
         "处理器工具"
       ],
-      "description": "Maxon 官方 CPU/GPU 渲染性能基准（2024 版入口）：跑分榜公认的 CPU 性能参考。",
+      "description": "Maxon Cinebench CPU/GPU 渲染基准测试官方获取入口，按处理器架构与系统要求选择版本。",
       "publisher": "Maxon",
-      "version": "1",
+      "version": "2026",
       "tags": [
         "CPU",
         "跑分",
         "渲染",
         "基准测试"
       ],
-      "homepage": "https://www.maxon.net/en/downloads/cinebench-2024-downloads",
+      "homepage": "https://www.maxon.net/en/downloads/cinebench-downloads",
+      "packages": [],
       "legacyPath": "处理器工具/CineBench",
-      "order": 10,
-      "packages": []
+      "order": 10
     },
     {
       "id": "tool-displayx",
@@ -2725,7 +2734,7 @@
       "categories": [
         "显示器工具"
       ],
-      "description": "经典显示器测试工具：坏点 / 亮点 / 暗线排查、灰阶与响应时间测试。",
+      "description": "DisplayX 显示器测试工具；确认真实发布者与可核验程序后再恢复下载入口。",
       "publisher": "majorgeeks",
       "version": "1",
       "tags": [
@@ -2733,10 +2742,10 @@
         "坏点测试",
         "屏幕检测"
       ],
-      "homepage": "https://www.majorgeeks.com/files/details/displayx.html",
+      "homepage": "",
+      "packages": [],
       "legacyPath": "显示器工具/DisplayX",
-      "order": 48,
-      "packages": []
+      "order": 48
     },
     {
       "id": "tool-4da62b9959ceb5ff",
@@ -2745,7 +2754,7 @@
       "categories": [
         "综合检测"
       ],
-      "description": "国民级硬件检测与娱乐跑分（官方入口）：配置查看 / 温度监控 / 综合跑分。",
+      "description": "鲁大师硬件信息与性能测试软件官方获取入口，安装组件和授权以发布者说明为准。",
       "publisher": "鲁大师",
       "version": "1",
       "tags": [
@@ -2754,9 +2763,9 @@
         "温度监控"
       ],
       "homepage": "https://www.ludashi.com/",
+      "packages": [],
       "legacyPath": "综合检测/鲁大师",
-      "order": 49,
-      "packages": []
+      "order": 49
     },
     {
       "id": "tool-geekbench",
@@ -2765,19 +2774,19 @@
       "categories": [
         "综合检测"
       ],
-      "description": "跨平台性能基准（官方入口）：Geekbench 6 CPU/GPU 跑分，全球榜单可比。",
+      "description": "Primate Labs Geekbench 跨平台 CPU/GPU 基准测试官方获取入口，版本与授权以厂商说明为准。",
       "publisher": "Primate Labs",
-      "version": "1",
+      "version": "7",
       "tags": [
         "跑分",
         "基准测试",
         "CPU",
         "GPU"
       ],
-      "homepage": "https://www.geekbench.com/download/windows/",
+      "homepage": "https://www.geekbench.com/download/",
+      "packages": [],
       "legacyPath": "综合检测/Geekbench",
-      "order": 50,
-      "packages": []
+      "order": 50
     },
     {
       "id": "tool-rtss",
@@ -2786,18 +2795,18 @@
       "categories": [
         "其他工具"
       ],
-      "description": "RivaTuner Statistics Server 帧率监控（官方入口）：游戏帧率 / 帧时间显示，配合 Afterburner 使用。",
+      "description": "RivaTuner Statistics Server 游戏帧率、帧时间与屏幕显示服务，可与 Afterburner 配合使用。",
       "publisher": "Guru3D",
-      "version": "1",
+      "version": "7.3.7",
       "tags": [
         "帧率监控",
         "游戏",
         "OSD"
       ],
       "homepage": "https://www.guru3d.com/download/rtss-rivatuner-statistics-server-download/",
+      "packages": [],
       "legacyPath": "其他工具/RTSS",
-      "order": 72,
-      "packages": []
+      "order": 72
     },
     {
       "id": "tool-intel-xtu",
@@ -2806,7 +2815,7 @@
       "categories": [
         "处理器工具"
       ],
-      "description": "Intel 官方超频调教工具（官方入口）：频率 / 电压 / 功耗墙调节与稳定性验证。",
+      "description": "Intel Extreme Tuning Utility 处理器调节与稳定性测试工具；先核对 CPU 与主板支持范围，再选择厂商版本。",
       "publisher": "Intel",
       "version": "1",
       "tags": [
@@ -2815,9 +2824,9 @@
         "调教"
       ],
       "homepage": "https://www.intel.com/content/www/us/en/download/17881/intel-extreme-tuning-utility-intel-xtu.html",
+      "packages": [],
       "legacyPath": "处理器工具/Intel XTU",
-      "order": 11,
-      "packages": []
+      "order": 11
     },
     {
       "id": "tool-amd-ryzen-master",
@@ -2826,7 +2835,7 @@
       "categories": [
         "处理器工具"
       ],
-      "description": "AMD 官方锐龙调教工具（官方入口）：超频 / 降压 / 实时监控，ZEN 平台利器。",
+      "description": "AMD Ryzen Master 处理器监控与调节工具；按 Ryzen 平台支持范围选择版本并完成厂商安装流程。",
       "publisher": "AMD",
       "version": "1",
       "tags": [
@@ -2836,9 +2845,9 @@
         "锐龙"
       ],
       "homepage": "https://www.amd.com/en/products/software/ryzen-master.html",
+      "packages": [],
       "legacyPath": "处理器工具/AMD Ryzen Master",
-      "order": 12,
-      "packages": []
+      "order": 12
     },
     {
       "id": "tool-samsung-magician",
@@ -2847,9 +2856,9 @@
       "categories": [
         "硬盘工具"
       ],
-      "description": "三星固态硬盘官方工具箱（官方入口）：固件更新 / 健康检测 / 性能测试。",
+      "description": "Samsung Magician 固态硬盘健康、性能与固件管理工具；支持功能以硬盘型号和厂商说明为准。",
       "publisher": "Samsung",
-      "version": "1",
+      "version": "9.0.1.950",
       "tags": [
         "硬盘",
         "SSD",
@@ -2857,9 +2866,9 @@
         "三星"
       ],
       "homepage": "https://semiconductor.samsung.com/consumer-storage/support/tools/",
+      "packages": [],
       "legacyPath": "硬盘工具/Samsung Magician",
-      "order": 95,
-      "packages": []
+      "order": 95
     },
     {
       "id": "tool-seatools",
@@ -2868,7 +2877,7 @@
       "categories": [
         "硬盘工具"
       ],
-      "description": "希捷官方硬盘诊断工具（官方入口）：全品牌硬盘健康检测与短/长自检。",
+      "description": "Seagate SeaTools 硬盘健康与诊断工具；Windows 安装版和启动 U 盘版使用方式不同。",
       "publisher": "Seagate",
       "version": "1",
       "tags": [
@@ -2877,9 +2886,9 @@
         "诊断"
       ],
       "homepage": "https://www.seagate.com/cn/zh/support/downloads/seatools/",
+      "packages": [],
       "legacyPath": "硬盘工具/SeaTools",
-      "order": 96,
-      "packages": []
+      "order": 96
     },
     {
       "id": "tool-librehardwaremonitor",
@@ -2888,19 +2897,28 @@
       "categories": [
         "综合检测"
       ],
-      "description": "开源硬件监控（GitHub 官方下载）：温度 / 风扇 / 电压 / 功耗全传感器实时监控。",
+      "description": "LibreHardwareMonitor 开源硬件监控，查看温度、风扇、电压、负载与频率；部分传感器需要管理员权限及硬件访问组件。",
       "publisher": "LibreHardwareMonitor",
-      "version": "1",
+      "version": "0.9.6",
       "tags": [
         "监控",
         "温度",
         "开源",
         "传感器"
       ],
-      "homepage": "https://github.com/LibreHardwareMonitor/LibreHardwareMonitor",
+      "homepage": "https://github.com/LibreHardwareMonitor/LibreHardwareMonitor/releases/tag/v0.9.6",
+      "packages": [
+        {
+          "architecture": "x64",
+          "url": "https://zhenxingai.com/downloads/tools/tool-librehardwaremonitor/008d224ff70149169fcf/portable.zip",
+          "sizeBytes": 11401169,
+          "sha256": "008d224ff70149169fcf88a717c0d01eb62cccfc8182edad7b8363f2925c3d82",
+          "entryPoint": "LibreHardwareMonitor.exe",
+          "kind": "portable-zip"
+        }
+      ],
       "legacyPath": "综合检测/LibreHardwareMonitor",
-      "order": 51,
-      "packages": []
+      "order": 51
     },
     {
       "id": "tool-unigine-valley",
@@ -2909,18 +2927,18 @@
       "categories": [
         "显卡工具"
       ],
-      "description": "GPU 基准测试经典（Unigine 引擎）：山谷场景高负载渲染，DX11 显卡跑分与稳定性验证。",
+      "description": "UNIGINE Valley GPU 基准测试，提供山谷场景渲染性能与显卡稳定性测试。",
       "publisher": "Unigine",
-      "version": "1",
+      "version": "1.0",
       "tags": [
         "显卡",
         "基准测试",
         "跑分"
       ],
-      "homepage": "https://assets.unigine.com/d/Unigine_Valley-1.0.exe",
+      "homepage": "https://benchmark.unigine.com/valley",
+      "packages": [],
       "legacyPath": "显卡工具/Unigine Valley",
-      "order": 81,
-      "packages": []
+      "order": 81
     }
   ]
 }

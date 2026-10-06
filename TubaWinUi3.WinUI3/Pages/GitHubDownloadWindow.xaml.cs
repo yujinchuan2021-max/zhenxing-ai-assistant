@@ -353,22 +353,14 @@ public sealed partial class GitHubDownloadWindow : Window
                 });
 
                 var destDir = _portableDir ?? Path.Combine(Path.GetTempPath(), $"TubaWinUi3_{_toolName.Replace(" ", "_")}");
-                var filePath = await ToolDownloaderService.DownloadToFileAsync(
-                    _bestUrl, destDir, _asset!.Name, progress, _cts.Token);
+                var filePath = await StagedWindowsDownload.DownloadAsync(
+                    _bestUrl, destDir, _asset!.Name, progress, _cts.Token, _asset.Size);
 
-                try
-                {
-                    Process.Start(new ProcessStartInfo { FileName = filePath, UseShellExecute = true });
-                }
-                catch
-                {
-                    DispatcherQueue.TryEnqueue(() => ShowSuccess(MiscTexts.TSub($"{_toolName} 已下载到：{filePath}\n请手动运行。")));
-                    return;
-                }
+                await new InstallerLaunchProcessor().ExecuteAsync(filePath, destDir, null, _cts.Token);
 
                 var locationText = _portableDir is not null
-                    ? MiscTexts.TSub($"{_toolName} 已下载到：{filePath}\n下次可直接从工具箱启动。")
-                    : MiscTexts.TSub($"{_toolName} 下载完成，已启动安装程序。");
+                    ? MiscTexts.TSub($"{_toolName} 已校验并打开：{filePath}\n下次可直接从工具箱启动。")
+                    : MiscTexts.TSub($"{_toolName} 已校验并交给安装程序，等待系统安装结果。");
                 DispatcherQueue.TryEnqueue(() => ShowSuccess(locationText));
             }
             catch (OperationCanceledException)

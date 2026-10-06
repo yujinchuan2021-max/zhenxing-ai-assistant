@@ -37,6 +37,7 @@ public sealed class OptimizerDuckTool : IBuiltinTool
 
     public async Task ExecuteAsync(BuiltinToolContext context)
     {
+        if (await OwnedInstallerDownloads.TryOpenPortableAsync("optimizer", context.OnProgress, context.CancellationToken)) return;
         var exe = FindInstalledExe();
         if (exe is not null)
         {
@@ -54,9 +55,12 @@ public sealed class OptimizerDuckTool : IBuiltinTool
 
         if (context.ConfirmDownload is not null)
         {
-            var confirmed = await context.ConfirmDownload(Name, MiscTexts.T("当前仅提供 x64 版本，ARM64 设备可能需要通过兼容层运行"), "");
+            var confirmed = await context.ConfirmDownload(Name, MiscTexts.T("当前提供 x64 版本，下载并校验后打开。暂不支持 ARM64 设备。"), "");
             if (!confirmed) return;
         }
+
+        if (await OwnedInstallerDownloads.EnqueueAsync("optimizer", Name, Glyph,
+            context.OnProgress, context.CancellationToken)) return;
 
         DownloadQueueService.EnqueueWithResolver(
             displayName: MiscTexts.T("OptimizerDuck 优化鸭"),
@@ -70,14 +74,11 @@ public sealed class OptimizerDuckTool : IBuiltinTool
                 if (asset is null)
                     throw new InvalidOperationException(MiscTexts.TSub($"当前架构 {arch} 没有匹配的下载文件。版本：{release.TagName}"));
 
-                var proxyResults = await GitHubReleaseService.TestProxiesAsync(asset.OriginalUrl, 8, ct);
-                var bestUrl = GitHubReleaseService.GetBestUrl(proxyResults, asset.OriginalUrl);
-
-                return new ResolvedDownloadUrl(bestUrl, asset.Name, asset.Size);
+                return new ResolvedDownloadUrl(asset.OriginalUrl, asset.Name, asset.Size);
             },
             destinationPath: destDir,
             postProcessor: new InstallerLaunchProcessor(),
-            description: MiscTexts.T("当前仅提供 x64 版本，ARM64 设备可能需要通过兼容层运行"),
+            description: MiscTexts.T("当前提供 x64 版本，下载并校验后打开。暂不支持 ARM64 设备。"),
             glyph: Glyph);
 
         context.OnProgress?.Invoke(MiscTexts.T("已加入下载队列，请在下载中心查看进度。"));

@@ -123,14 +123,22 @@ public static class PawnIoService
         {
             var dir = Path.GetDirectoryName(SetupFile)!;
             Directory.CreateDirectory(dir);
-            await ToolDownloaderService.DownloadToFileAsync(SetupUrl, dir, Path.GetFileName(SetupFile), null);
-            if (!File.Exists(SetupFile)) return (false, MiscTexts.T("PawnIO 安装包下载失败，请检查网络后重试"));
+            var package = await OwnedInstallerDownloads.Manager.ResolveAsync("pawnio");
+            var path = package is not null
+                ? await OwnedInstallerDownloads.Manager.DownloadAsync("pawnio", package)
+                : await StagedWindowsDownload.DownloadAsync(SetupUrl, dir, Path.GetFileName(SetupFile));
+            WindowsDownloadValidation.Validate(path, package?.SizeBytes ?? 0, package?.ExecutableArchitecture);
+            if (package is not null) await OwnedDownloadPostProcessor.VerifyAsync(path, package);
+            if (DataRoots.EffectiveTestRoot is not null)
+                throw new InvalidOperationException("隔离验证不会运行真实驱动安装程序。");
 
-            using var proc = Process.Start(new ProcessStartInfo(SetupFile) { UseShellExecute = true });
+            using var proc = Process.Start(new ProcessStartInfo(path) { UseShellExecute = true });
+            if (proc is null) return (false, "PawnIO 安装程序未能启动，驱动尚未安装。");
             if (proc is not null)
             {
                 using var cts = new CancellationTokenSource(TimeSpan.FromMinutes(5));
-                try { await proc.WaitForExitAsync(cts.Token); } catch (OperationCanceledException) { }
+                try { await proc.WaitForExitAsync(cts.Token); }
+                catch (OperationCanceledException) { return (false, "PawnIO 安装程序仍在运行，请完成安装后重新检测驱动。"); }
             }
 
             ResetStartState();

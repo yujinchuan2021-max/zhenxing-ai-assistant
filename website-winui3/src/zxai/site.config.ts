@@ -83,7 +83,7 @@ export const siteConfig = {
     title: '枕星图吧AI助手 —— 带你把 AI 用起来',
     tagline: '说出你的想法，带你把 AI 用起来',
     description:
-      '从一句目标开始：比较方案、复用已有软件、确认后准备支持的工具，再交给所选工具或 AI Agent。统一 AI 配置，技能制作与官方技能库，枕星AI资讯和社区。0.1.1 Windows x64 公开预览版已提供下载。',
+      '从一句目标开始：比较方案、复用已有软件、确认后准备支持的工具，再交给所选工具或 AI Agent。统一 AI 配置、云端工具目录、技能制作与官方技能库，枕星AI资讯和社区。官网下载 0.1.1 Windows x64 完整便携包。',
   },
 
   links: {
@@ -170,7 +170,7 @@ export const siteConfig = {
     /** 包、版本、大小和哈希确认后，才置 true 并填 links.download。 */
     released: true, // Open only after the real 0.1.1 package and mirrors are verified.
     label: '0.1.1 公开预览版 · 已开放下载',
-    note: '2026 年 10 月 5 日发布 Windows x64 便携版。旧 0.1.0 可检测新版提示；下载与校验后仍需关闭旧版、完整解压到新文件夹并手动启动。本版本为公开预览，真实账号登录和部分原生环境仍待复测。',
+    note: 'Windows x64 完整便携版由官网直接提供。下载后核对文件大小和 SHA-256，再关闭旧版、完整解压到新文件夹并手动启动。本版本为公开预览，真实账号登录和部分原生环境仍待复测。',
   },
 } as const;
 
@@ -183,7 +183,7 @@ export const brandCopy = () =>
         title: '枕星图吧AI助手 — get AI working for you',
         tagline: 'Say what you want to do — we get AI working for you',
         description:
-          'Start with a goal: compare plans, reuse installed software, prepare supported tools after confirmation, then hand off to your chosen tools or AI agent. Unified AI setup, skill creation and a skill library, AI news and community. The 0.1.1 Windows x64 public preview is available to download.',
+          'Start with a goal: compare plans, reuse installed software, prepare supported tools after confirmation, then hand off to your chosen tools or AI agent. Unified AI setup, a cloud tool catalogue, skill creation and a skill library, AI news and community. Download the complete 0.1.1 Windows x64 portable preview from the official site.',
       }
     : {
         title: siteConfig.brand.title,
@@ -227,7 +227,7 @@ export const releaseState = (): { released: boolean; label: string; note: string
       ? {
           released: true,
           label: '0.1.1 public preview · available to download',
-          note: 'Windows x64 portable build, released on 5 October 2026. Older 0.1.0 clients can detect the new version. After download and verification, close the old client, extract into a new folder and launch manually. This is a public preview; real-account login and some native environments still need retesting.',
+          note: 'Download the complete Windows x64 portable build directly from the official site. Check its file size and SHA-256, close the old client, extract into a new folder and launch manually. This is a public preview; real-account login and some native environments still need retesting.',
         }
       : {
           released: true,
@@ -342,14 +342,14 @@ export const dataNoticeCopy = () => {
   if (lang.value === 'en') {
     return {
       siteTitle: 'This site (in effect now)',
-      site: 'This product site has no account system or ads. Self-hosted Umami analytics records page views and download-entry clicks without tracking cookies. Theme, font and language preferences stay in your browser. A click does not confirm a completed download; package download records are maintained by the file host, currently GitHub. The community uses its own forum account.',
+      site: 'This product site has no account system or ads. Self-hosted Umami analytics records page views and download-entry clicks without tracking cookies. Theme, font and language preferences stay in your browser. A click does not confirm a completed download; package download records are maintained separately by the official download service and GitHub. The community uses its own forum account.',
       clientStatus: released ? 'Client (0.1.1 public preview)' : 'Client (download unavailable)',
       client: 'Workflow sharing is on by default and can be disabled in settings. When enabled, confirming a plan can send the goal, the full visible conversation in that session (excluding hidden reasoning), selected tools and execution or download results to our server. Skill submissions and benchmark uploads are separate user actions. AI keys are stored locally; model requests go to your chosen provider. See the 0.1.1 release notes for this build’s validation scope and known limitations.',
     };
   }
   return {
     siteTitle: '本站（已生效）',
-    site: '产品介绍站没有账号体系和广告。自托管 Umami 统计页面访问与下载入口点击，不使用追踪 Cookie；主题、字体与语言偏好保存在浏览器本地。点击不代表下载完成，文件下载记录由托管方提供，当前为 GitHub。社区另有独立论坛账号。',
+    site: '产品介绍站没有账号体系和广告。自托管 Umami 统计页面访问与下载入口点击，不使用追踪 Cookie；主题、字体与语言偏好保存在浏览器本地。点击不代表下载完成，文件下载记录由官网下载服务与 GitHub 按来源分别维护。社区另有独立论坛账号。',
     clientStatus: released ? '客户端（0.1.1 公开预览版）' : '客户端（下载信息暂不可用）',
     client: '工具流分享默认开启，可在设置中关闭。开启时，确认方案会尝试发送目标、该会话的完整可见对话（不含隐藏思考过程）、所选工具及执行与下载结果到我们的服务器。技能投稿和性能测试上传是用户另行操作。AI 密钥存于本机，模型请求会发送到你选择的服务。当前版本的验证范围与已知限制见 0.1.1 更新说明。',
   };

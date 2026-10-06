@@ -50,19 +50,19 @@ public static class PostProcessorRegistry
 
     public static void Register(IDownloadPostProcessor processor)
     {
-        _processors[processor.DisplayName] = processor;
+        _processors[GetKey(processor)!] = processor;
     }
 
     public static IDownloadPostProcessor? Find(string? key)
     {
         if (string.IsNullOrEmpty(key)) return null;
-        return _processors.TryGetValue(key, out var p) ? p : null;
+        return _processors.TryGetValue(key, out var p) ? p : Services.OwnedDownloadPostProcessor.Restore(key);
     }
 
     public static string? GetKey(IDownloadPostProcessor? processor)
     {
         if (processor is null) return null;
-        return processor.DisplayName;
+        return processor is Services.OwnedDownloadPostProcessor owned ? owned.PersistenceKey : processor.DisplayName;
     }
 
     public static void RegisterDefaults()
@@ -106,25 +106,32 @@ public sealed class ArchiveExtractProcessor : IDownloadPostProcessor
 
 public sealed class InstallerLaunchProcessor : IDownloadPostProcessor
 {
+    internal static Func<string, bool>? LaunchOverrideForTests { get; set; }
     public string DisplayName => "运行安装程序";
-    public Task ExecuteAsync(string downloadedFilePath, string destinationPath,
+    public async Task ExecuteAsync(string downloadedFilePath, string destinationPath,
         IProgress<string>? statusProgress, CancellationToken ct)
     {
-        statusProgress?.Report("正在启动安装程序...");
+        ct.ThrowIfCancellationRequested();
+        await Services.WindowsDownloadValidation.ValidateAsync(downloadedFilePath, ct: ct).ConfigureAwait(false);
+        if (Services.DataRoots.EffectiveTestRoot is not null && LaunchOverrideForTests is null)
+            throw new InvalidOperationException("隔离验证不会运行真实安装程序。");
+        statusProgress?.Report("文件检查通过，正在启动安装程序...");
         try
         {
             var psi = new System.Diagnostics.ProcessStartInfo(downloadedFilePath)
             {
                 UseShellExecute = true
             };
-            System.Diagnostics.Process.Start(psi);
+            var launched = LaunchOverrideForTests is { } fake ? fake(downloadedFilePath)
+                : System.Diagnostics.Process.Start(psi) is not null;
+            if (!launched) throw new IOException("安装程序未能启动，安装尚未完成。");
+            statusProgress?.Report("已交给安装程序，等待系统安装结果。");
         }
         catch (Win32Exception ex)
         {
             // 下载的文件可能被杀软移除/隔离或损坏，抛给队列以 Failed 状态呈现，避免崩溃
             throw new IOException($"无法启动安装程序，文件已不可用（可能被安全软件移除或磁盘错误）：{ex.Message}", ex);
         }
-        return Task.CompletedTask;
     }
 }
 
@@ -392,7 +399,11 @@ internal static class ZipExtractHelper
         {
             var rootFull = Path.GetFullPath(root);
             var targetFull = Path.GetFullPath(target);
-            return targetFull.StartsWith(rootFull, StringComparison.OrdinalIgnoreCase);
+            var boundary = rootFull.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar)
+                + Path.DirectorySeparatorChar;
+            if (!targetFull.StartsWith(boundary, StringComparison.OrdinalIgnoreCase)) return false;
+            Services.CloudTools.CloudToolValidation.CheckNoReparse(targetFull);
+            return true;
         }
         catch
         {
@@ -438,6 +449,7 @@ internal static class ZipExtractHelper
     {
         try
         {
+            Services.CloudTools.CloudToolValidation.CheckNoReparse(path);
             if (File.Exists(path))
             {
                 TryClearReadOnlyAttribute(path);

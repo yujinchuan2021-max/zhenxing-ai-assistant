@@ -664,6 +664,7 @@ public static class DownloadQueueService
             // 大小一致且已存在的文件直接跳过：重试 / 恢复会话时不重复下载
             if (file.Size > 0 && File.Exists(localPath) && new FileInfo(localPath).Length == file.Size)
             {
+                await Task.Run(() => ValidateDownloadedFileAsync(localPath, file.Size, ct), ct).ConfigureAwait(false);
                 completedBytes += file.Size;
                 knownTotal += file.Size;
                 ReportAggregatedProgress(item, completedBytes, knownTotal, 0);
@@ -682,7 +683,8 @@ public static class DownloadQueueService
                         knownTotal + fileTotal, e.BytesPerSecondSpeed);
                 });
 
-            var actualSize = File.Exists(localPath) ? new FileInfo(localPath).Length : fileTotal;
+            await Task.Run(() => ValidateDownloadedFileAsync(localPath, file.Size, ct), ct).ConfigureAwait(false);
+            var actualSize = new FileInfo(localPath).Length;
             completedBytes += actualSize;
             knownTotal += actualSize;
             newFiles++;
@@ -785,20 +787,21 @@ public static class DownloadQueueService
         // 已存在的半成品大小（含侧车元数据）用于恢复时初始进度展示
         var partialPath = finalPath + DownloaderPartialSuffix;
         var partialBytes = File.Exists(partialPath) ? new FileInfo(partialPath).Length : 0;
+        var declaredSize = item.ResolvedSize;
 
         await DownloadWithDownloaderAsync(item, item.ResolvedUrl!, finalPath, ct,
             onStarted: total =>
             {
                 if (total > 0)
                 {
-                    item.ResolvedSize = total;
+                    if (item.ResolvedSize <= 0) item.ResolvedSize = total;
                     if (partialBytes > 0)
                         ReportAggregatedProgress(item, partialBytes, total, 0);
                 }
             },
             onProgress: e => HandleSingleFileProgress(item, e));
 
-        ValidateDownloadedFile(finalPath);
+        await Task.Run(() => ValidateDownloadedFileAsync(finalPath, declaredSize, ct), ct).ConfigureAwait(false);
         return finalPath;
     }
 
@@ -864,26 +867,38 @@ public static class DownloadQueueService
     }
 
     /// <summary>
-    /// 若是 zip，校验压缩包完整性（遍历并打开每个条目，验证本地文件头）。
+    /// 下载文件须与声明大小一致；ZIP完整读取并检查CRC，安装器须通过格式检查。
     /// 损坏则删除并抛异常，触发自动重下（重下时 Downloader 会清掉损坏的完整文件）。
     /// </summary>
-    private static void ValidateDownloadedFile(string filePath)
+    internal static async Task ValidateDownloadedFileAsync(string filePath, long expectedSize = 0,
+        CancellationToken ct = default)
     {
-        if (!filePath.EndsWith(".zip", StringComparison.OrdinalIgnoreCase)) return;
-        if (!File.Exists(filePath)) return;
-
         try
         {
-            using var archive = System.IO.Compression.ZipFile.OpenRead(filePath);
-            foreach (var entry in archive.Entries)
-            {
-                using var s = entry.Open();
-            }
+            ct.ThrowIfCancellationRequested();
+            if (!File.Exists(filePath)) throw new InvalidDataException("下载文件不存在，未进行安装。");
+            var size = new FileInfo(filePath).Length;
+            if (size <= 0 || expectedSize > 0 && size != expectedSize)
+                throw new InvalidDataException("下载文件大小不符或文件为空，未进行安装。");
+            var extension = Path.GetExtension(filePath);
+            if (extension.Equals(".zip", StringComparison.OrdinalIgnoreCase))
+                await DownloadArchiveValidation.ValidateAsync(filePath, ct).ConfigureAwait(false);
+            else if (extension.Equals(".exe", StringComparison.OrdinalIgnoreCase)
+                || extension.Equals(".msi", StringComparison.OrdinalIgnoreCase)
+                || extension.Equals(".msix", StringComparison.OrdinalIgnoreCase)
+                || extension.Equals(".appx", StringComparison.OrdinalIgnoreCase)
+                || extension.Equals(".msixbundle", StringComparison.OrdinalIgnoreCase)
+                || extension.Equals(".appxbundle", StringComparison.OrdinalIgnoreCase))
+                await WindowsDownloadValidation.ValidateAsync(filePath, expectedSize, ct).ConfigureAwait(false);
+        }
+        catch (OperationCanceledException)
+        {
+            throw;
         }
         catch (Exception ex)
         {
             try { File.Delete(filePath); } catch { }
-            throw new InvalidDataException(MiscTexts.TSub($"下载的压缩包已损坏（{ex.Message}）"), ex);
+            throw new InvalidDataException(MiscTexts.TSub($"下载文件未通过完整性检查（{ex.Message}）"), ex);
         }
     }
 

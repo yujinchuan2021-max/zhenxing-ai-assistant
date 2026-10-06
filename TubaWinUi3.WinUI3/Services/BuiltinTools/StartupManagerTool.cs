@@ -632,7 +632,20 @@ public sealed class StartupManagerTool : IBuiltinTool
     private async Task<string?> EnsureAutorunscAsync(BuiltinToolContext context, XamlRoot? xamlRoot)
     {
         var existing = FindAutorunsc();
-        if (existing is not null && File.Exists(existing)) return existing;
+        if (existing is not null && WindowsDownloadValidation.IsValid(existing)) return existing;
+
+        // Use the exact maintained tool identity; a GUI-only or unrelated package
+        // must never be mistaken for the architecture-specific autorunsc helper.
+        if (CloudTools.CloudToolService.GetCatalog().Any(tool => tool.Id == "tool-autoruns"))
+        {
+            context.OnProgress?.Invoke("正在从国内工具库准备 Autoruns...");
+            var result = await CloudTools.CloudToolService.InstallAsync("tool-autoruns", (_cts ??= new CancellationTokenSource()).Token);
+            if (!result.Success) throw new InvalidOperationException(result.Message);
+            var managed = FindAutorunsc();
+            if (managed is null || !WindowsDownloadValidation.IsValid(managed))
+                throw new InvalidDataException("国内 Autoruns 包缺少适合当前架构的有效命令行入口，尚未开始扫描。");
+            return managed;
+        }
 
         var dialogRoot = xamlRoot ?? context.XamlRoot;
 
@@ -673,7 +686,7 @@ public sealed class StartupManagerTool : IBuiltinTool
                 bar.Value = p.Percentage;
                 status.Text = MiscTexts.TSub($"正在下载… {p.Percentage:F0}%（{ToolDownloaderService.FormatSize((long)p.BytesReceived)} / {ToolDownloaderService.FormatSize((long)p.TotalBytes)}）");
             });
-            var path = await ToolDownloaderService.DownloadToFileAsync(url, destDir, fileName, progress, (_cts ??= new CancellationTokenSource()).Token);
+            var path = await StagedWindowsDownload.DownloadAsync(url, destDir, fileName, progress, (_cts ??= new CancellationTokenSource()).Token);
 
             if (!UpdateService.IsInstallerFileValid(path))
             {

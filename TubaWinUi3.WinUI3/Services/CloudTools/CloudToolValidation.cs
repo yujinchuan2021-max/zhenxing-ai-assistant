@@ -41,8 +41,17 @@ internal static class CloudToolValidation
 
     internal static bool IsToolEntryPoint(string? value) => IsRelativePath(value) &&
         value!.EndsWith(".exe", StringComparison.OrdinalIgnoreCase) &&
-        !new[] { "setup", "install", "uninstall", "redist" }.Any(word =>
-            value.Replace('\\', '/').Split('/')[^1].Contains(word, StringComparison.OrdinalIgnoreCase));
+        IsPortableExecutableName(value.Replace('\\', '/').Split('/')[^1]);
+
+    private static bool IsPortableExecutableName(string name)
+    {
+        // These reviewed tools perform removal as their actual job. The exact
+        // vendor entry names remain bound to the catalog's package hash.
+        if (name.Equals("Display Driver Uninstaller.exe", StringComparison.OrdinalIgnoreCase)
+            || name.Equals("HiBitUninstaller-Portable.exe", StringComparison.OrdinalIgnoreCase)) return true;
+        return !new[] { "setup", "install", "uninstall", "redist" }.Any(word =>
+            name.Contains(word, StringComparison.OrdinalIgnoreCase));
+    }
 
     internal static bool IsPackageUrl(string? value)
     {

@@ -28,6 +28,7 @@ public sealed class UniGetUITool : IBuiltinTool
 
     public async Task ExecuteAsync(BuiltinToolContext context)
     {
+        if (await OwnedInstallerDownloads.TryOpenPortableAsync("unigetui", context.OnProgress, context.CancellationToken)) return;
         if (IsInstalled())
         {
             var exe = FindInstalledExe();
@@ -43,9 +44,12 @@ public sealed class UniGetUITool : IBuiltinTool
 
         if (context.ConfirmDownload is not null)
         {
-            var confirmed = await context.ConfirmDownload(Name, MiscTexts.T("安装包较大（约 135MB），下载可能需要较长时间"), MiscTexts.T("约 135MB"));
+            var confirmed = await context.ConfirmDownload(Name, MiscTexts.T("下载并校验安装包，完成后打开安装程序。安装完成后可从应用中心打开。"), "");
             if (!confirmed) return;
         }
+
+        if (await OwnedInstallerDownloads.EnqueueAsync("unigetui", Name, Glyph,
+            context.OnProgress, context.CancellationToken)) return;
 
         DownloadQueueService.EnqueueWithResolver(
             displayName: MiscTexts.T("UniGetUI 包管理器"),
@@ -59,14 +63,13 @@ public sealed class UniGetUITool : IBuiltinTool
                 if (asset is null)
                     throw new InvalidOperationException(MiscTexts.TSub($"当前架构 {arch} 没有匹配的下载文件。版本：{release.TagName}"));
 
-                var proxyResults = await GitHubReleaseService.TestProxiesAsync(asset.OriginalUrl, 8, ct);
-                var bestUrl = GitHubReleaseService.GetBestUrl(proxyResults, asset.OriginalUrl);
-
-                return new ResolvedDownloadUrl(bestUrl, asset.Name, asset.Size);
+                // A missing managed catalog may use the declared official release;
+                // unknown public proxies are never selected by a HEAD-only speed test.
+                return new ResolvedDownloadUrl(asset.OriginalUrl, asset.Name, asset.Size);
             },
             destinationPath: destDir,
             postProcessor: new InstallerLaunchProcessor(),
-            description: MiscTexts.T("安装包较大（约 135MB），下载可能需要较长时间"),
+            description: MiscTexts.T("下载并校验安装包，完成后打开安装程序。安装完成后可从应用中心打开。"),
             glyph: Glyph);
 
         context.OnProgress?.Invoke(MiscTexts.T("已加入下载队列，请在下载中心查看进度。"));

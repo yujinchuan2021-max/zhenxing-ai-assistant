@@ -22,7 +22,7 @@
 
         <p class="zx-hero__state zx-rise zx-rise--3">
           <span class="zx-dot" aria-hidden="true"></span>
-          <RouterLink v-if="release().released" to="/download">{{ t('0.1.1 公开预览版 · Windows x64 · 2026-10-05', '0.1.1 public preview · Windows x64 · 5 Oct 2026') }}</RouterLink>
+          <RouterLink v-if="release().released" to="/download">{{ t('0.1.1 公开预览版 · Windows x64', '0.1.1 public preview · Windows x64') }} · {{ siteConfig.releaseArtifact.publishedAt }}</RouterLink>
           <template v-else>{{ t('开发中 · 暂未开放下载', 'In development · download not open yet') }}</template>
         </p>
 
@@ -175,7 +175,7 @@ Env      Win10 22H2 / x64 / 32GB`) }}</pre>
             <p>
               {{ t(`${facts().builtinTools}内置工具（垃圾清理、时间同步、格式转换、游戏联机、镜像下载…）`, `${facts().builtinTools} built-in tools (junk cleaning, time sync, format conversion, game networking, image download …)`) }}
               {{ t(`加${facts().externalTools}外部工具，来自上游「${siteConfig.upstream.name}」——`, `plus ${facts().externalTools} external tools from the upstream “${siteConfig.upstream.name}” —`) }}
-              {{ t('第三方工具按需下载；应用中心只管理本机软件与已发起任务。', 'Third-party tools download on demand; App Center manages local software and requested tasks only.') }}
+              {{ t('云端工具目录按需下载，受支持的便携包通过内容和主入口校验后安装；应用中心显示本机软件与真实任务状态。', 'Download supported portable tools on demand from the cloud catalogue, with content and launch-entry validation before installation. App Center shows local software and actual task states.') }}
             </p>
             <p class="zx-card__foot zx-small">{{ t('预览版已提供 · 上游 GPL-3.0，保留署名', 'Available in the preview · upstream GPL-3.0, attribution kept') }}</p>
           </article>

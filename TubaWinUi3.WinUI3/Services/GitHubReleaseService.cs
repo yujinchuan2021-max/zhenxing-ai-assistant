@@ -166,13 +166,6 @@ public static class GitHubReleaseService
                 return a;
         }
 
-        foreach (var a in assets)
-        {
-            if (a.Name.EndsWith(".exe", StringComparison.OrdinalIgnoreCase) &&
-                a.Name.Contains("Installer", StringComparison.OrdinalIgnoreCase))
-                return a;
-        }
-
         return null;
     }
 
@@ -186,10 +179,13 @@ public static class GitHubReleaseService
                 return a;
         }
 
+        if (arch != "x64") return null;
         foreach (var a in assets)
         {
             if (a.Name.EndsWith(".exe", StringComparison.OrdinalIgnoreCase) &&
-                a.Name.Contains("Windows", StringComparison.OrdinalIgnoreCase))
+                a.Name.Contains("Windows", StringComparison.OrdinalIgnoreCase) &&
+                !System.Text.RegularExpressions.Regex.IsMatch(a.Name, @"(?:^|[-_.])(arm64|aarch64|x86|win32)(?:[-_.]|$)",
+                    System.Text.RegularExpressions.RegexOptions.IgnoreCase))
                 return a;
         }
 

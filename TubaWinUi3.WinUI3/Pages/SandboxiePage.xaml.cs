@@ -14,7 +14,7 @@ namespace TubaWinUi3.Pages;
 /// </summary>
 public sealed partial class SandboxiePage : Page
 {
-    private const string ReleaseBaseUrl = "https://gitcode.com/luolangaga/sandboxieddd/releases/download/new";
+    private const string ReleaseBaseUrl = "https://github.com/sandboxie-plus/Sandboxie/releases/download/v1.18.3";
     private const string VersionTag = "v1.18.3";
 
     private static readonly (string Arch, string DisplayName, string FileName, string Size)[] ArchOptions =
@@ -28,6 +28,11 @@ public sealed partial class SandboxiePage : Page
     private bool _initialized;
     private bool _suppressToggle;
     private DispatcherQueue? _dq;
+    private OwnedWindowsPackage? _ownedPackage;
+    private string? _catalogError;
+    private bool _loadingPackage;
+    private int _selectionGeneration;
+    private CancellationTokenSource? _catalogCancellation;
 
     private enum ToolState { NotDownloaded, Downloaded, Installed }
 
@@ -53,10 +58,13 @@ public sealed partial class SandboxiePage : Page
     private void OnUnloaded(object sender, RoutedEventArgs e)
     {
         DownloadQueueService.QueueChanged -= OnQueueChanged;
+        _catalogCancellation?.Cancel();
+        _selectionGeneration++;
     }
 
-    private void InitializeAsync()
+    private async void InitializeAsync()
     {
+        if (_initialized) { await LoadOwnedPackageAsync(); return; }
         var osArch = RuntimeInformation.OSArchitecture switch
         {
             Architecture.X64 => "x64",
@@ -86,10 +94,10 @@ public sealed partial class SandboxiePage : Page
         }
 
         _initialized = true;
-        RefreshState();
+        await LoadOwnedPackageAsync();
     }
 
-    private void ArchCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    private async void ArchCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         var index = ArchCombo.SelectedIndex >= 0 ? ArchCombo.SelectedIndex : 0;
         var opt = ArchOptions[index];
@@ -98,7 +106,40 @@ public sealed partial class SandboxiePage : Page
 
         // 架构切换后，已下载的安装包文件名随之变化，需重新判定按钮状态
         if (_initialized)
-            RefreshState();
+            await LoadOwnedPackageAsync();
+    }
+
+    private async Task LoadOwnedPackageAsync()
+    {
+        if (_x86Blocked) { RefreshState(); return; }
+        var generation = ++_selectionGeneration;
+        _catalogCancellation?.Cancel();
+        _catalogCancellation?.Dispose();
+        _catalogCancellation = new CancellationTokenSource();
+        var token = _catalogCancellation.Token;
+        _ownedPackage = null;
+        _catalogError = null;
+        _loadingPackage = true;
+        SizeText.Text = "正在获取国内安装包信息…";
+        RefreshState();
+        try
+        {
+            var package = await OwnedInstallerDownloads.Manager.ResolveAsync("sandboxie", token, _selected.Arch);
+            if (generation != _selectionGeneration) return;
+            _ownedPackage = package;
+            SizeText.Text = package is null ? _selected.Size : $"{package.Version} · {ToolDownloaderService.FormatSize(package.SizeBytes)}";
+        }
+        catch (OperationCanceledException) when (token.IsCancellationRequested) { return; }
+        catch (Exception ex)
+        {
+            if (generation != _selectionGeneration) return;
+            _catalogError = ex.Message;
+            SizeText.Text = "安装包信息暂不可用";
+        }
+        finally
+        {
+            if (generation == _selectionGeneration) { _loadingPackage = false; RefreshState(); }
+        }
     }
 
     private void OnQueueChanged()
@@ -136,14 +177,31 @@ public sealed partial class SandboxiePage : Page
 
         RefreshShellMenuToggle();
 
-        if (File.Exists(GetInstallerPath()))
+        if (_loadingPackage)
+        {
+            ActionBtn.IsEnabled = false;
+            ActionText.Text = "获取安装包信息…";
+            return;
+        }
+        if (_catalogError is not null)
+        {
+            _state = ToolState.NotDownloaded;
+            ActionBtn.IsEnabled = true;
+            ActionText.Text = "重新获取安装包";
+            DownloadHint.Text = _catalogError;
+            DownloadHint.Opacity = 1;
+            return;
+        }
+
+        var installer = GetInstallerPath();
+        if (WindowsDownloadValidation.IsValid(installer, _ownedPackage?.SizeBytes ?? 0, _ownedPackage?.ExecutableArchitecture))
         {
             _state = ToolState.Downloaded;
             ActionText.Text = MiscTexts.T("安装");
             ActionIcon.Glyph = "\uE768";
             ActionBtn.IsEnabled = true;
             ArchWarnBar.IsOpen = false;
-            DownloadHint.Text = MiscTexts.T("安装包已就绪，点击「安装」运行安装程序；安装完成后此按钮会变为「打开」。");
+            DownloadHint.Text = "安装包已下载，点击后重新校验并运行安装程序；完成系统安装后此按钮会变为「打开」。";
             DownloadHint.Opacity = 1;
         }
         else
@@ -157,27 +215,41 @@ public sealed partial class SandboxiePage : Page
         }
     }
 
-    private void ActionBtn_Click(object sender, RoutedEventArgs e)
+    private async void ActionBtn_Click(object sender, RoutedEventArgs e)
     {
-        switch (_state)
+        try
         {
-            case ToolState.Installed:
-                Launch(SandboxieShellMenuService.GetSandboxiePlusExe());
-                break;
-
-            case ToolState.Downloaded:
-                Launch(GetInstallerPath());
-                break;
-
-            case ToolState.NotDownloaded:
-                DownloadInstaller();
-                break;
+            switch (_state)
+            {
+                case ToolState.Installed:
+                    Launch(SandboxieShellMenuService.GetSandboxiePlusExe());
+                    break;
+                case ToolState.Downloaded:
+                    ActionBtn.IsEnabled = false;
+                    var path = GetInstallerPath();
+                    if (_ownedPackage is not null)
+                        await new OwnedDownloadPostProcessor("sandboxie", _ownedPackage).ExecuteAsync(path, Path.GetDirectoryName(path)!,
+                            new Progress<string>(text => { DownloadHint.Text = text; DownloadHint.Opacity = 1; }), CancellationToken.None);
+                    else
+                        await new InstallerLaunchProcessor().ExecuteAsync(path, InstallerDir,
+                            new Progress<string>(text => { DownloadHint.Text = text; DownloadHint.Opacity = 1; }), CancellationToken.None);
+                    break;
+                case ToolState.NotDownloaded:
+                    if (_catalogError is not null) await LoadOwnedPackageAsync();
+                    else await DownloadInstallerAsync();
+                    break;
+            }
         }
+        catch (Exception ex) { DownloadHint.Text = ex.Message; DownloadHint.Opacity = 1; }
+        finally { ActionBtn.IsEnabled = !_x86Blocked && !_loadingPackage; }
     }
 
-    private void DownloadInstaller()
+    private async Task DownloadInstallerAsync()
     {
         if (string.IsNullOrEmpty(_selected.FileName)) return;
+
+        if (await OwnedInstallerDownloads.EnqueueAsync("sandboxie", $"Sandboxie-Plus 安装包（{_selected.Arch.ToUpperInvariant()}）", "\uEA18",
+            text => { DownloadHint.Text = text; DownloadHint.Opacity = 1; }, architecture: _selected.Arch)) return;
 
         var url = $"{ReleaseBaseUrl}/{_selected.FileName}";
 
@@ -189,12 +261,14 @@ public sealed partial class SandboxiePage : Page
             description: MiscTexts.TSub($"恶意软件沙盒 Sandboxie-Plus 安装包，{_selected.Size}，下载完成后自动启动安装程序"),
             glyph: "\uEA18");
 
-        DownloadHint.Text = MiscTexts.T("已加入下载队列，可点击标题栏下载图标查看进度；下载完成后按钮会自动变为「安装」。");
+        DownloadHint.Text = "国内目录尚未发布，已尝试官方备用来源；校验通过后运行安装程序，完成安装后再打开。";
         DownloadHint.Opacity = 1;
     }
 
     private string GetInstallerPath()
     {
+        if (_ownedPackage is not null)
+            return Path.Combine(OwnedInstallerDownloads.Manager.Destination("sandboxie", _ownedPackage), _ownedPackage.FileName);
         if (string.IsNullOrEmpty(_selected.FileName)) return string.Empty;
         return Path.Combine(InstallerDir, _selected.FileName);
     }
