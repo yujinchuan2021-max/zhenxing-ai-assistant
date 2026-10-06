@@ -213,6 +213,7 @@ internal static class Program
         cases.AddRange(MasonryLayoutCases.All());
         cases.AddRange(ConversationFollowCases.All());
         cases.AddRange(LocalToolReadinessCases.All());
+        cases.AddRange(HardwareEditorCases.All());
         cases.AddRange(ChatScrollProbeCases.All());
 
         var passed = 0;

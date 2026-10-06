@@ -5418,7 +5418,7 @@ Fill in per current project; leave unused fields blank.</value>
     <value>Hardware Info Editor</value>
   </data>
   <data name="BuiltinDesc_hardware-spoofer" xml:space="preserve">
-    <value>Edits the CPU, GPU and system hardware info shown by the registry, with one-click restore to the original values.</value>
+    <value>Edit display names for CPU, motherboard, GPU, memory, monitors and disks with model presets, previews and original-name restore.</value>
   </data>
   <data name="BuiltinName_hosts-editor" xml:space="preserve">
     <value>Hosts Editor</value>
@@ -10272,7 +10272,7 @@ Fill in per current project; leave unused fields blank.</value>
     <value>Changes in 0.1.1</value>
   </data>
   <data name="WhatsNew_PreviewNote" xml:space="preserve">
-    <value>0.1.1 public preview: these notes describe the update and validation changes. Check the official download page for publication status.</value>
+    <value>0.1.1 public preview: hardware display names and mainstream model selection for six categories. See the GitHub release for the package and checksums.</value>
   </data>
   <data name="WhatsNew_AiPlan" xml:space="preserve">
     <value>After the AI provides a complete plan, choose “Use this plan” under that reply and review your project and tools before continuing.</value>
@@ -10682,7 +10682,7 @@ The goal assistant is invoked directly; custom skills are supplied as scenario r
     <value>View the 0.1.1 changes</value>
   </data>
   <data name="WhatsNew_PreviewIdentity" xml:space="preserve">
-    <value>The client and launcher use version 0.1.1 and the official preview update channel. Equivalent three- and four-part versions no longer trigger repeated update notices.</value>
+    <value>The client and launcher use version 0.1.1 and retain the official preview update channel. Equivalent three- and four-part versions do not trigger repeated update notices.</value>
   </data>
   <data name="WhatsNew_PackageValidation" xml:space="preserve">
     <value>The update manifest is checked for architecture, package type, official HTTPS URL, file size and SHA-256 before reporting the latest version or an unsupported platform. Missing or invalid manifests report a failure.</value>
@@ -10692,5 +10692,17 @@ The goal assistant is invoked directly; custom skills are supplied as scenario r
   </data>
   <data name="WhatsNew_R10History" xml:space="preserve">
     <value>Previous V0.1 (R10 preview) feature record</value>
+  </data>
+  <data name="WhatsNew_HardwareNames" xml:space="preserve">
+    <value>The configuration editor supports CPU, motherboard, GPU, memory, monitor, and disk display names, with 96 mainstream models and per-device custom names.</value>
+  </data>
+  <data name="WhatsNew_HardwareScope" xml:space="preserve">
+    <value>All six categories support local display profiles. Memory PartNumber is read-only; system sync supports CPU/baseboard display strings and the selected device's PnP FriendlyName.</value>
+  </data>
+  <data name="WhatsNew_HardwareRestore" xml:space="preserve">
+    <value>System edits first preserve each original type and missing-property state. Writes and restores are checked individually; failed entries retain their backup. Hardware information and rankings continue to use detected hardware.</value>
+  </data>
+  <data name="WhatsNew_V011History" xml:space="preserve">
+    <value>Retained 0.1.1 update behavior</value>
   </data>
 </root>

@@ -121,11 +121,15 @@ public sealed partial class WhatsNewWindow : Page
     private void RenderChangelog()
     {
         VersionTitleText.Text = L("WhatsNew_VersionTitle", "0.1.1 本次更新");
-        VersionDateText.Text = "2026-10-05";
+        VersionDateText.Text = "2026-10-06";
         var changelog = string.Join("\n\n", new[]
         {
-            L("WhatsNew_PreviewNote", "0.1.1 公开预览版：以下记录本次更新行为与校验修复，实际发布状态以官网下载页为准。"),
-            "- " + L("WhatsNew_PreviewIdentity", "统一客户端与启动器版本为 0.1.1，程序更新使用官方预览通道；同版的三段与四段数字版本不再重复提示。"),
+            L("WhatsNew_PreviewNote", "0.1.1 公开预览版：新增六类硬件展示名称配置与主流型号选择，发布包与校验值见 GitHub 发行页。"),
+            "- " + L("WhatsNew_HardwareNames", "配置修改器支持 CPU、主板、显卡、内存、显示器和硬盘六类名称，内置 96 个主流型号，可按设备选择并自定义。"),
+            "- " + L("WhatsNew_HardwareScope", "六类名称均可保存为本地展示配置。内存 PartNumber 为只读；系统同步仅支持 CPU/主板显示字符串和选定设备的 PnP FriendlyName。"),
+            "- " + L("WhatsNew_HardwareRestore", "系统名称修改前先保存原始类型与缺失状态，逐项校验写入和恢复结果；失败项保留备份以便重试。硬件信息与排行榜继续读取实际检测结果。"),
+            L("WhatsNew_V011History", "0.1.1 更新行为（保留）"),
+            "- " + L("WhatsNew_PreviewIdentity", "客户端与启动器版本为 0.1.1，程序更新继续使用官方预览通道；同版的三段与四段数字版本不重复提示。"),
             "- " + L("WhatsNew_PackageValidation", "更新清单先完整核对架构、包类型、官方 HTTPS 地址、文件大小与 SHA-256，再判断最新版或其他平台。清单缺失或无效时如实报错。"),
             "- " + L("WhatsNew_ManualUpdate", "便携更新包通过校验后可打开下载目录。先备份配置与会话、退出旧版，再完整解压到新目录并核对数据位置；不会自动替换运行中的程序。更新说明在内置浏览器打开。"),
             L("WhatsNew_R10History", "此前 V0.1（R10 预览）功能记录"),

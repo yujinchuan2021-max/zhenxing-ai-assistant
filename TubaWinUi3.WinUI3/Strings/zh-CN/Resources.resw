@@ -5433,7 +5433,7 @@
     <value>配置修改器</value>
   </data>
   <data name="BuiltinDesc_hardware-spoofer" xml:space="preserve">
-    <value>修改注册表中的 CPU、GPU、系统等硬件信息显示，支持一键恢复原始配置。</value>
+    <value>编辑 CPU、主板、显卡、内存、显示器和硬盘的展示名称，内置主流型号、修改预览和原值恢复。</value>
   </data>
   <data name="BuiltinName_hosts-editor" xml:space="preserve">
     <value>Hosts 编辑</value>
@@ -10287,7 +10287,7 @@
     <value>0.1.1 本次更新</value>
   </data>
   <data name="WhatsNew_PreviewNote" xml:space="preserve">
-    <value>0.1.1 公开预览版：以下记录本次更新行为与校验修复，实际发布状态以官网下载页为准。</value>
+    <value>0.1.1 公开预览版：新增六类硬件展示名称配置与主流型号选择，发布包与校验值见 GitHub 发行页。</value>
   </data>
   <data name="WhatsNew_AiPlan" xml:space="preserve">
     <value>AI 给出完整方案后，可在该条回复下点击“使用这套方案”，核对项目和工具清单后继续。</value>
@@ -10697,7 +10697,7 @@
     <value>查看 0.1.1 本次更新</value>
   </data>
   <data name="WhatsNew_PreviewIdentity" xml:space="preserve">
-    <value>统一客户端与启动器版本为 0.1.1，程序更新使用官方预览通道；同版的三段与四段数字版本不再重复提示。</value>
+    <value>客户端与启动器版本为 0.1.1，程序更新继续使用官方预览通道；同版的三段与四段数字版本不重复提示。</value>
   </data>
   <data name="WhatsNew_PackageValidation" xml:space="preserve">
     <value>更新清单先完整核对架构、包类型、官方 HTTPS 地址、文件大小与 SHA-256，再判断最新版或其他平台。清单缺失或无效时如实报错。</value>
@@ -10707,5 +10707,17 @@
   </data>
   <data name="WhatsNew_R10History" xml:space="preserve">
     <value>此前 V0.1（R10 预览）功能记录</value>
+  </data>
+  <data name="WhatsNew_HardwareNames" xml:space="preserve">
+    <value>配置修改器支持 CPU、主板、显卡、内存、显示器和硬盘六类名称，内置 96 个主流型号，可按设备选择并自定义。</value>
+  </data>
+  <data name="WhatsNew_HardwareScope" xml:space="preserve">
+    <value>六类名称均可保存为本地展示配置。内存 PartNumber 为只读；系统同步仅支持 CPU/主板显示字符串和选定设备的 PnP FriendlyName。</value>
+  </data>
+  <data name="WhatsNew_HardwareRestore" xml:space="preserve">
+    <value>系统名称修改前先保存原始类型与缺失状态，逐项校验写入和恢复结果；失败项保留备份以便重试。硬件信息与排行榜继续读取实际检测结果。</value>
+  </data>
+  <data name="WhatsNew_V011History" xml:space="preserve">
+    <value>0.1.1 更新行为（保留）</value>
   </data>
 </root>

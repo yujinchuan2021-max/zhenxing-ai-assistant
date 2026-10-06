@@ -2,10 +2,12 @@
 
 本仓库的当前客户端位于 `TubaWinUi3.WinUI3/`，采用 WinUI 3 / .NET 10。下列命令在 **Windows x64** 上从仓库根目录执行。源码构建、完整便携包组装与云端服务部署是三个独立步骤。
 
+当前源码为 **0.1.1 的 2026-10-06 修订**，程序版本保持 `0.1.1.0`。本次源码标记为 `v0.1.1-revision-20261006`；原 `v0.1.1-preview` 标签与 2026-10-05 原包保留。核对修订时同时查看源码标签、ZIP 文件名和包内 `BUILD-INFO.json`。
+
 ## 开发环境
 
 - Windows 10 2004（build 19041）或更新版本；开发和界面验证建议使用 Windows 11。
-- .NET SDK **10.0.401**：0.1.1 构建使用的版本。
+- .NET SDK **10.0.401**：当前主客户端使用的工具链版本。
 - Windows SDK **10.0.26100**。项目目标为 `net10.0-windows10.0.26100.0`，NuGet 引用的 SDK BuildTools 版本见主项目文件。
 - PowerShell、可访问 NuGet 的网络环境；打包和独立服务需要 Python。
 - WebView2 Evergreen Runtime：资讯、社区及部分内置网页功能需要。
@@ -33,17 +35,27 @@ dotnet restore .\TubaWinUi3.Tests\TubaWinUi3.Tests.csproj -p:Platform=x64 -p:Exc
 dotnet test .\TubaWinUi3.Tests\TubaWinUi3.Tests.csproj -c Release -p:Platform=x64 -p:ExcludeToolsFromPublish=true --no-restore --filter "FullyQualifiedName~CommunityAppearanceTests|FullyQualifiedName~CommunitySiteTests|FullyQualifiedName~CommunityAuthenticationTests"
 ```
 
-上述筛选对应历史 r10 的社区相关逻辑验证，并非本轮 0.1.1 或全项目测试结果。其他测试应按变更范围选择；不要用真实账号、真实 API Key 或真实安装卸载来代替隔离验证。
+上述筛选对应历史 r10 的社区相关逻辑验证，并非本次 2026-10-06 修订或全项目测试结果。其他测试应按变更范围选择；不要用真实账号、真实 API Key 或真实安装卸载来代替隔离验证。
 
-历史 r10 在 2026 年 10 月 5 日从当时整理的公开源码目录重新还原依赖并构建了主客户端、后端和测试项目，以上 207 项社区相关测试全部通过（0 失败、0 跳过）。这是 r10 的历史结果；构建仍有现有空值和分析器警告，不代表本轮 0.1.1 的全部验证结果。
+历史 r10 在 2026 年 10 月 5 日从当时整理的公开源码目录重新还原依赖并构建了主客户端、后端和测试项目，以上 207 项社区相关测试全部通过（0 失败、0 跳过）。这是 r10 的历史结果；构建仍有现有空值和分析器警告，不代表本次 2026-10-06 修订的全部验证结果。
 
-本轮 0.1.1 的 102 项版本身份、更新通道、更新检查和错误报告相关逻辑测试全部通过（0 失败、0 跳过），对应筛选命令为：
+2026-10-05 首次发布 0.1.1 时，102 项版本身份、更新通道、更新检查和错误报告相关逻辑测试全部通过（0 失败、0 跳过），对应筛选命令为：
 
 ```powershell
 dotnet test .\TubaWinUi3.Tests\TubaWinUi3.Tests.csproj -c Release -p:Platform=x64 -p:ExcludeToolsFromPublish=true --no-restore --filter "FullyQualifiedName~DistributionIdentityTests|FullyQualifiedName~UpdateServiceTests|FullyQualifiedName~PreviewUpdateChannelTests|FullyQualifiedName~ErrorReportTests"
 ```
 
-本轮还完成了 8 项离线运行时检查和独立审包；公开范围与结果见 [0.1.1 验证记录](releases/0.1.1-validation.json) 和 [发行说明](releases/0.1.1-preview.md)。这些检查不代表全项目测试、所有用户流程、真实账号登录或完整原生环境均已验收。
+2026-10-05 原包当时还完成了 8 项离线运行时检查和独立审包；公开范围与结果见 [0.1.1 验证记录](releases/0.1.1-validation.json) 和 [首次发行说明](releases/0.1.1-preview.md)。这些历史检查不代表本次 2026-10-06 修订、全项目测试、所有用户流程、真实账号登录或完整原生环境均已验收。
+
+2026-10-06 修订的配置修改器与型号目录按以下范围运行测试，版本身份测试应使用本次生成的主程序集：
+
+```powershell
+dotnet test .\TubaWinUi3.Tests\TubaWinUi3.Tests.csproj -c Release -p:Platform=x64 -p:ExcludeToolsFromPublish=true --no-restore --filter "FullyQualifiedName~HardwareDisplayEditorTests|FullyQualifiedName~HardwareModelCatalogTests|FullyQualifiedName~HardwareSpooferServiceTests|FullyQualifiedName~PreviewUpdateChannelTests|FullyQualifiedName~DistributionIdentityTests"
+```
+
+本次筛选的 98 项逻辑测试全部通过（0 失败、0 跳过），包括名称服务 23 项、型号目录 11 项、旧服务只读检查 3 项及版本与更新身份 61 项。名称服务的测试注入模拟硬件后端，并使用独立临时数据目录，不对真实注册表或 PnP 设备执行写入。
+
+本次还完成配置修改器 8 项原生检查（浅色、深色各 4 项，0 失败，两个进程退出码均为 `0`）及 8 项离线运行时检查。原生用例使用编译后的共享页面和合成设备，不包含真实硬件写入、管理员启动或无关页面验收；版本标签回到 `0.1.1` 后页面功能代码未变。检查范围和结果见 [本次修订验证记录](releases/0.1.1-revision-20261006-validation.json) 与 [本次修订说明](releases/0.1.1-revision-20261006.md)。
 
 `TubaWinUi3.XamlHostRunner/` 是单独的原生 XAML/WebView2 验证宿主，可运行指定用例：
 

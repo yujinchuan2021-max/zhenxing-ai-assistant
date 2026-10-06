@@ -1,0 +1,31 @@
+{
+  "schema": "zhenxing-release-validation/1",
+  "version": "0.1.1",
+  "revisionDate": "2026-10-06",
+  "downloadReleaseTag": "v0.1.1-preview",
+  "sourceRevisionTag": "v0.1.1-revision-20261006",
+  "mainBuild": { "succeeded": true, "architecture": "win-x64", "sdk": "10.0.401", "existingWarningsRemain": true },
+  "mainLogicTests": { "passed": 98, "failed": 0, "skipped": 0, "service": 23, "catalog": 11, "legacyServiceReadOnly": 3, "versionAndUpdateIdentity": 61 },
+  "nativeEditorTests": {
+    "passed": 8,
+    "failed": 0,
+    "appThemes": ["Light", "Dark"],
+    "processExitCodes": [0, 0],
+    "casesPerTheme": [
+      "HardwareEditor_SixCategoriesAndIndependentDrafts_Offline",
+      "HardwareEditor_CatalogBrowseAndAutofill_Offline",
+      "HardwareEditor_CategoryTilesResponsiveLayout_Offline",
+      "HardwareEditor_NativeThemeInteractionAndPreview_Offline"
+    ],
+    "scope": "Native compiled shared editor page with synthetic devices. Exercises category buttons, independent drafts, real reset buttons, missing-device undo, native browse invocation, preset selection through the same production callback, responsive layout and readable Light/Dark states.",
+    "boundaries": "No real registry or PnP writes, driver changes, administrator app launch or real hardware enumeration. Version label changed back to 0.1.1 after UI verification; this record asserts editor behavior, not UI verification of unrelated pages."
+  },
+  "offlineRuntime": { "passed": 8, "node": "22.23.2", "dsh": "0.1.5-rc.2", "providerRequests": 0, "childProcessesReclaimed": true },
+  "boundaries": [
+    "Focused checks for this maintenance change; not the entire repository test suite.",
+    "Memory display names are local to the editor; actual hardware and performance do not change.",
+    "Windows may reset friendly names; firmware, WMI or other tools may show the real model.",
+    "Real hardware writes and restoration have not been run as an implicit test on the user's computer.",
+    "The cloud update manifest remains unchanged; equal 0.1.1 version numbers do not trigger an automatic update prompt."
+  ]
+}

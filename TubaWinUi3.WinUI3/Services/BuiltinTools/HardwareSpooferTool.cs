@@ -9,7 +9,7 @@ public sealed class HardwareSpooferTool : IBuiltinTool
     /// <summary>显示名（按稳定 ID 的显示层翻译；数据键仍为 Name）。</summary>
     public string DisplayName => ToolDisplayTexts.BuiltinName(Id, Name);
 
-    public string Description => "修改注册表中的 CPU、GPU、系统等硬件信息显示，支持一键恢复原始配置。";
+    public string Description => "编辑 CPU、主板、显卡、内存、显示器和硬盘的展示名称，内置主流型号、修改预览和原值恢复。";
     /// <summary>描述（显示层翻译；数据键仍为 Description）。</summary>
     public string DisplayDescription => ToolDisplayTexts.BuiltinDescription(Id, Description);
 
