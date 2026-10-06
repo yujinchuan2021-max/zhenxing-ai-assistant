@@ -30,9 +30,12 @@ public static partial class ToolCatalog
                 MatchesLegacyCloudDirectory(item.Path, definition.LegacyPath)).ToArray();
             // Installer-only/batch/script entries can remain usable in older full bundles.
             // A manifest without a known portable entry must not replace their launch card.
-            if (state?.IsInstalled != true && existing.Any(item => File.Exists(item.EffectivePath))) continue;
+            if (!HasInstalledCloudEntry(state) && existing.Any(item => File.Exists(item.EffectivePath))) continue;
             foreach (var item in existing) local.Remove(item);
-            local.Add(CreateCloudToolItem(category, definition, state));
+            // Apply availability at display time, including catalogues restored from older
+            // user caches. An empty manifest entry must not manufacture a dead launch card.
+            if (ShouldShowCloudTool(definition, state))
+                local.Add(CreateCloudToolItem(category, definition, state));
         }
         return local;
     }
@@ -51,10 +54,34 @@ public static partial class ToolCatalog
         return false;
     }
 
+    private static bool HasInstalledCloudEntry(CloudToolState? state) =>
+        state?.EntryPath is { } entry && File.Exists(entry);
+
+    internal static bool ShouldShowCloudTool(CloudToolDefinition definition, CloudToolState? state) =>
+        HasInstalledCloudEntry(state) || GetDownloadableCloudPackage(definition) is not null ||
+        HasCloudHomepage(definition);
+
+    private static bool HasCloudHomepage(CloudToolDefinition definition) =>
+        InternalBrowserLink.TryGetWebUri(definition.Homepage, out var uri) && uri.UserInfo.Length == 0;
+
+    // Keep card affordances aligned with the portable downloader, rather than treating
+    // the first manifest package (or an old operation status) as current platform support.
+    internal static CloudToolPackage? GetDownloadableCloudPackage(CloudToolDefinition definition,
+        string? architecture = null)
+    {
+        var package = CloudToolValidation.SelectPackage(definition, architecture ?? UpdateService.CurrentArchitecture);
+        return package is { Kind: "portable-zip" } && CloudToolValidation.IsPackageUrl(package.Url) &&
+            package.SizeBytes is > 0 and <= CloudToolValidation.MaxPackageBytes &&
+            CloudToolValidation.IsSha256(package.Sha256) && CloudToolValidation.IsToolEntryPoint(package.EntryPoint)
+            ? package : null;
+    }
+
     internal static ToolItem CreateCloudToolItem(string category, CloudToolDefinition definition, CloudToolState? state)
     {
-        var hasPackage = definition.Packages.Length > 0 && state?.Status != CloudToolStatus.Unsupported;
-        var entry = definition.Packages.FirstOrDefault()?.EntryPoint ?? "__cloud-tool.exe";
+        var package = GetDownloadableCloudPackage(definition);
+        var hasPackage = package is not null;
+        var installed = HasInstalledCloudEntry(state);
+        var entry = package?.EntryPoint ?? "__cloud-tool.exe";
         // Stable logical path keeps favourites/history attached to the catalogue entry across downloads.
         var virtualDirectory = string.IsNullOrEmpty(definition.LegacyPath)
             ? Path.Combine(ToolsRoot, "Cloud", definition.Id)
@@ -65,11 +92,11 @@ public static partial class ToolCatalog
             Name = definition.Name, Category = category, PrimaryCategory = definition.Category,
             Categories = definition.Categories.Prepend(definition.Category).Distinct(StringComparer.OrdinalIgnoreCase).ToList(),
             Path = logicalPath, RelativePath = Path.GetRelativePath(ToolsRoot, logicalPath),
-            Extension = state?.IsInstalled == true ? "EXE" : "待下载", CloudToolId = definition.Id,
-            CloudHasPackage = hasPackage, DownloadUrl = hasPackage ? definition.Packages[0].Url : null,
+            Extension = installed ? "EXE" : hasPackage ? "待下载" : "网站", CloudToolId = definition.Id,
+            CloudHasPackage = hasPackage, DownloadUrl = package?.Url,
             Description = definition.Description, Publisher = definition.Publisher,
-            Version = state?.IsInstalled == true ? state.Version : definition.Version,
-            RemoteUrl = hasPackage ? null : definition.Homepage, SortOrder = definition.Order,
+            Version = installed ? state!.Version : definition.Version,
+            RemoteUrl = !hasPackage && HasCloudHomepage(definition) ? definition.Homepage : null, SortOrder = definition.Order,
             Tags = definition.Tags, IsCatalogCurated = true, IconGlyph = "\uE8F1",
         };
         item.IsFavorite = FavoritesService.IsFavorite(item.Path);

@@ -1,0 +1,40 @@
+{
+  "schema": "zhenxing-release-validation/1",
+  "version": "0.1.1",
+  "revisionDate": "2026-10-06",
+  "revision": "20261006-fix1",
+  "downloadReleaseTag": "v0.1.1-preview",
+  "sourceRevisionTag": "v0.1.1-revision-20261006-fix1",
+  "mainBuild": { "succeeded": true, "configuration": "Release", "architecture": "win-x64", "sdk": "10.0.401", "existingWarningsRemain": true },
+  "mainLogicTests": {
+    "passed": 542, "failed": 0, "skipped": 0,
+    "scope": "Tool root resolution, authoritative launch targets, category copies, cloud catalog availability/search/tags, cloud validation/manager, hardware display profiles, observed Windows names versus saved targets, hardware information formatting, model presets and distribution/update identity.",
+    "isolation": "Temporary tool/data directories, rejection of live network in catalog fixtures and synthetic hardware backends. No real installation, uninstall or hardware writes."
+  },
+  "nativeEditorTests": {
+    "passed": 8, "failed": 0,
+    "appThemes": ["Light", "Dark"], "processExitCodes": [0, 0],
+    "casesPerTheme": [
+      "HardwareEditor_SixCategoriesAndIndependentDrafts_Offline",
+      "HardwareEditor_CatalogBrowseAndAutofill_Offline",
+      "HardwareEditor_CategoryTilesResponsiveLayout_Offline",
+      "HardwareEditor_NativeThemeInteractionAndPreview_Offline"
+    ],
+    "scope": "Compiled shared native page, synthetic devices, independent observed Windows names during target edits/device changes/localization rebuilds, local-only categories, draft/reset/model selection, responsive columns, Light/Dark readability and native hover/disabled states.",
+    "boundaries": "System actions disabled in fixtures. No real registry/PnP writes, real hardware enumeration, administrator product launch or third-party diagnostic application verification."
+  },
+  "offlineRuntime": {
+    "node": "22.23.2", "dsh": "0.1.5-rc.2", "providerRequests": 0,
+    "reusedPreviouslyPassedSteps": 8, "unchangedRuntimeFilesSha256VerifiedBeforeCopy": 25469,
+    "scope": "Runtime reused from the earlier verified 20261006 payload; every runtime source file matched its previous payload manifest. The previous offline smoke was not repeated because the runtime files were unchanged."
+  },
+  "boundaries": [
+    "Focused checks only; not a full repository/product acceptance run.",
+    "A cached catalog can contain empty definitions; this maintenance hides them at display time without deleting the cache or installed programs.",
+    "An HTTP(S) homepage is an actionable catalog source, not proof its remote website was live during these offline checks.",
+    "Observed Windows display names and saved local targets are separate; neither establishes a change to actual hardware identity or third-party scans.",
+    "Windows may regenerate friendly names; CPUID, firmware, drivers, EDID and storage descriptors can report original hardware.",
+    "Memory display names remain local to the editor.",
+    "The cloud update manifest is unchanged; the equal 0.1.1 version does not trigger a new automatic update prompt."
+  ]
+}

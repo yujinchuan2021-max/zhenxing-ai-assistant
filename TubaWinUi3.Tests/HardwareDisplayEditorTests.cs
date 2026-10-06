@@ -33,6 +33,81 @@ public sealed class HardwareDisplayEditorTests : IDisposable
         });
     }
 
+    [Theory]
+    [InlineData(true)]
+    [InlineData(false)]
+    public void SaveWithoutSync_ShowsSavedTargetSeparatelyFromObservedWindowsName(bool friendlyExists)
+    {
+        var device = _backend.AddPnp(HardwareModelCategory.Gpu, "GPU1", "Detected GPU", friendlyExists);
+        var service = Create();
+        var target = device with { CurrentName = "Saved GPU alias" };
+
+        Assert.True(Assert.Single(service.SaveProfile([target])).Success);
+
+        var snapshot = Create().LoadSnapshot().Devices.Single(d => d.Id == device.Id);
+        Assert.Equal("Saved GPU alias", snapshot.CurrentName);
+        Assert.Equal("Detected GPU", snapshot.CurrentWindowsName);
+        Assert.Equal("Detected GPU", snapshot.OriginalName);
+        Assert.Empty(_backend.Writes);
+        Assert.False(service.HasSystemBackup);
+    }
+
+    [Fact]
+    public void SaveAndSync_ReloadShowsObservedWindowsNameAndPreservesOriginal()
+    {
+        var device = _backend.AddPnp(HardwareModelCategory.Gpu, "GPU1", "Detected GPU");
+        var service = Create();
+        var target = device with { CurrentName = "Synced GPU alias" };
+
+        Assert.True(Assert.Single(service.SaveProfile([target])).Success);
+        Assert.True(Assert.Single(service.ApplySystemChanges([target])).Success);
+
+        var snapshot = Create().LoadSnapshot().Devices.Single(d => d.Id == device.Id);
+        Assert.Equal("Synced GPU alias", snapshot.CurrentName);
+        Assert.Equal("Synced GPU alias", snapshot.CurrentWindowsName);
+        Assert.Equal("Detected GPU", snapshot.OriginalName);
+        Assert.Single(_backend.Writes);
+    }
+
+    [Fact]
+    public void WindowsNameDriftsAfterSync_ReloadKeepsSavedTargetAndReportsNewWindowsName()
+    {
+        var device = _backend.AddPnp(HardwareModelCategory.Disk, "Disk1", "Original disk");
+        var service = Create();
+        var target = device with { CurrentName = "Saved disk alias" };
+        Assert.True(Assert.Single(service.SaveProfile([target])).Success);
+        var savedProfile = File.ReadAllText(ProfilePath);
+        Assert.True(Assert.Single(service.ApplySystemChanges([target])).Success);
+        var property = _backend.Devices.Single().Properties.Single();
+        _backend.Values[property] = HardwareDisplayValue.String("Driver reset disk name");
+
+        var snapshot = Create().LoadSnapshot().Devices.Single(d => d.Id == device.Id);
+
+        Assert.Equal("Saved disk alias", snapshot.CurrentName);
+        Assert.Equal("Driver reset disk name", snapshot.CurrentWindowsName);
+        Assert.Equal("Original disk", snapshot.OriginalName);
+        Assert.Equal(savedProfile, File.ReadAllText(ProfilePath));
+        Assert.Single(_backend.Writes);
+    }
+
+    [Fact]
+    public void LocalOnlyMemory_SavedTargetHasNoWindowsSyncName()
+    {
+        var device = _backend.AddMemory();
+        var service = Create();
+        var target = device with { CurrentName = "Saved memory alias" };
+
+        Assert.True(Assert.Single(service.SaveProfile([target])).Success);
+
+        var snapshot = Create().LoadSnapshot().Devices.Single(d => d.Id == device.Id);
+        Assert.Equal("Saved memory alias", snapshot.CurrentName);
+        Assert.Equal("Real PartNumber", snapshot.OriginalName);
+        Assert.Null(snapshot.CurrentWindowsName);
+        Assert.False(snapshot.CanApplySystem);
+        Assert.Empty(_backend.Writes);
+        Assert.False(service.HasSystemBackup);
+    }
+
     [Fact]
     public void SelectedGpuOnly_ChangesFriendlyNameAndLeavesOtherGpuAndManufacturerAlone()
     {

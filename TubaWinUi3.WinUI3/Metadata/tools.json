@@ -178,6 +178,7 @@
   {
    "match": "DDU",
    "order": 11,
+   "launchTarget": "Display Driver Uninstaller.exe",
    "description": "显卡驱动彻底卸载工具，安全清除 AMD/NVIDIA/Intel 显卡驱动残留。",
    "tutorialUrl": "https://tubawinui3.cn/tutorials/ddu",
    "publisher": "Wagnardsoft",
@@ -1824,6 +1825,7 @@
   {
    "match": "3DMark",
    "order": 80,
+   "launchTarget": "3DMark.exe",
    "description": "专业图形性能基准测试（官方入口）：Time Spy / Fire Strike 显卡跑分标准。",
    "tutorialUrl": "",
    "publisher": "UL Solutions",

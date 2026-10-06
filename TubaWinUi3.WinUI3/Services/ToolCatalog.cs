@@ -627,7 +627,7 @@ public static partial class ToolCatalog
     /// <summary>工具集变化（增删/排序）后调用：清空内存缓存，下次访问按需重扫。不主动重扫。</summary>
     public static void OnToolsChanged()
     {
-        lock (_cacheLock) { _toolsCache.Clear(); _cachedAllTools = null; _cachedAllToolsRoot = null; }
+        lock (_cacheLock) { _toolsCache.Clear(); _cachedAllTools = null; _cachedAllToolsRoot = null; _cachedTags = null; }
         Interlocked.Increment(ref _cacheVersion);
     }
 
@@ -1075,21 +1075,31 @@ public static partial class ToolCatalog
             .Any(file => ToolMetadataService.FindJsonMetadata(file) is not null);
     }
 
-    private static string? FindPrimaryLaunchable(string toolDir)
+    internal static string? FindPrimaryLaunchable(string toolDir)
     {
         var dirName = Path.GetFileName(toolDir);
 
         var launchTarget = ToolMetadataService.GetLaunchTarget(toolDir);
         if (!string.IsNullOrWhiteSpace(launchTarget))
         {
-            var targetPath = Path.Combine(toolDir, launchTarget);
+            var targetPath = Path.GetFullPath(Path.Combine(toolDir, launchTarget));
             if (File.Exists(targetPath) && IsLaunchable(targetPath))
                 return targetPath;
 
-            var deepTarget = Directory.EnumerateFiles(toolDir, launchTarget, SearchOption.AllDirectories)
-                .FirstOrDefault(f => IsLaunchable(f));
-            if (deepTarget is not null)
-                return deepTarget;
+            // Bare filenames (and existing filename patterns) may be inside a vendor
+            // subfolder. A relative path names one exact entry and must not become a
+            // recursive search pattern when that entry is missing.
+            if (Path.GetFileName(launchTarget).Equals(launchTarget, StringComparison.Ordinal))
+            {
+                var deepTarget = Directory.EnumerateFiles(toolDir, launchTarget, SearchOption.AllDirectories)
+                    .FirstOrDefault(f => IsLaunchable(f));
+                if (deepTarget is not null)
+                    return deepTarget;
+            }
+
+            // A declared entry is authoritative. Missing main files must leave the
+            // tool unavailable instead of opening a runtime/licensing helper.
+            return null;
         }
 
         var allLaunchables = Directory.EnumerateFiles(toolDir, "*", SearchOption.AllDirectories)
@@ -1211,26 +1221,27 @@ public static partial class ToolCatalog
                  "Tools");
          }
 
-         var outputTools = Path.Combine(AppDirectory, "Tools");
-         if (Directory.Exists(outputTools))
-         {
-             return outputTools;
-         }
-
-         var directory = new DirectoryInfo(AppDirectory);
-         while (directory is not null)
-         {
-             var candidate = Path.Combine(directory.FullName, "Tools");
-             if (Directory.Exists(candidate))
-             {
-                 return candidate;
-             }
-
-             directory = directory.Parent;
-         }
-
-         return outputTools;
+         return ResolvePortableToolsRoot(AppDirectory);
      }
+
+    // A portable package may keep Tools beside its root launcher or beside src's executable.
+    // Never adopt an unrelated ancestor/drive-root Tools directory: writes and removals use this root too.
+    internal static string ResolvePortableToolsRoot(string appDirectory)
+    {
+        var app = new DirectoryInfo(Path.GetFullPath(appDirectory));
+        var ownTools = Path.Combine(app.FullName, "Tools");
+        if (Directory.Exists(ownTools)) return ownTools;
+
+        if (app.Name.Equals("src", StringComparison.OrdinalIgnoreCase) && app.Parent is { } package)
+        {
+            var hasPackageLauncher = File.Exists(Path.Combine(package.FullName, "枕星图吧AI助手.exe")) ||
+                                     File.Exists(Path.Combine(package.FullName, "图吧工具箱WinUI3.exe"));
+            var packageTools = Path.Combine(package.FullName, "Tools");
+            if (hasPackageLauncher && Directory.Exists(packageTools)) return packageTools;
+        }
+
+        return ownTools;
+    }
 
     internal static string? DetectRemoteUrl(string filePath)
     {

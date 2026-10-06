@@ -49,16 +49,20 @@ internal static class HardwareEditorCases
                 Assert.Equal(devices[0].CurrentName, view.Name.Text);
                 Assert.Equal(devices[0].CurrentManufacturer, view.Manufacturer.Text);
                 AssertOriginal(view, devices[0].OriginalName);
+                AssertWindowsName(view, devices[0]);
 
                 Edit(view, "Draft A " + category, "Draft manufacturer A " + category);
                 await AssertPreviewEventually(page, "Draft A " + category, devices[0].OriginalName, root);
+                AssertWindowsName(view, devices[0]);
                 view.Picker.SelectedIndex = 1;
                 await Settle(root, 30);
                 Assert.Equal(devices[1].CurrentName, view.Name.Text);
                 Assert.Equal(devices[1].CurrentManufacturer, view.Manufacturer.Text);
                 AssertOriginal(view, devices[1].OriginalName);
+                AssertWindowsName(view, devices[1]);
                 Edit(view, "Draft B " + category, "Draft manufacturer B " + category);
                 await AssertPreviewEventually(page, "Draft B " + category, devices[1].OriginalName, root);
+                AssertWindowsName(view, devices[1]);
 
                 view.Picker.SelectedIndex = 0;
                 await Settle(root, 30);
@@ -74,6 +78,7 @@ internal static class HardwareEditorCases
                 Assert.Equal("Draft B " + category, view.Name.Text);
                 Assert.Equal("Draft manufacturer B " + category, view.Manufacturer.Text);
                 AssertPreview(page, "Draft B " + category, devices[1].OriginalName);
+                AssertWindowsName(view, devices[1]);
             }
             AssertFixtureActionsDisabled(page);
             Assert.Equal(12, Preview(page).Children.Count);
@@ -86,9 +91,10 @@ internal static class HardwareEditorCases
                 var view = View(Editors(page)[category]);
                 view.Picker.SelectedIndex = 1;
                 Assert.Equal("Draft B " + category, view.Name.Text);
+                AssertWindowsName(view, snapshot.Devices.Single(device => device.Category == category && device.Id.EndsWith(":b", StringComparison.Ordinal)));
             }
             AssertNoHardwareFiles();
-            Console.WriteLine("HARDWARE_EDITOR|categories=6|synthetic-devices=12|drafts=independent|reset=selected-only|system-actions=disabled");
+            Console.WriteLine("HARDWARE_EDITOR|categories=6|synthetic-devices=12|drafts=independent|reset=selected-only|windows-name=observed-readonly|local-only=no-windows-value|system-actions=disabled");
         });
         // A missing-device marker is detection text, never a target model.
         var placeholders = Enum.GetValues<HardwareModelCategory>().Select(category => new EditorDevice(category,
@@ -101,10 +107,12 @@ internal static class HardwareEditorCases
                 var view = View(Editors(page)[category]);
                 Assert.Equal("", view.Name.Text);
                 Assert.Equal("", view.Manufacturer.Text);
+                AssertWindowsName(view, placeholders.Single(device => device.Category == category));
                 page.ChooseModelForFixture(category, HardwareModelCatalog.ForCategory(category)[0]);
                 await Settle(root, 30);
                 Assert.NotEmpty(view.Name.Text);
                 Assert.NotEmpty(view.Manufacturer.Text);
+                AssertWindowsName(view, placeholders.Single(device => device.Category == category));
                 await Invoke(view.Reset);
                 await Settle(root, 30);
                 Assert.Equal("", view.Name.Text);
@@ -303,8 +311,12 @@ internal static class HardwareEditorCases
         var devices = names.Select(pair =>
         {
             var preset = Assert.Single(HardwareModelCatalog.ForCategory(pair.Key).Where(model => model.Name == pair.Value));
-            return new EditorDevice(pair.Key, "demo:" + pair.Key, "演示设备 " + HardwareSpooferPage.CategoryName(pair.Key),
-                "演示厂商", preset.Name, preset.Manufacturer, "演示数据", pair.Key != HardwareModelCategory.Memory);
+            var original = "演示设备 " + HardwareSpooferPage.CategoryName(pair.Key);
+            return new EditorDevice(pair.Key, "demo:" + pair.Key, original,
+                "演示厂商", preset.Name, preset.Manufacturer, "演示数据", pair.Key != HardwareModelCategory.Memory)
+            {
+                CurrentWindowsName = pair.Key != HardwareModelCategory.Memory ? original : null,
+            };
         }).ToArray();
         await WithPage(async (page, host, root) =>
         {
@@ -367,7 +379,10 @@ internal static class HardwareEditorCases
                 var original = category == HardwareModelCategory.Gpu ? "Same model GPU" : category + " original " + suffix;
                 devices.Add(new(category, "fixture:" + category + ":" + suffix, original,
                     "Original manufacturer " + suffix, category + " saved " + suffix,
-                    "Saved manufacturer " + suffix, "Synthetic fixture scope", category != HardwareModelCategory.Memory));
+                    "Saved manufacturer " + suffix, "Synthetic fixture scope", category != HardwareModelCategory.Memory)
+                {
+                    CurrentWindowsName = category != HardwareModelCategory.Memory ? original : null,
+                });
             }
         }
         return new(devices, Array.Empty<string>());
@@ -418,6 +433,27 @@ internal static class HardwareEditorCases
 
     private static void AssertOriginal(EditorView view, string name)
         => Assert.Contains(view.Body.Children.OfType<TextBlock>(), text => text.Text.Contains(name, StringComparison.Ordinal));
+
+    private static void AssertWindowsName(EditorView view, EditorDevice device)
+    {
+        var english = LocalizationService.CurrentLanguage == LocalizationService.EnglishLanguage;
+        var prefix = english ? "Current Windows name: " : "当前 Windows 名称：";
+        var labels = view.Body.Children.OfType<TextBlock>().ToArray();
+        if (device.CanApplySystem)
+        {
+            var label = Assert.Single(labels.Where(text => text.Text.StartsWith(prefix, StringComparison.Ordinal)));
+            Assert.False(string.IsNullOrWhiteSpace(device.CurrentWindowsName));
+            Assert.Equal(prefix + device.CurrentWindowsName, label.Text);
+        }
+        else
+        {
+            Assert.Null(device.CurrentWindowsName);
+            Assert.DoesNotContain(labels, text => text.Text.StartsWith(prefix, StringComparison.Ordinal));
+            Assert.Contains(labels, text => text.Text == (english
+                ? "Windows sync: this device supports only this page's profile and preview."
+                : "系统同步：此设备仅支持本页配置和预览。"));
+        }
+    }
 
     private static void AssertPreview(HardwareSpooferPage page, string name, string original)
         => Assert.Contains(Preview(page).Children.Cast<TextBlock>(), text => text.Text.Contains(name, StringComparison.Ordinal) && text.Text.Contains(original, StringComparison.Ordinal));

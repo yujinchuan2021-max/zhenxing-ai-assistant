@@ -4508,6 +4508,15 @@
   <data name="Tool_Open" xml:space="preserve">
     <value>打开</value>
   </data>
+  <data name="Tool_DownloadPending" xml:space="preserve">
+    <value>待下载</value>
+  </data>
+  <data name="Tool_Website" xml:space="preserve">
+    <value>网站</value>
+  </data>
+  <data name="Tool_GetFromOfficialSite" xml:space="preserve">
+    <value>官网获取</value>
+  </data>
   <data name="Tool_InstallingShort" xml:space="preserve">
     <value>安装中...</value>
   </data>

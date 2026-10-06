@@ -52,9 +52,13 @@ public sealed class ToolItem : INotifyPropertyChanged
     public required string Extension { get; init; }
 
     /// <summary>「内置」徽章的显示层翻译（真实文件扩展名原样返回）。</summary>
-    public string ExtensionDisplay => Extension == "内置"
-        ? LocalizationService.L("Common_Builtin", "内置")
-        : Extension;
+    public string ExtensionDisplay => Extension switch
+    {
+        "内置" => LocalizationService.L("Common_Builtin", "内置"),
+        "待下载" => LocalizationService.L("Tool_DownloadPending", "待下载"),
+        "网站" => LocalizationService.L("Tool_Website", "网站"),
+        _ => Extension,
+    };
 
     private string? _iconPath;
     public string? IconPath
@@ -222,7 +226,8 @@ public sealed class ToolItem : INotifyPropertyChanged
             if (IsBuiltinLink) return LocalizationService.L("Tool_Open", "打开");
             if (CloudToolId is not null)
                 return File.Exists(EffectivePath) ? LocalizationService.L("Tool_Open", "打开")
-                    : CloudHasPackage ? LocalizationService.L("Common_Download", "下载") : "获取方式";
+                    : CloudHasPackage ? LocalizationService.L("Common_Download", "下载")
+                    : LocalizationService.L("Tool_GetFromOfficialSite", "官网获取");
             if (!string.IsNullOrWhiteSpace(DownloadUrl) && !File.Exists(EffectivePath))
                 return LocalizationService.L("Common_Download", "下载");
             if (!string.IsNullOrWhiteSpace(WingetId))

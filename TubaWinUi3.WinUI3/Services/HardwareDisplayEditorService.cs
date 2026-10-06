@@ -13,7 +13,14 @@ namespace TubaWinUi3.Services;
 
 /// <summary>Names in this editor are display preferences, never hardware capabilities or identity.</summary>
 public sealed record EditorDevice(HardwareModelCategory Category, string Id, string OriginalName,
-    string OriginalManufacturer, string CurrentName, string CurrentManufacturer, string Scope, bool CanApplySystem);
+    string OriginalManufacturer, string CurrentName, string CurrentManufacturer, string Scope, bool CanApplySystem)
+{
+    /// <summary>
+    /// Effective Windows display name observed during discovery, before applying the saved local profile.
+    /// A PnP device without FriendlyName uses its device description; local-only devices have no value.
+    /// </summary>
+    public string? CurrentWindowsName { get; init; }
+}
 
 public sealed record HardwareEditorSnapshot(IReadOnlyList<EditorDevice> Devices, IReadOnlyList<string> ReadWarnings);
 public sealed record HardwareEditorResult(HardwareModelCategory Category, string DeviceId, bool Success, string Message);
@@ -78,6 +85,7 @@ public sealed class HardwareDisplayEditorService
                 {
                     OriginalName = originalName,
                     OriginalManufacturer = originalManufacturer,
+                    CurrentWindowsName = device.CanApplySystem ? device.CurrentName : null,
                     CurrentName = profile?.Name ?? device.CurrentName,
                     CurrentManufacturer = profile?.Manufacturer ?? device.CurrentManufacturer
                 });

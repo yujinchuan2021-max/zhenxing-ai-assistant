@@ -28,20 +28,28 @@ public sealed class CloudToolCatalogIntegrationTests : IDisposable
         if (BuiltinToolRegistry.GetById("stress-test") is null) BuiltinToolRegistry.RegisterDefaults();
     }
 
-    private void Seed(bool downloadable = true)
+    private void Seed(bool downloadable = true, string homepage = "https://example.com/",
+        CloudToolPackage[]? packages = null, bool cached = false)
     {
         var catalog = new CloudToolCatalog
         {
             Revision = 1, PublishedAt = "2026-10-05T01:00:00Z", Tools = [new()
             {
                 Id = "sample-tool", Name = "示例工具", Category = "云工具", Categories = ["跨分类"],
-                Version = "1", LegacyPath = "云工具/Sample", Homepage = "https://example.com/", Tags = ["检测"],
-                Packages = downloadable ? [new() { Architecture = "x64", Url = "https://zhenxingai.com/downloads/tools/sample.zip",
-                    SizeBytes = 8, Sha256 = new string('a', 64), EntryPoint = "app.exe" }] : [],
+                Version = "1", LegacyPath = "云工具/Sample", Homepage = homepage, Tags = ["检测"],
+                Packages = packages ?? (downloadable ? [new() { Architecture = "x64", Url = "https://zhenxingai.com/downloads/tools/sample.zip",
+                    SizeBytes = 8, Sha256 = new string('a', 64), EntryPoint = "app.exe" }] : []),
             }],
         };
         var seed = Path.Combine(Metadata, "cloud-tools.json");
-        File.WriteAllText(seed, JsonSerializer.Serialize(catalog, CloudToolValidation.JsonOptions));
+        if (cached)
+        {
+            File.WriteAllText(seed, JsonSerializer.Serialize(catalog with { Tools = [] }, CloudToolValidation.JsonOptions));
+            var cache = Path.Combine(_root, "CloudTools", "catalog.json");
+            Directory.CreateDirectory(Path.GetDirectoryName(cache)!);
+            File.WriteAllText(cache, JsonSerializer.Serialize(catalog with { Revision = 2 }, CloudToolValidation.JsonOptions));
+        }
+        else File.WriteAllText(seed, JsonSerializer.Serialize(catalog, CloudToolValidation.JsonOptions));
         CloudToolService.OverrideForTests = new CloudToolManager(_root, _http, CloudToolService.OwnEndpoint,
             "x64", new Version(0, 1, 0), seed, Tools, allowNetwork: false);
         ToolCatalog.OnToolsChanged();
@@ -109,8 +117,153 @@ public sealed class CloudToolCatalogIntegrationTests : IDisposable
         Seed(downloadable: false);
         var tool = Assert.Single(ToolCatalog.GetTools("云工具"));
         Assert.Equal("sample-tool", tool.CloudToolId);
-        Assert.Equal("获取方式", tool.LaunchButtonText);
+        Assert.Equal("官网获取", tool.LaunchButtonText);
+        Assert.Equal("网站", tool.Extension);
+        Assert.Equal("网站", tool.ExtensionDisplay);
+        Assert.Equal("https://example.com/", tool.RemoteUrl);
         Assert.False(tool.CloudHasPackage);
+        Assert.False(tool.NeedsDownload);
+        Assert.Null(tool.DownloadUrl);
+    }
+
+    [Fact]
+    public void EmptyCloudPlaceholderIsHiddenAcrossCategorySearchAndTags()
+    {
+        var directory = Path.Combine(Tools, "云工具", "Sample");
+        Directory.CreateDirectory(directory);
+        var image = Path.Combine(directory, "thumbnail.png");
+        File.WriteAllBytes(image, [0]);
+        Seed(downloadable: false, homepage: "");
+        Assert.Empty(ToolCatalog.GetTools("云工具"));
+        Assert.Empty(ToolCatalog.GetTools("跨分类"));
+        Assert.DoesNotContain(ToolCatalog.Search("示例"), tool => tool.CloudToolId == "sample-tool");
+        Assert.DoesNotContain("检测", ToolCatalog.GetAllTags());
+        Assert.True(File.Exists(image));
+    }
+
+    [Fact]
+    public void CachedTagsFollowTheCurrentVisibleCatalogueAfterAnAvailabilityChange()
+    {
+        Seed();
+        Assert.Contains("检测", ToolCatalog.GetAllTags());
+        Seed(downloadable: false, homepage: "");
+        Assert.Empty(ToolCatalog.GetTools("云工具"));
+        Assert.DoesNotContain("检测", ToolCatalog.GetAllTags());
+    }
+
+    [Fact]
+    public void EmptyCachedCloudPlaceholderIsFilteredWithoutRewritingItsCache()
+    {
+        Seed(downloadable: false, homepage: "", cached: true);
+        var cache = Path.Combine(_root, "CloudTools", "catalog.json");
+        var contents = File.ReadAllBytes(cache);
+        var modified = File.GetLastWriteTimeUtc(cache);
+        Assert.Equal(2, CloudToolService.OverrideForTests!.Revision);
+        Assert.Empty(ToolCatalog.GetTools("云工具"));
+        Assert.DoesNotContain(ToolCatalog.Search("示例"), tool => tool.CloudToolId == "sample-tool");
+        Assert.Equal(contents, File.ReadAllBytes(cache));
+        Assert.Equal(modified, File.GetLastWriteTimeUtc(cache));
+    }
+
+    [Fact]
+    public void EmptyCloudPlaceholderRetainsAnActualLocalLaunchCard()
+    {
+        var exe = Path.Combine(Tools, "云工具", "Sample", "app.exe");
+        Directory.CreateDirectory(Path.GetDirectoryName(exe)!);
+        File.WriteAllBytes(exe, "MZsample"u8.ToArray());
+        Seed(downloadable: false, homepage: "");
+        var tool = Assert.Single(ToolCatalog.GetTools("云工具"));
+        Assert.Null(tool.CloudToolId);
+        Assert.Equal(exe, tool.EffectivePath);
+        Assert.Equal("打开", tool.LaunchButtonText);
+        Assert.True(File.Exists(exe));
+    }
+
+    [Fact]
+    public void ManagedEntryStaysUsableAfterItsCatalogueDownloadSourceIsRemoved()
+    {
+        var installed = SeedManaged(("sample-tool", "云工具/Sample", "app.exe", []));
+        Seed(downloadable: false, homepage: "");
+        var tool = Assert.Single(ToolCatalog.GetTools("云工具"));
+        Assert.Equal("sample-tool", tool.CloudToolId);
+        Assert.Equal(Path.Combine(installed["sample-tool"], "app.exe"), tool.EffectivePath);
+        Assert.Equal("打开", tool.LaunchButtonText);
+        Assert.Equal("EXE", tool.Extension);
+        Assert.True(tool.CanSendToDesktop);
+    }
+
+    [Theory]
+    [InlineData("incompatible", false)]
+    [InlineData("installer", false)]
+    [InlineData("incompatible", true)]
+    [InlineData("installer", true)]
+    public void UnsupportedPackagesRequireAValidManualHomepage(string kind, bool hasHomepage)
+    {
+        var architecture = kind == "incompatible"
+            ? UpdateService.CurrentArchitecture == "arm64" ? "x64" : "arm64"
+            : UpdateService.CurrentArchitecture;
+        var package = new CloudToolPackage
+        {
+            Architecture = architecture, Url = "https://zhenxingai.com/downloads/tools/sample.zip",
+            SizeBytes = 8, Sha256 = new string('a', 64), EntryPoint = "app.exe",
+            Kind = kind == "installer" ? "installer" : "portable-zip",
+        };
+        Seed(homepage: hasHomepage ? "https://example.com/" : "", packages: [package]);
+        var tools = ToolCatalog.GetTools("云工具");
+        if (!hasHomepage) Assert.Empty(tools);
+        else
+        {
+            var tool = Assert.Single(tools);
+            Assert.False(tool.CloudHasPackage);
+            Assert.Null(tool.DownloadUrl);
+            Assert.Equal("官网获取", tool.LaunchButtonText);
+            Assert.Equal("网站", tool.Extension);
+        }
+    }
+
+    [Fact]
+    public void DownloadCardUsesTheCompatiblePackageRatherThanTheFirstPackage()
+    {
+        var otherArchitecture = UpdateService.CurrentArchitecture == "arm64" ? "x64" : "arm64";
+        var packages = new[]
+        {
+            new CloudToolPackage { Architecture = otherArchitecture, Url = "https://zhenxingai.com/downloads/tools/other.zip",
+                SizeBytes = 8, Sha256 = new string('a', 64), EntryPoint = "other.exe" },
+            new CloudToolPackage { Architecture = UpdateService.CurrentArchitecture, Url = "https://zhenxingai.com/downloads/tools/current.zip",
+                SizeBytes = 8, Sha256 = new string('b', 64), EntryPoint = "current.exe" },
+        };
+        Seed(packages: packages);
+        var tool = Assert.Single(ToolCatalog.GetTools("云工具"));
+        Assert.True(tool.CloudHasPackage);
+        Assert.Equal(packages[1].Url, tool.DownloadUrl);
+        Assert.EndsWith("current.exe", tool.Path);
+        Assert.Equal("下载", tool.LaunchButtonText);
+        Assert.Equal("待下载", tool.Extension);
+    }
+
+    [Theory]
+    [InlineData("url")]
+    [InlineData("hash")]
+    [InlineData("entry")]
+    [InlineData("size")]
+    [InlineData("kind")]
+    public void DownloadAvailabilityRejectsInvalidPackageMetadata(string field)
+    {
+        var package = new CloudToolPackage
+        {
+            Architecture = "x64", Url = "https://zhenxingai.com/downloads/tools/sample.zip",
+            SizeBytes = 8, Sha256 = new string('a', 64), EntryPoint = "app.exe",
+        };
+        package = field switch
+        {
+            "url" => package with { Url = "https://example.com/sample.zip" },
+            "hash" => package with { Sha256 = "" },
+            "entry" => package with { EntryPoint = "setup.exe" },
+            "size" => package with { SizeBytes = 0 },
+            "kind" => package with { Kind = "installer" },
+            _ => package,
+        };
+        Assert.Null(ToolCatalog.GetDownloadableCloudPackage(new CloudToolDefinition { Packages = [package] }, "x64"));
     }
 
     [Fact]

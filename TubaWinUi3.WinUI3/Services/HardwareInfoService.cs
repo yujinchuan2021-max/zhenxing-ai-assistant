@@ -147,6 +147,7 @@ public static class HardwareInfoService
     }
 
     private static IReadOnlyList<HardwareInfoSection>? _cache;
+    private static long _cacheGeneration;
     private static readonly object _lock = new();
     private static readonly SemaphoreSlim _buildGate = new(1, 1);
 
@@ -195,10 +196,12 @@ public static class HardwareInfoService
         _buildGate.Wait();
         try
         {
+            long generation;
             lock (_lock)
             {
                 if (!forceRefresh && _cache != null)
                     return _cache;
+                generation = _cacheGeneration;
             }
 
             var sections = CreateEmptySections();
@@ -211,7 +214,8 @@ public static class HardwareInfoService
 
             lock (_lock)
             {
-                _cache = sections;
+                // A name change during discovery must not repopulate the cleared cache.
+                if (generation == _cacheGeneration) _cache = sections;
             }
 
             return sections;
@@ -393,6 +397,8 @@ public static class HardwareInfoService
         lock (_lock)
         {
             _cache = null;
+            _detailCache = null;
+            _cacheGeneration++;
         }
     }
 
@@ -1587,8 +1593,12 @@ public static class HardwareInfoService
 
     private static HardwareDetailData BuildDetailData(bool forceRefresh)
     {
-        if (!forceRefresh && _detailCache != null)
-            return _detailCache;
+        long generation;
+        lock (_lock)
+        {
+            if (!forceRefresh && _detailCache != null) return _detailCache;
+            generation = _cacheGeneration;
+        }
 
         var data = new HardwareDetailData
         {
@@ -1603,7 +1613,10 @@ public static class HardwareInfoService
             Npu = BuildNpuDetail()
         };
 
-        _detailCache = data;
+        lock (_lock)
+        {
+            if (generation == _cacheGeneration) _detailCache = data;
+        }
         return data;
     }
 

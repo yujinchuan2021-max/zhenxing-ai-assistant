@@ -4493,6 +4493,15 @@ Fill in per current project; leave unused fields blank.</value>
   <data name="Tool_Open" xml:space="preserve">
     <value>Open</value>
   </data>
+  <data name="Tool_DownloadPending" xml:space="preserve">
+    <value>Not downloaded</value>
+  </data>
+  <data name="Tool_Website" xml:space="preserve">
+    <value>Website</value>
+  </data>
+  <data name="Tool_GetFromOfficialSite" xml:space="preserve">
+    <value>Get from official site</value>
+  </data>
   <data name="Tool_InstallingShort" xml:space="preserve">
     <value>Installing...</value>
   </data>

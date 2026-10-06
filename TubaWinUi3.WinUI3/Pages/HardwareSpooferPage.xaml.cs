@@ -53,19 +53,40 @@ public sealed partial class HardwareSpooferPage : Page, ILocalizablePage
         _ => T("硬盘", "Disk"),
     };
 
+    private static string DisplayScope(EditorDevice device)
+    {
+        if (!device.CanApplySystem)
+        {
+            if (device.Category == HardwareModelCategory.Cpu && !device.Id.StartsWith("local/", StringComparison.OrdinalIgnoreCase))
+                return T("仅本页配置和预览：多处理器或处理器拓扑未知，无法可靠同步 Windows 名称字段。", "Profile and preview on this page only: multiple processors or unknown processor topology prevent reliable Windows name syncing.");
+            return device.Category == HardwareModelCategory.Memory
+                ? T("仅本页配置和预览；内存的 SMBIOS 型号、容量和频率不变，硬件信息页与第三方检测软件不会套用本页配置。", "Profile and preview on this page only. The memory's SMBIOS model, capacity and frequency are unchanged; the hardware information page and third-party diagnostic tools do not apply this profile.")
+                : T("未检测到可同步的设备，仅支持本页配置和预览。", "No device available for Windows sync; profile and preview on this page only.");
+        }
+        return device.Category switch
+        {
+            HardwareModelCategory.Cpu => T("同步 Windows CPU 名称字符串（单处理器的所有逻辑核心）。使用该字段的页面可能显示别名；从 CPUID 读取的检测软件仍显示真实型号。厂商仅在本页保存。", "Sync the Windows CPU name string for every logical core of a single-processor system. Pages using this field may show the alias; tools reading CPUID still show the real model. Manufacturer is saved only on this page."),
+            HardwareModelCategory.Motherboard => T("同步 Windows 主板名称和厂商显示字段。使用这些字段的页面可能显示别名；从固件 SMBIOS 读取的检测软件仍可能显示真实主板。", "Sync Windows motherboard name and manufacturer display fields. Pages using these fields may show aliases; diagnostic tools reading firmware SMBIOS may still show the real motherboard."),
+            HardwareModelCategory.Gpu => T("仅同步设备管理器中此显卡的友好名称。驱动报告的型号和显存不变，硬件信息页或检测软件可能显示真实型号。厂商仅在本页保存。", "Sync only this GPU's friendly name in Device Manager. The model and video memory reported by its driver are unchanged; the hardware information page or diagnostic tools may show the real model. Manufacturer is saved only on this page."),
+            HardwareModelCategory.Monitor => T("仅同步设备管理器中此显示器的友好名称。EDID 中的型号、尺寸和分辨率不变，硬件信息页或检测软件可能显示真实型号。厂商仅在本页保存。", "Sync only this monitor's friendly name in Device Manager. Its EDID model, size and resolution are unchanged; the hardware information page or diagnostic tools may show the real model. Manufacturer is saved only on this page."),
+            HardwareModelCategory.Disk => T("仅同步设备管理器中此硬盘的友好名称。磁盘控制器报告的型号、容量和序列号不变，硬件信息页或检测软件可能显示真实型号。厂商仅在本页保存。", "Sync only this disk's friendly name in Device Manager. The model, capacity and serial number reported by its controller are unchanged; the hardware information page or diagnostic tools may show the real model. Manufacturer is saved only on this page."),
+            _ => T("仅本页配置和预览。", "Profile and preview on this page only."),
+        };
+    }
+
     public void ApplyLocalization()
     {
         PageHeader.Title = T("配置修改器", "Config editor");
-        PageHeader.Subtitle = T("六类硬件型号 · 修改前预览 · 原始名称可恢复", "Six hardware categories · Preview changes · Restore original names");
-        WorkspaceTitleText.Text = T("换个名字，玩一套新配置", "A fresh look for your hardware");
-        WorkspaceHintText.Text = T("先选一张硬件卡片，再挑型号。每台设备独立编辑，应用前可以看到完整预览。", "Pick a hardware card, then choose a model. Edit each device separately and preview the whole profile before applying.");
+        PageHeader.Subtitle = T("六类硬件展示名称 · 保存前预览 · 可恢复原始名称", "Six hardware display names · Preview before saving · Restore original names");
+        WorkspaceTitleText.Text = T("编辑硬件展示名称", "Edit hardware display names");
+        WorkspaceHintText.Text = T("这里只编辑展示名称，不会更换硬件或提升性能。保存后可在本页预览；勾选同步只写入支持的 Windows 名称字段，第三方检测软件仍可能显示真实型号。", "This edits display names without replacing hardware or improving performance. Saved names appear in this page's preview. Sync writes supported Windows name fields; third-party diagnostic tools may still show real models.");
         ScopeExpander.Header = T("了解展示配置的生效范围", "Where these display names apply");
         CatalogStatusText.Text = T($"{HardwareModelCatalog.Models.Count} 个主流型号 · 支持品牌和型号搜索 · 数据核对：{HardwareModelCatalog.VerifiedOn:yyyy-MM-dd}",
             $"{HardwareModelCatalog.Models.Count} model presets · Search brands and models · Verified {HardwareModelCatalog.VerifiedOn:yyyy-MM-dd}");
-        ScopeText.Text = T("这里修改的是展示名称。CPU、主板可写入注册表显示字段；显卡、显示器、硬盘可同步 Windows 设备友好名称。内存仅保存为本工具的本地展示配置。不会改变真实硬件、容量或性能；固件、WMI 与检测软件可能继续显示真实型号，重启或更新驱动也可能重置 Windows 名称。",
-            "This edits display names. CPU and motherboard labels can be written to registry display fields; GPU, monitor and disk names can be synced to Windows device friendly names. Memory uses a local display profile in this tool. Actual hardware, capacity and performance stay unchanged. Firmware, WMI and diagnostic tools may still show real models, and Windows names may reset after reboot or driver updates.");
-        SyncWindowsCheck.Content = T("同步 Windows 显示名称（需要管理员权限；内存始终仅本地展示）", "Sync Windows display names (administrator required; memory remains local)");
-        ApplyButton.Content = T("应用修改", "Apply changes");
+        ScopeText.Text = T("本地配置仅用于本页的编辑和预览，硬件信息页不会套用此配置。同步 Windows 时，CPU 写名称字符串（单处理器的所有逻辑核心），主板写名称和厂商显示字段，显卡、显示器、硬盘只写选中设备的友好名称；CPU、显卡、显示器和硬盘的展示厂商以及内存型号仅在本页保存。使用相应 Windows 字段的页面可能显示别名；CPUID、固件、驱动、EDID 或磁盘控制器等数据源仍可能返回真实型号。第三方检测软件需重新扫描才能检查显示结果，扫描后也可能继续显示真实型号。重启或更新驱动可能重置 Windows 名称。",
+            "Local profiles are used only by this page's editor and preview; the hardware information page does not apply them. Windows sync writes the CPU name string on every logical core of a single-processor system, motherboard name and manufacturer fields, and only the selected GPU, monitor or disk's friendly name. CPU, GPU, monitor and disk manufacturers, plus memory names, are saved only here. Pages using the affected Windows fields may show aliases; CPUID, firmware, drivers, EDID or disk-controller sources may still report real models. Rescan third-party diagnostic tools to check their display; they may still show real models after rescanning. Rebooting or updating drivers may reset Windows names.");
+        SyncWindowsCheck.Content = T("同时同步支持的 Windows 名称字段（需要管理员权限；内存仅本页预览）", "Also sync supported Windows name fields (administrator required; memory is preview-only)");
+        ApplyButton.Content = T("保存展示名称", "Save display names");
         RestoreButton.Content = T("一键恢复", "Restore originals");
         RefreshButton.Content = T("刷新设备", "Refresh devices");
         PreviewTitleText.Text = T("展示配置预览", "Display profile preview");
@@ -146,7 +167,7 @@ public sealed partial class HardwareSpooferPage : Page, ILocalizablePage
             summary.MaxLines = 2;
             summary.TextTrimming = TextTrimming.CharacterEllipsis;
             tileBody.Children.Add(summary);
-            tileBody.Children.Add(Text(devices.Any(d => d.CanApplySystem) ? T("Windows 显示名称 / 本地配置", "Windows display name / local profile") : T("本工具本地展示配置", "Local display profile"), secondary: true, size: 11));
+            tileBody.Children.Add(Text(devices.Any(d => d.CanApplySystem) ? T("可同步 Windows 名称字段 / 本页预览", "Windows name fields / page preview") : T("仅本页展示配置和预览", "Display profile and preview on this page only"), secondary: true, size: 11));
             var button = new Button { Content = tileBody, Tag = category };
             Microsoft.UI.Xaml.Automation.AutomationProperties.SetName(button, CategoryName(category));
             button.Click += (_, _) => SelectCategory(category);
@@ -212,9 +233,11 @@ public sealed partial class HardwareSpooferPage : Page, ILocalizablePage
         body.Children.Add(picker);
         var scope = Text("", secondary: true, size: 12);
         var original = Text("", secondary: true, size: 12);
+        var windowsName = Text("", secondary: true, size: 12);
         body.Children.Add(scope);
         body.Children.Add(original);
-        body.Children.Add(Text(T("目标型号（搜索或直接输入）", "Target model (search or type your own)"), size: 12));
+        body.Children.Add(windowsName);
+        body.Children.Add(Text(T("目标展示名称（本页保存；搜索或直接输入）", "Target display name (saved on this page; search or type)"), size: 12));
         var name = new AutoSuggestBox
         {
             PlaceholderText = T("例如：品牌、型号或系列名称", "Search a brand, model or series"),
@@ -247,12 +270,14 @@ public sealed partial class HardwareSpooferPage : Page, ILocalizablePage
             var device = _draft[selectedId];
             name.Text = device.CurrentName;
             manufacturer.Text = device.CurrentManufacturer;
-            scope.Text = device.CanApplySystem
-                ? T(category is HardwareModelCategory.Cpu or HardwareModelCategory.Motherboard ? "可同步注册表显示名称；固件型号不变。" : "可同步此设备的 Windows 友好名称；驱动、固件型号不变。",
-                    category is HardwareModelCategory.Cpu or HardwareModelCategory.Motherboard ? "Registry display label can be synced; firmware is unchanged." : "This device's Windows friendly name can be synced; driver and firmware are unchanged.")
-                : T("仅本工具本地展示配置", "Local display profile in this tool only");
+            scope.Text = DisplayScope(device);
             original.Text = string.IsNullOrWhiteSpace(device.OriginalName) ? T("未检测到此类设备；选择型号后可保存为本地展示配置。", "No device detected in this category; select a model to save a local display profile.")
                 : T($"原始名称：{device.OriginalName}", $"Original: {device.OriginalName}");
+            windowsName.Text = !device.CanApplySystem
+                ? T("系统同步：此设备仅支持本页配置和预览。", "Windows sync: this device supports only this page's profile and preview.")
+                : string.IsNullOrWhiteSpace(device.CurrentWindowsName)
+                    ? T("当前 Windows 名称：未提供当前读取值。", "Current Windows name: no current reading supplied.")
+                    : T($"当前 Windows 名称：{device.CurrentWindowsName}", $"Current Windows name: {device.CurrentWindowsName}");
             name.ItemsSource = null;
             filling = false;
         }
@@ -394,10 +419,10 @@ public sealed partial class HardwareSpooferPage : Page, ILocalizablePage
         var sync = SyncWindowsCheck.IsChecked == true;
         if (sync && items.Any(d => d.CanApplySystem && (d.CurrentName != d.OriginalName || (d.Category == HardwareModelCategory.Motherboard && d.CurrentManufacturer != d.OriginalManufacturer))) && !_service.IsAdmin)
         {
-            ShowStatus(T("需要管理员权限", "Administrator required"), T("请以管理员身份运行后同步 Windows 名称，或取消勾选同步，先保存本地展示配置。", "Run as administrator to sync Windows names, or uncheck sync to save a local display profile."), InfoBarSeverity.Warning);
+            ShowStatus(T("需要管理员权限", "Administrator required"), T("请以管理员身份运行后同步 Windows 名称，或取消勾选同步，先保存本页展示配置。", "Run as administrator to sync Windows names, or uncheck sync to save this page's display profile."), InfoBarSeverity.Warning);
             return;
         }
-        if (sync && !await ConfirmAsync(T("应用展示名称", "Apply display names"), T("将保存六类硬件的本地展示配置，并同步有更改且受支持的 Windows 名称。系统原值会先备份。内存仅在本工具展示配置中生效。", "Save the local profile and sync changed, supported Windows names after backing up originals. Memory changes apply only in this tool's local display profile."))) return;
+        if (sync && !await ConfirmAsync(T("保存并同步展示名称", "Save and sync display names"), T("将保存本页展示配置，并先备份原值，再同步受支持的 Windows 名称字段。同步结果只检查名称字段回读，不会验证第三方检测软件。内存仅在本页预览生效；硬件信息页不会套用此配置，检测软件重新扫描后仍可能显示真实型号。", "Save this page's display profile, back up originals, then sync supported Windows name fields. Sync checks only the name fields by reading them back; third-party diagnostic tools are not verified. Memory changes apply only to this page's preview. The hardware information page does not apply this profile, and diagnostic tools may still show real models after rescanning."))) return;
         SetBusy(true);
         try
         {
@@ -406,7 +431,10 @@ public sealed partial class HardwareSpooferPage : Page, ILocalizablePage
                 var profile = _service.SaveProfile(items);
                 return profile.Any(r => !r.Success) || !sync ? profile : profile.Concat(_service.ApplySystemChanges(items)).ToArray();
             });
-            ShowResults(results, T("配置已保存", "Profile saved"));
+            if (sync) HardwareInfoService.InvalidateCache();
+            ShowResults(results, T("展示名称保存结果", "Display name save results"), sync
+                ? T("本页配置用于编辑和预览。系统同步结果以名称字段回读为准，未验证第三方检测软件；重新扫描后也可能显示真实型号。", "This page's profile is used for editing and preview. Windows sync results check the name fields by reading them back; third-party diagnostic tools are not verified and may still show real models after rescanning.")
+                : T("本地保存只影响本页展示配置，可在本页预览查看。硬件信息页和第三方检测软件不会套用此配置。", "Local saves affect only this page's display profile and preview. The hardware information page and third-party diagnostic tools do not apply this profile."));
             if (_active) await ReloadAsync();
         }
         catch (Exception ex) { ShowStatus(T("修改未完成", "Changes could not be completed"), ex.Message, InfoBarSeverity.Error); }
@@ -431,6 +459,7 @@ public sealed partial class HardwareSpooferPage : Page, ILocalizablePage
                 if (restored.All(r => r.Success)) _service.ClearProfile();
                 return restored;
             });
+            HardwareInfoService.InvalidateCache();
             ShowResults(results, T("原始展示名称已恢复", "Original display names restored"));
             if (_active) await ReloadAsync();
         }
@@ -457,10 +486,11 @@ public sealed partial class HardwareSpooferPage : Page, ILocalizablePage
         return await dialog.ShowAsync() == ContentDialogResult.Primary;
     }
 
-    private void ShowResults(IReadOnlyList<HardwareEditorResult> results, string successTitle)
+    private void ShowResults(IReadOnlyList<HardwareEditorResult> results, string successTitle, string? scopeNote = null)
     {
         var failures = results.Where(r => !r.Success).ToArray();
         var detail = string.Join("\n", results.Select(r => $"{CategoryName(r.Category)}：{r.Message}"));
+        if (!string.IsNullOrEmpty(scopeNote)) detail += "\n\n" + scopeNote;
         ShowStatus(failures.Length == 0 ? successTitle : T("部分操作未完成，请查看原因", "Some operations failed; review the details"),
             detail.Length == 0 ? T("本地展示配置已重置。", "Local display profile reset.") : detail,
             failures.Length == 0 ? InfoBarSeverity.Success : InfoBarSeverity.Warning);

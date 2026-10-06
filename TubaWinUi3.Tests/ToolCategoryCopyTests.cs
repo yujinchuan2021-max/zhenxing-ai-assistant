@@ -1,5 +1,7 @@
+using System.Text.Json;
 using TubaWinUi3.Models;
 using TubaWinUi3.Services;
+using TubaWinUi3.Services.CloudTools;
 
 namespace TubaWinUi3.Tests;
 
@@ -10,6 +12,9 @@ public class ToolCategoryCopyTests : IDisposable
     private readonly string _root;
     private readonly string _tools;
     private readonly string _metadata;
+    private readonly string? _oldDataRoot = DataRoots.TestRootOverrideForTest;
+    private readonly CloudToolManager? _oldCloudManager = CloudToolService.OverrideForTests;
+    private readonly HttpClient _http = new(new RejectNetwork());
 
     public ToolCategoryCopyTests()
     {
@@ -36,8 +41,23 @@ public class ToolCategoryCopyTests : IDisposable
         """;
         File.WriteAllText(Path.Combine(_metadata, "tools.json"), json);
 
+        // This fixture covers legacy category placement only. Keep the real cloud
+        // catalogue and previously installed application data out of its inventory.
+        var dataRoot = Path.Combine(_root, "data");
+        var cloudSeed = Path.Combine(_metadata, "cloud-tools.json");
+        File.WriteAllText(cloudSeed, JsonSerializer.Serialize(new CloudToolCatalog
+        {
+            Revision = 1,
+            PublishedAt = "2026-10-06T00:00:00Z",
+            Tools = []
+        }, CloudToolValidation.JsonOptions));
+        DataRoots.TestRootOverrideForTest = dataRoot;
+        CloudToolService.OverrideForTests = new CloudToolManager(dataRoot, _http, CloudToolService.OwnEndpoint,
+            "x64", new Version(0, 1, 1), cloudSeed, _tools, allowNetwork: false);
+
         ToolCatalog.SetToolsRootForBuild(_tools);
         ToolMetadataService.SetMetadataRootForTests(_metadata);
+        ToolCatalog.OnToolsChanged();
 
         // 应用启动时注册的内置工具在测试环境需手动注册（已注册则跳过）
         if (BuiltinToolRegistry.GetById("stress-test") is null)
@@ -46,10 +66,19 @@ public class ToolCategoryCopyTests : IDisposable
 
     public void Dispose()
     {
+        CloudToolService.OverrideForTests = _oldCloudManager;
+        DataRoots.TestRootOverrideForTest = _oldDataRoot;
         ToolMetadataService.SetMetadataRootForTests(null);
         ToolCatalog.SetToolsRootForBuild(null);
         ToolCatalog.OnToolsChanged();
+        _http.Dispose();
         try { Directory.Delete(_root, true); } catch { }
+    }
+
+    private sealed class RejectNetwork : HttpMessageHandler
+    {
+        protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+            => throw new InvalidOperationException("Category placement fixture attempted networking.");
     }
 
     private static void CreateExe(string path)
