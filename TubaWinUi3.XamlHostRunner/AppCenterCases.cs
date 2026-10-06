@@ -26,16 +26,15 @@ internal static class AppCenterCases
         ("AppCenter_NativeTemplates_Wide_TwoThemes", () => NativePageAsync(1120)),
         ("AppCenter_RegisteredClaude_VerifiedUninstall_NativeTemplates_TwoThemes", () => NativePageAsync(1120, registeredPackagesOnly: true)),
         ("AppCenter_CloudSnapshot_OnlyLocalAndRequestedTasks_Offline", InventoryProjectionAsync),
+        .. AppCenterBatchUpdateCases.All(),
     ];
 
     private static async Task NativePageAsync(double width, bool registeredPackagesOnly = false)
     {
         RequireIsolation();
-        Assert.IsType<TestApp>(Application.Current);
+        Assert.IsType<TestApp>(Application.Current).EnsureSharedControlResources();
         var previousResolver = ThemeResourceResolver.CurrentThemeKeyOverrideForTest;
         var previousDictionaries = ThemeResourceResolver.ExtraRootDictionariesForTest;
-        var resources = new XamlControlsResources();
-        Application.Current.Resources.MergedDictionaries.Add(resources);
         AppCenterPage? page = null;
         try
         {
@@ -119,7 +118,6 @@ internal static class AppCenterCases
         }
         finally
         {
-            Application.Current.Resources.MergedDictionaries.Remove(resources);
             ThemeResourceResolver.CurrentThemeKeyOverrideForTest = previousResolver;
             ThemeResourceResolver.ExtraRootDictionariesForTest = previousDictionaries;
         }
@@ -286,8 +284,7 @@ internal static class AppCenterCases
             Path.GetFullPath(fixtureRoot), StringComparison.OrdinalIgnoreCase);
         CloudToolValidation.CheckNoReparse(fixtureRoot);
         var previousManager = CloudToolService.OverrideForTests;
-        var resources = new XamlControlsResources();
-        Application.Current.Resources.MergedDictionaries.Add(resources);
+        Assert.IsType<TestApp>(Application.Current).EnsureSharedControlResources();
         using var transport = new RejectNetworkTransport();
         using var http = new HttpClient(transport);
         try
@@ -343,7 +340,6 @@ internal static class AppCenterCases
         finally
         {
             CloudToolService.OverrideForTests = previousManager;
-            Application.Current.Resources.MergedDictionaries.Remove(resources);
             if (Directory.Exists(fixtureRoot))
             {
                 CloudToolValidation.CheckNoReparse(fixtureRoot);

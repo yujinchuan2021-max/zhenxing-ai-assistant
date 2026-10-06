@@ -1,0 +1,113 @@
+{
+  "verifiedAtUtc": "2026-10-06T22:18:21.818924+00:00",
+  "ok": true,
+  "scope": "MemTest86 Free original USB boot-media and acquisition metadata revision only",
+  "acquisition": {
+    "url": "https://zhenxingai.com/downloads/installers/acquisition.json",
+    "schemaVersion": 1,
+    "revision": 2,
+    "sizeBytes": 65819,
+    "rawSha256": "1520ed68f70c05a803998be810b7f1aff444079739fb95b5d48d3046b720226d",
+    "semanticSha256": "920ce20ff7ebd9d03125d495015081a43818b7337e92ebec54cb8f89d11779f9",
+    "toolCount": 33,
+    "counts": {
+      "vendor": 26,
+      "owned": 2,
+      "website": 3,
+      "store": 1,
+      "unavailable": 1
+    },
+    "onlyToolChanged": "tool-memtest86",
+    "baselineRevision": 1,
+    "baselineRawSha256": "7ff65a8ceecad1a2fc425bee4222b61d27bbe604b026591ae048a4b9e7165416",
+    "fullGetExact": true,
+    "backupVerified": true
+  },
+  "memtestAssets": [
+    {
+      "url": "https://zhenxingai.com/downloads/tools/tool-memtest86/1c01e03adac5c9e4d5d4/MemTest86-Free-11.7-build-1000-original.zip",
+      "status": 200,
+      "finalUrl": "https://zhenxingai.com/downloads/tools/tool-memtest86/1c01e03adac5c9e4d5d4/MemTest86-Free-11.7-build-1000-original.zip",
+      "contentType": "application/zip",
+      "contentLength": "12715306",
+      "sizeBytes": 12715306,
+      "sha256": "1c01e03adac5c9e4d5d4e863de16771161b00e06032b7e91b1aeeba86c35a4de",
+      "fullGetVerified": true,
+      "zipEntries": 33,
+      "uncompressedBytes": 1078181592,
+      "wholeZipCrcVerified": true
+    },
+    {
+      "url": "https://zhenxingai.com/downloads/tools/tool-memtest86/licenses/1a079d7c3a5bc0de685f/MemTest86-license.rtf",
+      "status": 200,
+      "finalUrl": "https://zhenxingai.com/downloads/tools/tool-memtest86/licenses/1a079d7c3a5bc0de685f/MemTest86-license.rtf",
+      "contentType": "application/rtf",
+      "contentLength": "35815",
+      "sizeBytes": 35815,
+      "sha256": "1a079d7c3a5bc0de685f6ab2708afa8d61ff4e0638a4a391b8dc0b02cff4b8de",
+      "fullGetVerified": true
+    },
+    {
+      "url": "https://zhenxingai.com/downloads/tools/tool-memtest86/licenses/58a8de3a540a48b98d53/ImageUSB-LICENSE.txt",
+      "status": 200,
+      "finalUrl": "https://zhenxingai.com/downloads/tools/tool-memtest86/licenses/58a8de3a540a48b98d53/ImageUSB-LICENSE.txt",
+      "contentType": "text/plain",
+      "contentLength": "605",
+      "sizeBytes": 605,
+      "sha256": "58a8de3a540a48b98d53b5c084ac06bbb172b9ac661df0efaf8358b6d156273a",
+      "fullGetVerified": true
+    },
+    {
+      "url": "https://zhenxingai.com/downloads/tools/tool-memtest86/licenses/806ecb3e96eaac1b3e84/README-mirror-attribution.txt",
+      "status": 200,
+      "finalUrl": "https://zhenxingai.com/downloads/tools/tool-memtest86/licenses/806ecb3e96eaac1b3e84/README-mirror-attribution.txt",
+      "contentType": "text/plain",
+      "contentLength": "2656",
+      "sizeBytes": 2656,
+      "sha256": "806ecb3e96eaac1b3e84518e73097b26ae28a36783271e8b475cd2f2a3181d17",
+      "fullGetVerified": true
+    }
+  ],
+  "unchangedPublicMetadata": [
+    {
+      "url": "https://zhenxingai.com/api/toolflows/v1/tools/catalog",
+      "rawSha256": "ea2d8df2e6655bf3c014dc35133f4bdc5b612231d356d799375e715147046717",
+      "unchanged": true,
+      "revision": 5
+    },
+    {
+      "url": "https://zhenxingai.com/api/toolflows/v2/tools/catalog",
+      "rawSha256": "cebb78499f3f4d2f0b6ec3ecb84599677274cf73b80df67a54ebd90772a37c47",
+      "unchanged": true,
+      "revision": 6
+    },
+    {
+      "url": "https://zhenxingai.com/downloads/installers/catalog.json",
+      "rawSha256": "948c35b8dba0c13d5f30542365ec68bb832fc68d1057dc20226eec104014edf8",
+      "unchanged": true,
+      "revision": 2
+    }
+  ],
+  "originalZipUnchanged": true,
+  "wholeZipCrcVerified": true,
+  "embeddedEulaRead": true,
+  "nativeEfiArchitecturesVerified": [
+    "x86",
+    "x64",
+    "arm64"
+  ],
+  "manualUsbFlowRequired": true,
+  "vendorProgramsExecuted": false,
+  "usbWritten": false,
+  "rebootPerformed": false,
+  "runtimeFunctionalityVerified": false,
+  "managedPortableCatalogChanged": false,
+  "installerCatalogChanged": false,
+  "clientPackageRebuilt": false,
+  "independentSecondaryMirrorDeployed": false,
+  "limits": [
+    "Original boot-media ZIP; not a portable EXE or Windows installation result.",
+    "Public binary redistribution evidence is preserved, with current-version and original-attribution conditions; future packages require fresh complete verification.",
+    "This publication verifies full files and metadata, not physical USB creation, Secure Boot compatibility or memory test results."
+  ]
+}

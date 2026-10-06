@@ -1,12 +1,12 @@
 {
   "schemaVersion": 1,
-  "recordedAtUtc": "2026-10-06T21:44:26.817228Z",
+  "recordedAtUtc": "2026-10-06T22:19:17.529488+00:00",
   "scope": "33 remaining acquisition entries; metadata and workflows, not 33 owned binary mirrors",
   "counts": {
-    "vendor": 27,
+    "vendor": 26,
+    "owned": 2,
     "website": 3,
     "store": 1,
-    "owned": 1,
     "unavailable": 1
   },
   "tools": [
@@ -173,17 +173,20 @@
     {
       "id": "tool-memtest86",
       "name": "MemTest86 Free",
-      "method": "vendor",
+      "method": "owned",
       "version": "11.7 Build 1000",
-      "actionUrl": "https://www.memtest86.com/download.htm",
-      "ownServerMirrorReady": false,
-      "mirrorDecision": "publisher-permission-evidenced-current-binary-license-still-to-check",
+      "actionUrl": null,
+      "ownServerMirrorReady": true,
+      "mirrorDecision": "publisher-general-free-binary-mirroring-original-current-zip-and-eula-verified; maintain-current-version-and-attribution",
       "primarySources": [
         "https://forums.passmark.com/memtest86/44494-version-8-1-distribution-file-is-not-versioned",
         "https://forums.passmark.com/memtest86/49403-redistribution-of-memtest86-free-edition-via-linux-distro",
-        "https://www.memtest86.com/download.htm"
+        "https://www.memtest86.com/download.htm",
+        "https://www.memtest86.com/tech_license-information.html",
+        "https://www.osforensics.com/tools/write-usb-images.html",
+        "https://zhenxingai.com/downloads/tools/tool-memtest86/licenses/1a079d7c3a5bc0de685f/MemTest86-license.rtf"
       ],
-      "evidenceSha256": "25c926c90fa8e19ac0670136997eac8944273186e8545da333c04a81e4120a0c"
+      "evidenceSha256": "c630ce20152d215c1674aaa4d612e35dabcccfb7efd730588611ba9ec4f077c7"
     },
     {
       "id": "tool-occt",

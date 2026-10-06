@@ -52,6 +52,8 @@ public sealed record CloudToolState(
     // Only an operation initiated through this manager supplies this evidence.
     // A catalog/path read error alone must not appear as a user download task.
     public bool HasOperationActivity { get; init; }
+    // A same-version package correction is still an update when the receipt hash differs.
+    public bool HasUpdate { get; init; }
     public bool IsInstalled => !string.IsNullOrEmpty(EntryPath);
     public bool IsBusy => Status is CloudToolStatus.Downloading or CloudToolStatus.Installing
         or CloudToolStatus.Updating or CloudToolStatus.Removing;

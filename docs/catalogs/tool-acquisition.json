@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "revision": 1,
-  "publishedAt": "2026-10-06T21:44:26.817228Z",
+  "revision": 2,
+  "publishedAt": "2026-10-06T22:14:20.320578Z",
   "tools": [
     {
       "id": "tool-throttlestop",
@@ -535,51 +535,100 @@
       "id": "tool-memtest86",
       "name": "MemTest86 Free",
       "version": "11.7 Build 1000",
-      "method": "vendor",
+      "method": "owned",
       "summary": {
         "zh": "PassMark MemTest86 内存检测工具，需要制作启动 U 盘并重启测试，不是在 Windows 中直接运行的常规软件。",
         "en": "Memory testing from a UEFI bootable USB drive."
       },
       "notice": {
-        "zh": "写入启动盘会覆盖所选 U 盘，先备份并核对目标盘。11.7 需 UEFI，不是普通 Windows 应用；枕星直连 ZIP 尚未提供。",
-        "en": "Writing the boot image replaces data on the selected USB drive. Version 11.7 requires UEFI; it is not a normal Windows app. An owned ZIP is not available."
+        "zh": "PassMark 原厂完整 Free 启动包；包含 x86/x64/ARM64 UEFI 入口，不是普通 Windows 应用。下载不会自动写入 U 盘；写入会擦除所选 U 盘，须用户核对并确认。当前版本不支持传统 BIOS 或 Apple Silicon Mac。",
+        "en": "The complete original PassMark Free USB package includes x86/x64/ARM64 UEFI binaries, not a normal Windows app. Downloading does not write a USB drive. Writing erases the selected drive and requires the user to select and confirm it. Legacy BIOS and Apple Silicon Macs are not supported."
       },
       "steps": [
         {
-          "zh": "在官方页面下载 MemTest86 Free 完整 USB ZIP，解压到新目录。",
-          "en": "Download the complete MemTest86 Free USB ZIP from the vendor page and extract it."
+          "zh": "下载自有服务器上的原厂完整 ZIP 并全部解压，预留至少 1.1 GB 本地空间。",
+          "en": "Download the complete original ZIP from the owned server and extract it fully; reserve at least 1.1 GB of local space."
         },
         {
-          "zh": "准备并备份一个大于 1 GB 的 U 盘，按原厂工具明确选择目标 U 盘后制作启动盘。",
-          "en": "Back up a USB drive larger than 1 GB and explicitly select it in the vendor imaging tool."
+          "zh": "备份并核对准备使用的 U 盘，建议至少 2 GB。按原厂指南打开包内 imageUSB.exe 并明确选择目标 U 盘。",
+          "en": "Back up and verify the USB drive; at least 2 GB is recommended. Follow the vendor guide and explicitly select the target drive in the included imageUSB.exe."
         },
         {
-          "zh": "保存工作并重启电脑，从 UEFI 启动菜单选择该 U 盘，进入检测界面。",
-          "en": "Save your work, restart and choose the USB drive in the UEFI boot menu to begin testing."
+          "zh": "在原厂向导中选择 Write image to USB drive 和 memtest86-usb.img；确认擦除目标 U 盘后再写入。更新包不会自动擦除或更新已有启动 U 盘。",
+          "en": "Select Write image to USB drive and memtest86-usb.img in the vendor tool, then confirm the selected drive may be erased. Package updates never automatically erase or update an existing boot USB."
+        },
+        {
+          "zh": "保存工作并重启电脑，从 UEFI 启动菜单选择该 U 盘；在 MemTest86 中运行检测。下载不表示已安装或内存检测完成。",
+          "en": "Save your work, restart and select the USB in the UEFI boot menu; run the test in MemTest86. Downloading is not installation or a completed memory test."
         }
       ],
-      "action": {
-        "label": {
-          "zh": "制作内存检测 U 盘",
-          "en": "Get the USB boot package"
-        },
-        "url": "https://www.memtest86.com/download.htm"
-      },
-      "files": [],
+      "action": null,
+      "files": [
+        {
+          "architecture": "any",
+          "version": "11.7 Build 1000",
+          "format": "zip",
+          "url": "https://zhenxingai.com/downloads/tools/tool-memtest86/1c01e03adac5c9e4d5d4/MemTest86-Free-11.7-build-1000-original.zip",
+          "sizeBytes": 12715306,
+          "sha256": "1c01e03adac5c9e4d5d4e863de16771161b00e06032b7e91b1aeeba86c35a4de"
+        }
+      ],
       "references": [
         {
           "label": {
-            "zh": "厂商许可与说明",
-            "en": "Vendor licence and information"
+            "zh": "原厂一般分发政策（2019）",
+            "en": "Publisher general distribution policy (2019)"
           },
           "url": "https://forums.passmark.com/memtest86/44494-version-8-1-distribution-file-is-not-versioned"
         },
         {
           "label": {
-            "zh": "厂商许可与说明",
-            "en": "Vendor licence and information"
+            "zh": "Free 镜像与版本维护答复（2020）",
+            "en": "Free mirror and version-maintenance reply (2020)"
           },
           "url": "https://forums.passmark.com/memtest86/49403-redistribution-of-memtest86-free-edition-via-linux-distro"
+        },
+        {
+          "label": {
+            "zh": "原厂下载与版本来源",
+            "en": "Original vendor download and version"
+          },
+          "url": "https://www.memtest86.com/download.htm"
+        },
+        {
+          "label": {
+            "zh": "当前原包许可协议",
+            "en": "Current original package EULA"
+          },
+          "url": "https://zhenxingai.com/downloads/tools/tool-memtest86/licenses/1a079d7c3a5bc0de685f/MemTest86-license.rtf"
+        },
+        {
+          "label": {
+            "zh": "ImageUSB 原厂许可与归属",
+            "en": "ImageUSB licence and attribution"
+          },
+          "url": "https://zhenxingai.com/downloads/tools/tool-memtest86/licenses/58a8de3a540a48b98d53/ImageUSB-LICENSE.txt"
+        },
+        {
+          "label": {
+            "zh": "使用、分发与版本维护说明",
+            "en": "Usage, distribution and maintenance notes"
+          },
+          "url": "https://zhenxingai.com/downloads/tools/tool-memtest86/licenses/806ecb3e96eaac1b3e84/README-mirror-attribution.txt"
+        },
+        {
+          "label": {
+            "zh": "原厂 Windows 启动 U 盘制作指南",
+            "en": "Vendor Windows boot USB guide"
+          },
+          "url": "https://www.memtest86.com/tech_creating-window.html"
+        },
+        {
+          "label": {
+            "zh": "原厂 Free 许可说明",
+            "en": "Vendor Free licence information"
+          },
+          "url": "https://www.memtest86.com/tech_license-information.html"
         }
       ]
     },

@@ -21,12 +21,15 @@ public sealed partial class AppCenterPage : Page
     private List<AppCenterItem> _localItems = [];
     private List<AppCenterItem> _cloudSnapshot = [];
     private readonly HashSet<string> _busyKeys = new(StringComparer.Ordinal);
+    private CloudToolBatchUpdateCoordinator? _batchUpdates;
+    private CloudToolBatchUpdateSnapshot? _batchUiSnapshot;
     private CancellationTokenSource? _pageStop;
     private ContentDialog? _shownDialog;
     private readonly Microsoft.UI.Dispatching.DispatcherQueueTimer _cloudTimer;
     private int _cloudUpdateQueued;
     private long _epoch;
-    private bool _active, _refreshing, _dialogOpen, _registering;
+    private bool _active, _refreshing, _dialogOpen, _registering, _batchStarting, _batchCanceling, _batchWasRunning;
+    private Guid _renderedBatchId;
 
     public AppCenterPage()
     {
@@ -51,6 +54,12 @@ public sealed partial class AppCenterPage : Page
         RegisterButton.IsEnabled = !_registering;
         RefreshButton.IsEnabled = true; LoadingRing.IsActive = false;
         CloudToolService.Changed += CloudChanged;
+        try
+        {
+            _batchUpdates = CloudToolService.BatchUpdates;
+            _batchUpdates.Changed += CloudChanged;
+        }
+        catch (Exception ex) { Debug.WriteLine($"[AppCenter] batch service: {ex}"); }
         try { CloudToolService.Start(); Render(); await RefreshAllAsync(); }
         catch (Exception ex) { Debug.WriteLine($"[AppCenter] navigation: {ex}"); Feedback("暂时无法读取全部工具；已找到的本机软件保留，请刷新重试。", _epoch); }
     }
@@ -65,6 +74,7 @@ public sealed partial class AppCenterPage : Page
     {
         _active = false; _epoch++;
         CloudToolService.Changed -= CloudChanged;
+        if (_batchUpdates is not null) _batchUpdates.Changed -= CloudChanged;
         _cloudTimer.Stop(); Interlocked.Exchange(ref _cloudUpdateQueued, 0);
         _pageStop?.Cancel(); _pageStop?.Dispose(); _pageStop = null;
         _refreshing = false;
@@ -162,7 +172,7 @@ public sealed partial class AppCenterPage : Page
             bool website = definition is not null && InternalBrowserLink.TryGetWebUri(definition.Homepage, out _);
             var status = Enum.TryParse<AppCenterToolStatus>(state.Status.ToString(), out var parsed) ? parsed : AppCenterToolStatus.Unsupported;
             var view = AppCenterActionPresentation.Cloud(status, entry.Executable is not null,
-                state.IsManaged, !string.IsNullOrEmpty(state.AvailableVersion) && state.AvailableVersion != state.Version,
+                state.IsManaged, state.HasUpdate || !string.IsNullOrEmpty(state.AvailableVersion) && state.AvailableVersion != state.Version,
                 state.PendingUpdate, state.Progress, canDownload, website);
             var item = new AppCenterItem
             {
@@ -186,6 +196,7 @@ public sealed partial class AppCenterPage : Page
     private void Render()
     {
         if (!_active || SearchBox is null || StatusFilter is null || SummaryText is null) return;
+        RenderBatchUpdate();
         string filter = (StatusFilter.SelectedItem as ComboBoxItem)?.Tag as string ?? "all", search = SearchBox.Text;
         List<AppCenterItem> cloud;
         try { cloud = CloudSnapshot(); _cloudSnapshot = cloud; }
@@ -218,6 +229,18 @@ public sealed partial class AppCenterPage : Page
         : item.RecordId.Length > 0 ? "record:" + item.RecordId : "path:" + item.Path;
     private void ApplyBusy(AppCenterItem item)
     {
+        if (item.CloudId.Length > 0 && _batchUiSnapshot is { IsRunning: true } batch)
+        {
+            var queued = batch.Items.FirstOrDefault(update => update.Id == item.CloudId &&
+                update.Outcome is CloudToolBatchUpdateOutcome.Queued or CloudToolBatchUpdateOutcome.InProgress or CloudToolBatchUpdateOutcome.PendingUpdate);
+            if (queued is not null)
+            {
+                item.PrimaryEnabled = false;
+                item.CanRemoveManaged = false;
+                if (queued.Outcome == CloudToolBatchUpdateOutcome.Queued)
+                    item.PrimaryLabel = MiscTexts.T("更新排队中");
+            }
+        }
         if (!_busyKeys.Contains(Key(item))) return;
         item.IsBusy = true; item.PrimaryEnabled = false; item.PrimaryLabel = MiscTexts.T("处理中");
     }
@@ -240,6 +263,206 @@ public sealed partial class AppCenterPage : Page
     {
         if (sender is StackPanel panel) panel.Orientation = e.NewSize.Width < 760 ? Orientation.Vertical : Orientation.Horizontal;
     }
+
+    private void RenderBatchUpdate()
+    {
+        if (BatchUpdateButton is null || BatchPanel is null) return;
+        var snapshot = _batchUpdates?.Snapshot;
+        _batchUiSnapshot = snapshot;
+        bool running = snapshot?.IsRunning == true;
+        bool pending = snapshot?.PendingUpdateCount > 0;
+        try
+        {
+            // Plan from the complete managed inventory, never the filtered UI collections.
+            var plan = CloudToolService.GetBatchUpdatePlan();
+            BatchUpdateButton.Content = MiscTexts.TSub($"全部更新 ({plan.CandidateCount})");
+            BatchUpdateButton.IsEnabled = _batchUpdates is not null && !_batchStarting && !_batchCanceling && !running && !pending && plan.CandidateCount > 0;
+            BatchScopeText.Text = MiscTexts.T(running ? "更新正在后台进行，离开本页后任务会继续。"
+                : pending ? "请先处理本批等待更新，再开始下一批。"
+                : plan.CandidateCount > 0 ? "仅更新已安装的受管便携工具；搜索和筛选不改变更新范围。"
+                : "受管便携工具暂无可用更新；本地软件与商店应用需分别处理。");
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"[AppCenter] batch plan: {ex}");
+            BatchUpdateButton.IsEnabled = false;
+            BatchScopeText.Text = MiscTexts.T("更新清单暂不可用，请刷新重试。");
+        }
+        if (snapshot is null || snapshot.TotalCount == 0)
+        {
+            BatchPanel.Visibility = Visibility.Collapsed;
+            BatchViewButton.Visibility = Visibility.Collapsed;
+            return;
+        }
+
+        BatchPanel.Visibility = Visibility.Visible;
+        BatchViewButton.Visibility = Visibility.Visible;
+        BatchViewButton.Content = MiscTexts.T(running || pending ? "查看更新进度" : "查看更新结果");
+        BatchTitleText.Text = MiscTexts.T(_batchCanceling || running && snapshot.CancellationRequested ? "正在取消更新"
+            : running ? "正在更新工具"
+            : snapshot.CancellationRequested && snapshot.PendingUpdateCount > 0 ? "部分等待更新尚未取消"
+            : snapshot.PendingUpdateCount > 0 ? "部分更新等待工具退出"
+            : snapshot.SucceededCount == snapshot.TotalCount ? "工具更新完成"
+            : snapshot.FailedCount > 0 ? "部分工具更新失败"
+            : snapshot.CancellationRequested ? "剩余更新已取消" : "批量更新已结束");
+        BatchSummaryText.Text = MiscTexts.TSub($"已更新 {snapshot.SucceededCount}/{snapshot.TotalCount} · 等待退出 {snapshot.PendingUpdateCount} · 失败 {snapshot.FailedCount} · 未更新 {snapshot.SkippedCount}");
+        // Waiting requests have not applied an update and must not fill the completion bar.
+        BatchProgressBar.Value = Math.Clamp(snapshot.Progress - 100d * snapshot.PendingUpdateCount / snapshot.TotalCount, 0, 100);
+        BatchProgressBar.IsIndeterminate = running && snapshot.Current?.State is { Status: CloudToolStatus.Updating or CloudToolStatus.Installing, Progress: <= 0 };
+        BatchCancelButton.Visibility = running || snapshot.PendingUpdateCount > 0 || _batchCanceling ? Visibility.Visible : Visibility.Collapsed;
+        BatchCancelButton.IsEnabled = !_batchCanceling && (running && !snapshot.CancellationRequested || !running && snapshot.PendingUpdateCount > 0);
+        BatchCancelButton.Content = MiscTexts.T(_batchCanceling || running && snapshot.CancellationRequested ? "正在取消"
+            : running ? "取消更新" : "取消等待更新");
+        BatchCurrentText.Text = BatchCurrentMessage(snapshot);
+        BatchDetailsExpander.Header = MiscTexts.TSub($"更新详情 ({snapshot.TotalCount})");
+        BatchDetailsList.ItemsSource = snapshot.Items.Select(BatchItemMessage).ToArray();
+        if (_renderedBatchId != snapshot.Id) BatchDetailsExpander.IsExpanded = false;
+        if (!running && (_batchWasRunning || _renderedBatchId != snapshot.Id) &&
+            (snapshot.FailedCount > 0 || snapshot.PendingUpdateCount > 0 || snapshot.SkippedCount > 0))
+            BatchDetailsExpander.IsExpanded = true;
+        _renderedBatchId = snapshot.Id;
+        _batchWasRunning = running;
+    }
+
+    private static string BatchCurrentMessage(CloudToolBatchUpdateSnapshot snapshot)
+    {
+        if (snapshot.CancellationRequested && snapshot.IsRunning)
+            return MiscTexts.T("正在停止下载并撤销本批等待更新；已经成功更新的工具会保留。");
+        if (snapshot.Current is { } current)
+        {
+            string stage = current.State?.Status switch
+            {
+                CloudToolStatus.Downloading => "正在下载",
+                CloudToolStatus.Updating or CloudToolStatus.Installing => "正在校验并应用更新",
+                _ => "正在处理",
+            };
+            return MiscTexts.TSub($"{stage}：{current.Name}") +
+                (current.State?.Progress is > 0 and < 100 ? $" · {current.State.Progress:0}%" : "");
+        }
+        if (snapshot.PendingUpdateCount > 0)
+            return MiscTexts.T(snapshot.CancellationRequested
+                ? "部分等待更新尚未撤销。请查看下方原因，可再次取消等待；这些工具只有成功应用后才计入已更新。"
+                : "请保存工作并关闭等待更新的工具；关闭后会在后台重试，成功应用后才计入已更新。也可以取消等待更新。");
+        if (snapshot.IsRunning) return MiscTexts.T("正在准备下一项更新，你可以继续使用客户端。");
+        if (snapshot.CancellationRequested && snapshot.SucceededCount == snapshot.TotalCount)
+            return MiscTexts.T("本批更新已经实际完成；已经成功更新的工具不会因取消而回退。");
+        if (snapshot.FailedCount > 0) return MiscTexts.T("原有工具会保留。查看下方失败原因，处理后可再次点击全部更新。");
+        if (snapshot.CancellationRequested) return MiscTexts.T("未完成的更新已停止；已经成功更新的工具会保留。");
+        return MiscTexts.T("本次处理结果已保留在下方，只有校验通过并成功应用的工具才计入已更新。");
+    }
+
+    private static string BatchItemMessage(CloudToolBatchUpdateItemResult item)
+    {
+        string outcome = item.Outcome switch
+        {
+            CloudToolBatchUpdateOutcome.Queued => "等待更新",
+            CloudToolBatchUpdateOutcome.InProgress => "正在更新",
+            CloudToolBatchUpdateOutcome.PendingUpdate => "等待工具退出，尚未应用",
+            CloudToolBatchUpdateOutcome.Succeeded => "已更新",
+            CloudToolBatchUpdateOutcome.Failed => "更新失败",
+            _ => "未更新",
+        };
+        string version = item.InstalledVersion == item.TargetVersion
+            ? MiscTexts.TSub($"{item.TargetVersion}（同版本修订）")
+            : $"{item.InstalledVersion} → {item.TargetVersion}";
+        return $"{item.Name} · {version}\n{MiscTexts.T(outcome)}" +
+            (string.IsNullOrWhiteSpace(item.Message) ? "" : $" · {MiscTexts.T(item.Message)}");
+    }
+
+    private FrameworkElement CreateBatchConfirmationContent(CloudToolBatchUpdatePlan plan)
+    {
+        var template = (DataTemplate)Resources["BatchUpdateConfirmationTemplate"];
+        var content = (FrameworkElement)template.LoadContent();
+        ((TextBlock)content.FindName("ConfirmationSummary")).Text = MiscTexts.TSub(
+            $"更新 {plan.CandidateCount} 个工具 · 下载大小 {UpdateService.FormatSize(plan.TotalSizeBytes)}");
+        ((ItemsControl)content.FindName("ConfirmationItems")).ItemsSource = plan.Candidates.Select(candidate =>
+        {
+            string version = candidate.InstalledVersion == candidate.TargetVersion
+                ? MiscTexts.TSub($"{candidate.TargetVersion}（同版本修订）")
+                : $"{candidate.InstalledVersion} → {candidate.TargetVersion}";
+            return $"{candidate.Name}\n{version} · {UpdateService.FormatSize(candidate.SizeBytes)}";
+        }).ToArray();
+        return content;
+    }
+
+    private async void UpdateAll_Click(object sender, RoutedEventArgs e)
+    {
+        if (!_active || _batchStarting || _batchCanceling || _dialogOpen || _batchUpdates is null || _batchUpdates.IsRunning ||
+            _batchUpdates.Snapshot.PendingUpdateCount > 0) return;
+        long epoch = _epoch;
+        _batchStarting = true;
+        try
+        {
+            RenderBatchUpdate();
+            var plan = CloudToolService.GetBatchUpdatePlan();
+            if (plan.CandidateCount == 0)
+            {
+                Feedback("受管便携工具暂无可用更新。", epoch);
+                return;
+            }
+            var dialog = new ContentDialog
+            {
+                Title = MiscTexts.T("确认全部更新"), Content = CreateBatchConfirmationContent(plan),
+                PrimaryButtonText = MiscTexts.T("开始更新"), CloseButtonText = MiscTexts.T("取消"),
+                DefaultButton = ContentDialogButton.Close,
+            };
+            if (await ShowDialogAsync(dialog, epoch) != ContentDialogResult.Primary || !Current(epoch)) return;
+            // The coordinator owns the task. Navigating away must not cancel this confirmed plan.
+            var task = _batchUpdates.StartOrJoinAsync(plan);
+            _batchStarting = false;
+            Render();
+            BatchPanel.StartBringIntoView();
+            await task;
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"[AppCenter] batch update: {ex}");
+            Feedback("批量更新未能完成，请查看更新详情或刷新重试；原有工具保留。", epoch);
+        }
+        finally
+        {
+            _batchStarting = false;
+            if (Current(epoch))
+            {
+                try { Render(); }
+                catch (Exception ex) { Debug.WriteLine($"[AppCenter] batch render: {ex}"); }
+            }
+        }
+    }
+
+    private async void CancelBatch_Click(object sender, RoutedEventArgs e)
+    {
+        if (!_active || _batchCanceling || _batchUpdates is null) return;
+        var snapshot = _batchUpdates.Snapshot;
+        if (!snapshot.IsRunning && snapshot.PendingUpdateCount == 0) return;
+        long epoch = _epoch;
+        _batchCanceling = true;
+        try
+        {
+            RenderBatchUpdate();
+            await _batchUpdates.CancelAsync();
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"[AppCenter] batch cancellation: {ex}");
+            Feedback("部分更新未能取消，请核对更新详情后重试。", epoch);
+        }
+        finally
+        {
+            _batchCanceling = false;
+            if (_active)
+            {
+                try { Render(); }
+                catch (Exception ex) { Debug.WriteLine($"[AppCenter] cancellation render: {ex}"); }
+            }
+        }
+    }
+
+    private void ViewBatch_Click(object sender, RoutedEventArgs e)
+    {
+        if (_active && BatchPanel.Visibility == Visibility.Visible) BatchPanel.StartBringIntoView();
+    }
+
     private async void Refresh_Click(object sender, RoutedEventArgs e)
     {
         long epoch = _epoch;

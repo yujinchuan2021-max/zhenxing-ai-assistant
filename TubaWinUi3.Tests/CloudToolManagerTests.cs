@@ -623,10 +623,128 @@ public sealed class CloudToolManagerTests : IDisposable
         var newer = Zip(("app.exe", "MZnew"u8.ToArray()));
         SetRemote(Catalog(2, Tool(newer), Tool(newer, id: "unused-tool")), newer, newer);
         await manager.RefreshAsync();
+        Assert.True(manager.GetStates().Single(s => s.Id == "sample-tool").HasUpdate);
         await manager.UpdateManagedAsync();
         Assert.Equal("MZnew", File.ReadAllText(manager.GetInstalledEntryPath("sample-tool")!));
+        Assert.False(manager.GetStates().Single(s => s.Id == "sample-tool").HasUpdate);
         Assert.False(manager.IsManaged("unused-tool"));
         Assert.DoesNotContain(_transport.Requests, u => u.AbsolutePath.EndsWith("unused-tool.zip"));
+    }
+
+    [Fact]
+    public async Task ConfirmedBatchTarget_DriftIsRejectedBeforeDownloading()
+    {
+        var old = Zip(("app.exe", "MZold"u8.ToArray()));
+        var first = Catalog(1, Tool(old)); SeedCatalog(first); SetRemote(first, old);
+        var manager = Create(); Assert.True((await manager.InstallAsync("sample-tool")).Success);
+        var newer = Zip(("app.exe", "MZnew"u8.ToArray()));
+        var next = Tool(newer, version: "2.0"); SetRemote(Catalog(2, next), newer);
+        await manager.RefreshAsync(); _transport.Requests.Clear();
+        var result = await manager.UpdateExpectedAsync("sample-tool", "2.0", new string('a', 64));
+        Assert.False(result.Success); Assert.Empty(_transport.Requests);
+        Assert.Equal("MZold", File.ReadAllText(manager.GetInstalledEntryPath("sample-tool")!));
+        Assert.True((await manager.UpdateExpectedAsync("sample-tool", "2.0", next.Packages[0].Sha256)).Success);
+        Assert.Equal("MZnew", File.ReadAllText(manager.GetInstalledEntryPath("sample-tool")!));
+        Assert.True(manager.IsInstalledPackageExpected("sample-tool", "2.0", next.Packages[0].Sha256));
+        Assert.False(manager.IsInstalledPackageExpected("sample-tool", "2.0", new string('a', 64)));
+        Assert.False(manager.IsInstalledPackageExpected("sample-tool", "1.0", next.Packages[0].Sha256));
+    }
+
+    [Fact]
+    public async Task PendingRetry_UpdatesOnlyPreviouslyRequestedToolAndPinsItsTarget()
+    {
+        var old = Zip(("app.exe", "MZold"u8.ToArray()));
+        var first = Catalog(1, Tool(old), Tool(old, id: "another-tool"));
+        SeedCatalog(first); SetRemote(first, old, old);
+        bool running = false; var manager = Create(running: _ => running);
+        Assert.True((await manager.InstallAsync("sample-tool")).Success);
+        Assert.True((await manager.InstallAsync("another-tool")).Success);
+        var newer = Zip(("app.exe", "MZnew"u8.ToArray()));
+        SetRemote(Catalog(2, Tool(newer, version: "2.0"), Tool(newer, version: "2.0", id: "another-tool")), newer, newer);
+        await manager.RefreshAsync(); running = true;
+        Assert.True((await manager.UpdateAsync("sample-tool")).State!.PendingUpdate);
+        // A restart keeps the requested target but has no artificial retry delay in memory.
+        var restarted = Create(); _transport.Requests.Clear();
+        await restarted.ApplyPendingUpdatesAsync();
+        Assert.Equal("MZnew", File.ReadAllText(restarted.GetInstalledEntryPath("sample-tool")!));
+        Assert.Equal("MZold", File.ReadAllText(restarted.GetInstalledEntryPath("another-tool")!));
+        Assert.DoesNotContain(_transport.Requests, u => u.AbsolutePath.EndsWith("another-tool.zip"));
+        Assert.False(restarted.GetStates().Single(s => s.Id == "sample-tool").PendingUpdate);
+    }
+
+    [Fact]
+    public async Task PendingRetry_ChangedCatalogRequiresNewConfirmation()
+    {
+        var old = Zip(("app.exe", "MZold"u8.ToArray()));
+        var first = Catalog(1, Tool(old)); SeedCatalog(first); SetRemote(first, old);
+        bool running = false; var manager = Create(running: _ => running);
+        Assert.True((await manager.InstallAsync("sample-tool")).Success);
+        var newer = Zip(("app.exe", "MZnew"u8.ToArray()));
+        SetRemote(Catalog(2, Tool(newer, version: "2.0")), newer); await manager.RefreshAsync();
+        running = true; Assert.True((await manager.UpdateAsync("sample-tool")).State!.PendingUpdate);
+        var latest = Zip(("app.exe", "MZlatest"u8.ToArray()));
+        SetRemote(Catalog(3, Tool(latest, version: "3.0")), latest); await manager.RefreshAsync();
+        var restarted = Create(); _transport.Requests.Clear(); await restarted.ApplyPendingUpdatesAsync();
+        Assert.Empty(_transport.Requests);
+        Assert.Equal("MZold", File.ReadAllText(restarted.GetInstalledEntryPath("sample-tool")!));
+        var state = Assert.Single(restarted.GetStates());
+        Assert.False(state.PendingUpdate); Assert.True(state.HasUpdate); Assert.Equal(CloudToolStatus.Failed, state.Status);
+    }
+
+    [Fact]
+    public async Task PendingRetry_PreservesOwnerAndOnlyMatchingCancellationRemovesIntent()
+    {
+        var old = Zip(("app.exe", "MZold"u8.ToArray()));
+        var first = Catalog(1, Tool(old)); SeedCatalog(first); SetRemote(first, old);
+        bool running = false; var manager = Create(running: _ => running);
+        Assert.True((await manager.InstallAsync("sample-tool")).Success);
+        var newer = Zip(("app.exe", "MZnew"u8.ToArray()));
+        var target = Tool(newer, version: "2.0");
+        SetRemote(Catalog(2, target), newer); await manager.RefreshAsync(); running = true;
+        var owner = Guid.NewGuid().ToString("N");
+        Assert.True((await manager.UpdateExpectedAsync(target.Id, target.Version, target.Packages[0].Sha256,
+            pendingOwner: owner)).State!.PendingUpdate);
+        var restarted = Create(running: _ => true); _transport.Requests.Clear();
+        await restarted.ApplyPendingUpdatesAsync();
+        Assert.Empty(_transport.Requests);
+        Assert.False(await restarted.CancelPendingExpectedAsync(target.Id, target.Version,
+            target.Packages[0].Sha256, Guid.NewGuid().ToString("N")));
+        Assert.True(Assert.Single(restarted.GetStates()).PendingUpdate);
+        Assert.True(await restarted.CancelPendingExpectedAsync(target.Id, target.Version,
+            target.Packages[0].Sha256, owner));
+        Assert.False(Assert.Single(restarted.GetStates()).PendingUpdate);
+        Assert.Equal("MZold", File.ReadAllText(restarted.GetInstalledEntryPath(target.Id)!));
+    }
+
+    [Fact]
+    public async Task PendingRetry_QueuedCancellationCannotRecreateTheWithdrawnRequest()
+    {
+        var old = Zip(("app.exe", "MZold"u8.ToArray()));
+        var first = Catalog(1, Tool(old)); SeedCatalog(first); SetRemote(first, old);
+        bool running = false; var manager = Create(running: _ => running);
+        Assert.True((await manager.InstallAsync("sample-tool")).Success);
+        var newer = Zip(("app.exe", "MZnew"u8.ToArray()));
+        var target = Tool(newer, version: "2.0");
+        SetRemote(Catalog(2, target), newer); await manager.RefreshAsync(); running = true;
+        var owner = Guid.NewGuid().ToString("N");
+        Assert.True((await manager.UpdateExpectedAsync(target.Id, target.Version, target.Packages[0].Sha256,
+            pendingOwner: owner)).State!.PendingUpdate);
+        var restarted = Create(); _transport.Requests.Clear();
+        var gate = (SemaphoreSlim)typeof(CloudToolManager).GetField("_gate",
+            System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic)!.GetValue(restarted)!;
+        await gate.WaitAsync();
+        Task<bool> cancel; Task retry;
+        try
+        {
+            cancel = restarted.CancelPendingExpectedAsync(target.Id, target.Version, target.Packages[0].Sha256, owner);
+            retry = restarted.ApplyPendingUpdatesAsync();
+            Assert.False(cancel.IsCompleted); Assert.False(retry.IsCompleted);
+        }
+        finally { gate.Release(); }
+        Assert.True(await cancel); await retry;
+        Assert.Empty(_transport.Requests);
+        Assert.False(Assert.Single(restarted.GetStates()).PendingUpdate);
+        Assert.Equal("MZold", File.ReadAllText(restarted.GetInstalledEntryPath(target.Id)!));
     }
 
     [Fact]

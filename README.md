@@ -4,15 +4,15 @@
 
 枕星图吧AI助手是面向 Windows 的 AI 助手与电脑工具工作台。它帮助你明确目标、比较可用方案、复用本机软件、准备必要工具，再交接给选定的软件或 AI Agent。硬件信息、电脑工具、技能库、资讯和社区围绕这条使用路径展开。
 
-当前版本：**0.1.1 公开预览版（2026-10-07 下载修订，内部版本 0.1.1.1）**，采用 **WinUI 3 / .NET 10**，面向 **Windows x64 完整便携包**。本次修复下载来源、损坏包检查和安装状态，具体内容与验收范围见[修订说明](docs/releases/0.1.1-revision-20261007-downloads.md)。
+当前源码：**0.1.1 公开预览版（2026-10-07 应用中心批量更新修订，内部版本 0.1.1.2）**，采用 **WinUI 3 / .NET 10**，面向 **Windows x64 完整便携包**。本次增加已安装受管工具的「全部更新」、确认清单、后台任务进度和取消等待，具体行为见[修订说明](docs/releases/0.1.1-batch-update-20261007.md)。
 
 [**0.1.1 官网下载**](https://zhenxingai.com/download) · [GitHub 发行页与下载附件](https://github.com/yujinchuan2021-max/zhenxing-ai-assistant/releases/tag/v0.1.1-preview) · [最新云端维护说明](docs/releases/0.1.1-tool-acquisition-20261007.md) · [使用指南](docs/getting-started.md) · [常见问题](docs/faq.md)
 
-本次维护包文件名为 `ZhenxingAI-v0.1.1-preview-20261007-fix2.zip`，保留此前工具列表、主题和配置修改器修复，并完善官网直连、云端工具目录和下载完整性检查。公开名称继续使用 0.1.1；程序与更新清单的内部版本提升为 `0.1.1.1`，让旧版 `0.1.1.0` 能检测到本次修订。核对下载页的文件名、大小和 SHA-256 后再启动。
+本次维护包使用 `ZhenxingAI-v0.1.1-preview-20261007-fix3.zip`，保留此前工具列表、主题、配置修改器和下载可靠性修复。公开名称继续使用 0.1.1，程序内部版本提升为 `0.1.1.2`，让旧版 `0.1.1.0`、`0.1.1.1` 能检测到本次修订。完整包及公开发布结果分别核验；下载时以发行页的实际附件、大小和 SHA-256 为准。
 
-官网、GitHub 附件、云端工具目录与两个更新入口均已完成下载修订验收。此前的云端扩展新增 Victoria 与 PowerToys：当前客户端目录有 **74 个具备受管便携包的工具**，官网另提供 **5 个工具的 8 个原厂 EXE 文件**，可从[自有工具下载页](https://zhenxingai.com/tools/download)取得；PowerToys 按原厂安装流程操作。本次将此前剩余 33 项逐项整理为[获取与使用步骤](https://zhenxingai.com/tools/acquire)：FlashMaster 新增自有离线网页 ZIP 和对应源码，27 项原厂获取、3 项在线工具、1 项商店应用，1 项旧皮肤编辑器不适用并已隐藏。这些流程不计入受管便携 EXE 数字，也不表示 33 项都已取得镜像权限。详见[本次获取流程验收](docs/releases/0.1.1-tool-acquisition-20261007-validation.json)及[此前云端扩展验收](docs/releases/0.1.1-cloud-download-expansion-20261007-validation.json)。客户端完整包沿用[此前发布验收记录](docs/releases/0.1.1-revision-20261007-complete-validation.json)，这次未重新打包。
+当前客户端目录有 **74 个具备受管便携包的工具**，官网另提供 **5 个工具的 8 个原厂 EXE 文件**，可从[自有工具下载页](https://zhenxingai.com/tools/download)取得；PowerToys 按原厂安装流程操作。此前剩余 33 项已逐项整理为[获取与使用步骤](https://zhenxingai.com/tools/acquire)：FlashMaster 离线网页 ZIP 和 MemTest86 Free 官方 USB 启动 ZIP 使用自有服务器，另有 26 项原厂获取、3 项在线工具、1 项商店应用，1 项旧皮肤编辑器不适用并已隐藏。这些流程不计入受管便携 EXE 数字，也不表示 33 项都可自动安装或已取得镜像权限。服务器资源更新与客户端原生功能分别验收，历史范围见[获取流程验收](docs/releases/0.1.1-tool-acquisition-20261007-validation.json)及[云端扩展验收](docs/releases/0.1.1-cloud-download-expansion-20261007-validation.json)。
 
-[2026-10-07 修订包官网下载](https://zhenxingai.com/downloads/ZhenxingAI-v0.1.1-preview-20261007-fix2.zip) · [修订包 GitHub 下载](https://github.com/yujinchuan2021-max/zhenxing-ai-assistant/releases/download/v0.1.1-preview/ZhenxingAI-v0.1.1-preview-20261007-fix2.zip)
+[2026-10-07 修订包官网下载](https://zhenxingai.com/downloads/ZhenxingAI-v0.1.1-preview-20261007-fix3.zip) · [修订包 GitHub 下载](https://github.com/yujinchuan2021-max/zhenxing-ai-assistant/releases/download/v0.1.1-preview/ZhenxingAI-v0.1.1-preview-20261007-fix3.zip)
 
 [官网](https://zhenxingai.com/) · [枕星AI资讯](https://zhenxingai.com/ai-news/) · [枕星AI社区](https://community.zhenxingai.com/) · [反馈问题](https://github.com/yujinchuan2021-max/zhenxing-ai-assistant/issues)
 
@@ -53,7 +53,7 @@
 
 **还没有 AI 接口也能使用本机工具、应用中心和公开技能目录，并阅读服务器已更新的 AI 资讯。** 对话、AI 技能制作和个人资讯整理等模型功能需要可用的 AI 配置。外部 Agent 的账号、订阅和模型接入仍由相应产品决定，客户端的一次配置不会自动登录第三方软件。
 
-**升级时，请关闭旧版并完整解压到新文件夹。** 官网下载和程序更新使用同一修订包；核对文件名带 `20261007-fix2` 及其校验值后，完整解压并启动根目录中的启动器。当前更新流程提供下载、校验和新版提示，解压与重启仍需手动完成。升级前保留原数据目录；使用应用目录或自定义路径保存数据时，还需保留位置标记，步骤见[升级说明](docs/getting-started.md#升级与反馈)。
+**升级时，请关闭旧版并完整解压到新文件夹。** 核对文件名带 `20261007-fix3` 及其校验值后，完整解压并启动根目录中的启动器。客户端自身的更新流程提供下载、校验和新版提示，解压与重启仍需手动完成；应用中心的「全部更新」用于已安装的受管便携工具。升级前保留原数据目录；使用应用目录或自定义路径保存数据时，还需保留位置标记，步骤见[升级说明](docs/getting-started.md#升级与反馈)。
 
 ## 新版有哪些入口
 
@@ -95,7 +95,7 @@
 
 此前 r10 的社区授权会话修复、目标工作台、深浅主题、技能库瀑布流和桌面 Agent 优先等改动保留。真实账号注册、登录与部分原生环境仍有待验证，不能将此前隔离测试的结果视为所有场景已经通过。2026-10-05 首次发布的验证结果、已知限制和原包校验值见 [0.1.1 首次发行说明](docs/releases/0.1.1-preview.md)；[r10 历史说明](docs/releases/r10.md)继续保留。
 
-发布包提供 SHA-256 校验和对应源码。本次 `20261007-fix2` 维护源码以 `v0.1.1-revision-20261007-complete` 标签标记；既有发行与维护标签继续保留其对应源码。本项目启动器、主客户端与后端程序的签名和认证状态以对应修订的发布说明为准，不能把上游认证当成本项目的认证，说明见 [常见问题](docs/faq.md#当前版本有代码签名或第三方认证吗)。
+发布包提供 SHA-256 校验和对应源码。本次 `20261007-fix3` 维护源码以 `v0.1.1-revision-20261007-batch-update` 标签标记；既有发行与维护标签继续保留其对应源码。本项目启动器、主客户端与后端程序的签名和认证状态以对应修订的发布说明为准，不能把上游认证当成本项目的认证，说明见 [常见问题](docs/faq.md#当前版本有代码签名或第三方认证吗)。
 
 ## 数据与隐私
 

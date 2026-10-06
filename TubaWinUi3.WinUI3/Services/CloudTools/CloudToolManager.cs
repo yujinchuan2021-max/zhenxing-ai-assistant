@@ -95,7 +95,7 @@ public sealed class CloudToolManager
             if (_activity.TryGetValue(id, out var activity))
                 return activity with { EntryPath = state.EntryPath, IsManaged = state.IsManaged,
                     Version = state.Version, AvailableVersion = tool?.Version ?? activity.AvailableVersion,
-                    HasOperationActivity = true };
+                    HasOperationActivity = true, HasUpdate = state.HasUpdate };
             return state;
         }).ToArray();
     }
@@ -226,41 +226,103 @@ public sealed class CloudToolManager
     public Task<CloudToolOperationResult> UpdateAsync(string id, CancellationToken cancellationToken = default)
         => InstallOrUpdateAsync(id, cancellationToken);
 
-    public async Task UpdateManagedAsync(CancellationToken cancellationToken = default)
+    internal Task<CloudToolOperationResult> UpdateExpectedAsync(string id, string version, string sha256,
+        CancellationToken cancellationToken = default, string? pendingOwner = null)
+        => InstallOrUpdateAsync(id, cancellationToken, version, sha256, pendingOwner);
+
+    internal bool IsInstalledPackageExpected(string id, string version, string sha256)
+    {
+        if (!CloudToolValidation.IsId(id) || !CloudToolValidation.IsSha256(sha256)) return false;
+        var receipt = ReadReceipt(InstallDir(id), id);
+        return receipt is not null && receipt.Version == version &&
+            receipt.Sha256.Equals(sha256, StringComparison.OrdinalIgnoreCase) && GetInstalledEntryPath(id) is not null;
+    }
+
+    internal async Task<bool> CancelPendingExpectedAsync(string id, string version, string sha256, string owner)
+    {
+        if (!CloudToolValidation.IsId(id) || !CloudToolValidation.IsSha256(sha256) ||
+            owner.Length != 32 || !owner.All(Uri.IsHexDigit)) return false;
+        await _gate.WaitAsync().ConfigureAwait(false);
+        try
+        {
+            if (!PendingTargetMatches(id, version, sha256, owner)) return false;
+            ClearPending(id);
+            _activity.TryRemove(id, out _);
+            _retryAfter.TryRemove(id, out _);
+            RaiseChanged();
+            return true;
+        }
+        finally { _gate.Release(); }
+    }
+
+    // Only retry updates the user already requested. A newly published catalog is a notification.
+    public Task ApplyPendingUpdatesAsync(CancellationToken cancellationToken = default)
+        => UpdateManagedCoreAsync(onlyPending: true, cancellationToken);
+
+    public Task UpdateManagedAsync(CancellationToken cancellationToken = default)
+        => UpdateManagedCoreAsync(onlyPending: false, cancellationToken);
+
+    private async Task UpdateManagedCoreAsync(bool onlyPending, CancellationToken cancellationToken)
     {
         if (!_allowNetwork) return;
         foreach (var state in GetStates().Where(s => s.IsManaged && !s.IsBusy))
         {
             cancellationToken.ThrowIfCancellationRequested();
+            if (onlyPending && !state.PendingUpdate) continue;
             var tool = GetCatalog().FirstOrDefault(t => t.Id == state.Id);
             if (tool is null || CloudToolValidation.SelectPackage(tool, _architecture) is not { Kind: "portable-zip" } package)
                 continue;
+            var pendingJson = onlyPending ? ReadText(PendingPath(state.Id), 32768) : null;
+            if (onlyPending && pendingJson is null) continue;
             var receipt = ReadReceipt(InstallDir(state.Id), state.Id);
             if (receipt is null || (receipt.Version == tool.Version && receipt.Sha256.Equals(package.Sha256, StringComparison.OrdinalIgnoreCase)))
                 continue;
             if (IsUpdateBlocked(state.Id, package.Sha256)) continue;
             if (_retryAfter.TryGetValue(state.Id, out var retry) && retry > DateTimeOffset.UtcNow) continue;
             _retryAfter[state.Id] = DateTimeOffset.UtcNow.AddMinutes(5);
-            await UpdateAsync(state.Id, cancellationToken).ConfigureAwait(false);
+            if (onlyPending)
+                await InstallOrUpdateAsync(state.Id, cancellationToken, tool.Version, package.Sha256,
+                    ReadPendingOwner(pendingJson!), pendingJson).ConfigureAwait(false);
+            else await UpdateAsync(state.Id, cancellationToken).ConfigureAwait(false);
         }
     }
 
-    private async Task<CloudToolOperationResult> InstallOrUpdateAsync(string id, CancellationToken ct)
+    private async Task<CloudToolOperationResult> InstallOrUpdateAsync(string id, CancellationToken ct,
+        string? expectedVersion = null, string? expectedSha256 = null, string? pendingOwner = null,
+        string? expectedPendingJson = null)
     {
         if (!CloudToolValidation.IsId(id)) return new(false, "工具标识无效。", null);
         await _gate.WaitAsync(ct).ConfigureAwait(false);
         string? workspace = null;
         try
         {
+            ct.ThrowIfCancellationRequested();
             var tool = GetCatalog().FirstOrDefault(t => t.Id == id);
             if (tool is null) return Result(id, false, "工具不在当前官方目录中。");
             var package = CloudToolValidation.SelectPackage(tool, _architecture);
             if (package is null || package.Kind != "portable-zip")
                 return Fail(id, tool, "此工具需从来源网页获取，或当前平台暂不支持自动下载。", CloudToolStatus.Unsupported);
+            // Recheck the exact saved intent under the same gate as application/cancellation.
+            // A cancelled or replaced request must never be recreated by a background retry.
+            if (expectedPendingJson is not null)
+            {
+                if (ReadText(PendingPath(id), 32768) != expectedPendingJson)
+                    return Result(id, false, "待更新请求已取消或变化，未继续更新。");
+                if (!PendingTargetMatches(id, tool.Version, package.Sha256))
+                {
+                    ClearPending(id);
+                    return Fail(id, tool, "待处理的目标版本已变化，请重新确认更新；原版本已保留。");
+                }
+            }
+            if (expectedVersion is not null && (tool.Version != expectedVersion ||
+                !package.Sha256.Equals(expectedSha256, StringComparison.OrdinalIgnoreCase)))
+                return Result(id, false, "云端目标版本已变化，请刷新后重新确认更新；原版本已保留。");
             if (!_allowNetwork) return Fail(id, tool, "隔离模式未启用网络下载。");
 
             var target = InstallDir(id);
             var receipt = ReadReceipt(target, id);
+            if (expectedVersion is not null && (receipt is null || GetInstalledEntryPath(id) is null))
+                return Result(id, false, "本机受管工具状态已变化，请刷新后重试；没有安装其他工具。");
             if (Directory.Exists(target) && receipt is null)
                 return Fail(id, tool, "目标目录没有本应用的有效安装记录，已保留原文件。");
             if (receipt is not null && receipt.Version == tool.Version &&
@@ -272,7 +334,7 @@ public sealed class CloudToolManager
                 RaiseChanged();
                 return Result(id, true, "当前工具已就绪。");
             }
-            if (receipt is not null && _isInUse(target)) return Pending(id, tool, "工具正在运行，关闭后将重试更新。");
+            if (receipt is not null && _isInUse(target)) return Pending(id, tool, "工具正在运行，关闭后将重试更新。", pendingOwner);
             if (receipt is not null && !CloudToolValidation.HasFileBaseline(receipt))
                 return Fail(id, tool, "旧版本缺少文件校验记录，已保留；请先备份数据。");
 
@@ -297,7 +359,7 @@ public sealed class CloudToolManager
                 Files = packageFiles };
             ct.ThrowIfCancellationRequested();
             CloudToolValidation.CheckTree(stage);
-            if (receipt is not null && _isInUse(target)) return Pending(id, tool, "工具正在运行，已保留原版本，关闭后将重试。");
+            if (receipt is not null && _isInUse(target)) return Pending(id, tool, "工具正在运行，已保留原版本，关闭后将重试。", pendingOwner);
             if (receipt is not null)
             {
                 try { await PreserveUserFilesAsync(target, stage, receipt, packageFiles, timeout.Token).ConfigureAwait(false); }
@@ -313,7 +375,7 @@ public sealed class CloudToolManager
                 throw new InvalidDataException("安装记录校验失败，原版本已保留；请稍后重试。");
             ct.ThrowIfCancellationRequested();
             CloudToolValidation.CheckTree(stage);
-            if (receipt is not null && _isInUse(target)) return Pending(id, tool, "工具正在运行，已保留原版本，关闭后将重试。");
+            if (receipt is not null && _isInUse(target)) return Pending(id, tool, "工具正在运行，已保留原版本，关闭后将重试。", pendingOwner);
             Commit(id, stageName, stage, target, receipt);
             ClearPending(id);
             ClearBlockedUpdate(id);
@@ -751,13 +813,17 @@ public sealed class CloudToolManager
             if (pending && entry is not null) status = CloudToolStatus.PendingUpdate;
             var blocked = receipt is not null && tool is not null &&
                 CloudToolValidation.SelectPackage(tool, _architecture) is { } package && IsUpdateBlocked(id, package.Sha256);
+            var availablePackage = tool is null ? null : CloudToolValidation.SelectPackage(tool, _architecture);
+            var hasUpdate = receipt is not null && entry is not null && tool is not null &&
+                availablePackage is { Kind: "portable-zip" } && (receipt.Version != tool.Version ||
+                !receipt.Sha256.Equals(availablePackage.Sha256, StringComparison.OrdinalIgnoreCase));
             if (blocked && entry is not null) status = CloudToolStatus.Failed;
             return new(id, tool?.Name ?? receipt?.Name ?? id, receipt?.Version ?? "", tool?.Version ?? receipt?.Version ?? "",
                 status, Error: receipt is not null && entry is null ? "受管理工具的入口文件缺失或不可用。" :
                     blocked ? ConfigurationConflict :
                     status == CloudToolStatus.Unsupported ? "此工具需从来源网页获取，或当前平台暂不支持自动下载。" :
                     pending ? "工具待更新，关闭正在运行的工具后会重试。" : null,
-                EntryPath: entry, PendingUpdate: pending, IsManaged: receipt is not null);
+                EntryPath: entry, PendingUpdate: pending, IsManaged: receipt is not null) { HasUpdate = hasUpdate };
         }
         catch (Exception ex) when (ex is IOException or InvalidDataException or UnauthorizedAccessException)
         {
@@ -878,12 +944,46 @@ public sealed class CloudToolManager
     private static bool SafeTransactionName(string? name, string id) => name is not null && name.StartsWith(id + "-", StringComparison.Ordinal) &&
         name.Length == id.Length + 33 && name[(id.Length + 1)..].All(Uri.IsHexDigit);
 
-    private CloudToolOperationResult Pending(string id, CloudToolDefinition tool, string message)
+    private CloudToolOperationResult Pending(string id, CloudToolDefinition tool, string message, string? owner = null)
     {
-        WriteJson(PendingPath(id), new { id, version = tool.Version, retryAfter = DateTimeOffset.UtcNow.AddMinutes(5) });
+        var package = CloudToolValidation.SelectPackage(tool, _architecture);
+        WriteJson(PendingPath(id), new { id, version = tool.Version, sha256 = package?.Sha256, owner,
+            retryAfter = DateTimeOffset.UtcNow.AddMinutes(5) });
         _retryAfter[id] = DateTimeOffset.UtcNow.AddMinutes(5);
         Publish(id, tool, CloudToolStatus.PendingUpdate, 0, message, pending: true);
         return Result(id, false, message);
+    }
+
+    private bool PendingTargetMatches(string id, string version, string sha256, string? owner = null)
+    {
+        try
+        {
+            var json = ReadText(PendingPath(id), 32768);
+            if (json is null) return false;
+            using var data = JsonDocument.Parse(json);
+            var value = data.RootElement;
+            return value.ValueKind == JsonValueKind.Object &&
+                value.TryGetProperty("id", out var savedId) && savedId.ValueKind == JsonValueKind.String && savedId.GetString() == id &&
+                value.TryGetProperty("version", out var savedVersion) && savedVersion.ValueKind == JsonValueKind.String && savedVersion.GetString() == version &&
+                value.TryGetProperty("sha256", out var savedSha) && savedSha.ValueKind == JsonValueKind.String &&
+                sha256.Equals(savedSha.GetString(), StringComparison.OrdinalIgnoreCase) &&
+                (owner is null || value.TryGetProperty("owner", out var savedOwner) &&
+                    savedOwner.ValueKind == JsonValueKind.String && savedOwner.GetString() == owner);
+        }
+        catch (Exception ex) when (ex is IOException or InvalidDataException or UnauthorizedAccessException or JsonException)
+        { return false; }
+    }
+
+    private static string? ReadPendingOwner(string json)
+    {
+        try
+        {
+            using var data = JsonDocument.Parse(json);
+            return data.RootElement.ValueKind == JsonValueKind.Object &&
+                data.RootElement.TryGetProperty("owner", out var owner) && owner.ValueKind == JsonValueKind.String &&
+                owner.GetString() is { Length: 32 } value && value.All(Uri.IsHexDigit) ? value : null;
+        }
+        catch (JsonException) { return null; }
     }
 
     private CloudToolOperationResult Fail(string id, CloudToolDefinition? tool, string message,

@@ -18,11 +18,48 @@ public static class CloudToolService
     private static CancellationTokenSource? _lifetime;
     private static Task? _pollTask;
     private static Task? _eventsTask;
+    private static readonly Dictionary<CloudToolBatchUpdateCandidate, (CloudToolManager Manager, string Owner)> BatchOwners
+        = new(ReferenceEqualityComparer.Instance);
+    private static readonly CloudToolBatchUpdateCoordinator Batch = new(UpdateBatchToolAsync,
+        id => GetStates().FirstOrDefault(state => state.Id == id),
+        id => GetInstalledEntryPath(id) is not null, CancelBatchPendingAsync,
+        candidate => TryGetManager()?.IsInstalledPackageExpected(candidate.Id,
+            candidate.TargetVersion, candidate.PackageSha256) == true);
 
     public static event EventHandler? Changed;
     private static string? _initializationError;
     public static string? LastRefreshError => TryGetManager()?.LastRefreshError ?? _initializationError;
     internal static CloudToolManager? OverrideForTests { get; set; }
+    internal static CloudToolBatchUpdateCoordinator? BatchUpdatesOverrideForTests { get; set; }
+    public static CloudToolBatchUpdateCoordinator BatchUpdates => BatchUpdatesOverrideForTests ?? Batch;
+    public static CloudToolBatchUpdatePlan GetBatchUpdatePlan() => CloudToolBatchUpdatePlanner.CreatePlan(
+        GetStates(), GetCatalog(), UpdateService.CurrentArchitecture, id => GetInstalledEntryPath(id) is not null);
+
+    private static async Task<CloudToolOperationResult> UpdateBatchToolAsync(
+        CloudToolBatchUpdateCandidate candidate, CancellationToken ct)
+    {
+        var manager = TryGetManager();
+        if (manager is null) return await Unavailable().ConfigureAwait(false);
+        var owner = Guid.NewGuid().ToString("N");
+        var result = await manager.UpdateExpectedAsync(candidate.Id, candidate.TargetVersion,
+            candidate.PackageSha256, ct, owner).ConfigureAwait(false);
+        lock (Sync)
+        {
+            if (result.State?.PendingUpdate == true) BatchOwners[candidate] = (manager, owner);
+            else BatchOwners.Remove(candidate);
+        }
+        return result;
+    }
+
+    private static async Task<bool> CancelBatchPendingAsync(CloudToolBatchUpdateCandidate candidate)
+    {
+        (CloudToolManager Manager, string Owner) request;
+        lock (Sync) if (!BatchOwners.TryGetValue(candidate, out request)) return false;
+        var cancelled = await request.Manager.CancelPendingExpectedAsync(candidate.Id,
+            candidate.TargetVersion, candidate.PackageSha256, request.Owner).ConfigureAwait(false);
+        if (cancelled) lock (Sync) BatchOwners.Remove(candidate);
+        return cancelled;
+    }
 
     private static CloudToolManager Manager
     {
@@ -73,7 +110,7 @@ public static class CloudToolService
         var manager = TryGetManager();
         if (manager is null) return;
         await manager.RefreshAsync(ct).ConfigureAwait(false);
-        if (manager.LastRefreshError is null) await manager.UpdateManagedAsync(ct).ConfigureAwait(false);
+        if (manager.LastRefreshError is null) await manager.ApplyPendingUpdatesAsync(ct).ConfigureAwait(false);
     }
 
     // Tests and isolated GUI probes cannot connect to the real catalog or SSE endpoint.
@@ -196,6 +233,7 @@ public static class CloudToolService
 
     private static void OnChanged(object? sender, EventArgs e)
     {
+        BatchUpdates.RefreshPendingOutcomes();
         foreach (var subscriber in Changed?.GetInvocationList() ?? [])
             try { ((EventHandler)subscriber)(sender, e); } catch { }
     }

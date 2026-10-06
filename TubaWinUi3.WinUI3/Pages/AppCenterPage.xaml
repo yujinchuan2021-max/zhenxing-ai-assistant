@@ -5,6 +5,25 @@
       xmlns:appmgmt="using:TubaWinUi3.Services.AppManagement"
       NavigationCacheMode="Enabled">
     <Page.Resources>
+        <DataTemplate x:Key="BatchUpdateTextTemplate">
+            <TextBlock Text="{Binding}" TextWrapping="Wrap" Margin="0,0,0,10"
+                       Foreground="{ThemeResource TextFillColorPrimaryBrush}"/>
+        </DataTemplate>
+        <DataTemplate x:Key="BatchUpdateConfirmationTemplate">
+            <StackPanel Spacing="12">
+                <TextBlock x:Name="ConfirmationSummary" FontWeight="SemiBold" TextWrapping="Wrap"
+                           Foreground="{ThemeResource TextFillColorPrimaryBrush}"/>
+                <TextBlock Text="将从自有下载服务更新以下已安装的受管便携工具。更新范围来自完整清单，不受搜索或状态筛选影响。"
+                           TextWrapping="Wrap" Foreground="{ThemeResource TextFillColorSecondaryBrush}"/>
+                <ScrollViewer MaxHeight="280" HorizontalScrollMode="Disabled"
+                              HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto"
+                              HorizontalContentAlignment="Stretch">
+                    <ItemsControl x:Name="ConfirmationItems" ItemTemplate="{StaticResource BatchUpdateTextTemplate}"/>
+                </ScrollViewer>
+                <TextBlock Text="请先保存工具中的工作。正在运行的工具会等待关闭后再更新；本地软件、厂商安装器、商店应用与账号流程仍需分别处理。"
+                           TextWrapping="Wrap" Foreground="{ThemeResource TextFillColorSecondaryBrush}"/>
+            </StackPanel>
+        </DataTemplate>
         <DataTemplate x:Key="AppItemTemplate" x:DataType="appmgmt:AppCenterItem">
             <Border Margin="0,0,0,8" Padding="14,12" CornerRadius="10" BorderThickness="1"
                     Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
@@ -67,15 +86,28 @@
             <TextBlock FontSize="14" TextWrapping="Wrap" Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                        Text="管理本机已有的软件，查看更新和下载任务。需要新工具，可到「图吧工具」选择。"/>
         </StackPanel>
-        <StackPanel x:Name="Toolbar" Grid.Row="1" Spacing="8" Orientation="Horizontal" SizeChanged="Toolbar_SizeChanged">
-            <TextBox x:Name="SearchBox" PlaceholderText="搜索软件、用途或版本" MinWidth="170" Width="260" MaxLength="100" TextChanged="FilterChanged"/>
-            <ComboBox x:Name="StatusFilter" MinWidth="145" SelectedIndex="0" SelectionChanged="FilterChanged">
-                <ComboBoxItem Content="全部状态" Tag="all"/><ComboBoxItem Content="已安装" Tag="installed"/>
-                <ComboBoxItem Content="需处理" Tag="attention"/><ComboBoxItem Content="可更新" Tag="update"/>
-                <ComboBoxItem Content="正在处理" Tag="busy"/><ComboBoxItem Content="入口待确认" Tag="missing"/>
-            </ComboBox>
-            <Button x:Name="RefreshButton" Content="刷新" Click="Refresh_Click"/>
-            <Button x:Name="RegisterButton" Content="登记已安装的软件" Click="RegisterSoftware_Click"/>
+        <StackPanel Grid.Row="1" Spacing="10">
+            <StackPanel x:Name="Toolbar" Spacing="8" Orientation="Horizontal" SizeChanged="Toolbar_SizeChanged">
+                <TextBox x:Name="SearchBox" PlaceholderText="搜索软件、用途或版本" MinWidth="170" Width="260" MaxLength="100" TextChanged="FilterChanged"/>
+                <ComboBox x:Name="StatusFilter" MinWidth="145" SelectedIndex="0" SelectionChanged="FilterChanged">
+                    <ComboBoxItem Content="全部状态" Tag="all"/><ComboBoxItem Content="已安装" Tag="installed"/>
+                    <ComboBoxItem Content="需处理" Tag="attention"/><ComboBoxItem Content="可更新" Tag="update"/>
+                    <ComboBoxItem Content="正在处理" Tag="busy"/><ComboBoxItem Content="入口待确认" Tag="missing"/>
+                </ComboBox>
+                <Button x:Name="RefreshButton" Content="刷新" Click="Refresh_Click"/>
+                <Button x:Name="RegisterButton" Content="登记已安装的软件" Click="RegisterSoftware_Click"/>
+            </StackPanel>
+            <Grid ColumnSpacing="12">
+                <Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+                <Button x:Name="BatchUpdateButton" Content="全部更新 (0)" IsEnabled="False"
+                        Style="{ThemeResource AccentButtonStyle}" Click="UpdateAll_Click"/>
+                <StackPanel Grid.Column="1" VerticalAlignment="Center" Spacing="2">
+                    <TextBlock x:Name="BatchScopeText" FontSize="12" TextWrapping="Wrap"
+                               Text="仅更新已安装的受管便携工具" Foreground="{ThemeResource TextFillColorSecondaryBrush}"/>
+                    <HyperlinkButton x:Name="BatchViewButton" Content="查看更新进度" Visibility="Collapsed"
+                                     HorizontalAlignment="Left" Padding="0,4" Click="ViewBatch_Click"/>
+                </StackPanel>
+            </Grid>
         </StackPanel>
         <StackPanel Grid.Row="2" Spacing="5">
             <TextBlock x:Name="SummaryText" FontSize="12" TextWrapping="Wrap" Foreground="{ThemeResource TextFillColorSecondaryBrush}"/>
@@ -85,6 +117,32 @@
         <ScrollViewer Grid.Row="3" HorizontalScrollMode="Disabled" HorizontalScrollBarVisibility="Disabled"
                       HorizontalContentAlignment="Stretch" VerticalScrollBarVisibility="Auto">
             <StackPanel Spacing="18">
+                <Border x:Name="BatchPanel" Visibility="Collapsed" Padding="16" CornerRadius="10" BorderThickness="1"
+                        Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                        BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}">
+                    <StackPanel Spacing="10">
+                        <Grid ColumnSpacing="12">
+                            <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                            <TextBlock x:Name="BatchTitleText" FontSize="17" FontWeight="SemiBold" TextWrapping="Wrap"
+                                       VerticalAlignment="Center" Foreground="{ThemeResource TextFillColorPrimaryBrush}"/>
+                            <Button x:Name="BatchCancelButton" Grid.Column="1" Content="取消更新" Click="CancelBatch_Click"/>
+                        </Grid>
+                        <TextBlock x:Name="BatchSummaryText" FontSize="12" TextWrapping="Wrap"
+                                   Foreground="{ThemeResource TextFillColorSecondaryBrush}"/>
+                        <ProgressBar x:Name="BatchProgressBar" Minimum="0" Maximum="100"
+                                     AutomationProperties.Name="批量工具更新进度"/>
+                        <TextBlock x:Name="BatchCurrentText" TextWrapping="Wrap"
+                                   Foreground="{ThemeResource TextFillColorPrimaryBrush}"/>
+                        <Expander x:Name="BatchDetailsExpander" Header="更新详情" HorizontalAlignment="Stretch"
+                                  HorizontalContentAlignment="Stretch">
+                            <ScrollViewer MaxHeight="240" HorizontalScrollMode="Disabled"
+                                          HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto"
+                                          HorizontalContentAlignment="Stretch">
+                                <ItemsControl x:Name="BatchDetailsList" ItemTemplate="{StaticResource BatchUpdateTextTemplate}"/>
+                            </ScrollViewer>
+                        </Expander>
+                    </StackPanel>
+                </Border>
                 <StackPanel x:Name="CloudSection" Spacing="8" Visibility="Collapsed">
                     <TextBlock FontSize="17" FontWeight="SemiBold" Text="我的工具" Foreground="{ThemeResource TextFillColorPrimaryBrush}"/>
                     <TextBlock x:Name="CloudEmpty" Text="没有符合筛选条件的本机工具或下载任务。" TextWrapping="Wrap" FontSize="12" Foreground="{ThemeResource TextFillColorSecondaryBrush}"/>

@@ -1,0 +1,50 @@
+{
+  "schema": "zxai-batch-update-source-validation/1",
+  "publicVersion": "0.1.1",
+  "internalVersion": "0.1.1.2",
+  "unitTests": {
+    "passed": 348,
+    "failed": 0,
+    "skipped": 0,
+    "scope": "CloudTool, AppCenter, PreviewUpdateChannel, DistributionIdentity, UpdateService",
+    "trxSha256": "f37e579d32dc87e1d439946ca64558a9400295fbf3aee12119bba62b56734c5f"
+  },
+  "nativeUi": {
+    "passed": 6,
+    "failed": 0,
+    "processExitCode": 0,
+    "themes": [
+      "light",
+      "dark",
+      "light"
+    ],
+    "widths": [
+      360,
+      1120
+    ],
+    "cases": [
+      "AppCenter_NativeTemplates_Narrow_TwoThemes",
+      "AppCenter_NativeTemplates_Wide_TwoThemes",
+      "AppCenter_RegisteredClaude_VerifiedUninstall_NativeTemplates_TwoThemes",
+      "AppCenter_CloudSnapshot_OnlyLocalAndRequestedTasks_Offline",
+      "AppCenter_BatchUpdate_Narrow_TwoThemes",
+      "AppCenter_BatchUpdate_Wide_TwoThemes"
+    ],
+    "logSha256": "9b011d1d39fe7322ef4fafdd6878217738c8aad243d47e834296165ed10af372",
+    "processReceiptSha256": "bc33cdbe906dec702e7eb53340bd25d25b91f3389c15bdc33641273c42c8a985",
+    "syntheticOnly": true,
+    "realHttpRequests": 0,
+    "vendorProgramsExecuted": false
+  },
+  "earlierNativeFailure": {
+    "combinedHostCompleted": false,
+    "processExitCode": -1073741189,
+    "passedBeforeCrash": 4,
+    "repair": "Test host now retains one shared native control resource dictionary for deferred layout across cases; product UI did not change during this repair.",
+    "finalCombinedRunPassed": true
+  },
+  "limitations": [
+    "No real vendor installation, uninstall, account login or USB write was executed.",
+    "Client package and production channels require separate verification."
+  ]
+}

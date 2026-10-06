@@ -28,4 +28,4 @@
 
 ## 后续 33 项获取维护
 
-[完整处理说明](releases/0.1.1-tool-acquisition-20261007.md)记录每项的实际获取方式。[统一获取页面](https://zhenxingai.com/tools/acquire)与[公开数据](catalogs/tool-acquisition.json)分别展示原厂下载、在线工具、商店和停用条目；新增 FlashMaster 2.6.0 自有离线网页 ZIP、精确对应源码和必要许可。它不属于 portable-EXE，不增加客户端便携目录现有的 74 个工具/86 个架构入口或原厂 EXE 数字。Dism++、FanControl 仍有原厂 GitHub 依赖，MemTest86 原包未取得，鲁大师商业分发条件未确认为已满足，没有冒充全量国内镜像。
+[完整处理说明](releases/0.1.1-tool-acquisition-20261007.md)记录每项的实际获取方式。[统一获取页面](https://zhenxingai.com/tools/acquire)与[公开数据](catalogs/tool-acquisition.json)分别展示原厂下载、在线工具、商店和停用条目；新增 FlashMaster 2.6.0 自有离线网页 ZIP、精确对应源码和必要许可，随后上线 MemTest86 Free 11.7 Build 1000 原样 UEFI 启动 ZIP 及三份许可/归属资料。获取目录现为 revision 2；两者都不属于 portable-EXE，不增加客户端便携目录现有的 74 个工具/86 个架构入口或原厂 EXE 数字。MemTest86 按作者通用二进制分发说明、保持版本不过时的条件及当前原包协议维护，下一版仍须完整核查，用户自行确认 U 盘写入；[上线验收记录](releases/0.1.1-memtest86-acquisition-20261007-validation.json)只证明文件与目录完整性。Dism++、FanControl 仍有原厂 GitHub 依赖，鲁大师商业分发条件未确认为已满足，没有冒充全量国内镜像。

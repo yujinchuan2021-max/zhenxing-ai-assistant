@@ -28,8 +28,8 @@ public class PreviewUpdateChannelTests
     {
         Assert.Equal("https://zhenxingai.com/updates/preview.json", UpdateService.OwnUpdateManifestUrl);
         Assert.Equal("preview", UpdateService.OwnChannelName);
-        Assert.Equal(new Version(0, 1, 1, 1), UpdateService.CurrentVersion);
-        Assert.Equal("0.1.1.1", typeof(UpdateService).Assembly.GetCustomAttribute<AssemblyFileVersionAttribute>()!.Version);
+        Assert.Equal(new Version(0, 1, 1, 2), UpdateService.CurrentVersion);
+        Assert.Equal("0.1.1.2", typeof(UpdateService).Assembly.GetCustomAttribute<AssemblyFileVersionAttribute>()!.Version);
         Assert.Equal("0.1.1-preview", typeof(UpdateService).Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>()!.InformationalVersion);
         Assert.False(UpdateService.UpstreamUpdatesEnabled);
     }
@@ -42,6 +42,8 @@ public class PreviewUpdateChannelTests
     [InlineData("0.1.1", "0.1.1.0", UpdateCheckStatus.UpToDate)]
     [InlineData("0.1.1.1", "0.1.1", UpdateCheckStatus.UpdateAvailable)]
     [InlineData("0.1.1.1", "0.1.1.1", UpdateCheckStatus.UpToDate)]
+    [InlineData("0.1.1.2", "0.1.1.1", UpdateCheckStatus.UpdateAvailable)]
+    [InlineData("0.1.1.2", "0.1.1.2", UpdateCheckStatus.UpToDate)]
     [InlineData("0.1.1.0", "0.1.1.1", UpdateCheckStatus.UpToDate)]
     [InlineData("0.1.0.99", "0.1.1", UpdateCheckStatus.UpToDate)]
     public void VersionComparison_DoesNotRepeatEquivalentRelease_AndKeepsRevision(
