@@ -1,13 +1,13 @@
 {
   "schema": "zhenxing-git-source-manifest/1",
-  "snapshotKind": "0.1.1 completed publication source and documentation (2026-10-07)",
   "referenceReleaseTag": "v0.1.1-preview",
   "referenceSourceTag": "v0.1.1-revision-20261007-complete",
   "baseCodeCommit": "e93d6b3286c871db9122d4b13311b4d01d1587fb",
-  "releaseNote": "The v0.1.1-revision-20261007-complete tag identifies the exact 0.1.1.1 application source. This index manifest also includes final publication documentation; complete package and production readback evidence is recorded in docs/releases/0.1.1-revision-20261007-complete-validation.json. Prior release tags, archives and verification records are preserved.",
   "hashScope": "Git index blobs normalized by .gitattributes; excludes this manifest.",
-  "fileCount": 1964,
-  "totalBytes": 215793365,
+  "snapshotKind": "0.1.1 unchanged application with published cloud download expansion and website source (2026-10-07)",
+  "releaseNote": "Application source and existing fix2 client package remain bound to v0.1.1-revision-20261007-complete / e93d6b3286c871db9122d4b13311b4d01d1587fb. This index snapshot additionally includes the subsequently published website download page and cloud-resource documentation; see docs/releases/0.1.1-cloud-download-expansion-20261007-validation.json. Vendor installers, source archives and private operator artifacts are not included. Prior application release tags, archives and validation records remain unchanged.",
+  "fileCount": 1967,
+  "totalBytes": 215842345,
   "files": [
     {
       "path": ".all-contributorsrc",
@@ -125,9 +125,9 @@
     },
     {
       "path": "README.md",
-      "gitBlob": "67122c6f6f935667d15cf74ab264dc71f538c262",
-      "bytes": 14726,
-      "sha256": "659fbd6bd66786419d08415cb1108ca46441cd3d51cddf2aba5eb8d363ab3cee"
+      "gitBlob": "4a7038f1d2a9d01291fb0d725336c094b9bd97fd",
+      "bytes": 14980,
+      "sha256": "046c6f4f29cc690959c11ee1604738c3ef381096048fe9fdbfeb757299bbbbb5"
     },
     {
       "path": "SECURITY.md",
@@ -9485,9 +9485,9 @@
     },
     {
       "path": "docs/build.md",
-      "gitBlob": "84db09b108711e61888ec791507333bf52df055b",
-      "bytes": 10281,
-      "sha256": "8b33cd00e67c3fb4eaec26476052c56771525b3d0e8cafed0d28082a35ccaaa4"
+      "gitBlob": "d4b535ef493efa9d6d7174a8481689da912dcfd1",
+      "bytes": 10382,
+      "sha256": "e3ca573f1bc13e26116161c63555c7d499d4d487337beb3bcc5cd7640c8aa15d"
     },
     {
       "path": "docs/faq.md",
@@ -9500,6 +9500,18 @@
       "gitBlob": "d4a4f006de9bf4fe5261da713f94b0305cc7f433",
       "bytes": 8418,
       "sha256": "a3ad1827714f111bfe9e2d55a993acfd0a8658ea489c67e269bfb5cebe27dddf"
+    },
+    {
+      "path": "docs/releases/0.1.1-cloud-download-expansion-20261007-validation.json",
+      "gitBlob": "208bb8bf22dfe2958679ab70963a8a27fb0567b8",
+      "bytes": 13029,
+      "sha256": "b17618c100fa5170325780bc2dce3663a7e8714a2908687e9c891e7ff6e35a9b"
+    },
+    {
+      "path": "docs/releases/0.1.1-cloud-download-expansion-20261007.md",
+      "gitBlob": "6e58c7467d4b422b06b71fb73a13b3367573fba3",
+      "bytes": 4740,
+      "sha256": "1c9ec4d5fdcec230808a697df84c8c5587e446a7c17890075153fe0b990ebe51"
     },
     {
       "path": "docs/releases/0.1.1-preview.md",
@@ -9545,9 +9557,9 @@
     },
     {
       "path": "docs/releases/0.1.1-revision-20261007-downloads.md",
-      "gitBlob": "e0fd7e3d4009494db693ef3f1cdf99f3c052de15",
-      "bytes": 8127,
-      "sha256": "8610bdb98a99b0ee93733b03627e8238f9b28d136514f49509f9ffc5836d400b"
+      "gitBlob": "a3aa192634566fc73a9867807e3d7ebee026de72",
+      "bytes": 8354,
+      "sha256": "2dfb8f501f6602ff54f6103e7a2d52fa0320a73dd43f540e055c902bf00d9658"
     },
     {
       "path": "docs/releases/0.1.1-source-manifest.json",
@@ -9575,15 +9587,15 @@
     },
     {
       "path": "docs/third-party-downloads.md",
-      "gitBlob": "097a6973f0908746639da204de056ffa5b9dfdd7",
-      "bytes": 3130,
-      "sha256": "2c2669796aab361acaf269d4a4aabc9d7bb2f051b83b06d840e7e879c0af1daa"
+      "gitBlob": "18bdd0c0c874d108738d8cf1c31ea92f1398efea",
+      "bytes": 4312,
+      "sha256": "e98c32368d03eacb4dbe87045d846d00de3c0e7f97d8f3a9f82aa927c9efc0fc"
     },
     {
       "path": "docs/tool-distribution.md",
-      "gitBlob": "1d3284a96f9697a5d80994a15cc395582f93054d",
-      "bytes": 10197,
-      "sha256": "fb4ecc03ecc7e9706cf44e43e1ac1035cfbb03f80c831b3c5031c57fee97f871"
+      "gitBlob": "e3b1aa54c305b6ba7002cc3635aa37a9ae0785e7",
+      "bytes": 15687,
+      "sha256": "4174b2eaea3da1659f908fd03e095812cd9e277d63a5bc9a2c1dbb7e96ad90b4"
     },
     {
       "path": "file-transfer-web/.gitignore",
@@ -11555,9 +11567,9 @@
     },
     {
       "path": "website-winui3/src/zxai/pages/DocsPage.vue",
-      "gitBlob": "8442297f8955defe07b5176e0ddaed8384ebcc89",
-      "bytes": 16329,
-      "sha256": "eab7f707774941e389bc335243ae42e36701037deff9a680d42fa0d5a6f8747a"
+      "gitBlob": "5268f246bd0ca9fc0edce66af1d4808b50264482",
+      "bytes": 17153,
+      "sha256": "61168253e93854bc1684b54bd8709f8dff4f669f7f532e616a7ff8c00e280f8c"
     },
     {
       "path": "website-winui3/src/zxai/pages/DownloadPage.vue",
@@ -11572,6 +11584,12 @@
       "sha256": "ec8b69b183c922b87dda3a664e732d1bc1917206bad2b1662911ba610ebf01b8"
     },
     {
+      "path": "website-winui3/src/zxai/pages/ToolDownloadsPage.vue",
+      "gitBlob": "f8f233d0fc67d357851d7b8b55dc4cd134d61da8",
+      "bytes": 22464,
+      "sha256": "02d69a4df40c18407d442c14364c613f18badff5509011722ad516d1e818f525"
+    },
+    {
       "path": "website-winui3/src/zxai/progress.ts",
       "gitBlob": "2bf27e3d942a08f292c61511341313cf5aefedf3",
       "bytes": 8913,
@@ -11579,15 +11597,15 @@
     },
     {
       "path": "website-winui3/src/zxai/router.ts",
-      "gitBlob": "425e8c0ed5de236a412fe410fa1f44c0fa82a0ad",
-      "bytes": 1670,
-      "sha256": "c907416ae82d5f6cde89a824284e9c51abe587484eedc83d8a890f44da5c1526"
+      "gitBlob": "3f1885e54f3a39dba8caf4b6eccd27cdc2690a4f",
+      "bytes": 1788,
+      "sha256": "08dc4d11c83614d4aada4858f3dc3ce4beebc63664152f7e1686b63eab6dac2a"
     },
     {
       "path": "website-winui3/src/zxai/seo.ts",
-      "gitBlob": "0220b2a58aa7c5feb8cb96897978d29792dea4b1",
-      "bytes": 7411,
-      "sha256": "3ac084e2a06e73d62a382257cdb508fd491a2324d98bbc12172d7b735c655fc2"
+      "gitBlob": "2c86a7040aea005a32a391cc40dd860231674022",
+      "bytes": 7962,
+      "sha256": "f2a078d9ef984b1a7b6f8362fcea2f81958b06484884b08300f15cbb5767180e"
     },
     {
       "path": "website-winui3/src/zxai/site.config.ts",

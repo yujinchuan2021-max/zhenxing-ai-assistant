@@ -34,6 +34,7 @@
       <section id="third-party-licences">
         <h2 class="zx-h3" style="margin-bottom: 14px">{{ t('第三方工具：许可与源码', 'Third-party tools: licences and source') }}</h2>
         <p>{{ t('这些入口由官网直接提供，无需先访问 GitHub。安装器保留原厂文件，具体许可与使用条件请阅读相应说明。安装过程中需要的授权或人工步骤仍以厂商流程为准，客户端按检测和安装结果显示状态。', 'These files are served directly by the official site; visiting GitHub first is not required. Installers retain the original vendor files. Read the relevant licence and usage terms. Required authorization or personal installation steps follow the vendor’s process, and the client reports the detected installation result.') }}</p>
+        <p style="margin-top: 14px"><RouterLink to="/tools/download">{{ t('从枕星下载原厂工具文件 →', 'Download original vendor files from 枕星 →') }}</RouterLink>{{ t('。选择匹配的 Windows 版本，下载后按厂商说明安装或运行。', '. Choose the matching Windows version, then follow the vendor’s installation or launch instructions.') }}</p>
         <ul class="zx-list zx-list--dense" style="margin-top: 14px">
           <li>Optimizer · <a href="https://zhenxingai.com/downloads/installers/optimizer-license.txt">{{ t('许可', 'Licence') }}</a> · <a href="https://zhenxingai.com/downloads/installers/optimizer-source-2.28.1.zip">{{ t('对应源码 2.28.1', 'Corresponding source 2.28.1') }}</a></li>
           <li>PawnIO · <a href="https://zhenxingai.com/downloads/installers/pawnio-license-readme.txt">{{ t('许可说明', 'Licence notice') }}</a> · <a href="https://zhenxingai.com/downloads/installers/pawnio-source-2.2.0.zip">{{ t('对应源码 2.2.0', 'Corresponding source 2.2.0') }}</a></li>
@@ -41,6 +42,7 @@
           <li>UniGetUI · <a href="https://zhenxingai.com/downloads/installers/unigetui-license.txt">{{ t('许可', 'Licence') }}</a></li>
         </ul>
         <p class="zx-note" style="margin-top: 14px">{{ t('LHM、DDU 与 y-cruncher 的许可文件及适用的对应源码随工具包提供。各工具保留自身许可，不以客户端开源许可替代厂商许可。', 'Licence files and applicable corresponding source for LHM, DDU and y-cruncher accompany their tool packages. Each tool retains its own terms; the client’s open-source licence does not replace the vendor’s licence.') }}</p>
+        <p class="zx-note" style="margin-top: 14px">{{ t('Victoria 由 HDD.by 发布并保留原作者归属；产品介绍与支持信息请查看', 'Victoria is published by HDD.by and retains the original author attribution. For product information and support, visit ') }} <a href="https://hdd.by" target="_blank" rel="noopener noreferrer">{{ t('Victoria 原作者官网', 'Victoria author’s official site') }}</a>{{ t('。', '.') }}</p>
       </section>
       <section id="skills">
         <h2 class="zx-h3" style="margin-bottom: 14px">{{ t('技能：先看适用条件，再试用', 'Skills: check requirements before trying') }}</h2>

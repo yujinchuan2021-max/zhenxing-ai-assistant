@@ -6,11 +6,11 @@
 
 当前版本：**0.1.1 公开预览版（2026-10-07 下载修订，内部版本 0.1.1.1）**，采用 **WinUI 3 / .NET 10**，面向 **Windows x64 完整便携包**。本次修复下载来源、损坏包检查和安装状态，具体内容与验收范围见[修订说明](docs/releases/0.1.1-revision-20261007-downloads.md)。
 
-[**0.1.1 官网下载**](https://zhenxingai.com/download) · [GitHub 发行页与下载附件](https://github.com/yujinchuan2021-max/zhenxing-ai-assistant/releases/tag/v0.1.1-preview) · [最新维护说明](docs/releases/0.1.1-revision-20261007-downloads.md) · [使用指南](docs/getting-started.md) · [常见问题](docs/faq.md)
+[**0.1.1 官网下载**](https://zhenxingai.com/download) · [GitHub 发行页与下载附件](https://github.com/yujinchuan2021-max/zhenxing-ai-assistant/releases/tag/v0.1.1-preview) · [最新云端维护说明](docs/releases/0.1.1-cloud-download-expansion-20261007.md) · [使用指南](docs/getting-started.md) · [常见问题](docs/faq.md)
 
 本次维护包文件名为 `ZhenxingAI-v0.1.1-preview-20261007-fix2.zip`，保留此前工具列表、主题和配置修改器修复，并完善官网直连、云端工具目录和下载完整性检查。公开名称继续使用 0.1.1；程序与更新清单的内部版本提升为 `0.1.1.1`，让旧版 `0.1.1.0` 能检测到本次修订。核对下载页的文件名、大小和 SHA-256 后再启动。
 
-官网、GitHub 附件、云端工具目录与两个更新入口均已完成本次发布验收。自有目录目前有 **73 个具备受管便携包的工具**，另提供 **4 类工具的 6 个原厂安装文件**；需要原厂专门获取流程的条目按实际状态显示。客户端直连官网下载完整包的 SHA-256 与发布文件一致，详见[本轮发布验收记录](docs/releases/0.1.1-revision-20261007-complete-validation.json)。
+官网、GitHub 附件、云端工具目录与两个更新入口均已完成下载修订验收。最新云端扩展新增 Victoria 与 PowerToys：当前客户端目录有 **74 个具备受管便携包的工具**，官网另提供 **5 个工具的 8 个原厂 EXE 文件**，可从[自有工具下载页](https://zhenxingai.com/tools/download)取得；PowerToys 按原厂安装流程操作。33 项保留原获取方式，不计入已上线便携包。详见[云端扩展验收](docs/releases/0.1.1-cloud-download-expansion-20261007-validation.json)。客户端完整包沿用[此前发布验收记录](docs/releases/0.1.1-revision-20261007-complete-validation.json)，这次未重新打包。
 
 [2026-10-07 修订包官网下载](https://zhenxingai.com/downloads/ZhenxingAI-v0.1.1-preview-20261007-fix2.zip) · [修订包 GitHub 下载](https://github.com/yujinchuan2021-max/zhenxing-ai-assistant/releases/download/v0.1.1-preview/ZhenxingAI-v0.1.1-preview-20261007-fix2.zip)
 

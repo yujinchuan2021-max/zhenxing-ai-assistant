@@ -77,6 +77,13 @@ export const buildPageSeoMap = (): Record<string, PageSeo> => {
       description: downloadSeoDescription(),
       path: '/download',
     },
+    'tool-downloads': {
+      title: en ? `Vendor tool downloads — ${brandName}` : `原厂工具下载 —— ${brandName}`,
+      description: en
+        ? 'Download available original vendor files directly from 枕星. Choose the correct Windows architecture, check file size and SHA-256, and follow the vendor’s installation requirements.'
+        : '从枕星直接下载已提供的原厂工具文件，按 Windows 架构选择版本、核对文件大小和 SHA-256，再按厂商要求完成安装。',
+      path: '/tools/download',
+    },
     docs: {
       title: en ? `Getting started — ${brandName}` : `新手指南 —— ${brandName}`,
       // 描述随 links.docs 切换：未配置说明「整理中」，配置后不再说未建立

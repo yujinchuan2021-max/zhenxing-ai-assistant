@@ -1,0 +1,351 @@
+{
+  "schema": "zxai-public-cloud-resource-expansion-validation/1",
+  "recordedUtc": "2026-10-06T20:41:50.727229+00:00",
+  "publicVersion": "0.1.1",
+  "programAndFeedVersion": "0.1.1.1",
+  "applicationPackageChanged": false,
+  "applicationSourceCommit": "e93d6b3286c871db9122d4b13311b4d01d1587fb",
+  "applicationSourceTag": "v0.1.1-revision-20261007-complete",
+  "applicationPackage": {
+    "fileName": "ZhenxingAI-v0.1.1-preview-20261007-fix2.zip",
+    "bytes": 393090180,
+    "sha256": "44761000ea51fb70c9b060b20deff1228a480fdc22813290f6656be99b170fe8",
+    "officialUrl": "https://zhenxingai.com/downloads/ZhenxingAI-v0.1.1-preview-20261007-fix2.zip",
+    "githubUrl": "https://github.com/yujinchuan2021-max/zhenxing-ai-assistant/releases/download/v0.1.1-preview/ZhenxingAI-v0.1.1-preview-20261007-fix2.zip",
+    "payloadFiles": 27057,
+    "fullyCheckedZipMembersIncludingBuildInfo": 27058
+  },
+  "catalogs": [
+    {
+      "url": "https://zhenxingai.com/api/toolflows/v1/tools/catalog",
+      "status": 200,
+      "bytes": 66034,
+      "sha256": "21480b556e8af7c7627d6f6be77d93e639b2a626e5f74b04723078aa09fb561b",
+      "completeGet": true,
+      "redirects": 0,
+      "seconds": 1.7,
+      "kind": "v1",
+      "revision": 4,
+      "toolCount": 111,
+      "candidateJsonEqual": true,
+      "reviewedPublicationCandidateSha256": "09a3de353c0d507b45f6a4f4de8091a369dc005879ff49a74bff53511f889c90",
+      "candidateNormalization": "server validate_catalog (UTC timestamp canonicalization)",
+      "portableTools": 73,
+      "packageEntries": 85
+    },
+    {
+      "url": "https://zhenxingai.com/api/toolflows/v2/tools/catalog",
+      "status": 200,
+      "bytes": 67428,
+      "sha256": "0df41d1463b6962826ee9c2561269efc298688a0a5d1b7416cf5791c8e8716c4",
+      "completeGet": true,
+      "redirects": 0,
+      "seconds": 1.7,
+      "kind": "v2",
+      "revision": 5,
+      "toolCount": 111,
+      "candidateJsonEqual": true,
+      "reviewedPublicationCandidateSha256": "58c4ff6fe3a1f5687c5b397c57798c5bf2c967e3c362c653b94bf635913deb63",
+      "candidateNormalization": "server validate_catalog (UTC timestamp canonicalization)",
+      "portableTools": 74,
+      "packageEntries": 86
+    },
+    {
+      "url": "https://zhenxingai.com/downloads/installers/catalog.json",
+      "status": 200,
+      "bytes": 3759,
+      "sha256": "948c35b8dba0c13d5f30542365ec68bb832fc68d1057dc20226eec104014edf8",
+      "completeGet": true,
+      "redirects": 0,
+      "seconds": 1.11,
+      "kind": "installers",
+      "revision": 2,
+      "toolCount": 5,
+      "candidateJsonEqual": true,
+      "reviewedPublicationCandidateSha256": "948c35b8dba0c13d5f30542365ec68bb832fc68d1057dc20226eec104014edf8",
+      "candidateNormalization": "none",
+      "packageEntries": 8
+    }
+  ],
+  "newFilesFullHttpsReadbackFromWindows": [
+    {
+      "url": "https://zhenxingai.com/downloads/tools/tool-victoria/a66b7869d59bbf90b599/Victoria537.zip",
+      "status": 200,
+      "bytes": 1577599,
+      "sha256": "a66b7869d59bbf90b5994332bac57bcbc0b377cee9f0c59c078795ea7b4c99d1",
+      "completeGet": true,
+      "redirects": 0,
+      "seconds": 16.48
+    },
+    {
+      "url": "https://zhenxingai.com/downloads/installers/powertoys/0.101.2362.0/PowerToysUserSetup-0.101.2362.0-arm64.exe",
+      "status": 200,
+      "bytes": 287815872,
+      "sha256": "4c2ae5156b7e4f1f5ba744ba6e1cf6bfe3d9614978356e6b00aa47cab86350db",
+      "completeGet": true,
+      "redirects": 0,
+      "seconds": 298.78
+    },
+    {
+      "url": "https://zhenxingai.com/downloads/installers/powertoys/0.101.2362.0/PowerToysUserSetup-0.101.2362.0-x64.exe",
+      "status": 200,
+      "bytes": 296370216,
+      "sha256": "d56fa7130fa68afe553068c15a59a6b24c8dbcc9a0989a43ef0fc5a373230de3",
+      "completeGet": true,
+      "redirects": 0,
+      "seconds": 99.53
+    },
+    {
+      "url": "https://zhenxingai.com/downloads/installers/powertoys/0.101.2362.0/powertoys-license.txt",
+      "status": 200,
+      "bytes": 1120,
+      "sha256": "1eb3cbe7f022addbfc6d65cb2e39aca5b24333942ed843aa10c03befd71ee225",
+      "completeGet": true,
+      "redirects": 0,
+      "seconds": 1.0
+    },
+    {
+      "url": "https://zhenxingai.com/downloads/installers/powertoys/0.101.2362.0/powertoys-source-0.101.2362.0.zip",
+      "status": 200,
+      "bytes": 134091128,
+      "sha256": "f318b040e4cff43aa3b320bbdff1a6b09e8d49b7c4f76ffe9c5f0d20d83fb2a2",
+      "completeGet": true,
+      "redirects": 0,
+      "seconds": 51.83
+    },
+    {
+      "url": "https://zhenxingai.com/downloads/installers/powertoys/0.101.2362.0/powertoys-third-party-notices.md",
+      "status": 200,
+      "bytes": 82296,
+      "sha256": "280a8ab24c75f9d5deb7e48baf57221f7042ca4ef86b073d2b158e2c5e9c7780",
+      "completeGet": true,
+      "redirects": 0,
+      "seconds": 1.56
+    },
+    {
+      "url": "https://zhenxingai.com/downloads/installers/powertoys/0.101.2362.0/utf-unknown-source-2.6.0.zip",
+      "status": 200,
+      "bytes": 748997,
+      "sha256": "446fa641fc94dd6ec218d9f2de4b74dff53b6027eb0e29e147bd1a3fe07cde2b",
+      "completeGet": true,
+      "redirects": 0,
+      "seconds": 2.61
+    },
+    {
+      "url": "https://zhenxingai.com/downloads/installers/powertoys/0.101.2362.0/powertoys-source-availability.txt",
+      "status": 200,
+      "bytes": 1005,
+      "sha256": "5a9ac53e3e504120661929a074efe203c49236873ce81f037a4742890c6003bc",
+      "completeGet": true,
+      "redirects": 0,
+      "seconds": 1.19
+    }
+  ],
+  "powerToysOriginalAuthenticode": [
+    {
+      "sourceUrl": "https://github.com/microsoft/PowerToys/releases/download/v0.101.2362.0/PowerToysUserSetup-0.101.2362.0-arm64.exe",
+      "sha256": "4c2ae5156b7e4f1f5ba744ba6e1cf6bfe3d9614978356e6b00aa47cab86350db",
+      "targetArchitecture": "arm64",
+      "actualPeArchitecture": "arm64",
+      "status": "Valid",
+      "signer": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US"
+    },
+    {
+      "sourceUrl": "https://github.com/microsoft/PowerToys/releases/download/v0.101.2362.0/PowerToysUserSetup-0.101.2362.0-x64.exe",
+      "sha256": "d56fa7130fa68afe553068c15a59a6b24c8dbcc9a0989a43ef0fc5a373230de3",
+      "targetArchitecture": "x64",
+      "actualPeArchitecture": "x64",
+      "status": "Valid",
+      "signer": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US"
+    }
+  ],
+  "serverPublication": {
+    "complete": true,
+    "immutableAssetsChecked": 14,
+    "newImmutableAssetsCreated": 8,
+    "existingAssetsReused": 6,
+    "catalogs": [
+      {
+        "kind": "installers",
+        "revision": 2,
+        "sha256": "948c35b8dba0c13d5f30542365ec68bb832fc68d1057dc20226eec104014edf8",
+        "fullHttpShaVerified": true
+      },
+      {
+        "kind": "v1",
+        "revision": 4,
+        "publicReadbackVerified": true
+      },
+      {
+        "kind": "v2",
+        "revision": 5,
+        "publicReadbackVerified": true
+      }
+    ]
+  },
+  "website": {
+    "fileCount": 116,
+    "indexSha256": "ce212245e9551aefe9ea78459e124472ba70566c81d30ff947799c93eaba7b47",
+    "buildPassed": true,
+    "typecheckPassed": true,
+    "isolatedBrowserChecks": {
+      "passed": 42,
+      "total": 42,
+      "mockOnly": true
+    },
+    "productionBeforeInstallerR2": {
+      "passed": 6,
+      "total": 6,
+      "manifestRevision": 1
+    },
+    "productionAfterInstallerR2": {
+      "passed": 6,
+      "total": 6,
+      "manifestRevision": 2,
+      "checks": [
+        {
+          "name": "live-default-file-list",
+          "passed": true
+        },
+        {
+          "name": "live-victoria-author-and-new-download-entry",
+          "passed": true
+        },
+        {
+          "name": "live-exact-powertoys-status",
+          "passed": true
+        },
+        {
+          "name": "live-unknown-product-fails-closed",
+          "passed": true
+        },
+        {
+          "name": "live-dark-desktop",
+          "passed": true
+        },
+        {
+          "name": "live-mobile-layout",
+          "passed": true
+        }
+      ],
+      "resources": [
+        {
+          "url": "https://zhenxingai.com/downloads/installers/powertoys/0.101.2362.0/powertoys-license.txt",
+          "method": "GET",
+          "status": 200,
+          "contentLength": "1120",
+          "contentType": "text/plain",
+          "bytes": 1120,
+          "sha256": "1eb3cbe7f022addbfc6d65cb2e39aca5b24333942ed843aa10c03befd71ee225"
+        },
+        {
+          "url": "https://zhenxingai.com/downloads/installers/powertoys/0.101.2362.0/powertoys-third-party-notices.md",
+          "method": "GET",
+          "status": 200,
+          "contentLength": "82296",
+          "contentType": "application/octet-stream",
+          "bytes": 82296,
+          "sha256": "280a8ab24c75f9d5deb7e48baf57221f7042ca4ef86b073d2b158e2c5e9c7780"
+        },
+        {
+          "url": "https://zhenxingai.com/downloads/installers/powertoys/0.101.2362.0/powertoys-source-availability.txt",
+          "method": "GET",
+          "status": 200,
+          "contentLength": "1005",
+          "contentType": "text/plain",
+          "bytes": 1005,
+          "sha256": "5a9ac53e3e504120661929a074efe203c49236873ce81f037a4742890c6003bc"
+        },
+        {
+          "url": "https://zhenxingai.com/downloads/installers/powertoys/0.101.2362.0/powertoys-source-0.101.2362.0.zip",
+          "method": "HEAD",
+          "status": 200,
+          "contentLength": "134091128",
+          "contentType": "application/zip",
+          "verification": "HEAD only; exact published source-file length, not a downloaded ZIP hash"
+        },
+        {
+          "url": "https://zhenxingai.com/downloads/installers/powertoys/0.101.2362.0/utf-unknown-source-2.6.0.zip",
+          "method": "HEAD",
+          "status": 200,
+          "contentLength": "748997",
+          "contentType": "application/zip",
+          "verification": "HEAD only; exact published source-file length, not a downloaded ZIP hash"
+        }
+      ]
+    },
+    "productionManifestMocked": false,
+    "vendorExecutableRequestsDuringBrowserQa": 0
+  },
+  "victoriaClientDownloadAndExtraction": {
+    "ok": true,
+    "packageSha256": "a66b7869d59bbf90b5994332bac57bcbc0b377cee9f0c59c078795ea7b4c99d1",
+    "packageSize": 1577599,
+    "cases": [
+      {
+        "architecture": "x86",
+        "success": true,
+        "entryPoint": "Victoria537/Victoria.exe",
+        "extractedFileCount": 17,
+        "entrySha256": "fba0b7d5c042f0a13fd5b875f6f13989038ca188d6de6f505ed52bc85ac0de48",
+        "vendorProgramsExecuted": false
+      },
+      {
+        "architecture": "x64",
+        "success": true,
+        "entryPoint": "Victoria537/Victoria.exe",
+        "extractedFileCount": 17,
+        "entrySha256": "fba0b7d5c042f0a13fd5b875f6f13989038ca188d6de6f505ed52bc85ac0de48",
+        "vendorProgramsExecuted": false
+      }
+    ],
+    "vendorProgramsExecuted": false,
+    "clientSourceSha256": {
+      "CloudToolModels.cs": "6ce6e9ab142d68816d12e647ba789e899a70eb001b6f6fca53cdf5cf5662831e",
+      "CloudToolValidation.cs": "88cf7a3998e0b9577e1eea1630b2617f511806a6e2047cc1d34d467aca653426",
+      "CloudToolManager.cs": "129ae044c1ead935986caeeb5d58562da1d1e0fee5d6d7b222b8bec1bc86f6d4"
+    }
+  },
+  "clientUpdateFeedsUnchanged": [
+    {
+      "url": "https://zhenxingai.com/updates/preview.json",
+      "status": 200,
+      "bytes": 548,
+      "sha256": "5c1f046359f6237c91914a08f0aff188149ad9546565b9aaa67cfe6e1bee996a",
+      "completeGet": true,
+      "redirects": 0,
+      "seconds": 0.97
+    },
+    {
+      "url": "https://zhenxingai.com/updates/stable.json",
+      "status": 200,
+      "bytes": 923,
+      "sha256": "3affd61998f3c4ccd3f1f85840f50d8eb14deb0ad85809d73737817bf2f00e2e",
+      "completeGet": true,
+      "redirects": 0,
+      "seconds": 0.94
+    }
+  ],
+  "scope": {
+    "vendorProgramsExecuted": false,
+    "vendorProgramsInstalled": false,
+    "accountsRegisteredOrLoggedIn": false,
+    "independentBackupStorageDeployed": false,
+    "mainlandCdnDeploymentClaimed": false,
+    "nationwideNetworkGuaranteeClaimed": false,
+    "powerToysNativeClientAutomaticInstallationImplemented": false,
+    "powerToysInternalUpdaterReplaced": false,
+    "remainingOriginalAcquisitionTools": 33,
+    "unverifiedUninstalledEntriesHidden": 3
+  },
+  "evidenceSha256": {
+    "serverProductionReport": "2bb122db5e37eaeaf25eb13142eee8b88dcb7d38f1203036e9b94628c9deba72",
+    "windowsAnonymousReadback": "cc7d4ef7fd015a8336ccc5dbcb3da44eca45268f9203da4d24a9471d09d00ed4",
+    "websitePublication": "3ac3d892d2108b571745485e5d9c0dfb96259038f345cc75d80265b0d9ffc664",
+    "productionBrowserBeforeR2": "cc0c91750328699c053cf9e93261f292423baeed5143635b7728bf88af98f903",
+    "productionBrowserAfterR2": "02e347eb543f75bb871f557e95c9908fb2ed4c963523410d5e1c127a5ccfec33",
+    "websiteFinalReview": "f0f394bfa4bc0a8510f2649b093b599102fbd81a5de532b32e39d73d748b6b17",
+    "powerToysPublisherAndSourceEvidence": "bc92fa2d4f5abc8025097cc4914abc32da24c7bfafa88b9d5164fb602e632a9f",
+    "victoriaPublisherEvidence": "9f99e41896a8396f4f5d01787716703f5b32f3aa6d328a79a89e37c73c3ac672"
+  }
+}
