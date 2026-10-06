@@ -1,13 +1,13 @@
 {
   "schema": "zhenxing-git-source-manifest/1",
   "referenceReleaseTag": "v0.1.1-preview",
-  "referenceSourceTag": "v0.1.1-revision-20261007-complete",
-  "baseCodeCommit": "e93d6b3286c871db9122d4b13311b4d01d1587fb",
+  "referenceSourceTag": "v0.1.1-revision-20261007-batch-update",
+  "baseCodeCommit": "e8ed85fb2e53b882980478398ee88570a8ce4999",
   "hashScope": "Git index blobs normalized by .gitattributes; excludes this manifest.",
-  "snapshotKind": "0.1.1 unchanged application with published 33-tool acquisition flows and FlashMaster offline resource documentation (2026-10-07)",
-  "releaseNote": "Application source and existing fix2 client package remain bound to v0.1.1-revision-20261007-complete / e93d6b3286c871db9122d4b13311b4d01d1587fb. This index snapshot additionally includes the published acquisition website source, 33 acquisition dispositions, public verification records, FlashMaster corresponding-source bindings and unsent permission-request drafts; see docs/releases/0.1.1-tool-acquisition-20261007-validation.json. Vendor binaries, source archives, user data, credentials and private publication operators are not included. Prior application tags, archives and verification records remain unchanged.",
-  "fileCount": 1974,
-  "totalBytes": 215979691,
+  "snapshotKind": "0.1.1 / 0.1.1.2 managed tool batch update and MemTest86 owned acquisition revision (2026-10-07)",
+  "releaseNote": "The batch-update tag binds the native application and source snapshot for fix3. Subsequent documentation and website metadata may be added to main without changing this application tag. Historical packages, tags and verification records are retained. Vendor binaries, user data, credentials, native profiles and private publication operators are excluded.",
+  "fileCount": 1982,
+  "totalBytes": 216101868,
   "files": [
     {
       "path": ".all-contributorsrc",
@@ -125,9 +125,9 @@
     },
     {
       "path": "README.md",
-      "gitBlob": "ad3241a0f28ddf7382327ad93f24ec90306b8093",
-      "bytes": 15422,
-      "sha256": "a17cbeac7843b5219c8bb0195337e1546334ce8f0b282073d87c9619c8a0e07b"
+      "gitBlob": "79c38ee76ce2d650a46198375d112b51b0c1a465",
+      "bytes": 15309,
+      "sha256": "266f4c58cd3596ffdb254562b18bdf8bc76f4f97dc8ad8eb4362fa50999ca0e6"
     },
     {
       "path": "SECURITY.md",
@@ -688,6 +688,12 @@
       "sha256": "57f2196c090218a94d6a347244208c01f0241312a9ca6d39bee9b801ad68c66e"
     },
     {
+      "path": "TubaWinUi3.Tests/CloudToolBatchUpdateTests.cs",
+      "gitBlob": "da5f2497522dcf40392d7094993eddf82f65f570",
+      "bytes": 23832,
+      "sha256": "3ec103c5a49db6cd99331bf58745169586ca9feb7f40b480ed3236c0d79b5d99"
+    },
+    {
       "path": "TubaWinUi3.Tests/CloudToolCatalogIntegrationTests.cs",
       "gitBlob": "4a8dc6c83ed2dbf9fafc56a820695649bb33d8a3",
       "bytes": 18557,
@@ -701,9 +707,9 @@
     },
     {
       "path": "TubaWinUi3.Tests/CloudToolManagerTests.cs",
-      "gitBlob": "317a5e5b4c6029ad0950f4e5dfe7cf45000ee57b",
-      "bytes": 43231,
-      "sha256": "56c1e284b2a30f84b6b3996c62da1b232ab47aba1ffada1e0b46929634ad34a1"
+      "gitBlob": "30ff094ab6ab661e9dd991de66611c415aae1bf4",
+      "bytes": 50712,
+      "sha256": "b38db55cbe261b151c150fd82df04fb3e50e515aea46c1a2b857cd09246a1673"
     },
     {
       "path": "TubaWinUi3.Tests/CloudToolMirrorTests.cs",
@@ -1061,9 +1067,9 @@
     },
     {
       "path": "TubaWinUi3.Tests/PreviewUpdateChannelTests.cs",
-      "gitBlob": "4bddd171daea16857827de5c9eacfac044c7d50d",
-      "bytes": 14036,
-      "sha256": "1eaae3322d0d5cf484fdcc23ed038ddb24aa908b999308b0370e6074d6dd20ad"
+      "gitBlob": "4b0c69c8ce94baf45ee25ffa6f75dc7481af27b4",
+      "bytes": 14177,
+      "sha256": "78a51726a2324ab0f71f70cb7c5827682a5afea07e0f31c27273afe2e4f20677"
     },
     {
       "path": "TubaWinUi3.Tests/ProjectProfileToolTests.cs",
@@ -6113,15 +6119,15 @@
     },
     {
       "path": "TubaWinUi3.WinUI3/Pages/AppCenterPage.xaml",
-      "gitBlob": "9a17f0518a1de594ed20bb8c66899e380a9a50fe",
-      "bytes": 10011,
-      "sha256": "afc20bad23f9138625044ea323cff8616cd8b6ffba01d9d3689dc3ab114f9b11"
+      "gitBlob": "79a6327e00572506e931b377e5a698e540f227a3",
+      "bytes": 14814,
+      "sha256": "23ce367e2843c19e85e9683d49678572ddc4b2de48edd85551c0e5ffa4d31888"
     },
     {
       "path": "TubaWinUi3.WinUI3/Pages/AppCenterPage.xaml.cs",
-      "gitBlob": "66183705b924bf5b29ffbdbb7f8463f6eb4bd5e8",
-      "bytes": 28046,
-      "sha256": "e9253cbee30d95b2ee4b26d121a302f86ae57ea4bd4772062f06bc449c02788c"
+      "gitBlob": "fca967199db94f0cbcd855ff58be1503fa1dc76e",
+      "bytes": 40407,
+      "sha256": "86af6ed32d963b17f5ec8caf48da1364e00dc9fabceb06e000a481d8f6462a05"
     },
     {
       "path": "TubaWinUi3.WinUI3/Pages/BatteryAnalyzerPage.cs",
@@ -7834,22 +7840,40 @@
       "sha256": "4a8f21518cfa4583485e5149a4a28f505842b255ecfb9da3ba61fab621f7460e"
     },
     {
+      "path": "TubaWinUi3.WinUI3/Services/CloudTools/CloudToolBatchUpdateCoordinator.cs",
+      "gitBlob": "567e20e4f24d6c0c2aff8558212edf1073c6d3ae",
+      "bytes": 18079,
+      "sha256": "697d07cf52cd237b6d583a5af157f8769f339c9d28d4679abc7a6b99b87645aa"
+    },
+    {
+      "path": "TubaWinUi3.WinUI3/Services/CloudTools/CloudToolBatchUpdateModels.cs",
+      "gitBlob": "e59f772320850f122892ebf5a9d62d81a5ba432e",
+      "bytes": 2593,
+      "sha256": "cc8777e364ea8eee60e07a54fcd26535e429a4d078d7edf0a7354b0103059fd3"
+    },
+    {
+      "path": "TubaWinUi3.WinUI3/Services/CloudTools/CloudToolBatchUpdatePlanner.cs",
+      "gitBlob": "0a05cd5d22bb1788a596e57c73729111b6cec4b8",
+      "bytes": 5682,
+      "sha256": "442ba1922251faa62dc6e0bb33ad400a1b3411e32ff230f8305794666c947401"
+    },
+    {
       "path": "TubaWinUi3.WinUI3/Services/CloudTools/CloudToolManager.cs",
-      "gitBlob": "e3fe39bab5e14795334c2d8bad95b03c88bb5d91",
-      "bytes": 57552,
-      "sha256": "129ae044c1ead935986caeeb5d58562da1d1e0fee5d6d7b222b8bec1bc86f6d4"
+      "gitBlob": "b7063fdf9d4466b7ba35cdd7e80caf9c3a069688",
+      "bytes": 63663,
+      "sha256": "8e338aafb7a71f51d0c81e179629b440ae9dfabfd3940dd6bb997b59dc730e69"
     },
     {
       "path": "TubaWinUi3.WinUI3/Services/CloudTools/CloudToolModels.cs",
-      "gitBlob": "fe7153051f49f04c2f9ae607a316478f126b49e5",
-      "bytes": 3434,
-      "sha256": "6ce6e9ab142d68816d12e647ba789e899a70eb001b6f6fca53cdf5cf5662831e"
+      "gitBlob": "19d45fcf9d0de38cd90dfde8c9894c97a150a025",
+      "bytes": 3566,
+      "sha256": "fdb8cc1a8957b056d22e1e4cb2e49f89a4c50b838962f065cae7120fd4cd067a"
     },
     {
       "path": "TubaWinUi3.WinUI3/Services/CloudTools/CloudToolService.cs",
-      "gitBlob": "7546e767f6b08bb78181ac0a8dfe443e400ecab8",
-      "bytes": 10924,
-      "sha256": "8893f1ee48b53e3f7d1ecd2bbcb9b362fa7c4bafff57de140b5027b53d62767a"
+      "gitBlob": "faf3e5050fa5360d112eac05c230c0969e8a06d0",
+      "bytes": 13207,
+      "sha256": "00db39a3e891437a3387b97727397c7e1ba0721ca968090d89cf6013d194c655"
     },
     {
       "path": "TubaWinUi3.WinUI3/Services/CloudTools/CloudToolValidation.cs",
@@ -9185,9 +9209,9 @@
     },
     {
       "path": "TubaWinUi3.WinUI3/TubaWinUi3.csproj",
-      "gitBlob": "37f40a64fcb493fed23ad2d1abcfbd63e1400681",
+      "gitBlob": "6d18503aa0471d7a3c627eebae14bc036d4161bb",
       "bytes": 19681,
-      "sha256": "7666b9b207fda2cead25c02b43ac0a08436bab973255715f558d37d4eab1554c"
+      "sha256": "73a3b83c88d488959575491d06bf79807909d63ff7780c3212b90df03c57870f"
     },
     {
       "path": "TubaWinUi3.WinUI3/WhatsNewWindow.xaml",
@@ -9220,10 +9244,16 @@
       "sha256": "cc4ae1ee2de1f70f2716de36e458713269cdcd0b10b26b702f97e11817089f4c"
     },
     {
+      "path": "TubaWinUi3.XamlHostRunner/AppCenterBatchUpdateCases.cs",
+      "gitBlob": "738e2efa520faeddd9a8635cfe1c31f5e1d43150",
+      "bytes": 23233,
+      "sha256": "dfb48411a96fc1ac4a38e3b0b8a1d2317118d5e94e079b2424f83d24fc0f3d88"
+    },
+    {
       "path": "TubaWinUi3.XamlHostRunner/AppCenterCases.cs",
-      "gitBlob": "0aaa27b944456fe234747283c29a93ba061fd9b3",
-      "bytes": 26976,
-      "sha256": "136e0f0945aa9d7270ac9934dfca296e6c85e708283695931aa501d4132661f6"
+      "gitBlob": "64cdd0bcc92f2710a8b4b98b23bb0026e855faaa",
+      "bytes": 26723,
+      "sha256": "9d048c66a90db6537fcdc4b21a61672b6b92c58e16885b4a7b77c5db43a18e78"
     },
     {
       "path": "TubaWinUi3.XamlHostRunner/CardsCases.cs",
@@ -9485,9 +9515,9 @@
     },
     {
       "path": "docs/build.md",
-      "gitBlob": "d4b535ef493efa9d6d7174a8481689da912dcfd1",
-      "bytes": 10382,
-      "sha256": "e3ca573f1bc13e26116161c63555c7d499d4d487337beb3bcc5cd7640c8aa15d"
+      "gitBlob": "c70c8acde51184259abe9760193963788eb961f6",
+      "bytes": 10391,
+      "sha256": "c8acedaa083b6533830da5e3a4d6168dacfd818f7923b0af8b30b4ca7294d3b1"
     },
     {
       "path": "docs/catalogs/flashmaster-2.6.0-source-verification.json",
@@ -9497,15 +9527,15 @@
     },
     {
       "path": "docs/catalogs/tool-acquisition-audit.json",
-      "gitBlob": "37e892d8516b9c5a6fc4c1ab4a38de4ded654756",
-      "bytes": 20224,
-      "sha256": "44c3a58b20a984662be61a2bb125c604784ff3468440d310f2c71c9a5cda6aa6"
+      "gitBlob": "49815a65a97e5157f23db4fa92cd0cfcb235dfd7",
+      "bytes": 20494,
+      "sha256": "f6bf7624c3f49cd1742dd5a0c60619c71c9d8cfaa1d624f06a65a94ed08b8cfe"
     },
     {
       "path": "docs/catalogs/tool-acquisition.json",
-      "gitBlob": "4a9b89d658982ff47e2912263782c521b40d68bb",
-      "bytes": 63059,
-      "sha256": "621a95eed5793eb53fc8cd10cdf91be610a4c2de7143504a678d1b43d76e85b5"
+      "gitBlob": "9f64342bebc86f2d363b01cd15261f341adb024b",
+      "bytes": 65819,
+      "sha256": "1520ed68f70c05a803998be810b7f1aff444079739fb95b5d48d3046b720226d"
     },
     {
       "path": "docs/faq.md",
@@ -9515,9 +9545,21 @@
     },
     {
       "path": "docs/getting-started.md",
-      "gitBlob": "d4a4f006de9bf4fe5261da713f94b0305cc7f433",
-      "bytes": 8418,
-      "sha256": "a3ad1827714f111bfe9e2d55a993acfd0a8658ea489c67e269bfb5cebe27dddf"
+      "gitBlob": "3c358d6a8480271ea5ae9ecf50c19a3f8d82b095",
+      "bytes": 8826,
+      "sha256": "0340f0c720094884f8f4a437e3d504c2a173f93289f0f277c5dee88a54e51d44"
+    },
+    {
+      "path": "docs/releases/0.1.1-batch-update-20261007-source-validation.json",
+      "gitBlob": "085984c60beadd3cf9ebdb7dff540b942a246d6c",
+      "bytes": 1721,
+      "sha256": "56b98558fa3d27a75c04a44f135638f800c10e99c911586a3778d832a2c74d5c"
+    },
+    {
+      "path": "docs/releases/0.1.1-batch-update-20261007.md",
+      "gitBlob": "2db560195cd40b1fe75b1e5a4143deaa901731f3",
+      "bytes": 2869,
+      "sha256": "ba7234900d710ab3e964837c215f8ebbec22b40be136c108815671791509e2f4"
     },
     {
       "path": "docs/releases/0.1.1-cloud-download-expansion-20261007-validation.json",
@@ -9530,6 +9572,12 @@
       "gitBlob": "6e58c7467d4b422b06b71fb73a13b3367573fba3",
       "bytes": 4740,
       "sha256": "1c9ec4d5fdcec230808a697df84c8c5587e446a7c17890075153fe0b990ebe51"
+    },
+    {
+      "path": "docs/releases/0.1.1-memtest86-acquisition-20261007-validation.json",
+      "gitBlob": "d070af3862da97bb4a51d74ceb7ef9b958114429",
+      "bytes": 4570,
+      "sha256": "aa293690be124c5bafc271f849af127a9bb5658059b241eb29861d3fef906ded"
     },
     {
       "path": "docs/releases/0.1.1-preview.md",
@@ -9593,9 +9641,9 @@
     },
     {
       "path": "docs/releases/0.1.1-tool-acquisition-20261007.md",
-      "gitBlob": "bec6bd293f53488b4d7c849b53c8fb741dfa2681",
-      "bytes": 9294,
-      "sha256": "36a835630ca8534d2c1514749367d5b22c790fa1662e6514c98333fad7874989"
+      "gitBlob": "02e730ca2ab3bd2557b3a168a4f6bbe1f0c51fea",
+      "bytes": 11548,
+      "sha256": "83c174cbed432172dfa216583af1e5ce57b09e2f46a7054725cec0b564b7e4c3"
     },
     {
       "path": "docs/releases/0.1.1-validation.json",
@@ -9617,9 +9665,9 @@
     },
     {
       "path": "docs/third-party-downloads.md",
-      "gitBlob": "ae6d9c9506fbcbdcd7de84ddc48847868512854f",
-      "bytes": 4988,
-      "sha256": "4205096aac9e1276bf19756d18d7e423a77b927568c10bb31a9f489edbd2f9e9"
+      "gitBlob": "945031ae3aa238683d6d271f9b6795ce11a6b45c",
+      "bytes": 5387,
+      "sha256": "ef31c6f292b414ce13eae7f88873b18b2cdf6383604055a5b1dc505e8d3a4ad8"
     },
     {
       "path": "docs/third-party-permission-requests.md",
@@ -9629,9 +9677,9 @@
     },
     {
       "path": "docs/tool-distribution.md",
-      "gitBlob": "1240d6e6ef20a0c4990f3a69e14e1bf05c4e981a",
-      "bytes": 16724,
-      "sha256": "d4e3d76ddb79ee48d46698e583c9cced3884cf2e75f3c78a09126f99e1179e90"
+      "gitBlob": "bb82668d26f6457f3a8caf07eee550feb96b053f",
+      "bytes": 17276,
+      "sha256": "c1d254a44a2dca9ee8814407a49546dd3a84c4c53e36b716ab4c3ddf00422f29"
     },
     {
       "path": "file-transfer-web/.gitignore",
