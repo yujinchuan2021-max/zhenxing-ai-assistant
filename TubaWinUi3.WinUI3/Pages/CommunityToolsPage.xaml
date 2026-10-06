@@ -100,7 +100,8 @@
                         MinWidth="110"
                         SelectedIndex="0"
                         SelectionChanged="SourceSelector_SelectionChanged">
-                        <ComboBoxItem Content="GitCode" />
+                        <ComboBoxItem Content="枕星下载" />
+                        <ComboBoxItem Content="GitCode 社区" />
                         <ComboBoxItem Content="GitHub" />
                     </ComboBox>
                     <Button

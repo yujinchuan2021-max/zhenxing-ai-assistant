@@ -26,6 +26,9 @@ public sealed class CommunityTool : INotifyPropertyChanged
     public string? RepoPath { get; init; }
     public string? File { get; init; }
     public string? FileSha { get; set; }
+    // Only populated from the validated application-owned catalog, never plugin.json.
+    public string? CloudToolId { get; init; }
+    public bool UsesManagedDownload => !string.IsNullOrWhiteSpace(CloudToolId);
 
     public string TagsText => string.Join(" ", Tags);
 

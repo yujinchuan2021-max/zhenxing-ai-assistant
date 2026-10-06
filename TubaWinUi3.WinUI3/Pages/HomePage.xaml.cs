@@ -11,6 +11,7 @@ using System.Linq;
 using TubaWinUi3.Models;
 using TubaWinUi3.Pages;
 using TubaWinUi3.Services;
+using TubaWinUi3.Services.CloudTools;
 using Windows.ApplicationModel.DataTransfer;
 
 namespace TubaWinUi3.Pages;
@@ -1698,6 +1699,23 @@ public sealed partial class HomePage : Page, ILocalizablePage
 
     private async Task ShowDownloadDialogAsync(ToolItem tool)
     {
+        // Older favourites/cards can still carry gc:/gh: metadata after their tool
+        // has moved into the owned catalogue. Resolve the identity before making
+        // a legacy directory or starting a separate, unchecked download.
+        var owned = ResolveOwnedCloudDownloadTool(tool, CloudToolService.GetCatalog(),
+            ToolCatalog.ToolsRoot, ToolCatalog.WritableToolsRoot);
+        if (owned is not null)
+        {
+            var state = CloudToolService.GetStates().FirstOrDefault(s => s.Id == owned.Id);
+            await LaunchCloudToolAsync(ToolCatalog.CreateCloudToolItem(tool.Category, owned, state), runAsAdmin: false);
+            return;
+        }
+        if (!string.IsNullOrWhiteSpace(tool.CloudToolId))
+        {
+            ShowStatus("暂不可下载", "此工具暂未在云端目录中找到，请刷新工具目录后重试。", InfoBarSeverity.Warning);
+            return;
+        }
+
         var intendedDir = Path.GetDirectoryName(tool.Path) ?? Path.Combine(ToolCatalog.ToolsRoot, tool.Category, tool.Folder);
         // 【GUI 隔离】写目标解析（fail-closed）：隔离态把 Tools 树内路径映射到可写根，绝不先在随包
         // Tools 建目录；树外路径在隔离态拒绝（不回退）。生产态恒等，语义不变。
@@ -1716,6 +1734,43 @@ public sealed partial class HomePage : Page, ILocalizablePage
             toolDir);
 
         await dialog.ShowAsync();
+    }
+
+    /// <summary>Route an owned identity without interpreting product names or download URLs.</summary>
+    internal static CloudToolDefinition? ResolveOwnedCloudDownloadTool(ToolItem tool,
+        IReadOnlyList<CloudToolDefinition> catalog, string toolsRoot, string writableToolsRoot)
+    {
+        if (!string.IsNullOrWhiteSpace(tool.CloudToolId))
+        {
+            // A stale/unknown explicit ID is never reinterpreted as another product.
+            var identified = catalog.Where(t => string.Equals(t.Id, tool.CloudToolId, StringComparison.Ordinal)).ToArray();
+            return identified.Length == 1 ? identified[0] : null;
+        }
+        if (!tool.IsCatalogCurated || tool.IsBuiltinLink || tool.IsCommunity || !Path.IsPathFullyQualified(tool.Path))
+            return null;
+
+        try
+        {
+            var file = Path.GetFullPath(tool.Path);
+            var roots = new[] { toolsRoot, writableToolsRoot }
+                .Where(root => !string.IsNullOrWhiteSpace(root) && Path.IsPathFullyQualified(root))
+                .Select(root => Path.TrimEndingDirectorySeparator(Path.GetFullPath(root)))
+                .Distinct(StringComparer.OrdinalIgnoreCase).ToArray();
+            var matches = catalog.Where(definition => CloudToolValidation.IsRelativePath(definition.LegacyPath) &&
+                roots.Any(root =>
+                {
+                    var directory = Path.GetFullPath(Path.Combine(root,
+                        definition.LegacyPath.Replace('/', Path.DirectorySeparatorChar).Replace('\\', Path.DirectorySeparatorChar)));
+                    return file.StartsWith(directory.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar)
+                        + Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase);
+                })).ToArray();
+            // Reject ambiguous directory aliases; never pick the first similar name.
+            return matches.Length == 1 ? matches[0] : null;
+        }
+        catch (Exception ex) when (ex is ArgumentException or NotSupportedException or PathTooLongException)
+        {
+            return null;
+        }
     }
 
     private DispatcherTimer? _statusBarTimer;

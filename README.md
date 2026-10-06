@@ -4,7 +4,7 @@
 
 枕星图吧AI助手是面向 Windows 的 AI 助手与电脑工具工作台。它帮助你明确目标、比较可用方案、复用本机软件、准备必要工具，再交接给选定的软件或 AI Agent。硬件信息、电脑工具、技能库、资讯和社区围绕这条使用路径展开。
 
-当前源码版本：**0.1.1 公开预览版（2026-10-06 修订）**，2026 年 10 月 6 日，采用 **WinUI 3 / .NET 10**，面向 **Windows x64 便携包**。
+当前源码版本：**0.1.1 公开预览版（2026-10-07 下载可靠性修订）**，采用 **WinUI 3 / .NET 10**，面向 **Windows x64 便携包**。本轮下载修订的候选构建与云端部署状态见[修订说明](docs/releases/0.1.1-revision-20261007-downloads.md)；已发布附件与新源码能力分别核对。
 
 [**0.1.1 GitHub 发行页与下载附件**](https://github.com/yujinchuan2021-max/zhenxing-ai-assistant/releases/tag/v0.1.1-preview) · [0.1.1 最新维护说明](docs/releases/0.1.1-revision-20261006-fix1.md) · [基础使用指南（0.1.1）](docs/getting-started.md) · [基础常见问题（0.1.1）](docs/faq.md)
 

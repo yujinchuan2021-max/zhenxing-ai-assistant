@@ -76,10 +76,12 @@ public sealed partial class GitHubDownloadWindow : Window
         var authorName = tool.Author ?? MiscTexts.T("未知用户");
         InfoTitleText.Text = tool.Name;
         InfoDescText.Text = tool.Description ?? MiscTexts.T("无描述");
-        InfoDetailText.Text = MiscTexts.TSub($"分类：{tool.Category}  ·  版本：{versionText}  ·  提交者：{authorName}");
+        InfoDetailText.Text = tool.UsesManagedDownload
+            ? MiscTexts.TSub($"分类：{tool.Category}  ·  版本：{versionText}  ·  发布者：{tool.Publisher}")
+            : MiscTexts.TSub($"分类：{tool.Category}  ·  版本：{versionText}  ·  提交者：{authorName}");
 
         WarningText.Text = MiscTexts.TSub($"社区包无法保证其安全性，枕星图吧AI助手不对社区包负责，但会尽量避免违规工具。如果你信任 {authorName} 可以开始下载。");
-        WarningCard.Visibility = Visibility.Visible;
+        WarningCard.Visibility = tool.UsesManagedDownload ? Visibility.Collapsed : Visibility.Visible;
 
         InitWindow();
         SetupCommunitySourceSelector();
@@ -119,6 +121,11 @@ public sealed partial class GitHubDownloadWindow : Window
         SubtitleText.Text = MiscTexts.T("选择下载源并开始下载");
 
         var tool = _communityTool!;
+        if (tool.UsesManagedDownload)
+        {
+            SourceCard.Visibility = Visibility.Collapsed;
+            SubtitleText.Text = MiscTexts.T("自动选择可用来源，校验完成后安装");
+        }
         var sources = CommunityToolService.GetAllDownloadUrls(tool);
         _communitySources.Clear();
         _communitySources.AddRange(sources);
@@ -249,7 +256,7 @@ public sealed partial class GitHubDownloadWindow : Window
 
         ProgressCard.Visibility = Visibility.Visible;
         PercentText.Visibility = Visibility.Visible;
-        StatsRow.Visibility = Visibility.Visible;
+        StatsRow.Visibility = _communityTool?.UsesManagedDownload == true ? Visibility.Collapsed : Visibility.Visible;
 
         _downloadStarted = true;
 
@@ -485,7 +492,7 @@ public sealed partial class GitHubDownloadWindow : Window
         {
             SubtitleText.Text = MiscTexts.T("选择下载源并开始下载");
             SpeedCard.Visibility = Visibility.Collapsed;
-            WarningCard.Visibility = Visibility.Visible;
+            WarningCard.Visibility = _communityTool?.UsesManagedDownload == true ? Visibility.Collapsed : Visibility.Visible;
             SetupCommunitySourceSelector();
         }
     }

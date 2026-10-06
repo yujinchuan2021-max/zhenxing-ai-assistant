@@ -288,6 +288,7 @@ class Store:
         self.benchmarks = BenchmarkStore(self._connect, self._now)
         self.skill_library = skill_library.SkillLibraryStore(self._connect, self._now)
         self.tool_catalog = tool_catalog.ToolCatalogStore(self.data_dir)
+        self.tool_catalog_v2 = tool_catalog.ToolCatalogStore(self.data_dir, schema_version=2)
 
     @contextmanager
     def _connect(self):
@@ -624,11 +625,11 @@ def make_handler(store: Store, checker: Callable[[str], LinkCheck] = check_downl
             self.end_headers()
             self.wfile.write(payload)
 
-        def _handle_tool_catalog(self) -> None:
+        def _handle_tool_catalog(self, catalog_store, expected_path) -> None:
             try:
-                if self.path != tool_catalog.CATALOG_PATH:
+                if self.path != expected_path:
                     raise ApiError(400, "tool catalog does not accept query parameters")
-                catalog, etag = store.tool_catalog.snapshot()
+                catalog, etag = catalog_store.snapshot()
             except (ApiError, tool_catalog.ToolCatalogError) as exc:
                 self._reply(exc.status, {"error": exc.message})
                 return
@@ -649,22 +650,22 @@ def make_handler(store: Store, checker: Callable[[str], LinkCheck] = check_downl
             if payload:
                 self.wfile.write(payload)
 
-        def _handle_tool_events(self) -> None:
+        def _handle_tool_events(self, catalog_store, expected_path) -> None:
             try:
-                if self.path != tool_catalog.EVENTS_PATH:
+                if self.path != expected_path:
                     raise ApiError(400, "tool events do not accept query parameters")
                 last_id = self.headers.get("Last-Event-ID")
                 if last_id is not None and (not re.fullmatch(r"[0-9]{1,16}", last_id)
                                             or int(last_id) > tool_catalog.MAX_REVISION):
                     raise ApiError(400, "invalid Last-Event-ID")
-                catalog, etag = store.tool_catalog.snapshot()
+                catalog, etag = catalog_store.snapshot()
             except (ApiError, tool_catalog.ToolCatalogError) as exc:
                 self._reply(exc.status, {"error": exc.message})
                 return
             except sqlite3.Error:
                 self._reply(500, {"error": "storage unavailable"})
                 return
-            if not store.tool_catalog.stream_slots.acquire(blocking=False):
+            if not catalog_store.stream_slots.acquire(blocking=False):
                 self._reply(503, {"error": "tool notification stream is busy; retry later"})
                 return
             # Bounded connections, periodic heartbeat and eventual reconnect keep
@@ -691,7 +692,7 @@ def make_handler(store: Store, checker: Callable[[str], LinkCheck] = check_downl
                         remaining = tool_catalog.MAX_STREAM_SECONDS - (time.monotonic() - started)
                         if remaining <= 0:
                             return
-                        catalog, etag = store.tool_catalog.wait_for_revision(revision, min(store.tool_catalog.heartbeat_seconds, remaining))
+                        catalog, etag = catalog_store.wait_for_revision(revision, min(catalog_store.heartbeat_seconds, remaining))
                         if catalog["revision"] != revision:
                             break
                         self.wfile.write(b": heartbeat\n\n")
@@ -699,7 +700,7 @@ def make_handler(store: Store, checker: Callable[[str], LinkCheck] = check_downl
             except (OSError, sqlite3.Error, tool_catalog.ToolCatalogError):
                 pass  # Disconnected stream clients recover using GET catalog.
             finally:
-                store.tool_catalog.stream_slots.release()
+                catalog_store.stream_slots.release()
 
         def _body(self, maximum: int = MAX_BODY_BYTES) -> Any:
             try:
@@ -726,9 +727,10 @@ def make_handler(store: Store, checker: Callable[[str], LinkCheck] = check_downl
 
         def do_POST(self) -> None:
             def action() -> tuple[int, dict[str, Any]]:
-                if self.path == tool_catalog.PUBLISH_PATH:
+                if self.path in (tool_catalog.PUBLISH_PATH, tool_catalog.V2_PUBLISH_PATH):
                     self._require_admin()
-                    receipt = store.tool_catalog.publish(self._body(tool_catalog.MAX_CATALOG_BYTES))
+                    target = store.tool_catalog if self.path == tool_catalog.PUBLISH_PATH else store.tool_catalog_v2
+                    receipt = target.publish(self._body(tool_catalog.MAX_CATALOG_BYTES))
                     return (201 if receipt["created"] else 200), receipt
                 if self.path == "/v1/skill-submissions":
                     receipt = store.skill_library.submit(skill_library.validate(self._body(skill_library.MAX_BODY)), self.headers.get("X-Skill-Token"))
@@ -777,14 +779,17 @@ def make_handler(store: Store, checker: Callable[[str], LinkCheck] = check_downl
 
         def do_GET(self) -> None:
             path = urlsplit(self.path).path
-            if path == tool_catalog.CATALOG_PATH:
-                self._handle_tool_catalog()
+            if path in (tool_catalog.CATALOG_PATH, tool_catalog.V2_CATALOG_PATH):
+                target = store.tool_catalog if path == tool_catalog.CATALOG_PATH else store.tool_catalog_v2
+                self._handle_tool_catalog(target, path)
                 return
-            if path == tool_catalog.EVENTS_PATH:
-                self._handle_tool_events()
+            if path in (tool_catalog.EVENTS_PATH, tool_catalog.V2_EVENTS_PATH):
+                target = store.tool_catalog if path == tool_catalog.EVENTS_PATH else store.tool_catalog_v2
+                self._handle_tool_events(target, path)
                 return
-            if self.path == "/admin/tools":
-                self._reply_html(tool_catalog.ADMIN_HTML)
+            if self.path in ("/admin/tools", "/admin/tools-v2"):
+                html = tool_catalog.ADMIN_HTML if self.path == "/admin/tools" else tool_catalog.ADMIN_HTML.replace("/v1/admin/tools/", "/v2/admin/tools/")
+                self._reply_html(html)
                 return
             if self.path == "/admin":
                 self._reply_html(ADMIN_PAGE_HTML)
@@ -816,11 +821,12 @@ def make_handler(store: Store, checker: Callable[[str], LinkCheck] = check_downl
 
             def action() -> tuple[int, dict[str, Any]]:
                 path = urlsplit(self.path).path
-                if path == tool_catalog.ADMIN_CATALOG_PATH:
+                if path in (tool_catalog.ADMIN_CATALOG_PATH, tool_catalog.V2_ADMIN_CATALOG_PATH):
                     self._require_admin()
-                    if self.path != tool_catalog.ADMIN_CATALOG_PATH:
+                    if self.path != path:
                         raise ApiError(400, "admin tool catalog does not accept query parameters")
-                    return 200, store.tool_catalog.current()
+                    target = store.tool_catalog if path == tool_catalog.ADMIN_CATALOG_PATH else store.tool_catalog_v2
+                    return 200, target.current()
                 if path == "/v1/skills":
                     try:
                         query = parse_qs(urlsplit(self.path).query, keep_blank_values=True, strict_parsing=True)

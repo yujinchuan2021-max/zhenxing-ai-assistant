@@ -280,7 +280,7 @@ public class ToolWriteRoutingTests : IDisposable
 
         var exePath = Path.Combine(_isoRoot, "Tools", "分类C", "comm-detect-1", "run.exe");
         Directory.CreateDirectory(Path.GetDirectoryName(exePath)!);
-        File.WriteAllText(exePath, "M");
+        File.WriteAllBytes(exePath, "MZsynthetic"u8.ToArray());
 
         Assert.Equal(CommunityToolInstallStatus.Installed, CommunityToolService.CheckInstallStatus(tool));
         var local = CommunityToolService.GetLocalPath(tool);

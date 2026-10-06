@@ -12,6 +12,7 @@ internal static class CloudToolValidation
     internal const long MaxPackageBytes = 512L * 1024 * 1024;
     internal const long MaxExpandedBytes = 2L * 1024 * 1024 * 1024;
     internal const int MaxZipEntries = 10000;
+    internal const int MaxPackageMirrors = 3;
     internal const string ReceiptFile = ".zxai-cloud-install.json";
     internal static readonly JsonSerializerOptions JsonOptions = new(JsonSerializerDefaults.Web)
     {
@@ -47,13 +48,41 @@ internal static class CloudToolValidation
     {
         if (!Uri.TryCreate(value, UriKind.Absolute, out var uri) || uri.Scheme != "https" ||
             !uri.IsDefaultPort || uri.UserInfo.Length != 0 || uri.Query.Length != 0 ||
-            uri.Fragment.Length != 0 || !uri.Host.Equals("zhenxingai.com", StringComparison.OrdinalIgnoreCase) ||
+            uri.Fragment.Length != 0 || !IsPackageHost(uri.Host) ||
             !uri.AbsolutePath.StartsWith("/downloads/tools/", StringComparison.Ordinal) ||
             !uri.AbsolutePath.EndsWith(".zip", StringComparison.OrdinalIgnoreCase)) return false;
         // Reject normalization tricks even when System.Uri has already removed dot segments.
         var raw = value![(value!.IndexOf("://", StringComparison.Ordinal) + 3)..];
         var slash = raw.IndexOf('/');
-        return slash >= 0 && IsRelativePath(Uri.UnescapeDataString(raw[(slash + 1)..]));
+        if (slash < 0) return false;
+        var rawPath = raw[(slash + 1)..];
+        // Backslashes and encoded delimiters can be interpreted differently by
+        // origin servers and proxies. A URL is a path, never an alternate query,
+        // traversal path or a double-encoded redirect instruction.
+        if (rawPath.Contains('\\') || Regex.IsMatch(rawPath, "%2f|%5c|%25|%3f|%23",
+                RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)) return false;
+        return IsRelativePath(Uri.UnescapeDataString(rawPath));
+    }
+
+    private static bool IsPackageHost(string host) => host.Equals("zhenxingai.com", StringComparison.OrdinalIgnoreCase) ||
+        host.Equals("download.zhenxingai.com", StringComparison.OrdinalIgnoreCase) ||
+        host.Equals("download-backup.zhenxingai.com", StringComparison.OrdinalIgnoreCase);
+
+    internal static IReadOnlyList<Uri> PackageSources(CloudToolPackage package)
+    {
+        if (!IsPackageUrl(package.Url) || package.Mirrors is null ||
+            package.Mirrors.Length > MaxPackageMirrors || package.Mirrors.Any(url => !IsPackageUrl(url)))
+            throw new InvalidDataException("工具包主源或备用源地址无效。");
+        // Uri canonicalizes scheme/host and default ports; paths remain case
+        // sensitive. Duplicate sources cannot consume retries or append bytes.
+        var seen = new HashSet<string>(StringComparer.Ordinal);
+        var sources = new List<Uri>();
+        foreach (var url in new[] { package.Url }.Concat(package.Mirrors))
+        {
+            var uri = new Uri(url);
+            if (seen.Add(uri.AbsoluteUri)) sources.Add(uri);
+        }
+        return sources;
     }
 
     internal static bool IsRelativePath(string? value)
@@ -78,7 +107,7 @@ internal static class CloudToolValidation
             throw new InvalidDataException("工具目录超过大小限制。");
         var catalog = JsonSerializer.Deserialize<CloudToolCatalog>(json, JsonOptions)
             ?? throw new InvalidDataException("工具目录为空。");
-        if (catalog.SchemaVersion != 1 || catalog.Revision < 0 ||
+        if (catalog.SchemaVersion is not (1 or 2) || catalog.Revision < 0 ||
             !DateTimeOffset.TryParse(catalog.PublishedAt, CultureInfo.InvariantCulture, DateTimeStyles.None, out _) ||
             !Version.TryParse(catalog.MinClientVersion, out var minimum) ||
             NormalizeVersion(minimum) > NormalizeVersion(clientVersion) ||
@@ -99,6 +128,9 @@ internal static class CloudToolValidation
             {
                 if (package is null || package.Architecture is not ("x64" or "arm64" or "x86" or "any") ||
                     !architectures.Add(package.Architecture) || !IsPackageUrl(package.Url) ||
+                    package.Mirrors is null || package.Mirrors.Length > MaxPackageMirrors ||
+                    package.Mirrors.Any(url => !IsPackageUrl(url)) ||
+                    (catalog.SchemaVersion == 1 && package.Mirrors.Length != 0) ||
                     package.SizeBytes <= 0 || package.SizeBytes > MaxPackageBytes || !IsSha256(package.Sha256) ||
                     !IsToolEntryPoint(package.EntryPoint) ||
                     !Text(package.Kind, 60, true))

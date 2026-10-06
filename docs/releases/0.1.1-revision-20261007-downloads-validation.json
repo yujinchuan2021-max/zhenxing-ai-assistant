@@ -1,0 +1,26 @@
+{
+  "schema": "zhenxing-maintenance-validation/1",
+  "version": "0.1.1",
+  "assemblyVersion": "0.1.1.0",
+  "revisionDate": "2026-10-07",
+  "sourceRevisionTag": "v0.1.1-revision-20261007-downloads",
+  "clientLogicTests": { "passed": 296, "failed": 0, "skipped": 0, "scope": "Cloud tools, mirrors, community download routing, legacy staging, local path routing, version and update identity" },
+  "serverTests": { "passed": 133, "failed": 0, "scope": "Offline temporary databases and synthetic network/PE/ZIP fixtures; no vendor programs executed" },
+  "nativeUi": { "casesPassed": 1, "failed": 0, "exitCode": 0, "themes": ["Light", "Dark"], "scope": "Default owned catalog, source selection, visible installable cards, loading and installed status; isolated data and rejected network" },
+  "productionMainSourceAudit": {
+    "catalogRevision": 2,
+    "canonicalCatalogSha256": "d5281b04019239624ad1d7c9d63e6b431109d6d64ce04608826ebd6ba880b5da",
+    "uniquePackages": 70,
+    "architectureEntries": 82,
+    "downloadedBytes": 314561687,
+    "passed": 70,
+    "failed": 0,
+    "checks": ["Full HTTPS GET", "Size", "SHA-256", "ZIP entries and CRC", "Safe paths", "Declared PE entrance and architecture"],
+    "toolsExecuted": false,
+    "unpackagedToolsNotVerified": 41,
+    "backupOriginsVerified": false,
+    "allChinaNetworksVerified": false
+  },
+  "deployment": { "newServerDeployed": false, "v2PublicRouteDeployed": false, "independentBackupStorageDeployed": false, "officialClientUpdateManifestChanged": false, "newGitHubReleaseAssetUploaded": false },
+  "limits": "File-level verification is not application startup, dependency, installer completion, login, licensing, or nationwide connectivity verification. Main client version stays 0.1.1; dated candidate and source changes do not silently replace the existing published package."
+}

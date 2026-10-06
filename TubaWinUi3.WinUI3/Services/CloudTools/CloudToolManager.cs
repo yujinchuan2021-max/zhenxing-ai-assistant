@@ -1,4 +1,5 @@
 using System.Collections.Concurrent;
+using System.Buffers.Binary;
 using System.Diagnostics;
 using System.IO.Compression;
 using System.Net.Http;
@@ -17,6 +18,7 @@ namespace TubaWinUi3.Services.CloudTools;
 public sealed class CloudToolManager
 {
     private const string ConfigurationConflict = "配置与新版本冲突，原版本保留；请先备份配置。";
+    private static readonly uint[] ZipCrcTable = CreateZipCrcTable();
     private readonly string _root;
     private readonly string? _seedPath;
     private readonly string? _legacyRoot;
@@ -29,6 +31,8 @@ public sealed class CloudToolManager
     private readonly object _sync = new();
     private CloudToolCatalog? _catalog;
     private string? _etag;
+    private Uri? _etagEndpoint;
+    private Uri? _activeCatalogEndpoint;
     private long _etagRevision = -1;
     private readonly ConcurrentDictionary<string, CloudToolState> _activity = new(StringComparer.Ordinal);
     private readonly ConcurrentDictionary<string, DateTimeOffset> _retryAfter = new(StringComparer.Ordinal);
@@ -38,15 +42,19 @@ public sealed class CloudToolManager
     public string? LastRefreshError { get; private set; }
     public long Revision { get { lock (_sync) return _catalog?.Revision ?? -1; } }
     public Uri CatalogEndpoint { get; }
+    public Uri? FallbackCatalogEndpoint { get; }
+    public Uri? ActiveCatalogEndpoint { get { lock (_sync) return _activeCatalogEndpoint; } }
 
     public CloudToolManager(string dataRoot, HttpClient httpClient, Uri catalogEndpoint,
         string architecture, Version clientVersion, string? seedPath = null,
-        string? legacyRoot = null, bool allowNetwork = true, Func<string, bool>? isInUse = null)
+        string? legacyRoot = null, bool allowNetwork = true, Func<string, bool>? isInUse = null,
+        Uri? fallbackCatalogEndpoint = null)
     {
         _root = Path.GetFullPath(Path.Combine(dataRoot, "CloudTools"));
         CloudToolValidation.CheckNoReparse(_root);
         _http = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
         CatalogEndpoint = catalogEndpoint ?? throw new ArgumentNullException(nameof(catalogEndpoint));
+        FallbackCatalogEndpoint = fallbackCatalogEndpoint;
         _architecture = architecture;
         _clientVersion = clientVersion;
         _seedPath = seedPath;
@@ -138,43 +146,68 @@ public sealed class CloudToolManager
         {
             using var timeout = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
             timeout.CancelAfter(TimeSpan.FromSeconds(30));
-            using var request = new HttpRequestMessage(HttpMethod.Get, CatalogEndpoint);
+            var endpoint = CatalogEndpoint;
+            using var request = new HttpRequestMessage(HttpMethod.Get, endpoint);
             string? previousEtag;
-            lock (_sync) previousEtag = _catalog?.Revision == _etagRevision ? _etag : null;
+            lock (_sync) previousEtag = _catalog?.Revision == _etagRevision && _etagEndpoint == endpoint ? _etag : null;
             if (previousEtag is not null) request.Headers.IfNoneMatch.Add(EntityTagHeaderValue.Parse(previousEtag));
-            using var response = await _http.SendAsync(request, HttpCompletionOption.ResponseHeadersRead,
+            using var primaryResponse = await _http.SendAsync(request, HttpCompletionOption.ResponseHeadersRead,
                 timeout.Token).ConfigureAwait(false);
-            if (response.RequestMessage?.RequestUri is { } uri && uri != CatalogEndpoint)
+            if (primaryResponse.RequestMessage?.RequestUri is { } primaryUri && primaryUri != endpoint)
                 throw new InvalidDataException("工具目录不接受重定向。");
-            if (response.StatusCode == HttpStatusCode.NotModified)
+            HttpResponseMessage? fallbackResponse = null;
+            try
             {
+                // A versioned API which is not deployed yet can use the old API.
+                // An invalid 200, authorization failure or timeout never masks a
+                // broken newer catalog by silently accepting unrelated old data.
+                if (primaryResponse.StatusCode is HttpStatusCode.NotFound or HttpStatusCode.NotImplemented &&
+                    FallbackCatalogEndpoint is { } fallback)
+                {
+                    endpoint = fallback;
+                    using var fallbackRequest = new HttpRequestMessage(HttpMethod.Get, endpoint);
+                    lock (_sync) previousEtag = _catalog?.Revision == _etagRevision && _etagEndpoint == endpoint ? _etag : null;
+                    if (previousEtag is not null) fallbackRequest.Headers.IfNoneMatch.Add(EntityTagHeaderValue.Parse(previousEtag));
+                    fallbackResponse = await _http.SendAsync(fallbackRequest, HttpCompletionOption.ResponseHeadersRead,
+                        timeout.Token).ConfigureAwait(false);
+                }
+                var response = fallbackResponse ?? primaryResponse;
+                if (response.RequestMessage?.RequestUri is { } uri && uri != endpoint)
+                    throw new InvalidDataException("工具目录不接受重定向。");
+                if (response.StatusCode == HttpStatusCode.NotModified)
+                {
+                    lock (_sync)
+                        if (_catalog is null || previousEtag is null)
+                            throw new InvalidDataException("服务器返回未修改，但没有对应的有效本地工具目录。");
+                    lock (_sync) _activeCatalogEndpoint = endpoint;
+                    LastRefreshError = null;
+                    return;
+                }
+                response.EnsureSuccessStatusCode();
+                var json = await ReadLimitedTextAsync(response.Content, CloudToolValidation.MaxCatalogBytes, timeout.Token);
+                var incoming = CloudToolValidation.ParseCatalog(json, _clientVersion);
                 lock (_sync)
-                    if (_catalog is null || previousEtag is null)
-                        throw new InvalidDataException("服务器返回未修改，但没有对应的有效本地工具目录。");
+                {
+                    if (_catalog is not null && incoming.Revision < _catalog.Revision)
+                        throw new InvalidDataException("工具目录版本回退，保留当前目录。");
+                    if (_catalog is not null && incoming.Revision == _catalog.Revision &&
+                        JsonSerializer.Serialize(incoming, CloudToolValidation.JsonOptions) !=
+                        JsonSerializer.Serialize(_catalog, CloudToolValidation.JsonOptions))
+                        throw new InvalidDataException("同一目录版本内容不一致，保留当前目录。");
+                }
+                WriteJson(CloudToolValidation.Under(_root, "catalog.json"), incoming);
+                lock (_sync)
+                {
+                    _catalog = incoming;
+                    _etag = response.Headers.ETag?.ToString();
+                    _etagEndpoint = endpoint;
+                    _etagRevision = incoming.Revision;
+                    _activeCatalogEndpoint = endpoint;
+                }
                 LastRefreshError = null;
-                return;
+                RaiseChanged();
             }
-            response.EnsureSuccessStatusCode();
-            var json = await ReadLimitedTextAsync(response.Content, CloudToolValidation.MaxCatalogBytes, timeout.Token);
-            var incoming = CloudToolValidation.ParseCatalog(json, _clientVersion);
-            lock (_sync)
-            {
-                if (_catalog is not null && incoming.Revision < _catalog.Revision)
-                    throw new InvalidDataException("工具目录版本回退，保留当前目录。");
-                if (_catalog is not null && incoming.Revision == _catalog.Revision &&
-                    JsonSerializer.Serialize(incoming, CloudToolValidation.JsonOptions) !=
-                    JsonSerializer.Serialize(_catalog, CloudToolValidation.JsonOptions))
-                    throw new InvalidDataException("同一目录版本内容不一致，保留当前目录。");
-            }
-            WriteJson(CloudToolValidation.Under(_root, "catalog.json"), incoming);
-            lock (_sync)
-            {
-                _catalog = incoming;
-                _etag = response.Headers.ETag?.ToString();
-                _etagRevision = incoming.Revision;
-            }
-            LastRefreshError = null;
-            RaiseChanged();
+            finally { fallbackResponse?.Dispose(); }
         }
         catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested) { throw; }
         catch (Exception ex) when (ex is HttpRequestException or IOException or InvalidDataException or UnauthorizedAccessException or
@@ -253,15 +286,14 @@ public sealed class CloudToolManager
             Publish(id, tool, receipt is null ? CloudToolStatus.Downloading : CloudToolStatus.Updating, 0);
             using var timeout = CancellationTokenSource.CreateLinkedTokenSource(ct);
             timeout.CancelAfter(TimeSpan.FromMinutes(20));
-            await DownloadAsync(id, tool, package, zip, receipt is not null, timeout.Token).ConfigureAwait(false);
-            Publish(id, tool, CloudToolStatus.Installing, 100);
-            await ExtractAsync(zip, stage, timeout.Token).ConfigureAwait(false);
-            var entry = CloudToolValidation.Under(stage, package.EntryPoint);
-            if (!IsExecutable(entry)) throw new InvalidDataException("工具包缺少有效的 EXE 入口。");
+            bool strictExecutable;
+            lock (_sync) strictExecutable = _catalog?.SchemaVersion == 2;
+            var sourceUrl = await DownloadAsync(id, tool, package, zip, stage, receipt is not null,
+                strictExecutable, timeout.Token).ConfigureAwait(false);
             var packageFiles = await HashPackageFilesAsync(stage, timeout.Token).ConfigureAwait(false);
             var newReceipt = new CloudToolReceipt { Id = id, Name = tool.Name, Version = tool.Version,
                 Architecture = package.Architecture, Sha256 = package.Sha256.ToLowerInvariant(),
-                EntryPoint = package.EntryPoint, PackageUrl = package.Url, PackageSize = package.SizeBytes,
+                EntryPoint = package.EntryPoint, PackageUrl = sourceUrl, PackageSize = package.SizeBytes,
                 Files = packageFiles };
             ct.ThrowIfCancellationRequested();
             CloudToolValidation.CheckTree(stage);
@@ -290,7 +322,10 @@ public sealed class CloudToolManager
             RaiseChanged();
             return Result(id, true, "工具已安装，可以打开。");
         }
-        catch (OperationCanceledException) { return Fail(id, FindTool(id), "下载已取消，原有工具保持可用。"); }
+        catch (OperationCanceledException) when (ct.IsCancellationRequested)
+        { return Fail(id, FindTool(id), "下载已取消，原有工具保持可用。"); }
+        catch (OperationCanceledException)
+        { return Fail(id, FindTool(id), "下载或安装超时，原有工具保持可用；请稍后重试。"); }
         catch (Exception ex) when (ex is IOException or InvalidDataException or UnauthorizedAccessException or HttpRequestException or JsonException)
         {
             return Fail(id, FindTool(id), ex.Message);
@@ -336,14 +371,88 @@ public sealed class CloudToolManager
         finally { _gate.Release(); }
     }
 
-    private async Task DownloadAsync(string id, CloudToolDefinition tool, CloudToolPackage package,
-        string destination, bool updating, CancellationToken ct)
+    private async Task<string> DownloadAsync(string id, CloudToolDefinition tool, CloudToolPackage package,
+        string destination, string payload, bool updating, bool strictExecutable, CancellationToken ct)
     {
-        if (!CloudToolValidation.IsPackageUrl(package.Url)) throw new InvalidDataException("工具下载地址无效。");
-        using var response = await _http.GetAsync(package.Url, HttpCompletionOption.ResponseHeadersRead, ct).ConfigureAwait(false);
-        response.EnsureSuccessStatusCode();
-        if (response.RequestMessage?.RequestUri is { } finalUri && finalUri != new Uri(package.Url))
+        var sources = CloudToolValidation.PackageSources(package);
+        var errors = new List<Exception>();
+        for (var index = 0; index < sources.Count; index++)
+        {
+            ct.ThrowIfCancellationRequested();
+            var source = sources[index];
+            var attempt = CloudToolValidation.Under(Path.GetDirectoryName(destination)!, $"download-{index}.zip");
+            var attemptPayload = CloudToolValidation.Under(Path.GetDirectoryName(destination)!, $"payload-{index}");
+            try
+            {
+                // Each source starts with its own empty file, fresh hash and byte
+                // count. A partial primary response cannot taint a backup copy.
+                Publish(id, tool, updating ? CloudToolStatus.Updating : CloudToolStatus.Downloading, 0);
+                using var timeout = CancellationTokenSource.CreateLinkedTokenSource(ct);
+                timeout.CancelAfter(TimeSpan.FromMinutes(8));
+                await DownloadSourceAsync(id, tool, package, source, attempt, updating, timeout.Token).ConfigureAwait(false);
+                CheckZipArchive(attempt);
+                Publish(id, tool, CloudToolStatus.Installing, 100);
+                await ExtractAsync(attempt, attemptPayload, timeout.Token).ConfigureAwait(false);
+                var entry = CloudToolValidation.Under(attemptPayload, package.EntryPoint);
+                if (!IsExecutable(entry)) throw new InvalidDataException("工具包缺少有效的 EXE 入口。");
+                if (strictExecutable && !IsPortableExecutable(entry, package.Architecture, _architecture))
+                    throw new InvalidDataException("工具包主程序不是有效的 Windows 程序，或与清单架构不符；原版本已保留。");
+                ct.ThrowIfCancellationRequested();
+                CloudToolValidation.CheckNoReparse(destination);
+                File.Move(attempt, destination);
+                CloudToolValidation.CheckTree(attemptPayload);
+                CloudToolValidation.CheckNoReparse(payload);
+                Directory.Move(attemptPayload, payload);
+                return source.AbsoluteUri;
+            }
+            catch (OperationCanceledException) when (ct.IsCancellationRequested) { throw; }
+            catch (OperationCanceledException ex)
+            {
+                errors.Add(new HttpRequestException("下载源响应超时。", ex));
+            }
+            catch (HttpRequestException ex)
+            {
+                var message = ex.StatusCode is { } status ? $"下载源返回 HTTP {(int)status}，未取得工具包。" :
+                    "无法连接下载源，或下载连接已中断。";
+                errors.Add(new HttpRequestException(message, ex, ex.StatusCode));
+            }
+            catch (InvalidDataException ex)
+            {
+                errors.Add(ex.Message.Any(character => character > 127) ? ex :
+                    new InvalidDataException("工具包格式损坏或内容无效，未进行安装。", ex));
+            }
+            finally
+            {
+                CloudToolValidation.CheckNoReparse(attempt);
+                if (File.Exists(attempt)) File.Delete(attempt);
+                // Refuse to proceed to another source if its partial extraction
+                // cannot safely be removed from this operation-owned workspace.
+                CloudToolValidation.DeleteTree(attemptPayload);
+            }
+        }
+        throw new InvalidDataException($"工具下载失败，已尝试 {sources.Count} 个下载源，原有工具保持可用。" +
+            (errors.Count == 0 ? "" : " 原因：" + errors[^1].Message), new AggregateException(errors));
+    }
+
+    private async Task DownloadSourceAsync(string id, CloudToolDefinition tool, CloudToolPackage package,
+        Uri source, string destination, bool updating, CancellationToken ct)
+    {
+        using var headersTimeout = CancellationTokenSource.CreateLinkedTokenSource(ct);
+        headersTimeout.CancelAfter(TimeSpan.FromSeconds(30));
+        using var response = await _http.GetAsync(source, HttpCompletionOption.ResponseHeadersRead,
+            headersTimeout.Token).ConfigureAwait(false);
+        headersTimeout.CancelAfter(Timeout.InfiniteTimeSpan);
+        if (response.RequestMessage?.RequestUri is { } finalUri && finalUri != source)
             throw new InvalidDataException("工具包不接受重定向。");
+        if ((int)response.StatusCode is >= 300 and < 400)
+            throw new InvalidDataException("工具包不接受重定向。");
+        if (!response.IsSuccessStatusCode)
+            throw new HttpRequestException($"下载源返回 HTTP {(int)response.StatusCode}，未取得工具包。", null, response.StatusCode);
+        var mediaType = response.Content.Headers.ContentType?.MediaType;
+        if (mediaType is not null && (mediaType.StartsWith("text/", StringComparison.OrdinalIgnoreCase) ||
+            mediaType.Equals("application/xhtml+xml", StringComparison.OrdinalIgnoreCase) ||
+            mediaType.Equals("application/json", StringComparison.OrdinalIgnoreCase)))
+            throw new InvalidDataException("下载源返回了网页或错误信息，未取得 ZIP 工具包。");
         if (response.Content.Headers.ContentLength is { } length && length != package.SizeBytes)
             throw new InvalidDataException("下载大小与官方清单不一致。");
         await using var input = await response.Content.ReadAsStreamAsync(ct);
@@ -351,13 +460,28 @@ public sealed class CloudToolManager
         await using var output = new FileStream(destination, FileMode.CreateNew, FileAccess.Write, FileShare.None, 81920, true);
         using var hash = IncrementalHash.CreateHash(HashAlgorithmName.SHA256);
         var buffer = new byte[81920];
+        var signature = new byte[4];
+        var signatureCount = 0;
         long total = 0;
         var clock = Stopwatch.StartNew();
         var last = TimeSpan.Zero;
+        using var quiet = CancellationTokenSource.CreateLinkedTokenSource(ct);
         while (true)
         {
-            var count = await input.ReadAsync(buffer, ct).ConfigureAwait(false);
+            quiet.CancelAfter(TimeSpan.FromSeconds(45));
+            int count;
+            try { count = await input.ReadAsync(buffer, quiet.Token).ConfigureAwait(false); }
+            catch (IOException ex) { throw new HttpRequestException("下载过程中连接中断。", ex); }
+            finally { quiet.CancelAfter(Timeout.InfiniteTimeSpan); }
             if (count == 0) break;
+            if (signatureCount < signature.Length)
+            {
+                var copy = Math.Min(count, signature.Length - signatureCount);
+                buffer.AsSpan(0, copy).CopyTo(signature.AsSpan(signatureCount));
+                signatureCount += copy;
+                if (signatureCount == signature.Length && !signature.AsSpan().SequenceEqual("PK\x03\x04"u8))
+                    throw new InvalidDataException("下载源返回了网页、错误信息或无效文件，未取得 ZIP 工具包。");
+            }
             total += count;
             if (total > package.SizeBytes) throw new InvalidDataException("下载超出官方清单的大小。");
             hash.AppendData(buffer.AsSpan(0, count));
@@ -373,10 +497,24 @@ public sealed class CloudToolManager
         await output.FlushAsync(ct).ConfigureAwait(false);
     }
 
+    private static void CheckZipArchive(string path)
+    {
+        try
+        {
+            using var archive = ZipFile.OpenRead(path);
+            if (archive.Entries.Count is 0 or > CloudToolValidation.MaxZipEntries)
+                throw new InvalidDataException("工具包文件数量无效。");
+        }
+        catch (InvalidDataException ex)
+        {
+            throw new InvalidDataException("下载文件不是完整有效的 ZIP 工具包，未进行安装。", ex);
+        }
+    }
+
     private static async Task ExtractAsync(string zipPath, string destination, CancellationToken ct)
     {
         Directory.CreateDirectory(destination);
-        using var archive = ZipFile.OpenRead(zipPath);
+        using var archive = OpenZipArchive(zipPath);
         if (archive.Entries.Count is 0 or > CloudToolValidation.MaxZipEntries)
             throw new InvalidDataException("工具包文件数量无效。");
         var paths = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
@@ -402,16 +540,41 @@ public sealed class CloudToolManager
             await using var file = new FileStream(output, FileMode.CreateNew, FileAccess.Write, FileShare.None, 81920, true);
             var buffer = new byte[81920];
             long written = 0;
+            var crc = uint.MaxValue;
             while (true)
             {
-                var count = await input.ReadAsync(buffer, ct).ConfigureAwait(false);
+                int count;
+                try { count = await input.ReadAsync(buffer, ct).ConfigureAwait(false); }
+                catch (InvalidDataException ex)
+                { throw new InvalidDataException("工具包条目损坏，无法解压；原版本已保留。", ex); }
                 if (count == 0) break;
                 written += count;
                 if (written > entry.Length) throw new InvalidDataException("工具包条目大小不一致。");
+                for (var i = 0; i < count; i++) crc = ZipCrcTable[(crc ^ buffer[i]) & 0xff] ^ (crc >> 8);
                 await file.WriteAsync(buffer.AsMemory(0, count), ct).ConfigureAwait(false);
             }
             if (written != entry.Length) throw new InvalidDataException("工具包条目不完整。");
+            if (~crc != entry.Crc32) throw new InvalidDataException("工具包条目 CRC 校验失败，原版本已保留。");
         }
+    }
+
+    private static ZipArchive OpenZipArchive(string path)
+    {
+        try { return ZipFile.OpenRead(path); }
+        catch (InvalidDataException ex)
+        { throw new InvalidDataException("工具包格式损坏，无法解压；原版本已保留。", ex); }
+    }
+
+    private static uint[] CreateZipCrcTable()
+    {
+        var table = new uint[256];
+        for (uint index = 0; index < table.Length; index++)
+        {
+            var value = index;
+            for (var bit = 0; bit < 8; bit++) value = (value & 1) == 0 ? value >> 1 : (value >> 1) ^ 0xedb88320;
+            table[index] = value;
+        }
+        return table;
     }
 
     private static async Task<Dictionary<string, string>> HashPackageFilesAsync(string stage, CancellationToken ct)
@@ -630,6 +793,52 @@ public sealed class CloudToolManager
         if (!File.Exists(path)) return false;
         using var file = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite | FileShare.Delete);
         return file.ReadByte() == 'M' && file.ReadByte() == 'Z';
+    }
+
+    // New schema-2 packages must have bounded DOS, PE/COFF, optional and section
+    // headers. Legacy receipt lookup keeps its existing compatibility behavior.
+    // This examines bytes only and never loads or starts a vendor executable.
+    private static bool IsPortableExecutable(string path, string architecture, string hostArchitecture)
+    {
+        CloudToolValidation.CheckNoReparse(path);
+        using var file = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read);
+        if (file.Length < 64) return false;
+        Span<byte> dos = stackalloc byte[64];
+        file.ReadExactly(dos);
+        if (dos[0] != 'M' || dos[1] != 'Z') return false;
+        var offset = BinaryPrimitives.ReadInt32LittleEndian(dos[60..]);
+        if (offset < 64 || offset > file.Length - 24) return false;
+        file.Position = offset;
+        Span<byte> header = stackalloc byte[24];
+        file.ReadExactly(header);
+        if (!header[..4].SequenceEqual("PE\0\0"u8)) return false;
+        var machine = BinaryPrimitives.ReadUInt16LittleEndian(header[4..]);
+        var sections = BinaryPrimitives.ReadUInt16LittleEndian(header[6..]);
+        var optionalSize = BinaryPrimitives.ReadUInt16LittleEndian(header[20..]);
+        var flags = BinaryPrimitives.ReadUInt16LittleEndian(header[22..]);
+        var nativeMachine = hostArchitecture switch { "x86" => 0x014c, "x64" => 0x8664, "arm64" => 0xaa64, _ => 0 };
+        if (machine is not (0x014c or 0x8664 or 0xaa64) || sections is 0 or > 96 ||
+            nativeMachine == 0 || (machine != nativeMachine && machine != 0x014c) ||
+            (flags & 0x0002) == 0 || (flags & 0x2000) != 0 ||
+            (architecture == "x64" && machine != 0x8664) ||
+            (architecture == "x86" && machine != 0x014c) ||
+            (architecture == "arm64" && machine != 0xaa64) ||
+            file.Length - file.Position < optionalSize + sections * 40L || optionalSize < 2) return false;
+        Span<byte> magicBytes = stackalloc byte[2];
+        file.ReadExactly(magicBytes);
+        var magic = BinaryPrimitives.ReadUInt16LittleEndian(magicBytes);
+        if ((machine == 0x014c && (magic != 0x010b || optionalSize < 96)) ||
+            (machine != 0x014c && (magic != 0x020b || optionalSize < 112))) return false;
+        file.Position = offset + 24L + optionalSize;
+        Span<byte> section = stackalloc byte[40];
+        for (var index = 0; index < sections; index++)
+        {
+            file.ReadExactly(section);
+            var size = BinaryPrimitives.ReadUInt32LittleEndian(section[16..]);
+            var rawOffset = BinaryPrimitives.ReadUInt32LittleEndian(section[20..]);
+            if (size != 0 && (rawOffset > file.Length || size > file.Length - rawOffset)) return false;
+        }
+        return true;
     }
 
     private void RecoverTransactions()

@@ -29,6 +29,9 @@ public sealed record CloudToolPackage
 {
     public string Architecture { get; init; } = "";
     public string Url { get; init; } = "";
+    // Schema 2 only. Every source must serve the exact SizeBytes/Sha256 payload;
+    // these are explicit sources, not hosts the client invents or discovers.
+    public string[] Mirrors { get; init; } = [];
     public long SizeBytes { get; init; }
     public string Sha256 { get; init; } = "";
     public string EntryPoint { get; init; } = "";

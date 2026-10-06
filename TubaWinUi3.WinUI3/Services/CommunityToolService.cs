@@ -3,13 +3,15 @@ using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using TubaWinUi3.Models;
+using TubaWinUi3.Services.CloudTools;
 
 namespace TubaWinUi3.Services;
 
 public enum CommunityDataSource
 {
     GitCode,
-    GitHub
+    GitHub,
+    Zhenxing
 }
 
 public static class CommunityToolService
@@ -24,7 +26,7 @@ public static class CommunityToolService
     private const string GitHubApiBase = $"https://api.github.com/repos/{UpstreamOwner}/{UpstreamRepo}";
     private const string PluginIndexFile = "plugins-index.json";
 
-    public static CommunityDataSource CurrentSource { get; set; } = CommunityDataSource.GitCode;
+    public static CommunityDataSource CurrentSource { get; set; } = CommunityDataSource.Zhenxing;
 
     private static string ApiBase => CurrentSource == CommunityDataSource.GitCode ? GitCodeApiBase : GitHubApiBase;
 
@@ -55,6 +57,22 @@ public static class CommunityToolService
 
     public static async Task<List<CommunityTool>> GetPluginsAsync(int page = 1, int perPage = 30, CancellationToken ct = default)
     {
+        if (CurrentSource == CommunityDataSource.Zhenxing)
+        {
+            ct.ThrowIfCancellationRequested();
+            // Read the current catalog/cache without depending on either upstream repository.
+            return CloudToolService.GetCatalog()
+                .Where(t => CloudToolValidation.SelectPackage(t, UpdateService.CurrentArchitecture) is not null)
+                .OrderBy(t => t.Order).ThenBy(t => t.Name, StringComparer.CurrentCulture)
+                .Select(t => new CommunityTool
+                {
+                    Id = t.Id, CloudToolId = t.Id, Name = t.Name, Category = t.Category,
+                    Version = t.Version, Description = t.Description, Publisher = t.Publisher,
+                    Tags = t.Tags, Homepage = t.Homepage,
+                    DownloadUrl = CloudToolValidation.SelectPackage(t, UpdateService.CurrentArchitecture)!.Url,
+                    LaunchTarget = CloudToolValidation.SelectPackage(t, UpdateService.CurrentArchitecture)!.EntryPoint
+                }).ToList();
+        }
         if (_cache is not null && (DateTimeOffset.UtcNow - _cacheTime) < CacheDuration)
             return _cache;
 
@@ -314,6 +332,7 @@ public static class CommunityToolService
     public static async Task<CommunityTool?> LoadToolDetailAsync(CommunityTool summary, CancellationToken ct = default)
     {
         if (summary is null) return null;
+        if (summary.UsesManagedDownload) return summary;
 
         var cacheKey = $"{CurrentSource}:{summary.RepoPath}";
         if (_detailCache.TryGetValue(cacheKey, out var cached))
@@ -441,36 +460,43 @@ public static class CommunityToolService
 
     public static CommunityToolInstallStatus CheckInstallStatus(CommunityTool tool)
     {
-        foreach (var toolsRoot in InstallRoots())
+        if (tool.UsesManagedDownload)
         {
-            var toolDir = Path.Combine(toolsRoot, tool.Category, tool.Id);
-            if (!Directory.Exists(toolDir)) continue;
-
-            if (Directory.EnumerateFileSystemEntries(toolDir, "*", SearchOption.AllDirectories).Any())
-                return CommunityToolInstallStatus.Installed;
+            var state = CloudToolService.GetStates().FirstOrDefault(s => s.Id == tool.CloudToolId);
+            if (CloudToolService.GetInstalledEntryPath(tool.CloudToolId!) is null)
+                return CommunityToolInstallStatus.NotInstalled;
+            return state?.PendingUpdate == true
+                ? CommunityToolInstallStatus.UpdateAvailable : CommunityToolInstallStatus.Installed;
         }
-        return CommunityToolInstallStatus.NotInstalled;
+        return GetLocalPath(tool) is null ? CommunityToolInstallStatus.NotInstalled : CommunityToolInstallStatus.Installed;
     }
 
     public static string? GetLocalPath(CommunityTool tool)
     {
+        if (tool.UsesManagedDownload) return CloudToolService.GetInstalledEntryPath(tool.CloudToolId!);
+        if (!CloudToolValidation.IsRelativePath(tool.Category) || tool.Category.Contains('/') || tool.Category.Contains('\\') ||
+            !CloudToolValidation.IsRelativePath(tool.Id) || tool.Id.Contains('/') || tool.Id.Contains('\\') ||
+            (!string.IsNullOrWhiteSpace(tool.LaunchTarget) && !CloudToolValidation.IsRelativePath(tool.LaunchTarget)))
+            return null;
         foreach (var toolsRoot in InstallRoots())
         {
             var toolDir = Path.Combine(toolsRoot, tool.Category, tool.Id);
             if (!Directory.Exists(toolDir)) continue;
+            try { CloudToolValidation.CheckTree(toolDir); }
+            catch (Exception ex) when (ex is IOException or InvalidDataException or UnauthorizedAccessException) { continue; }
 
             var launchTarget = tool.LaunchTarget;
             if (!string.IsNullOrWhiteSpace(launchTarget))
             {
                 var directPath = Path.Combine(toolDir, launchTarget);
-                if (File.Exists(directPath)) return directPath;
+                if (CommunityPackageInstaller.IsExecutable(directPath)) return directPath;
 
-                var found = Directory.GetFiles(toolDir, launchTarget, SearchOption.AllDirectories);
-                if (found.Length > 0) return found[0];
             }
 
+            // A declared missing entrance cannot be replaced by a helper EXE.
+            if (!string.IsNullOrWhiteSpace(launchTarget)) continue;
             var exes = Directory.GetFiles(toolDir, "*.exe", SearchOption.AllDirectories);
-            if (exes.Length > 0) return exes[0];
+            if (exes.Length == 1 && CommunityPackageInstaller.IsExecutable(exes[0])) return exes[0];
         }
         return null;
     }
@@ -482,43 +508,70 @@ public static class CommunityToolService
 
     public static async Task<string> InstallPluginAsync(CommunityTool tool, string? overrideSourceUrl, IProgress<ToolDownloadProgress>? progress, CancellationToken ct = default)
     {
-        // 【GUI 隔离】安装是写操作：隔离态一律写可写根（ZXAI_DATA_ROOT\Tools）；随包 Tools 只读。
-        var toolsRoot = ToolCatalog.WritableToolsRoot;
-        if (toolsRoot is null) throw new InvalidOperationException(MiscTexts.T("无法找到工具目录"));
-
-        var categoryDir = Path.Combine(toolsRoot, tool.Category);
-        Directory.CreateDirectory(categoryDir);
-        var toolDir = Path.Combine(categoryDir, tool.Id);
-
-        if (Directory.Exists(toolDir))
+        if (tool.UsesManagedDownload)
         {
-            try { Directory.Delete(toolDir, true); } catch { }
+            // A window-selected upstream URL never overrides the trusted catalog identity.
+            EventHandler onChanged = (_, _) =>
+            {
+                var state = CloudToolService.GetStates().FirstOrDefault(s => s.Id == tool.CloudToolId);
+                if (state is not null) progress?.Report(new ToolDownloadProgress(0, 0, state.Progress, 0, null));
+            };
+            CloudToolService.Changed += onChanged;
+            try
+            {
+                var result = await CloudToolService.InstallAsync(tool.CloudToolId!, ct).ConfigureAwait(false);
+                if (!result.Success) throw new InvalidOperationException(result.Message);
+                var entry = CloudToolService.GetInstalledEntryPath(tool.CloudToolId!);
+                if (entry is null) throw new InvalidDataException("工具包已处理，但没有找到可打开的主程序。");
+                progress?.Report(new ToolDownloadProgress(0, 0, 100, 0, null));
+                return Path.GetDirectoryName(entry)!;
+            }
+            finally { CloudToolService.Changed -= onChanged; }
         }
-        Directory.CreateDirectory(toolDir);
+        return await CommunityPackageInstaller.InstallAsync(tool, overrideSourceUrl, progress, ct).ConfigureAwait(false);
+    }
+
+    internal static async Task DownloadLegacyPackageAsync(CommunityTool tool, string? overrideSourceUrl,
+        string toolDir, string tempDir, IProgress<ToolDownloadProgress>? progress, CancellationToken ct)
+    {
 
         var downloadSource = !string.IsNullOrWhiteSpace(tool.DownloadUrl) ? tool.DownloadUrl : "";
         var communityFile = !string.IsNullOrWhiteSpace(tool.File) ? tool.File : "";
 
-        if (!string.IsNullOrWhiteSpace(overrideSourceUrl))
+        if (!string.IsNullOrWhiteSpace(overrideSourceUrl) &&
+            !ToolDownloaderService.IsGitCodeDir(overrideSourceUrl) &&
+            !overrideSourceUrl.StartsWith("gh:", StringComparison.OrdinalIgnoreCase))
         {
-            var tempDir = Path.Combine(Path.GetTempPath(), $"TubaCommunity_{tool.Id}");
             var fileName = communityFile;
             if (string.IsNullOrWhiteSpace(fileName))
             {
                 try { fileName = new Uri(overrideSourceUrl).Segments.Last(); }
                 catch { fileName = "download"; }
             }
-            var archivePath = await ToolDownloaderService.DownloadToFileAsync(
+            var archivePath = await CommunityPackageInstaller.DownloadAsync(
                 overrideSourceUrl, tempDir, fileName, progress, ct);
-            await ToolDownloaderService.ExtractArchiveAsync(archivePath, toolDir, ct);
+            if (fileName.EndsWith(".zip", StringComparison.OrdinalIgnoreCase))
+                await CommunityPackageInstaller.ExtractAsync(archivePath, toolDir, tool.FileSha, ct);
+            else if (fileName.EndsWith(".exe", StringComparison.OrdinalIgnoreCase))
+            {
+                await CommunityPackageInstaller.VerifyBlobAsync(archivePath, tool.FileSha, ct);
+                File.Move(archivePath, CloudToolValidation.Under(toolDir, fileName));
+            }
+            else throw new InvalidDataException("社区工具只支持已声明的 ZIP 包或 EXE 文件。");
         }
         else if (!string.IsNullOrWhiteSpace(communityFile) && string.IsNullOrWhiteSpace(downloadSource))
         {
             var bestUrl = await ResolveCommunityFileUrlAsync(tool, communityFile, ct);
-            var tempDir = Path.Combine(Path.GetTempPath(), $"TubaCommunity_{tool.Id}");
-            var archivePath = await ToolDownloaderService.DownloadToFileAsync(
+            var archivePath = await CommunityPackageInstaller.DownloadAsync(
                 bestUrl, tempDir, communityFile, progress, ct);
-            await ToolDownloaderService.ExtractArchiveAsync(archivePath, toolDir, ct);
+            if (communityFile.EndsWith(".zip", StringComparison.OrdinalIgnoreCase))
+                await CommunityPackageInstaller.ExtractAsync(archivePath, toolDir, tool.FileSha, ct);
+            else if (communityFile.EndsWith(".exe", StringComparison.OrdinalIgnoreCase))
+            {
+                await CommunityPackageInstaller.VerifyBlobAsync(archivePath, tool.FileSha, ct);
+                File.Move(archivePath, CloudToolValidation.Under(toolDir, communityFile));
+            }
+            else throw new InvalidDataException("社区工具只支持已声明的 ZIP 包或 EXE 文件。");
         }
         else if (ToolDownloaderService.IsGitCodeDir(downloadSource))
         {
@@ -533,20 +586,19 @@ public static class CommunityToolService
         {
             var downloadInfo = await ToolDownloaderService.ResolveDownloadUrlAsync(
                 downloadSource, tool.DownloadFilter, ct);
+            if (downloadInfo is null) throw new InvalidDataException("没有找到此工具可用的下载文件。");
 
-            var tempDir = Path.Combine(Path.GetTempPath(), $"TubaCommunity_{tool.Id}");
-            var archivePath = await ToolDownloaderService.DownloadToFileAsync(
-                downloadInfo!.DownloadUrl, tempDir, downloadInfo.FileName, progress, ct);
+            var archivePath = await CommunityPackageInstaller.DownloadAsync(
+                downloadInfo.DownloadUrl, tempDir, downloadInfo.FileName, progress, ct);
 
             if (downloadInfo.IsArchive)
             {
-                await ToolDownloaderService.ExtractArchiveAsync(archivePath, toolDir, ct);
+                await CommunityPackageInstaller.ExtractAsync(archivePath, toolDir, null, ct);
             }
             else
             {
                 var destPath = Path.Combine(toolDir, downloadInfo.FileName);
                 File.Move(archivePath, destPath, true);
-                try { Directory.Delete(tempDir, true); } catch { }
             }
         }
         else
@@ -554,8 +606,6 @@ public static class CommunityToolService
             throw new InvalidOperationException(MiscTexts.T("该工具没有提供下载源"));
         }
 
-        ToolCatalog.InvalidateTagsCache();
-        return toolDir;
     }
 
     private static async Task<string> ResolveCommunityFileUrlAsync(CommunityTool tool, string communityFile, CancellationToken ct)
@@ -607,6 +657,13 @@ public static class CommunityToolService
     public static List<(string Name, string Url)> GetAllDownloadUrls(CommunityTool tool)
     {
         var urls = new List<(string Name, string Url)>();
+        if (tool.UsesManagedDownload)
+        {
+            var definition = CloudToolService.GetCatalog().SingleOrDefault(t => t.Id == tool.CloudToolId);
+            var package = definition is null ? null : CloudToolValidation.SelectPackage(definition, UpdateService.CurrentArchitecture);
+            if (package is not null) urls.Add(("自动选择可用下载源", package.Url));
+            return urls;
+        }
 
         var communityFile = tool.File;
         if (!string.IsNullOrWhiteSpace(communityFile) && !string.IsNullOrWhiteSpace(tool.RepoPath))

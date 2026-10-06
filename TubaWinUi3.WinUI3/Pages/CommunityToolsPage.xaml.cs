@@ -40,7 +40,8 @@ public sealed partial class CommunityToolsPage : Page, ILocalizablePage
         ToolTipService.SetToolTip(RefreshButton, L("CommunityTools_RefreshTooltip", MiscTexts.T("刷新")));
 
         _sourceReady = false;
-        SourceSelector.SelectedIndex = CommunityToolService.CurrentSource == CommunityDataSource.GitCode ? 0 : 1;
+        SourceSelector.SelectedIndex = CommunityToolService.CurrentSource switch
+        { CommunityDataSource.GitCode => 1, CommunityDataSource.GitHub => 2, _ => 0 };
         _sourceReady = true;
         await LoadToolsAsync();
     }
@@ -48,7 +49,8 @@ public sealed partial class CommunityToolsPage : Page, ILocalizablePage
     private async void SourceSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         if (!_sourceReady) return;
-        var newSource = SourceSelector.SelectedIndex == 1 ? CommunityDataSource.GitHub : CommunityDataSource.GitCode;
+        var newSource = SourceSelector.SelectedIndex switch
+        { 1 => CommunityDataSource.GitCode, 2 => CommunityDataSource.GitHub, _ => CommunityDataSource.Zhenxing };
         if (newSource == CommunityToolService.CurrentSource) return;
         CommunityToolService.CurrentSource = newSource;
         CommunityToolService.InvalidateCache();
@@ -81,7 +83,7 @@ public sealed partial class CommunityToolsPage : Page, ILocalizablePage
                 tool.LocalPath = CommunityToolService.GetLocalPath(tool);
 
                 // 已安装的工具直接用本地元数据填充，不需要加载 plugin.json
-                if (tool.InstallStatus == CommunityToolInstallStatus.Installed)
+                if (!tool.UsesManagedDownload && tool.InstallStatus == CommunityToolInstallStatus.Installed)
                 {
                     ApplyLocalMetadata(tool);
                 }
@@ -93,6 +95,7 @@ public sealed partial class CommunityToolsPage : Page, ILocalizablePage
             PageHeader.Title = LocalizationService.L("CommunityTools_Title", MiscTexts.T("社区"));
             PageHeader.Subtitle = string.Format(L("CommunityTools_SubtitleCount", MiscTexts.T("来自社区贡献的工具插件，下载安装即可使用。共 {0} 个")), _allTools.Count);
             StatusText.Text = _allTools.Count > 0 ? string.Format(L("CommunityTools_CountStatus", MiscTexts.T("共 {0} 个社区工具")), _allTools.Count) : L("CommunityTools_EmptyNone", MiscTexts.T("暂无社区工具"));
+            ApplyManagedCopy();
         }
         catch (OperationCanceledException) { }
         catch (Exception ex)
@@ -164,6 +167,15 @@ public sealed partial class CommunityToolsPage : Page, ILocalizablePage
             : L("CommunityTools_EmptyNone", MiscTexts.T("暂无社区工具"));
         UpdateCategoryFilter();
         ApplyFilter();
+        ApplyManagedCopy();
+    }
+
+    private void ApplyManagedCopy()
+    {
+        if (CommunityToolService.CurrentSource != CommunityDataSource.Zhenxing) return;
+        PageHeader.Title = L("CommunityTools_ManagedTitle", "工具下载");
+        PageHeader.Subtitle = L("CommunityTools_ManagedSubtitle", "从枕星下载源获取工具，自动校验文件并安装；社区来源可在右上角切换。");
+        StatusText.Text = string.Format(L("CommunityTools_ManagedCount", "当前平台可直接下载 {0} 个工具"), _allTools.Count);
     }
 
     private void UpdateCategoryFilter()
@@ -252,6 +264,13 @@ public sealed partial class CommunityToolsPage : Page, ILocalizablePage
 
     private async void RefreshButton_Click(object sender, RoutedEventArgs e)
     {
+        if (CommunityToolService.CurrentSource == CommunityDataSource.Zhenxing)
+        {
+            try { await Services.CloudTools.CloudToolService.RefreshAsync(); }
+            catch (Exception ex) { ShowStatus("刷新失败", ex.Message, InfoBarSeverity.Warning); }
+            if (Services.CloudTools.CloudToolService.LastRefreshError is { } error)
+                ShowStatus("正在使用已保存的工具目录", error, InfoBarSeverity.Warning);
+        }
         CommunityToolService.InvalidateCache();
         await LoadToolsAsync();
     }

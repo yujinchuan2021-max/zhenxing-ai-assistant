@@ -197,6 +197,7 @@ internal static class Program
         cases.AddRange(ToolAccessDeliveryCases.Attached());
         cases.AddRange(AppCenterCases.All());
         cases.AddRange(CommunityAppearanceCases.All());
+        cases.AddRange(CommunityManagedSourceCases.All());
         cases.AddRange(CommunityAuthenticationCases.All());
         cases.AddRange(GoalGuideCases.All());
         cases.AddRange(SkillEditorCases.All());

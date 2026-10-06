@@ -8,6 +8,8 @@ public static class CloudToolService
 {
     public static Uri OwnEndpoint { get; } = new(ToolFlowUploadService.OfficialEndpoint, "v1/tools/catalog");
     public static Uri EventsEndpoint { get; } = new(ToolFlowUploadService.OfficialEndpoint, "v1/tools/events");
+    public static Uri PreferredEndpoint { get; } = new(ToolFlowUploadService.OfficialEndpoint, "v2/tools/catalog");
+    public static Uri PreferredEventsEndpoint { get; } = new(ToolFlowUploadService.OfficialEndpoint, "v2/tools/events");
     private static readonly object Sync = new();
     private static readonly HttpClient Http = new(new HttpClientHandler { AllowAutoRedirect = false })
     { Timeout = Timeout.InfiniteTimeSpan };
@@ -35,9 +37,9 @@ public static class CloudToolService
             {
                 if (_manager is not null && key == _managerKey) return _manager;
                 if (_manager is not null) _manager.Changed -= OnChanged;
-                _manager = new CloudToolManager(root, Http, OwnEndpoint, UpdateService.CurrentArchitecture,
+                _manager = new CloudToolManager(root, Http, PreferredEndpoint, UpdateService.CurrentArchitecture,
                     UpdateService.CurrentVersion, seed, ToolCatalog.ToolsRoot,
-                    allowNetwork: DataRoots.EffectiveTestRoot is null);
+                    allowNetwork: DataRoots.EffectiveTestRoot is null, fallbackCatalogEndpoint: OwnEndpoint);
                 _manager.Changed += OnChanged;
                 _managerKey = key;
                 return _manager;
@@ -124,13 +126,19 @@ public static class CloudToolService
         {
             try
             {
+                var manager = TryGetManager();
+                if (manager is null) throw new InvalidDataException("云端工具服务暂不可用。");
+                if (manager.ActiveCatalogEndpoint is null) await RefreshAsync(ct).ConfigureAwait(false);
+                if (manager.ActiveCatalogEndpoint is not { } catalogEndpoint)
+                    throw new InvalidDataException("工具目录尚未连接，稍后重试更新通知。");
+                var eventsEndpoint = SelectEventsEndpoint(catalogEndpoint);
                 using var timeout = CancellationTokenSource.CreateLinkedTokenSource(ct);
                 timeout.CancelAfter(TimeSpan.FromSeconds(30));
-                using var request = new HttpRequestMessage(HttpMethod.Get, EventsEndpoint);
+                using var request = new HttpRequestMessage(HttpMethod.Get, eventsEndpoint);
                 request.Headers.Accept.ParseAdd("text/event-stream");
                 using var response = await Http.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, timeout.Token).ConfigureAwait(false);
                 response.EnsureSuccessStatusCode();
-                if (response.RequestMessage?.RequestUri is { } uri && uri != EventsEndpoint)
+                if (response.RequestMessage?.RequestUri is { } uri && uri != eventsEndpoint)
                     throw new InvalidDataException("工具事件不接受重定向。");
                 if (response.Content.Headers.ContentType?.MediaType != "text/event-stream")
                     throw new InvalidDataException("工具事件格式无效。");
@@ -147,6 +155,10 @@ public static class CloudToolService
                     quiet.CancelAfter(TimeSpan.FromSeconds(90));
                     var line = await ReadEventLineAsync(reader, quiet.Token).ConfigureAwait(false);
                     if (line is null) break;
+                    // Polling may discover a newly deployed v2 service while
+                    // the old stream remains healthy. Reconnect its matching
+                    // version instead of missing subsequent v2 notifications.
+                    if (manager.ActiveCatalogEndpoint != catalogEndpoint) break;
                     if (line.Length == 0)
                     {
                         if (hasData) await RefreshAsync(ct).ConfigureAwait(false);
@@ -162,6 +174,10 @@ public static class CloudToolService
             retrySeconds = Math.Min(retrySeconds * 2, 60);
         }
     }
+
+    internal static Uri SelectEventsEndpoint(Uri catalogEndpoint) => catalogEndpoint == PreferredEndpoint
+        ? PreferredEventsEndpoint : catalogEndpoint == OwnEndpoint ? EventsEndpoint
+        : throw new InvalidDataException("工具通知来源与已连接的目录不匹配。");
 
     // StreamReader.ReadLineAsync can allocate an unbounded line before a length check.
     private static async Task<string?> ReadEventLineAsync(StreamReader reader, CancellationToken ct)

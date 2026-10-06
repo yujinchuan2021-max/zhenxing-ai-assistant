@@ -1,30 +1,125 @@
-"""Tool release contract tests: synthetic manifests, temporary state, loopback only.
+"""Tool contract tests use synthetic PE ZIPs, temporary state and loopback HTTP.
 
-No test needs an archive, downloads a URL, or executes an entry point.
+No vendor package is downloaded, extracted or executed; production transport is
+replaced with a local HTTP fixture while the full verification logic stays real.
 """
 from __future__ import annotations
 
 from concurrent.futures import ThreadPoolExecutor
-from contextlib import contextmanager
+from contextlib import closing, contextmanager
 from copy import deepcopy
 import hashlib
 from http.client import HTTPConnection
-from http.server import ThreadingHTTPServer
+from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+import io
+import importlib.util
 import json
 from pathlib import Path
 import tempfile
+import struct
+import stat
+import sqlite3
 import threading
 import time
 import unittest
+from unittest.mock import patch
+from urllib.parse import urlsplit
+import zipfile
 
 from server import Store, make_handler
 from tool_catalog import ToolCatalogError, ToolCatalogStore, validate_catalog
+from tool_package_verifier import verify_catalog_packages
+import tool_package_verifier
 
 
 ADMIN_TOKEN = "synthetic-tool-catalog-admin-token"
 
 
+def synthetic_pe(architecture="x64"):
+    data = bytearray(528)
+    data[:2] = b"MZ"
+    struct.pack_into("<I", data, 60, 128)
+    data[128:132] = b"PE\0\0"
+    optional = 224 if architecture == "x86" else 240
+    struct.pack_into("<HHIIIHH", data, 132, {"x64": 0x8664, "x86": 0x14c, "arm64": 0xaa64}[architecture], 1, 0, 0, 0, optional, 2)
+    struct.pack_into("<H", data, 152, 0x10b if architecture == "x86" else 0x20b)
+    struct.pack_into("<I", data, 168, 0x1000)
+    section = 152 + optional
+    data[section:section + 8] = b".text\0\0\0"
+    struct.pack_into("<IIII", data, section + 8, 16, 0x1000, 16, 512)
+    data[512:] = b"synthetic-only!!"
+    return bytes(data)
+
+
+def synthetic_zip(revision=1, *, entries=None, compression=zipfile.ZIP_DEFLATED):
+    output = io.BytesIO()
+    with zipfile.ZipFile(output, "w") as archive:
+        for name, body in (entries or [("bin/SyntheticTool.exe", synthetic_pe()), ("README.txt", f"synthetic revision {revision}".encode())]):
+            info = zipfile.ZipInfo(name, date_time=(2020, 1, 1, 0, 0, 0))
+            info.compress_type = compression
+            info.external_attr = 0o100644 << 16
+            archive.writestr(info, body)
+    return output.getvalue()
+
+
+class PackageFixture:
+    """Real loopback HTTP bodies, behind the production verifier's transport seam."""
+    def __init__(self):
+        self.responses, self.requests = {}, []
+        fixture = self
+
+        class Handler(BaseHTTPRequestHandler):
+            def do_GET(self):
+                fixture.requests.append(self.path)
+                revision = int(self.path.rsplit("release-", 1)[-1].split("-", 1)[0]) if "release-" in self.path else 1
+                status, headers, body = fixture.responses.get(self.path, (200, {}, synthetic_zip(revision)))
+                self.send_response(status)
+                for key, value in headers.items():
+                    self.send_header(key, value)
+                if "Content-Length" not in headers:
+                    self.send_header("Content-Length", str(len(body)))
+                self.send_header("Connection", "close")
+                self.end_headers()
+                self.wfile.write(body)
+
+            def log_message(self, *_):
+                pass
+
+        self.server = LoopbackServer(("127.0.0.1", 0), Handler)
+        self.thread = threading.Thread(target=self.server.serve_forever, daemon=True)
+        self.thread.start()
+
+    @contextmanager
+    def open(self, url, timeout):
+        connection = HTTPConnection("127.0.0.1", self.server.server_port, timeout=timeout)
+        try:
+            parts = urlsplit(url)
+            connection.request("GET", "/" + parts.netloc + parts.path)
+            yield connection.getresponse()
+        finally:
+            connection.close()
+
+    def response(self, url, body, *, status=200, headers=None):
+        parts = urlsplit(url)
+        self.responses["/" + parts.netloc + parts.path] = (status, headers or {}, body)
+
+    def close(self):
+        self.server.shutdown()
+        self.server.server_close()
+        self.thread.join(timeout=3)
+
+
+def use_package_fixture(test):
+    fixture = PackageFixture()
+    test.addCleanup(fixture.close)
+    replacement = patch("tool_package_verifier._open_package", fixture.open)
+    replacement.start()
+    test.addCleanup(replacement.stop)
+    return fixture
+
+
 def sample_catalog(revision=1):
+    payload = synthetic_zip(revision)
     return {
         "schemaVersion": 1,
         "revision": revision,
@@ -45,8 +140,8 @@ def sample_catalog(revision=1):
             "packages": [{
                 "architecture": "x64",
                 "url": f"https://zhenxingai.com/downloads/tools/synthetic-tool/release-{revision}-x64.zip",
-                "sizeBytes": 128 + revision,
-                "sha256": hashlib.sha256(f"synthetic asset {revision}".encode("ascii")).hexdigest(),
+                "sizeBytes": len(payload),
+                "sha256": hashlib.sha256(payload).hexdigest(),
                 "entryPoint": "bin/SyntheticTool.exe",
                 "kind": "portable-zip",
             }],
@@ -74,7 +169,7 @@ class CatalogValidationTests(unittest.TestCase):
 
     def test_protocol_version_and_release_order_have_strict_types(self):
         invalid_fields = (
-            ("schemaVersion", True), ("schemaVersion", 2),
+            ("schemaVersion", True), ("schemaVersion", 3),
             ("revision", True), ("revision", 1.0), ("revision", "1"),
             ("revision", 0), ("revision", -1),
             ("publishedAt", "not-a-time"), ("publishedAt", "2026-10-05T00:00:00"),
@@ -238,6 +333,7 @@ class CatalogValidationTests(unittest.TestCase):
 
 class CatalogStoreTests(unittest.TestCase):
     def setUp(self):
+        self.packages = use_package_fixture(self)
         self.temp = tempfile.TemporaryDirectory()
         self.addCleanup(self.temp.cleanup)
         self.folder = Path(self.temp.name)
@@ -314,7 +410,6 @@ class CatalogStoreTests(unittest.TestCase):
 
         recovery = sample_catalog(3)
         recovered_package = deepcopy(new_package)
-        recovered_package["sha256"] = "e" * 64
         recovery["tools"][0]["packages"] = [recovered_package]
         # The failed release must not reserve its new URL or its old hash.
         result = self.store.publish(recovery)
@@ -368,6 +463,7 @@ class LoopbackServer(ThreadingHTTPServer):
 
 class CatalogHttpTests(unittest.TestCase):
     def setUp(self):
+        self.packages = use_package_fixture(self)
         self.temp = tempfile.TemporaryDirectory()
         self.store = Store(Path(self.temp.name) / "synthetic.sqlite3")
         self.store.tool_catalog.heartbeat_seconds = 0.05
@@ -540,6 +636,409 @@ class CatalogHttpTests(unittest.TestCase):
         # Even an up-to-date reconnect receives a fresh current snapshot.
         with self.stream(last_event_id=3) as response:
             self.assertEqual(self.read_catalog_event(response)[0]["id"], "3")
+
+
+class PackageVerificationTests(unittest.TestCase):
+    def setUp(self):
+        self.packages = use_package_fixture(self)
+
+    def candidate_with_bytes(self, body, *, catalog=None):
+        catalog = deepcopy(catalog or sample_catalog())
+        package = catalog["tools"][0]["packages"][0]
+        package.update(sizeBytes=len(body), sha256=hashlib.sha256(body).hexdigest())
+        self.packages.response(package["url"], body)
+        for mirror in package.get("mirrors", []):
+            self.packages.response(mirror, body)
+        return catalog
+
+    def assert_verification_rejected(self, catalog, message=None):
+        with self.assertRaises(ToolCatalogError) as caught:
+            verify_catalog_packages(catalog)
+        self.assertEqual(caught.exception.status, 502)
+        if message:
+            self.assertIn(message, caught.exception.message)
+
+    def v2(self):
+        catalog = sample_catalog()
+        catalog["schemaVersion"] = 2
+        catalog["tools"][0]["packages"][0]["mirrors"] = [
+            "https://download.zhenxingai.com/downloads/tools/synthetic-tool/release-1-x64.zip",
+            "https://download-backup.zhenxingai.com/downloads/tools/synthetic-tool/release-1-x64.zip"]
+        return catalog
+
+    def test_full_zip_receipt_is_bound_to_canonical_catalog_and_entry(self):
+        catalog = sample_catalog()
+        receipt = verify_catalog_packages(catalog)
+        expected = json.dumps(validate_catalog(catalog), ensure_ascii=False, sort_keys=True, separators=(",", ":")).encode()
+        self.assertEqual(receipt["catalogSha256"], hashlib.sha256(expected).hexdigest())
+        self.assertEqual(receipt["catalogBytes"], len(expected))
+        self.assertEqual(receipt["revision"], 1)
+        self.assertFalse(receipt["toolsExecuted"])
+        self.assertEqual(receipt["originCount"], 1)
+        self.assertEqual(receipt["packages"][0]["fileCount"], 2)
+        self.assertEqual(receipt["packages"][0]["entries"][0]["peArchitecture"], "x64")
+
+    def test_v2_requires_every_declared_origin_to_serve_the_same_bytes(self):
+        catalog = self.v2()
+        receipt = verify_catalog_packages(catalog)
+        self.assertEqual(receipt["originCount"], 3)
+        self.assertEqual(len(self.packages.requests), 3)
+        self.assertEqual(len({asset["sha256"] for asset in receipt["packages"]}), 1)
+        mirrors = catalog["tools"][0]["packages"][0]["mirrors"]
+        self.packages.response(mirrors[-1], b"<html>wrong backup</html>", headers={"Content-Type": "text/html"})
+        self.assert_verification_rejected(catalog, "page")
+
+    def test_empty_catalog_has_an_explicit_zero_asset_receipt(self):
+        catalog = sample_catalog()
+        catalog["tools"] = []
+        receipt = verify_catalog_packages(catalog)
+        self.assertEqual(receipt["originCount"], 0)
+        self.assertEqual(receipt["packages"], [])
+        self.assertEqual(self.packages.requests, [])
+
+    def test_http_redirect_error_html_and_encoded_bodies_are_rejected(self):
+        catalog = sample_catalog()
+        package = catalog["tools"][0]["packages"][0]
+        for code, headers, message in (
+            (302, {"Location": "https://github.com/private/asset.zip"}, "HTTP 302"),
+            (404, {}, "HTTP 404"),
+            (206, {}, "HTTP 206"),
+            (200, {"Content-Type": "text/html"}, "page"),
+            (200, {"Content-Encoding": "gzip"}, "encoded"),
+        ):
+            with self.subTest(code=code, headers=headers):
+                self.packages.response(package["url"], synthetic_zip(), status=code, headers=headers)
+                self.assert_verification_rejected(catalog, message)
+
+    def test_wrong_length_and_digest_are_rejected(self):
+        catalog = sample_catalog()
+        url = catalog["tools"][0]["packages"][0]["url"]
+        self.packages.response(url, synthetic_zip()[:-1])
+        self.assert_verification_rejected(catalog, "Content-Length")
+        self.packages.response(url, synthetic_zip())
+        catalog["tools"][0]["packages"][0]["sha256"] = "a" * 64
+        self.assert_verification_rejected(catalog, "SHA-256")
+
+    def test_html_without_content_type_truncation_and_prefixed_zip_are_rejected(self):
+        for body in (b"<html>not ZIP</html>", synthetic_zip()[:-8], b"junk" + synthetic_zip()):
+            with self.subTest(body_prefix=body[:4]):
+                self.assert_verification_rejected(self.candidate_with_bytes(body))
+
+    def test_crc_is_checked_for_non_entry_files_too(self):
+        body = bytearray(synthetic_zip(entries=[("bin/SyntheticTool.exe", synthetic_pe()), ("data.txt", b"crc-marker")], compression=zipfile.ZIP_STORED))
+        at = body.index(b"crc-marker")
+        body[at] ^= 1
+        self.assert_verification_rejected(self.candidate_with_bytes(bytes(body)), "CRC")
+
+    def test_path_traversal_devices_and_case_collisions_are_rejected(self):
+        for name in ("../escape.txt", "/absolute.txt", "C:/escape.txt", "bin\\escape.txt", "bin/NUL", "bin/space .txt", "bin/ADS:payload"):
+            # Internal spaces in filenames are allowed on Windows.
+            if name == "bin/space .txt":
+                name = "bin/trailing-space /x.txt"
+            with self.subTest(name=name):
+                body = synthetic_zip(entries=[("bin/SyntheticTool.exe", synthetic_pe()), (name, b"x")])
+                # ZipInfo normalizes OS separators during creation on Windows;
+                # mutate the stored headers to exercise the actual unsafe ZIP.
+                if "\\" in name:
+                    body = body.replace(name.replace("\\", "/").encode(), name.encode())
+                self.assert_verification_rejected(self.candidate_with_bytes(body), "unsafe")
+        for name in ("bin/synthetictool.EXE", "bin"):
+            body = synthetic_zip(entries=[("bin/SyntheticTool.exe", synthetic_pe()), (name, b"x")])
+            self.assert_verification_rejected(self.candidate_with_bytes(body), "collid")
+
+    def test_links_and_unsupported_compression_are_rejected(self):
+        output = io.BytesIO()
+        with zipfile.ZipFile(output, "w") as archive:
+            archive.writestr("bin/SyntheticTool.exe", synthetic_pe())
+            info = zipfile.ZipInfo("evil-link")
+            info.create_system = 3
+            info.external_attr = (stat.S_IFLNK | 0o777) << 16
+            archive.writestr(info, "../escape")
+        self.assert_verification_rejected(self.candidate_with_bytes(output.getvalue()), "link")
+        self.assert_verification_rejected(self.candidate_with_bytes(synthetic_zip(compression=zipfile.ZIP_BZIP2)), "unsupported")
+
+    def test_client_reserved_installation_receipt_cannot_be_shipped_in_a_package(self):
+        body = synthetic_zip(entries=[("bin/SyntheticTool.exe", synthetic_pe()), (".ZXAI-CLOUD-INSTALL.JSON", b"{}")])
+        self.assert_verification_rejected(self.candidate_with_bytes(body), "reserved")
+
+    def test_missing_invalid_and_wrong_architecture_entries_are_rejected(self):
+        cases = ([("other.exe", synthetic_pe())], [("bin/SyntheticTool.exe", b"not a PE")],
+                 [("bin/SyntheticTool.exe", synthetic_pe("x86"))])
+        for entries in cases:
+            with self.subTest(name=entries[0][0]):
+                self.assert_verification_rejected(self.candidate_with_bytes(synthetic_zip(entries=entries)))
+
+    def test_count_expanded_download_and_time_limits_are_enforced(self):
+        for setting, value in (("MAX_ZIP_ENTRIES", 1), ("MAX_EXPANDED_BYTES", 20),
+                               ("MAX_ENTRY_BYTES", 20), ("MAX_TOTAL_DOWNLOAD_BYTES", 1),
+                               ("CATALOG_TIMEOUT_SECONDS", -1)):
+            with self.subTest(setting=setting), patch("tool_package_verifier." + setting, value):
+                self.assert_verification_rejected(sample_catalog())
+
+    def test_shared_asset_is_read_once_but_every_entry_profile_is_verified(self):
+        body = synthetic_zip(entries=[("bin/SyntheticTool.exe", synthetic_pe()), ("x86/Tool.exe", synthetic_pe("x86"))])
+        catalog = self.candidate_with_bytes(body)
+        other = deepcopy(catalog["tools"][0]["packages"][0])
+        other.update(architecture="x86", entryPoint="x86/Tool.exe")
+        catalog["tools"][0]["packages"].append(other)
+        receipt = verify_catalog_packages(catalog)
+        self.assertEqual(len(self.packages.requests), 1)
+        self.assertEqual(len(receipt["packages"][0]["entries"]), 2)
+
+
+class CatalogGateStoreTests(CatalogStoreTests):
+    def test_failure_preserves_pointer_history_assets_and_receipts(self):
+        first = self.store.publish(sample_catalog())
+        bad = sample_catalog(2)
+        self.packages.response(bad["tools"][0]["packages"][0]["url"], b"bad")
+        with self.assertRaises(ToolCatalogError) as caught:
+            self.store.publish(bad)
+        self.assertEqual(caught.exception.status, 502)
+        self.assertEqual(self.store.snapshot(), (sample_catalog(), first["etag"]))
+        with self.assertRaises(ToolCatalogError) as caught:
+            self.store.verification_receipt(2)
+        self.assertEqual(caught.exception.status, 404)
+        with self.store._connect() as db:
+            self.assertEqual(db.execute("SELECT COUNT(*) FROM catalogs").fetchone()[0], 1)
+            self.assertEqual(db.execute("SELECT COUNT(*) FROM package_assets").fetchone()[0], 1)
+
+    def test_receipt_persists_and_identical_retries_reuse_original_evidence(self):
+        first = self.store.publish(sample_catalog())
+        self.assertEqual(ToolCatalogStore(self.folder).verification_receipt(1), first["verification"])
+        self.packages.requests.clear()
+        retry = self.store.publish(sample_catalog())
+        self.assertFalse(retry["created"])
+        self.assertEqual(retry["verification"], first["verification"])
+        self.assertEqual(self.packages.requests, [])
+
+    def test_old_database_is_readable_but_legacy_retry_must_obtain_real_evidence(self):
+        catalog = sample_catalog()
+        payload = json.dumps(catalog, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
+        with self.store._connect() as db:
+            db.execute("INSERT INTO catalogs VALUES (?, ?, ?)", (1, payload, '"legacy"'))
+            db.execute("INSERT INTO catalog_current VALUES (1, 1)")
+        self.assertEqual(self.store.current(), catalog)
+        with self.assertRaises(ToolCatalogError):
+            self.store.verification_receipt(1)
+        self.packages.response(catalog["tools"][0]["packages"][0]["url"], b"bad")
+        with self.assertRaises(ToolCatalogError):
+            self.store.publish(catalog)
+        self.assertEqual(self.store.snapshot()[1], '"legacy"')
+        self.packages.responses.clear()
+        retry = self.store.publish(catalog)
+        self.assertFalse(retry["created"])
+        self.assertEqual(retry["verification"]["originCount"], 1)
+
+    def test_original_v1_database_migrates_without_changing_its_current_payload(self):
+        legacy_root = self.folder / "original-format"
+        legacy_dir = legacy_root / "tool-catalog"
+        legacy_dir.mkdir(parents=True)
+        catalog = sample_catalog()
+        package = catalog["tools"][0]["packages"][0]
+        payload = json.dumps(catalog, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
+        with closing(sqlite3.connect(legacy_dir / "catalog.sqlite3")) as old, old:
+            old.executescript("""
+                CREATE TABLE catalogs (revision INTEGER PRIMARY KEY, payload TEXT NOT NULL, etag TEXT NOT NULL);
+                CREATE TABLE catalog_current (singleton INTEGER PRIMARY KEY, revision INTEGER NOT NULL);
+                CREATE TABLE package_assets (url TEXT PRIMARY KEY, size_bytes INTEGER NOT NULL, sha256 TEXT NOT NULL);
+            """)
+            old.execute("INSERT INTO catalogs VALUES (?, ?, ?)", (1, payload, '"original-etag"'))
+            old.execute("INSERT INTO catalog_current VALUES (1, 1)")
+            old.execute("INSERT INTO package_assets VALUES (?, ?, ?)", (package["url"], package["sizeBytes"], package["sha256"]))
+        upgraded = ToolCatalogStore(legacy_root)
+        self.assertEqual(upgraded.snapshot(), (catalog, '"original-etag"'))
+        with upgraded._connect() as current:
+            binding = current.execute("SELECT size_bytes, sha256 FROM main.package_assets WHERE url=?", (package["url"],)).fetchone()
+            self.assertEqual(binding, (package["sizeBytes"], package["sha256"]))
+            self.assertEqual(current.execute("SELECT COUNT(*) FROM catalog_db.verification_receipts").fetchone()[0], 0)
+        self.assertTrue(upgraded.publish(sample_catalog(2))["created"])
+        self.assertEqual(upgraded.current()["revision"], 2)
+
+    def test_v1_and_v2_have_independent_current_history_and_assets(self):
+        self.store.publish(sample_catalog(3))
+        catalog = sample_catalog(4)
+        catalog["schemaVersion"] = 2
+        catalog["tools"][0]["packages"][0]["mirrors"] = []
+        other = ToolCatalogStore(self.folder, schema_version=2)
+        other.publish(catalog)
+        self.assertEqual(other.current()["revision"], 4)
+        self.assertEqual(self.store.current()["revision"], 3)
+        with self.assertRaises(ToolCatalogError):
+            self.store.publish(catalog)
+        with self.assertRaises(ToolCatalogError):
+            other.publish(sample_catalog(4))
+
+    def test_first_v2_revision_advances_beyond_v1_current_and_bundled_seed(self):
+        other = ToolCatalogStore(self.folder, schema_version=2)
+        for revision in (1, 2):
+            candidate = sample_catalog(revision)
+            candidate["schemaVersion"] = 2
+            candidate["tools"][0]["packages"][0]["mirrors"] = []
+            with self.assertRaises(ToolCatalogError) as caught:
+                other.publish(candidate)
+            self.assertEqual(caught.exception.status, 409)
+        self.store.publish(sample_catalog(8))
+        candidate = sample_catalog(8)
+        candidate["schemaVersion"] = 2
+        candidate["tools"][0]["packages"][0]["mirrors"] = []
+        with self.assertRaises(ToolCatalogError) as caught:
+            other.publish(candidate)
+        self.assertEqual(caught.exception.status, 409)
+        candidate["revision"] = 9
+        self.assertTrue(other.publish(candidate)["created"])
+
+    def test_url_immutability_is_shared_across_schema_versions(self):
+        self.store.publish(sample_catalog())
+        candidate = sample_catalog(4)
+        candidate["schemaVersion"] = 2
+        package = candidate["tools"][0]["packages"][0]
+        package["url"] = sample_catalog()["tools"][0]["packages"][0]["url"]
+        package["mirrors"] = []
+        other = ToolCatalogStore(self.folder, schema_version=2)
+        with self.assertRaises(ToolCatalogError) as caught:
+            other.publish(candidate)
+        self.assertEqual(caught.exception.status, 409)
+        self.assertIn("immutable", caught.exception.message)
+        self.assertEqual(self.store.current()["revision"], 1)
+        with self.assertRaises(ToolCatalogError):
+            other.current()
+
+
+class V2CatalogValidationTests(unittest.TestCase):
+    def sample(self):
+        catalog = sample_catalog()
+        catalog["schemaVersion"] = 2
+        catalog["tools"][0]["packages"][0]["mirrors"] = []
+        return catalog
+
+    def test_v1_strict_fields_and_v2_origin_whitelist(self):
+        old = sample_catalog()
+        old["tools"][0]["packages"][0]["mirrors"] = []
+        with self.assertRaises(ToolCatalogError):
+            validate_catalog(old)
+        catalog = self.sample()
+        package = catalog["tools"][0]["packages"][0]
+        for host in ("zhenxingai.com", "download.zhenxingai.com", "download-backup.zhenxingai.com"):
+            package["url"] = f"https://{host}:443/downloads/tools/tool.zip"
+            self.assertEqual(validate_catalog(catalog)["tools"][0]["packages"][0]["url"], f"https://{host}/downloads/tools/tool.zip")
+        for url in ("https://github.com/tool.zip", "http://zhenxingai.com/downloads/tools/tool.zip",
+                    "https://zhenxingai.com.evil.test/downloads/tools/tool.zip", "https://zhenxingai.com/downloads/tools/../tool.zip",
+                    "https://zhenxingai.com/downloads/tools/tool.zip?secret=x", "https://u:p@zhenxingai.com/downloads/tools/tool.zip"):
+            with self.subTest(url=url), self.assertRaises(ToolCatalogError):
+                package["url"] = url
+                validate_catalog(catalog)
+
+    def test_mirrors_limit_duplicates_and_conflicting_bytes(self):
+        catalog = self.sample()
+        package = catalog["tools"][0]["packages"][0]
+        for mirrors in ([package["url"]], [package["url"].replace(".com/", ".com:443/")], "not-list",
+                        [f"https://zhenxingai.com/downloads/tools/{i}.zip" for i in range(4)]):
+            with self.subTest(mirrors=mirrors), self.assertRaises(ToolCatalogError):
+                package["mirrors"] = mirrors
+                validate_catalog(catalog)
+        package["mirrors"] = ["https://download.zhenxingai.com/downloads/tools/backup.zip"]
+        other = deepcopy(package)
+        other.update(architecture="x86", url=package["mirrors"][0], mirrors=[], sha256="f" * 64)
+        catalog["tools"][0]["packages"].append(other)
+        with self.assertRaises(ToolCatalogError):
+            validate_catalog(catalog)
+
+
+class V2CatalogHttpTests(CatalogHttpTests):
+    def test_separate_v2_publish_catalog_events_and_admin_auth(self):
+        self.publish(3)
+        catalog = sample_catalog(4)
+        catalog["schemaVersion"] = 2
+        catalog["tools"][0]["packages"][0]["mirrors"] = []
+        for path in ("/v2/tools/catalog", "/v2/tools/events"):
+            self.assertEqual(self.request("GET", path)[0], 404)
+        self.assertEqual(self.request("POST", "/v2/admin/tools/publish", catalog)[0], 401)
+        self.assertEqual(self.request("POST", "/v1/admin/tools/publish", catalog, token=ADMIN_TOKEN)[0], 400)
+        status, _, body = self.request("POST", "/v2/admin/tools/publish", catalog, token=ADMIN_TOKEN)
+        self.assertEqual(status, 201)
+        self.assertEqual(json.loads(body)["verification"]["catalogSchemaVersion"], 2)
+        self.assertEqual(json.loads(self.request("GET", "/v1/tools/catalog")[2])["revision"], 3)
+        self.assertEqual(json.loads(self.request("GET", "/v2/tools/catalog")[2]), catalog)
+        self.assertEqual(self.request("GET", "/v2/admin/tools/catalog")[0], 401)
+        self.assertEqual(json.loads(self.request("GET", "/v2/admin/tools/catalog", token=ADMIN_TOKEN)[2]), catalog)
+        self.assertEqual(self.request("GET", "/v2/tools/catalog?unexpected=1")[0], 400)
+        html = self.request("GET", "/admin/tools-v2")[2]
+        self.assertIn(b"/v2/admin/tools/publish", html)
+        self.assertNotIn(ADMIN_TOKEN.encode(), html)
+        connection = HTTPConnection("127.0.0.1", self.server.server_port, timeout=3)
+        try:
+            connection.request("GET", "/v2/tools/events")
+            response = connection.getresponse()
+            self.assertEqual(response.status, 200)
+            _, data = self.read_catalog_event(response)
+            self.assertEqual(data["revision"], 4)
+        finally:
+            connection.close()
+
+
+class PackageTransportTests(unittest.TestCase):
+    def test_fixed_public_ip_tls_host_get_and_headers_do_not_include_credentials(self):
+        url = sample_catalog()["tools"][0]["packages"][0]["url"]
+        with patch("tool_package_verifier._resolve_with_timeout", return_value=["93.184.216.34"]), patch("tool_package_verifier._PinnedHTTPSConnection") as factory:
+            connection = factory.return_value
+            response = connection.getresponse.return_value
+            with tool_package_verifier._open_package(url, 3) as received:
+                self.assertIs(received, response)
+            factory.assert_called_once_with("zhenxingai.com", "93.184.216.34", timeout=3)
+            args, kwargs = connection.request.call_args
+            self.assertEqual(args, ("GET", urlsplit(url).path))
+            self.assertEqual(kwargs["headers"]["Accept-Encoding"], "identity")
+            self.assertFalse(set(key.lower() for key in kwargs["headers"]) & {"authorization", "cookie", "proxy-authorization"})
+            response.close.assert_called_once()
+            connection.close.assert_called_once()
+
+    def test_failed_dns_and_resolver_deadline_fail_closed(self):
+        with patch("tool_package_verifier.resolve_public_addresses", side_effect=ValueError("secret resolver context")):
+            with self.assertRaises(ToolCatalogError) as caught:
+                tool_package_verifier._resolve_with_timeout("zhenxingai.com", 1)
+            self.assertNotIn("secret", caught.exception.message)
+        with patch("tool_package_verifier.resolve_public_addresses", side_effect=lambda _: time.sleep(0.04)):
+            with self.assertRaises(ToolCatalogError) as caught:
+                tool_package_verifier._resolve_with_timeout("zhenxingai.com", 0.001)
+            self.assertIn("timed out", caught.exception.message)
+
+
+class PackageVerifierCliTests(unittest.TestCase):
+    def setUp(self):
+        self.packages = use_package_fixture(self)
+        self.temp = tempfile.TemporaryDirectory()
+        self.addCleanup(self.temp.cleanup)
+        self.folder = Path(self.temp.name)
+        self.input = self.folder / "catalog.json"
+        self.output = self.folder / "receipt.json"
+        source = Path(__file__).resolve().parents[1] / "scripts" / "verify-tool-packages.py"
+        spec = importlib.util.spec_from_file_location("synthetic_verifier_cli", source)
+        self.cli = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(self.cli)
+
+    def run_cli(self):
+        with patch("sys.argv", ["verify-tool-packages", "--catalog", str(self.input), "--receipt", str(self.output)]), patch("sys.stdout", io.StringIO()), patch("sys.stderr", io.StringIO()):
+            return self.cli.main()
+
+    def test_success_creates_review_receipt_and_does_not_overwrite_it(self):
+        self.input.write_text(json.dumps(sample_catalog(), ensure_ascii=False, indent=2), encoding="utf-8")
+        self.assertEqual(self.run_cli(), 0)
+        original = self.output.read_bytes()
+        receipt = json.loads(original)
+        self.assertEqual(receipt["sourceFileSha256"], hashlib.sha256(self.input.read_bytes()).hexdigest())
+        self.assertEqual(receipt["originCount"], 1)
+        self.assertEqual(self.run_cli(), 1)
+        self.assertEqual(self.output.read_bytes(), original)
+
+    def test_failed_package_and_duplicate_json_do_not_create_success_receipt(self):
+        catalog = sample_catalog()
+        self.input.write_text(json.dumps(catalog), encoding="utf-8")
+        self.packages.response(catalog["tools"][0]["packages"][0]["url"], b"bad page")
+        self.assertEqual(self.run_cli(), 1)
+        self.assertFalse(self.output.exists())
+        self.input.write_text('{"schemaVersion":1,"schemaVersion":2}', encoding="utf-8")
+        self.assertEqual(self.run_cli(), 1)
+        self.assertFalse(self.output.exists())
 
 
 if __name__ == "__main__":
