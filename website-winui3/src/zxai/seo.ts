@@ -71,6 +71,11 @@ export const buildPageSeoMap = (): Record<string, PageSeo> => {
         isBasedOn: siteConfig.upstream.repo,
       },
     },
+    features: {
+      title: en ? `Features — ${brandName}` : `功能总览 —— ${brandName}`,
+      description: en ? 'Explore AI workflows, app management, skills, hardware, system and network tools, format conversion and game utilities, with purposes, requirements and instructions.' : '逐项了解 AI 目标工作台、应用管理、技能、硬件、系统、网络、格式转换与游戏辅助，查看用途、条件和使用入口。',
+      path: '/features',
+    },
     download: {
       title: en ? `Download 0.1.1 preview — ${brandName}` : `下载 0.1.1 公开预览版 —— ${brandName}`,
       // 描述随 releaseState() 切换（与下载页文案同一来源）

@@ -2000,3 +2000,99 @@ html[data-theme='light'] .zx-shot--light img {
     transform: none;
   }
 }
+
+/* Product overview: an explicit workflow illustration, not a simulated client screenshot. */
+.zx-home-hero.zx-hero__inner { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 0.98fr); align-items: center; gap: 54px; text-align: left; }
+.zx-home-hero__copy { min-width: 0; }
+.zx-home-hero .zx-hero__title { max-width: none; font-size: clamp(38px, 4.35vw, 58px); line-height: 1.22; }
+.zx-home-hero__accent { color: var(--zx-accent-strong); }
+.zx-home-hero .zx-hero__lead { max-width: 34em; margin: 24px 0 0; font-size: 16px; }
+.zx-home-hero .zx-btn-row { justify-content: flex-start; }
+.zx-home-hero .zx-hero__state { justify-content: flex-start; flex-wrap: wrap; }
+.zx-home-hero__links { display: flex; flex-wrap: wrap; gap: 10px 24px; margin-top: 18px; font-size: 14px; }
+.zx-home-hero__links a { min-height: 28px; }
+.zx-workflow-preview { min-width: 0; border: 1px solid var(--zx-border-strong); border-radius: var(--zx-radius-xl); background: var(--zx-surface); padding: 28px; box-shadow: var(--zx-shadow-l); }
+.zx-workflow-preview__top { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; font-size: 13px; color: var(--zx-text-2); }
+.zx-workflow-preview__top > svg { color: var(--zx-accent-strong); width: 18px; height: 18px; }
+.zx-workflow-preview__flag { margin-left: auto; border: 1px solid var(--zx-border); border-radius: 999px; padding: 3px 9px; color: var(--zx-text-2); font-size: 11.5px; }
+.zx-workflow-preview__goal { margin-top: 22px; padding-bottom: 20px; border-bottom: 1px solid var(--zx-border); font-size: 19px; font-weight: 700; line-height: 1.6; }
+.zx-workflow-preview__steps { list-style: none; padding: 0; margin: 18px 0; display: grid; gap: 8px; }
+.zx-workflow-preview__steps li { display: grid; grid-template-columns: 32px minmax(0, 1fr) 18px; align-items: center; gap: 14px; padding: 11px 0; }
+.zx-workflow-preview__number { font-family: var(--zx-font-mono); color: var(--zx-accent-strong); font-size: 13px; border: 1px solid var(--zx-accent-line); background: var(--zx-accent-soft); border-radius: 9px; width: 32px; height: 32px; display: grid; place-items: center; }
+.zx-workflow-preview__steps h2 { font-size: 15px; line-height: 1.5; }
+.zx-workflow-preview__steps p { font-size: 12.5px; color: var(--zx-text-2); margin-top: 3px; }
+.zx-workflow-preview__steps > li > svg { width: 16px; height: 16px; color: var(--zx-text-3); }
+.zx-workflow-preview__note { border-top: 1px solid var(--zx-border); padding-top: 18px; font-size: 12.5px; color: var(--zx-text-2); line-height: 1.75; }
+.zx-workflow-preview__more { display: inline-flex; align-items: center; min-height: 30px; margin-top: 14px; font-size: 13px; }
+.zx-home-feature { display: flex; flex-direction: column; align-items: start; }
+.zx-home-feature > a { margin-top: auto; padding-top: 18px; min-height: 32px; font-size: 14px; }
+.zx-start-panel { margin-top: 36px; border: 1px solid var(--zx-accent-line); border-radius: var(--zx-radius-l); background: var(--zx-accent-soft); padding: 26px 28px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+.zx-start-panel > div { min-width: 0; }
+.zx-start-panel p { margin-top: 8px; font-size: 14px; color: var(--zx-text-2); }
+.zx-start-panel > .zx-btn { flex: none; }
+
+/* Shared page contents and capability cards, with visible requirements. */
+.zx-section-nav { display: flex; flex-wrap: wrap; gap: 10px 12px; margin-top: 30px; padding: 18px 0; border-top: 1px solid var(--zx-border); border-bottom: 1px solid var(--zx-border); }
+.zx-section-nav a { display: inline-flex; align-items: center; min-height: 32px; padding: 4px 10px; border-radius: 8px; color: var(--zx-text-2); background: var(--zx-bg-soft); font-size: 13px; }
+.zx-section-nav a:hover { color: var(--zx-text); background: var(--zx-surface-2); text-decoration: none; }
+.zx-feature-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+.zx-capability { display: flex; flex-direction: column; min-width: 0; align-items: start; }
+.zx-capability__head { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+.zx-capability__head .zx-card__icon { margin-bottom: 0; }
+.zx-capability__label { color: var(--zx-text-2); font-size: 13px; }
+.zx-capability > h2 { margin-bottom: 12px; }
+.zx-capability .zx-list { margin-top: 18px; gap: 8px; }
+.zx-capability__condition { margin-top: 22px; padding-top: 16px; border-top: 1px solid var(--zx-border); width: 100%; }
+.zx-capability__condition strong { display: block; margin-bottom: 4px; color: var(--zx-text); font-size: 13px; }
+.zx-capability__link { display: inline-flex; min-height: 32px; margin-top: auto; padding-top: 16px; font-size: 14px; }
+.zx-tool-map { display: grid; gap: 12px; margin-top: 24px; }
+.zx-tool-group { background: var(--zx-surface); border: 1px solid var(--zx-border); border-radius: var(--zx-radius-m); padding: 18px 22px; min-width: 0; }
+.zx-tool-group > summary { display: flex; align-items: center; justify-content: space-between; gap: 12px; cursor: pointer; min-height: 28px; font-weight: 700; }
+.zx-tool-group > summary::after { content: '+'; font-size: 20px; font-weight: 400; color: var(--zx-accent-strong); }
+.zx-tool-group[open] > summary::after { content: '−'; }
+.zx-tool-group > summary .zx-small { margin-left: auto; font-weight: 400; }
+.zx-tool-group > p { margin-top: 16px; color: var(--zx-text-2); font-size: 13.5px; }
+.zx-tool-rows { margin-top: 18px; border-top: 1px solid var(--zx-border); }
+.zx-tool-row { display: grid; grid-template-columns: minmax(130px, 0.75fr) minmax(0, 1.8fr); gap: 16px; padding: 13px 0; border-bottom: 1px solid var(--zx-border); }
+.zx-tool-row:last-child { border-bottom: 0; }
+.zx-tool-row h3 { font-size: 14px; line-height: 1.75; }
+.zx-tool-row p { color: var(--zx-text-2); font-size: 14px; }
+.zx-guide-card { display: grid; gap: 10px; }
+.zx-guide-card h3 { margin-bottom: 0; }
+.zx-guide-card > a { min-height: 28px; font-size: 14px; }
+.zx-page__body > section > p + p { margin-top: 12px; }
+.zx-download-primary { display: flex; justify-content: space-between; align-items: center; gap: 22px; padding: 28px; background: var(--zx-surface); border: 1px solid var(--zx-accent-line); border-radius: var(--zx-radius-l); }
+.zx-download-primary__copy { min-width: 0; }
+.zx-download-primary__copy h2 { font-size: 20px; }
+.zx-download-primary__copy p { margin-top: 8px; font-size: 14px; color: var(--zx-text-2); }
+.zx-download-primary .zx-btn { flex: none; }
+html[data-theme='light'] .zx-btn--primary { background: var(--zx-accent-strong); }
+html[data-theme='light'] .zx-btn--primary:hover { background: #6f3b0c; }
+
+@media (max-width: 1120px) {
+  .zx-nav { position: fixed; inset: var(--zx-header-h) 0 auto 0; flex-direction: column; align-items: stretch; gap: 4px; margin: 0; padding: 14px var(--zx-gutter) 20px; background: var(--zx-bg); border-bottom: 1px solid var(--zx-border); box-shadow: var(--zx-shadow-m); display: none; }
+  .zx-nav.is-open { display: flex; }
+  .zx-nav__link { height: 46px; padding: 0 14px; font-size: 16px; }
+  .zx-menu-btn { display: inline-flex; }
+  .zx-header__cta { display: none; }
+}
+@media (max-width: 980px) {
+  .zx-home-hero.zx-hero__inner { grid-template-columns: minmax(0, 1fr); gap: 36px; }
+  .zx-home-hero .zx-hero__title { font-size: clamp(36px, 6vw, 54px); }
+  .zx-home-hero .zx-hero__lead { max-width: 40em; }
+  .zx-workflow-preview { max-width: 680px; width: 100%; }
+}
+@media (max-width: 760px) {
+  .zx-feature-grid { grid-template-columns: minmax(0, 1fr); }
+  .zx-start-panel, .zx-download-primary { flex-direction: column; align-items: stretch; padding: 22px; }
+  .zx-start-panel > .zx-btn, .zx-download-primary > .zx-btn { align-self: start; }
+  .zx-tool-row { grid-template-columns: minmax(0, 1fr); gap: 4px; }
+}
+@media (max-width: 480px) {
+  .zx-workflow-preview { padding: 22px 18px; }
+  .zx-workflow-preview__flag { margin-left: 0; }
+  .zx-workflow-preview__steps li { gap: 10px; }
+  .zx-tool-group { padding: 16px; }
+  .zx-home-hero .zx-hero__title { font-size: 37px; }
+  .zx-capability { padding: 22px 20px; }
+}

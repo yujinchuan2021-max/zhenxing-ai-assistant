@@ -10,7 +10,7 @@ import './zxai/styles/zxai.css';
 
 /**
  * 枕星图吧AI助手 官网入口
- * —— 站点实现位于 src/zxai/（上游站点代码保留在 src/site/ 供对照，不参与本构建）。
+ * —— 当前唯一站点实现位于 src/zxai/；旧版实现可从 Git 历史查阅。
  */
 
 // 主题先于首帧渲染落地（index.html 内联脚本已设过一次，这里补上监听与主题色 meta）

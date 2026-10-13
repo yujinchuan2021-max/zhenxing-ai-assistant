@@ -58,7 +58,7 @@ import { siteConfig } from '../site.config';
 import { t } from '../i18n';
 
 const navItems = computed(() => [
-  { label: t('首页', 'Home'), path: '/' },
+  { label: t('功能', 'Features'), path: '/features' },
   { label: t('下载', 'Download'), path: '/download' },
   { label: t('文档', 'Docs'), path: '/docs' },
   { label: t('社区', 'Community'), path: '/community' },

@@ -28,53 +28,13 @@
         </article>
       </section>
 
-      <!-- 开发进度（详细；首页只保留演示与三组价值） -->
-      <section>
-        <h2 class="zx-h3" style="margin-bottom: 14px">{{ t('开发进度（详细）', 'Development progress (detailed)') }}</h2>
-        <p v-if="release().released" class="zx-small" style="margin-bottom: 16px">
-          {{ t('Windows x64 0.1.1 公开预览版已开放下载；下列功能以当前预览为准，需进一步验证的范围另列。', 'The Windows x64 0.1.1 public preview is available to download. Features below describe this preview; areas needing further validation are listed separately.') }}
-        </p>
-        <p v-else class="zx-small" style="margin-bottom: 16px">
-          {{ t('当前下载信息不完整，请到本项目 GitHub 发布页核对版本、文件与校验值。', 'Download information is incomplete. Check the version, file and checksum on this project’s GitHub release page.') }}
-        </p>
-        <div class="zx-grid-2">
-          <article class="zx-card">
-            <div class="zx-card__icon"><ZxIcon name="check" /></div>
-            <h3>{{ release().released ? t('当前公开预览版提供', 'In the current public preview') : t('开发版已接入', 'In the development build') }}</h3>
-            <ul class="zx-list zx-list--dense">
-              <li v-for="item in availableNow" :key="item">{{ item }}</li>
-            </ul>
-          </article>
-          <article class="zx-card">
-            <div class="zx-card__icon"><ZxIcon name="sparkle" /></div>
-            <h3>{{ t('稳定版前继续验证', 'Further validation before a stable release') }}</h3>
-            <ul class="zx-list zx-list--dense">
-              <li v-for="item in inProgress" :key="item">{{ item }}</li>
-            </ul>
-          </article>
-        </div>
-
-        <h3 class="zx-h3" style="margin: 28px 0 14px">{{ t('工具流：完整链路', 'The workflow: the full chain') }}</h3>
-        <ol class="zx-steps">
-          <li v-for="(step, index) in flowSteps" :key="step.title" class="zx-step">
-            <span class="zx-step__index" aria-hidden="true">{{ String(index + 1).padStart(2, '0') }}</span>
-            <div class="zx-step__body">
-              <h4 class="zx-step__title">
-                {{ step.title }}
-                <span class="zx-tag" :class="`zx-tag--${step.status}`">{{ statusLabel(step.status) }}</span>
-              </h4>
-              <p>{{ step.text }}</p>
-              <p v-if="step.examples" class="zx-step__examples">{{ step.examples }}</p>
-            </div>
-          </li>
-        </ol>
-        <p class="zx-note" style="margin-top: 20px">
-          <strong>{{ t('关于「选择什么工具」', 'On “which tools to choose”') }}</strong>{{ t('：选型随目标变化，没有标准答案——助手负责把候选、理由与代价摆出来对比，', ': the right choice depends on the goal and there is no standard answer — the assistant lays out the options, the reasons and the trade-offs, and ') }}<strong>{{ t('最终由你拍板', 'you make the final call') }}</strong>{{ t('；页面里出现的任何产品名都只是示例，不构成固定推荐。', '; any product name on this site is an example, not a fixed recommendation.') }}
-        </p>
+      <section id="scope">
+        <h2 class="zx-h3" style="margin-bottom: 14px">{{ t('当前版本，怎样理解', 'Understand the current preview') }}</h2>
+        <div class="zx-grid-2"><article class="zx-card"><h3>{{ t('能力与适用条件', 'Capabilities and requirements') }}</h3><p>{{ t('目标工作台、应用管理、技能、硬件和电脑工具按各自条件提供。工具准备完成后，账号、首次运行和实际效果仍需确认。', 'Goal workflows, app management, skills, hardware and utilities each have requirements. After preparation, accounts, first runs and actual results still need confirmation.') }}</p><RouterLink to="/features" class="zx-capability__link">{{ t('查看逐项功能说明', 'Explore every capability') }} →</RouterLink></article><article class="zx-card"><h3>{{ t('公开预览与发行记录', 'Public preview and release record') }}</h3><p>{{ t('0.1.1 当前提供 Windows x64 完整便携包。源码后续变化不会自动进入现有下载包；公开包的更新内容、验证范围和已知问题以对应发行记录为准。', '0.1.1 provides a complete Windows x64 portable package. Later source changes do not automatically enter that package. Its changes, validation scope and known issues are recorded in the corresponding release.') }}</p><a :href="siteConfig.links.releaseNotes ?? undefined" target="_blank" rel="noopener noreferrer" class="zx-capability__link">{{ t('查看发行记录', 'Read the release record') }} →</a></article></div>
       </section>
 
       <!-- 数据与统计 -->
-      <section>
+      <section id="data">
         <h2 class="zx-h3" style="margin-bottom: 14px">{{ t('数据与统计', 'Data and analytics') }}</h2>
         <div class="zx-grid-2">
           <article class="zx-card">
@@ -154,10 +114,10 @@
       <section>
         <h2 class="zx-h3" style="margin-bottom: 14px">{{ t('本项目在上游基础上的改造', 'What this project changes on top of upstream') }}</h2>
         <ul class="zx-list zx-list--dense">
-          <li><strong>{{ t('AI 助手内核', 'AI assistant core') }}</strong>{{ t('：接入 DeepSeek Harness（dsh）作为会话核心，保留自研引擎作为可回退方案。', ': DeepSeek Harness (dsh) is wired in as the conversation core, with the in-house engine kept as a fallback.') }}</li>
+          <li><strong>{{ t('目标工作台', 'Goal workbench') }}</strong>{{ t('：围绕目标组织关键问题、方案比较、准备清单与工具交接，帮助用户看清当前步骤。', ': organises focused questions, plan comparison, preparation checklists and tool handoff around the goal, with a clear current step.') }}</li>
           <li><strong>{{ t('界面重塑', 'Interface rework') }}</strong>{{ t('：AI 页面与相关设置支持深色、浅色与跟随系统；动态会话、菜单和网页主题仍持续验证。', ': AI pages and settings support dark, light and system themes; dynamic conversations, menus and embedded pages remain under validation.') }}</li>
           <li><strong>{{ t('界面字体', 'Interface fonts') }}</strong>{{ t('：站点正文提供 更纱黑体 / Noto Sans SC / HarmonyOS Sans SC 三种选择（默认更纱黑体，顶栏可切换），字体文件与许可随站点附带，选择只记在访问者本机浏览器。', ': the site body offers Sarasa UI SC / Noto Sans SC / HarmonyOS Sans SC (Sarasa by default, switchable in the header); font files and licences ship with the site, and the choice is stored only in the visitor’s browser.') }}</li>
-          <li><strong>{{ t('工具与合规', 'Tools and compliance') }}</strong>{{ t('：扩充内置工具（格式转换、游戏联机助手、时间同步、垃圾清理等），对高风险工具执行合规替换并在卡片上标注。', ': built-in tools were expanded (format conversion, game networking helper, time sync, junk cleaning and more); high-risk tools were replaced on compliance grounds and are marked on their cards.') }}</li>
+          <li><strong>{{ t('工具获取与管理', 'Tool acquisition and management') }}</strong>{{ t('：区分内置页面、按需下载与厂商获取流程；本机软件状态与云端目录分开呈现。', ': distinguishes built-in pages, on-demand downloads and vendor acquisition, with local software state separate from the cloud catalogue.') }}</li>
           <li><strong>{{ t('工程与验收', 'Engineering and acceptance') }}</strong>{{ t('：数据根隔离、启动守卫与回归测试体系，优先保证“测出来的结果可复现”。', ': isolated data roots, startup guards and a regression-test system, with priority on reproducible results.') }}</li>
         </ul>
         <p class="zx-small" style="margin-top: 14px">
@@ -224,13 +184,11 @@
 
 <script setup lang="ts">
 import ZxIcon from '../components/ZxIcon.vue';
-import { siteConfig, dataNoticeCopy, releaseState, upstreamAuthors } from '../site.config';
+import { siteConfig, dataNoticeCopy, upstreamAuthors } from '../site.config';
 import { analyticsConfigured } from '../analytics';
-import { availableNow, flowSteps, inProgress, statusLabel } from '../progress';
 import { FONT_OPTIONS, activeFont } from '../fonts';
 import { t } from '../i18n';
 
 // 数据说明与发布状态：与首页共用同一来源，且随界面语言切换
 const dataNotice = () => dataNoticeCopy();
-const release = () => releaseState();
 </script>

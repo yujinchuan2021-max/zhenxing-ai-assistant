@@ -11,6 +11,7 @@ import { applyPageSeo } from './seo';
  */
 const routes: RouteRecordRaw[] = [
   { path: '/', name: 'home', component: () => import('./pages/HomePage.vue') },
+  { path: '/features', name: 'features', component: () => import('./pages/FeaturesPage.vue') },
   { path: '/download', name: 'download', component: () => import('./pages/DownloadPage.vue') },
   { path: '/tools/download/:id?', name: 'tool-downloads', component: () => import('./pages/ToolDownloadsPage.vue') },
   { path: '/tools/acquire/:id?', name: 'tool-acquisition', component: () => import('./pages/ToolAcquisitionPage.vue') },

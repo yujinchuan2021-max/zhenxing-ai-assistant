@@ -2,11 +2,13 @@
   <div class="zx-home">
     <!-- ============================ 首屏 ============================ -->
     <section class="zx-hero zx-hero--tight">
-      <div class="zx-container zx-hero__inner">
-        <h1 class="zx-h1 zx-hero__title zx-rise zx-rise--1">{{ t('说出你的想法，枕星带你把 AI 用起来。', 'Say what you want to do — 枕星图吧AI助手 helps you get started.') }}</h1>
+      <div class="zx-container zx-hero__inner zx-home-hero">
+        <div class="zx-home-hero__copy">
+        <p class="zx-eyebrow zx-rise zx-rise--1">{{ t('Windows · AI 目标工作台与电脑工具', 'Windows · AI workflows and computer tools') }}</p>
+        <h1 class="zx-h1 zx-hero__title zx-rise zx-rise--1">{{ t('把想法变成', 'Turn your idea into') }}<br /><span class="zx-home-hero__accent">{{ t('下一步行动。', 'a practical next step.') }}</span></h1>
 
         <p class="zx-lead zx-hero__lead zx-rise zx-rise--2">
-          {{ t('说目标、选方案、确认准备，再打开你的工具开始做。', 'Describe the goal, choose a plan, confirm preparation, then open your tools and get started.') }}
+          {{ t('枕星帮你问清需求、比较方案、准备支持的工具。开始创作，也能随时检查硬件、管理应用和处理电脑问题。', 'Clarify your goal, compare plans and prepare supported tools with 枕星图吧AI助手. Start creating, inspect hardware, manage apps and handle computer issues in one place.') }}
         </p>
 
         <div class="zx-btn-row zx-rise zx-rise--3">
@@ -14,10 +16,10 @@
             <ZxIcon name="download" />
             <span>{{ t('下载 0.1.1 预览版', 'Download 0.1.1 preview') }}</span>
           </RouterLink>
-          <a class="zx-btn" href="#demo">
-            <span>{{ t('看看怎么用', 'See how it works') }}</span>
+          <RouterLink class="zx-btn" to="/features">
+            <span>{{ t('查看全部功能', 'Explore features') }}</span>
             <ZxIcon name="arrow" style="width: 16px; height: 16px" />
-          </a>
+          </RouterLink>
         </div>
 
         <p class="zx-hero__state zx-rise zx-rise--3">
@@ -26,12 +28,14 @@
           <template v-else>{{ t('开发中 · 暂未开放下载', 'In development · download not open yet') }}</template>
         </p>
 
-        <div class="zx-hero__shot zx-rise zx-rise--4">
-          <ZxShot
-            :dark="shotAiDark"
-            :light="shotAiLight"
-            :alt="t('枕星图吧AI助手 · AI 助手页面实拍', '枕星图吧AI助手 · screenshot of the AI assistant page')"
-            :caption="t('应用实拍：AI 助手新对话页（界面示例，以当前 0.1.1 客户端为准）', 'App screenshot: the AI assistant’s new-chat page (an interface example; refer to the current 0.1.1 client)')" />
+        <div class="zx-home-hero__links zx-rise zx-rise--3"><RouterLink to="/docs">{{ t('第一次使用', 'First use') }} →</RouterLink><a :href="siteConfig.links.repo ?? undefined" target="_blank" rel="noopener noreferrer">GitHub ↗</a></div>
+        </div>
+        <div class="zx-workflow-preview zx-rise zx-rise--4" :aria-label="t('使用流程示意', 'Illustrative workflow')">
+          <div class="zx-workflow-preview__top"><ZxIcon name="sparkle" /><span>{{ t('从目标开始', 'Start with a goal') }}</span><span class="zx-workflow-preview__flag">{{ t('使用流程示意', 'Illustrative workflow') }}</span></div>
+          <p class="zx-workflow-preview__goal">{{ t('我想做一个 Windows 2D 游戏原型', 'I want to make a Windows 2D game prototype') }}</p>
+          <ol class="zx-workflow-preview__steps"><li v-for="(step, index) in heroSteps" :key="step.title"><span class="zx-workflow-preview__number">{{ String(index + 1).padStart(2, '0') }}</span><div><h2>{{ step.title }}</h2><p>{{ step.text }}</p></div><ZxIcon name="arrow" /></li></ol>
+          <p class="zx-workflow-preview__note">{{ t('确认后准备支持的软件。账号、授权与实际作品由你在所选工具中完成。', 'Prepare supported software after confirmation. Complete accounts, authorization and actual work in your selected tools.') }}</p>
+          <a href="#demo" class="zx-workflow-preview__more">{{ t('逐步了解怎么用', 'Explore the steps') }} ↓</a>
         </div>
       </div>
     </section>
@@ -41,8 +45,8 @@
       <div class="zx-container">
         <div class="zx-section-head">
           <p class="zx-eyebrow">{{ t('工作原理', 'How it works') }}</p>
-          <h2 class="zx-h2">{{ t('一条工具流，四步走完', 'One workflow, four steps') }}</h2>
-          <p class="zx-lead">{{ t('点开每一步，看它做什么、现在能不能用。带「示意」标记的是交互示意，不是应用截图。', 'Open each step to see what it does and whether it works today. Anything marked “illustrative” is an interaction mock-up, not an app screenshot.') }}</p>
+          <h2 class="zx-h2">{{ t('明确目标，再准备下一步', 'Clarify the goal, then prepare the next step') }}</h2>
+          <p class="zx-lead">{{ t('从说出目标到打开工具，查看每一步的用途和适用条件。以下为使用流程示意，实际操作以客户端为准。', 'See the purpose and requirements of each step, from describing a goal to opening tools. This illustrates the workflow; the client is the reference for actual interaction.') }}</p>
         </div>
 
         <div class="zx-demo">
@@ -157,72 +161,12 @@ Env      Win10 22H2 / x64 / 32GB`) }}</pre>
       </div>
     </section>
 
-    <!-- ======================== 三组价值 ======================== -->
     <section class="zx-section zx-section--tight">
       <div class="zx-container">
-        <div class="zx-grid-3">
-          <article class="zx-card zx-card--lift">
-            <div class="zx-card__icon"><ZxIcon name="sparkle" /></div>
-            <h3>{{ t('AI 助手：围绕目标搭工具流', 'AI assistant: build a workflow for your goal') }}</h3>
-            <p>
-              {{ t('客户端内助手、技能制作和可选资讯整理共用 AI 设置。先问关键条件，再比较方案和准备环境；外部 Agent 的账号、登录和费用仍由你处理。', 'Chat, skill creation and optional news organisation inside this client share AI settings. Clarify the conditions, compare plans and prepare the environment; external agent accounts, logins and fees remain yours to handle.') }}
-            </p>
-            <p class="zx-card__foot zx-small">{{ t('目标工作台已提供 · 安装完成后可继续开始创作', 'Goal workbench available · continue creating after setup') }}</p>
-          </article>
-          <article class="zx-card zx-card--lift">
-            <div class="zx-card__icon"><ZxIcon name="chip" /></div>
-            <h3>{{ t('工具箱：随手的排障底座', 'Toolbox: a troubleshooting base within reach') }}</h3>
-            <p>
-              {{ t(`${facts().builtinTools}内置工具（垃圾清理、时间同步、格式转换、游戏联机、镜像下载…）`, `${facts().builtinTools} built-in tools (junk cleaning, time sync, format conversion, game networking, image download …)`) }}
-              {{ t(`加${facts().externalTools}外部工具，来自上游「${siteConfig.upstream.name}」——`, `plus ${facts().externalTools} external tools from the upstream “${siteConfig.upstream.name}” —`) }}
-              {{ t('云端工具目录按需下载，受支持的便携包通过内容和主入口校验后安装；应用中心显示本机软件与真实任务状态。', 'Download supported portable tools on demand from the cloud catalogue, with content and launch-entry validation before installation. App Center shows local software and actual task states.') }}
-            </p>
-            <p class="zx-card__foot zx-small">{{ t('预览版已提供 · 上游 GPL-3.0，保留署名', 'Available in the preview · upstream GPL-3.0, attribution kept') }}</p>
-          </article>
-          <article class="zx-card zx-card--lift">
-            <div class="zx-card__icon"><ZxIcon name="users" /></div>
-            <h3>{{ t('社区：经验留在能用的人手里', 'Community: experience stays with the people who use it') }}</h3>
-            <p v-if="communityLive">
-              {{ t('自托管开源论坛 Discourse（GPL-2.0），围绕工具流、技能分享与排障经验展开。', 'A self-hosted open-source Discourse forum (GPL-2.0) around workflows, skill sharing and troubleshooting.') }}
-              <strong>{{ t('论坛已上线', 'The forum is live') }}</strong>{{ t('：可以进站注册、提问与分享经验。', ': register, ask questions and share what you know.') }}
-            </p>
-            <p v-else>
-              {{ t('自托管开源论坛 Discourse（GPL-2.0），围绕工具流、技能分享与排障经验展开。', 'A self-hosted open-source Discourse forum (GPL-2.0) around workflows, skill sharing and troubleshooting.') }}
-              {{ t('论坛尚未开通，地址已准备——确认上线后再挂入口，不提前放空链接。', 'The forum is not open yet; an address is prepared. The entry appears once it is confirmed — no empty links in advance.') }}
-            </p>
-            <p class="zx-card__foot zx-small">
-              <template v-if="communityLive">
-                {{ t('已上线 ·', 'Live ·') }}
-                <a
-                  :href="communityHref"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  >{{ t('进入社区论坛', 'Open the community forum') }}<span class="zx-small">{{ t('（外部链接）', ' (external link)') }}</span></a
-                >
-              </template>
-              <template v-else>{{ t('未开通 · 计划中', 'Not open yet · planned') }}</template>
-            </p>
-          </article>
-        </div>
-
-        <div class="zx-grid-2" style="margin-top: 18px">
-          <article class="zx-card">
-            <h3>{{ t('技能：按用途找，按状态试', 'Skills: find by purpose, try by readiness') }}</h3>
-            <p>{{ t('官方技能库按分类和用途搜索，瀑布流随下拉继续加载。每项注明可加载、需要配套或仅供参考；你也可以修改或由 AI 引导制作技能，先本机试用，再提交审核。', 'Search the official skill library by category and purpose, with a masonry view that loads more as you scroll. Entries show whether they are loadable, need companion files or are reference material. Edit a skill or create one with AI guidance, try it locally, then submit it for review.') }}</p>
-            <RouterLink to="/docs#skills">{{ t('看技能使用说明 →', 'Read the skill guide →') }}</RouterLink>
-          </article>
-          <article class="zx-card">
-            <h3>{{ t('枕星AI资讯：无需配置也能读', '枕星AI资讯: read without setup') }}</h3>
-            <p>{{ t('服务器每天北京时间 09:00 自动更新，失败保留缓存。没有 AI 配置也能读来源与原文；客户端配置 AI 后可做个人摘要与整理，AI 内容会标明。', 'The server updates daily at 09:00 Beijing time and keeps cached content on failure. Read sources and originals without AI setup; configured client AI can provide personal summaries, labelled as AI content.') }}</p>
-            <a href="/ai-news/">{{ t('打开枕星AI资讯 →', 'Open 枕星AI资讯 →') }}</a>
-          </article>
-        </div>
-
-        <p class="zx-close">
-          <RouterLink to="/download">{{ t('下载、启动与本次更新', 'Download, launch and what changed') }}</RouterLink>
-          <span aria-hidden="true">·</span>
-          <RouterLink to="/about">{{ t('数据说明、开源署名与许可', 'Data notice, attribution and licenses') }}</RouterLink>
-        </p>
+        <div class="zx-section-head"><p class="zx-eyebrow">{{ t('不止一段对话', 'More than a conversation') }}</p><h2 class="zx-h2">{{ t('日常工具与 AI 工作流，在一个工作台', 'Everyday tools and AI workflows, in one workbench') }}</h2><p class="zx-lead">{{ t('用目标找到合适方案，也能直接查硬件、找工具和管理本机软件。按用途查看每项能力。', 'Find a plan for your goal, or directly inspect hardware, discover tools and manage local software. Explore each capability by purpose.') }}</p></div>
+        <div class="zx-grid-3"><article v-for="feature in homeFeatures" :key="feature.id" class="zx-card zx-card--lift zx-home-feature"><div class="zx-card__icon"><ZxIcon :name="feature.icon" /></div><h3>{{ feature.title }}</h3><p>{{ feature.body }}</p><RouterLink :to="`/features#${feature.id}`">{{ t('查看用途与条件', 'See purpose and requirements') }} →</RouterLink></article></div>
+        <div class="zx-start-panel"><div><h2 class="zx-h3">{{ t('先打开工具，再开始做', 'Open your tools and start') }}</h2><p>{{ t('下载完整便携包。硬件、工具库与资讯可以先看，AI 功能按需配置。', 'Download the complete portable package. Explore hardware, the tool library and news first, then configure AI when needed.') }}</p></div><RouterLink class="zx-btn zx-btn--primary" to="/download"><ZxIcon name="download" />{{ t('下载 0.1.1 预览版', 'Download 0.1.1 preview') }}</RouterLink></div>
+        <p class="zx-note" style="margin-top: 22px">{{ t('工具流分享当前默认开启，可在设置中关闭。开启时会向官方服务发送该会话的可见对话与准备结果；模型请求另发往你选择的服务。', 'Workflow sharing is currently on by default and can be disabled in settings. When enabled, it sends this session’s visible conversation and preparation results to the official service; model requests separately go to your selected provider.') }} <RouterLink to="/about#data">{{ t('了解数据处理', 'Read the data notice') }} →</RouterLink></p>
       </div>
     </section>
   </div>
@@ -231,17 +175,19 @@ Env      Win10 22H2 / x64 / 32GB`) }}</pre>
 <script setup lang="ts">
 import { computed, ref } from 'vue';
 import ZxIcon from '../components/ZxIcon.vue';
-import ZxShot from '../components/ZxShot.vue';
-import { facts, isConfigured, releaseState, siteConfig } from '../site.config';
+import { releaseState, siteConfig } from '../site.config';
+import { featureGroups } from '../features';
 import { statusLabel } from '../progress';
 import { t } from '../i18n';
-import shotAiDark from '../../assets/zxai/shots/ai-home-dark.webp';
-import shotAiLight from '../../assets/zxai/shots/ai-home-light.webp';
 
-/** 社区是否已上线：文案与入口链接随之切换（真值来源仍是 site.config.ts 的 links.community） */
-const communityLive = isConfigured(siteConfig.links.community);
-const communityHref = siteConfig.links.community ?? undefined;
 const release = () => releaseState();
+const homeFeatures = computed(() => featureGroups.value.filter(group => ['assistant', 'apps', 'skills', 'hardware', 'news', 'community'].includes(group.id)));
+const heroSteps = computed(() => [
+  { title: t('说清目标', 'Describe the goal'), text: t('确认平台、预算与可用服务', 'Clarify platform, budget and service access') },
+  { title: t('选择方案', 'Choose a plan'), text: t('对比工具、成本与适用条件', 'Compare tools, cost and requirements') },
+  { title: t('确认准备', 'Confirm preparation'), text: t('复用已有软件，获取支持的工具', 'Reuse installed software and acquire supported tools') },
+  { title: t('打开工具', 'Open the tools'), text: t('带着项目说明，开始实际使用', 'Take the project brief and begin actual work') },
+]);
 
 type DemoStatus = 'done' | 'partial' | 'planned';
 

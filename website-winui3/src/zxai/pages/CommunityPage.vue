@@ -4,8 +4,9 @@
       <p class="zx-eyebrow">{{ t('一起用好 AI 与工具', 'Make AI and tools useful together') }}</p>
       <h1 class="zx-h1" style="font-size: clamp(30px, 3.6vw, 44px)">{{ t('枕星AI社区', '枕星AI社区') }}</h1>
       <p>
-        {{ t(`${siteConfig.brand.name}的社区是「围绕工具与 AI 工作流的交流」：能用、能问、能分享，而不是又一个下载站。`, `The ${siteConfig.brand.name} community is a place to talk about tools and AI workflows: usable, open to questions and to sharing — not another download site.`) }}
+        {{ t(`在${siteConfig.brand.name}社区交流目标方案、工具经验、技能与排障记录。把环境和实际结果说清楚，让问题更容易解决，让做法可以复用。`, `Discuss plans, tools, skills and troubleshooting in the ${siteConfig.brand.name} community. Clear environments and actual results make issues easier to solve and methods easier to reuse.`) }}
       </p>
+      <div class="zx-btn-row" style="margin-top: 24px"><a v-if="siteConfig.links.community" class="zx-btn zx-btn--primary" :href="siteConfig.links.community" target="_blank" rel="noopener noreferrer"><ZxIcon name="users" />{{ t('进入社区', 'Open community') }} ↗</a><a class="zx-btn zx-btn--ghost" :href="siteConfig.links.issues ?? undefined" target="_blank" rel="noopener noreferrer">{{ t('报告客户端问题', 'Report a client issue') }}</a></div>
     </header>
 
     <div class="zx-page__body">
@@ -23,7 +24,7 @@
           <article class="zx-card">
             <div class="zx-card__icon"><ZxIcon name="chat" /></div>
             <h3>{{ t('讨论与问答', 'Discussion and Q&A') }}</h3>
-            <p>{{ t('装机、验机、排障的真实经验：一个现象、一段命令、一个结果，比“玄学”更有用。', 'Real experience with builds, checks and troubleshooting: a symptom, a command, a result — far more useful than folklore.') }}</p>
+            <p>{{ t('分享装机、验机与排障经验。说明目标、环境、操作和结果，让其他人能理解问题并重复你的做法。', 'Share build, device-check and troubleshooting experience. Describe the goal, environment, actions and results so others can understand the issue and repeat your method.') }}</p>
           </article>
           <article class="zx-card">
             <div class="zx-card__icon"><ZxIcon name="sparkle" /></div>
@@ -34,8 +35,7 @@
             <div class="zx-card__icon"><ZxIcon name="info" /></div>
             <h3>{{ t('问题反馈与排障', 'Feedback and troubleshooting') }}</h3>
             <p>
-              {{ t('客户端问题、工具兼容性、硬件怪毛病，按“现象—环境—复现步骤”整理后发邮件到', 'For client issues, tool compatibility or odd hardware behaviour, write up “symptom — environment — steps to reproduce” and email') }}
-              {{ feedbackEmail }}{{ t('，我们会按这个顺序排查。', '; we work through it in that order.') }}
+              {{ t('可公开的问题优先发到 GitHub 或社区，写明版本、环境与复现步骤。含私人信息的反馈可发邮件：', 'Post public issues on GitHub or the forum with the version, environment and reproduction steps. Send private feedback by email: ') }}<a :href="siteConfig.links.feedback ?? undefined">{{ feedbackEmail }}</a>
             </p>
           </article>
           <article class="zx-card">
@@ -86,15 +86,15 @@
 
       <section>
         <h2 class="zx-h3" style="margin-bottom: 14px">{{ t('官方 QQ 群', 'Official QQ groups') }}</h2>
-        <p><a href="https://qm.qq.com/q/Jj4BxOHP6q" target="_blank" rel="noopener noreferrer">枕星图吧AI助手1群 · 521755240</a></p>
-        <p><a href="https://qm.qq.com/q/91tGCq04Y8" target="_blank" rel="noopener noreferrer">枕星图吧AI助手2群 · 263271197</a></p>
+        <p><a href="https://qm.qq.com/q/Jj4BxOHP6q" target="_blank" rel="noopener noreferrer">{{ t('枕星图吧AI助手 1 群', '枕星图吧AI助手 group 1') }} · 521755240</a></p>
+        <p><a href="https://qm.qq.com/q/91tGCq04Y8" target="_blank" rel="noopener noreferrer">{{ t('枕星图吧AI助手 2 群', '枕星图吧AI助手 group 2') }} · 263271197</a></p>
         <p class="zx-small">{{ t('群聊用于交流；需要长期留存的复现步骤、教程和反馈请发在论坛。', 'Use groups for discussion; post reproducible issues, tutorials and feedback on the forum for a lasting record.') }}</p>
       </section>
 
       <section>
-        <h2 class="zx-h3" style="margin-bottom: 14px">{{ t('一句话原则', 'The one-line principle') }}</h2>
+        <h2 class="zx-h3" style="margin-bottom: 14px">{{ t('账号与信息边界', 'Accounts and information') }}</h2>
         <p class="zx-note">
-          {{ t('不卖版位、不做付费墙，也没有“社区特权”可买；论坛账号就是 Discourse 自己的账号，注册与数据都在我们自托管的实例里。社区只服务两件事：把工具用好，把经验留下来。', 'No paid slots, no paywall and no “community privileges” for sale; the forum account is just a Discourse account, and both registration and data live on our self-hosted instance. The community serves two things only: using the tools well, and keeping the experience around.') }}
+          {{ t('社区采用自托管 Discourse，使用独立论坛账号。模型 Key 不需要交给论坛；截图和日志应隐藏密码、授权链接与个人信息。客户端登录问题请附最后一步，真实账号体验的验证范围见发行记录。', 'The self-hosted Discourse forum uses separate accounts and does not need your model key. Hide passwords, authorization links and personal information in screenshots and logs. Include the last step for client login issues; see release records for real-account validation scope.') }}
         </p>
       </section>
     </div>

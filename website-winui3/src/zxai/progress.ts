@@ -42,14 +42,14 @@ const availableNowEn = [
 ];
 const inProgressZh = [
   '0.1.1 为公开预览：真实用户主流程、干净机器和旧版迁移仍继续验证；旧客户端更新时应备份数据、下载并校验完整包，关闭旧版、完整解压到新文件夹并手动启动。',
-  '社区真实账号注册与登录尚未验证；原生验证宿主退出时的微信输入法模块异常已记录，完整退出验收未通过。',
+  '真实账号、干净机器、原生环境和迁移分别验证；历史问题记录与新结果保留，当前公开包范围见对应发行记录。',
   '更多软件的可靠安装、入口检测和兼容验证；未知安装器不承诺自动完成。',
   '账号、订阅、API 连接与生成结果的实际验证；不把用户自报完成当作实测。',
   '技能运行效果评测、失效维护与投稿反馈；资讯摘要持续抽查，原文与来源时间保留。',
 ];
 const inProgressEn = [
   '0.1.1 is a public preview. Real user journeys, clean-machine checks and migration continue to be validated. When updating an older client, back up data, download and verify the complete package, close the old client, extract completely into a new folder and launch manually.',
-  'Real-account community registration and login remain unverified. A WeType input-method fault on native validation-host exit is recorded; full native exit acceptance did not pass.',
+  'Accounts, clean machines, native environments and migration are validated separately. Historical issues and new results are retained; consult the corresponding release record for the public package’s scope.',
   'Reliable installation, entry detection and compatibility for more tools; unknown installers are not promised as automatic.',
   'Actual account, subscription, API and output checks; user-reported completion is not a verified result.',
   'Skill effectiveness evaluation, maintenance and submission feedback; continued news-summary sampling with source links and dates retained.',

@@ -3,7 +3,7 @@
     <header class="zx-page__head">
       <p class="zx-eyebrow">{{ t('工具与获取方式', 'Tools and acquisition') }}</p>
       <h1 class="zx-h1">{{ selected?.name ?? t('找到工具，按正确方式开始', 'Find a tool and get started') }}</h1>
-      <p>{{ t('便携工具、安装程序、在线工具和商店应用分别提供入口。先看使用条件，再按步骤获取；下载完成与安装完成分别确认。', 'Portable tools, installers, online tools and Store apps have different entry points. Check the requirements, then follow the acquisition steps. Downloading and installing are separate outcomes.') }}</p>
+      <p>{{ t('按工具实际需要选择获取方式：枕星文件、原厂入口、在线使用或应用商店。每项列出用途、条件和步骤，驱动与启动盘等专门流程单独说明。', 'Choose the method each tool needs: a file served by 枕星, a vendor entry, online use or an app store. Each entry lists purpose, requirements and steps, with separate guidance for drivers and bootable media.') }}</p>
       <nav class="acquire-nav">
         <RouterLink to="/tools/download">{{ t('原厂 EXE 下载', 'Vendor EXE downloads') }}</RouterLink>
         <RouterLink to="/docs">{{ t('使用指南', 'Getting started') }}</RouterLink>
@@ -37,7 +37,7 @@
           </select>
           <span>{{ visible.length }} {{ t('项', 'items') }}</span>
         </div>
-        <p v-if="!visible.length" class="zx-note" role="status">{{ t('没有符合当前筛选的工具。', 'No tool matches the selected filter.') }}</p>
+        <div v-if="!visible.length" class="zx-card acquire-status" role="status"><h2 class="zx-h3">{{ t('没有符合当前筛选的工具', 'No tool matches this filter') }}</h2><p>{{ t('试试完整的软件名称，或清除获取方式筛选。', 'Try the full software name or clear the acquisition-method filter.') }}</p><button type="button" class="zx-btn zx-btn--ghost" @click="search = ''; filter = 'all'">{{ t('清除筛选', 'Clear filters') }}</button></div>
         <div :class="selectedId ? 'acquire-detail' : 'acquire-grid'">
         <article v-for="tool in visible" :key="tool.id" class="zx-card acquire-tool" :data-tool-id="tool.id">
           <header class="acquire-tool-head">

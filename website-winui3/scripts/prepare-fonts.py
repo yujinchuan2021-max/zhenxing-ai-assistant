@@ -37,7 +37,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 CACHE = ROOT / ".font-cache"
 OUT = ROOT / "public" / "zxai" / "fonts"
-APP_FONTS = Path(r"D:\AI2\tubatools\TubaWinUi3.WinUI3\Assets\Fonts")
+APP_FONTS = ROOT.parent / "TubaWinUi3.WinUI3" / "Assets" / "Fonts"
 
 SARASA_TAG = "v1.0.41"
 SARASA_ASSET = "SarasaUiSC-TTF-Unhinted-1.0.41.7z"

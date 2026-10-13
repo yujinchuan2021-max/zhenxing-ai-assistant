@@ -2,13 +2,15 @@
   <div class="zx-page zx-container">
     <header class="zx-page__head">
       <p class="zx-eyebrow">{{ t('下载与开始使用', 'Download and get started') }}</p>
-      <h1 class="zx-h1" style="font-size: clamp(30px, 3.6vw, 44px)">{{ t('下载与发布状态', 'Download and release status') }}</h1>
+      <h1 class="zx-h1" style="font-size: clamp(30px, 3.6vw, 44px)">{{ t('下载枕星图吧AI助手', 'Download 枕星图吧AI助手') }}</h1>
       <p>
         {{ t('0.1.1 Windows x64 公开预览版。优先从官网下载完整 ZIP，核对文件信息后解压并运行桌面启动程序。', '0.1.1 public preview for Windows x64. Download the complete ZIP from the official site, check the file details, then extract it and run the desktop launcher.') }}
       </p>
     </header>
 
+    <nav class="zx-section-nav" :aria-label="t('下载页目录', 'Download page contents')"><a href="#package">{{ t('完整便携包', 'Complete package') }}</a><a href="#first-launch">{{ t('首次启动', 'First launch') }}</a><a href="#requirements">{{ t('系统要求', 'Requirements') }}</a><a href="#faq">{{ t('更新与常见问题', 'Updates and FAQ') }}</a></nav>
     <div class="zx-page__body">
+      <section v-if="status().released" class="zx-download-primary"><div class="zx-download-primary__copy"><p class="zx-eyebrow">Windows x64 · 0.1.1</p><h2>{{ t('完整便携包，解压后启动', 'Complete portable package: extract and launch') }}</h2><p>{{ t('免费公开预览 · 无需另装 .NET · 请保留完整目录', 'Free public preview · no separate .NET install · keep the entire folder') }}</p></div><a class="zx-btn zx-btn--primary" :href="siteConfig.links.download ?? undefined" @click="trackDownloadClick('download-page-primary')"><ZxIcon name="download" />{{ t('从官网下载 ZIP', 'Download ZIP') }}</a></section>
       <!-- 当前状态（文案由 releaseState() 统一决定：发布开关 + 下载入口一致才算已发布） -->
       <section class="zx-status">
         <span class="zx-status__icon"><ZxIcon name="info" /></span>
@@ -19,7 +21,7 @@
       </section>
 
       <!-- 入口清单：已配置的入口渲染真链接，未配置的渲染诚实空态（同一套判断，见 ZxLinkOr） -->
-      <section>
+      <section id="package">
         <h2 class="zx-h3" style="margin-bottom: 14px">{{ t('下载 0.1.1 完整包', 'Download the complete 0.1.1 package') }}</h2>
         <div class="zx-entry-list" style="margin-top: 0">
           <div class="zx-entry">
@@ -44,6 +46,7 @@
               fallback=""
             />
           </div>
+          <div class="zx-entry"><ZxIcon name="external" style="width: 18px; height: 18px; color: var(--zx-text-3)" /><span class="zx-entry__label">{{ t('GitHub 发行资产', 'GitHub release assets') }}</span><ZxLinkOr name="release-assets" :href="siteConfig.links.releaseNotes" :text="t('在 GitHub 核对包与更新记录', 'Check the package and release record on GitHub')" :fallback="t('暂不可用', 'Unavailable')" /></div>
           <div class="zx-entry">
             <ZxIcon name="book" style="width: 18px; height: 18px; color: var(--zx-text-3)" />
             <span class="zx-entry__label">{{ t('本次更新与已知问题', 'Changes and known issues') }}</span>
@@ -74,7 +77,7 @@
         </p>
       </section>
 
-      <section>
+      <section id="first-launch">
         <h2 class="zx-h3" style="margin-bottom: 14px">{{ t('第一次启动，按这三步', 'First launch in three steps') }}</h2>
         <ol class="zx-list zx-list--dense">
           <li>{{ t('关闭正在运行的旧客户端。将完整 ZIP 解压到一个新文件夹，保留全部子目录与文件。', 'Close the running older client. Extract the complete ZIP into a new folder, preserving all files and subfolders.') }}</li>
@@ -87,11 +90,11 @@
       <section>
         <h2 class="zx-h3" style="margin-bottom: 14px">{{ t('这次修订改进了什么', 'What changed in this revision') }}</h2>
         <p>{{ t('本轮集中改进下载与安装状态：工具库优先使用自有云端目录；受管理的便携包核对大小、SHA-256、ZIP 内容和主程序入口后才提交安装。失败时保留原有工具，不把错误网页、残留文件或辅助 EXE 当成已安装。目标工作台、统一 AI 配置、技能库和桌面 Agent 优先等能力保留。客户端包升级仍需完整解压并手动启动。', 'This revision improves downloads and installation status. The tool library prefers the owned cloud catalogue. Managed portable packages must pass file-size, SHA-256, ZIP-content and launch-entry checks before installation is committed. Failures preserve an existing tool; error pages, leftover files and helper executables do not count as installed. The goal workbench, global AI setup, skill library and desktop-agent preference remain. Client upgrades still require full extraction and a manual launch.') }}</p>
-        <p class="zx-note" style="margin-top: 14px">{{ t('此前隔离社区功能验证的记录保留；真实账号注册与登录仍待复测，部分原生环境退出问题尚未完成验收。0.1.1 的新验证结果与历史记录分别标明，具体范围与已知限制请阅读更新说明。', 'Earlier isolated community validation records are retained. Real-account registration and login still need retesting, and native exit issues in some environments remain unresolved. New 0.1.1 results are distinguished from historical records; read the release notes for scope and known limitations.') }}</p>
+        <p class="zx-note" style="margin-top: 14px">{{ t('这是公开预览包。真实账号、干净机器、旧版迁移与工具兼容性各有验证范围；后续源码测试不代表当前下载包已自动更新。具体结果与已知问题见本包发行记录。', 'This is a public preview. Accounts, clean machines, migration and tool compatibility have separate validation scopes. Later source tests do not mean the download package has updated automatically. See this package’s release record for results and known issues.') }}</p>
       </section>
 
       <!-- 系统要求 -->
-      <section>
+      <section id="requirements">
         <h2 class="zx-h3" style="margin-bottom: 14px">{{ t('系统要求（客户端）', 'System requirements (client)') }}</h2>
         <div class="zx-kv">
           <div class="zx-kv__row"><span class="zx-kv__key">{{ t('操作系统', 'OS') }}</span><span class="zx-kv__val">{{ facts().minOs }}</span></div>
@@ -105,7 +108,7 @@
       </section>
 
       <!-- 常见问题 -->
-      <section>
+      <section id="faq">
         <h2 class="zx-h3" style="margin-bottom: 14px">{{ t('下载与使用常见问题', 'Download and usage FAQ') }}</h2>
         <div class="zx-grid-2">
           <article v-for="item in faq" :key="item.question" class="zx-card"><h3>{{ item.question }}</h3><p>{{ item.answer }}</p></article>

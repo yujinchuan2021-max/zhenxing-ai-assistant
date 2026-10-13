@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="440" viewBox="0 0 1280 440" role="img" aria-labelledby="title description">
+  <title id="title">枕星图吧AI助手 · 从一个目标开始，把工具用起来。</title>
+  <desc id="description">Windows x64，0.1.1 公开预览版，WinUI 3。使用流程示意：明确目标、选择方案、准备工具、开始使用。此图是品牌与使用流程示意，不是客户端截图。</desc>
+  <defs>
+    <style>
+      text { font-family: "Segoe UI", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif; }
+      .title { fill: #26231f; font-size: 48px; font-weight: 700; }
+      .value { fill: #403a33; font-size: 28px; font-weight: 400; }
+      .meta { fill: #655b4f; font-size: 17px; font-weight: 500; }
+      .label { fill: #655b4f; font-size: 16px; font-weight: 400; }
+      .number { fill: #945019; font-size: 17px; font-weight: 600; }
+      .step { fill: #26231f; font-size: 23px; font-weight: 600; }
+    </style>
+  </defs>
+
+  <rect x="1" y="1" width="1278" height="438" rx="24" fill="#faf8f5" stroke="#e6dfd5" stroke-width="2" />
+  <rect x="64" y="44" width="52" height="4" rx="2" fill="#b66325" />
+  <g transform="translate(64 70) scale(1.2)">
+    <path d="M24 1.5c0 11.9-10.6 22.5-22.5 22.5C13.4 24 24 34.6 24 46.5 24 34.6 34.6 24 46.5 24 34.6 24 24 13.4 24 1.5Z" fill="#b66325" />
+  </g>
+  <text x="140" y="113" class="title">枕星图吧AI助手</text>
+  <text x="64" y="174" class="value">从一个目标开始，把工具用起来。</text>
+
+  <text x="64" y="220" class="meta">Windows x64</text>
+  <circle cx="220" cy="214" r="2" fill="#9a8975" />
+  <text x="238" y="220" class="meta">0.1.1 公开预览版</text>
+  <circle cx="414" cy="214" r="2" fill="#9a8975" />
+  <text x="432" y="220" class="meta">WinUI 3</text>
+  <path d="M64 252H1216" stroke="#e6dfd5" />
+  <text x="64" y="286" class="label">使用流程示意</text>
+
+  <g>
+    <rect x="64" y="311" width="258" height="78" rx="14" fill="#ffffff" stroke="#e6dfd5" />
+    <text x="86" y="359" class="number">01</text>
+    <text x="128" y="359" class="step">明确目标</text>
+    <rect x="362" y="311" width="258" height="78" rx="14" fill="#ffffff" stroke="#e6dfd5" />
+    <text x="384" y="359" class="number">02</text>
+    <text x="426" y="359" class="step">选择方案</text>
+    <rect x="660" y="311" width="258" height="78" rx="14" fill="#ffffff" stroke="#e6dfd5" />
+    <text x="682" y="359" class="number">03</text>
+    <text x="724" y="359" class="step">准备工具</text>
+    <rect x="958" y="311" width="258" height="78" rx="14" fill="#fff0e0" stroke="#ddb792" />
+    <text x="980" y="359" class="number">04</text>
+    <text x="1022" y="359" class="step">开始使用</text>
+  </g>
+  <g fill="none" stroke="#945019" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M336 350h12m-5-5 5 5-5 5" />
+    <path d="M634 350h12m-5-5 5 5-5 5" />
+    <path d="M932 350h12m-5-5 5 5-5 5" />
+  </g>
+</svg>

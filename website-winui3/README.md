@@ -4,7 +4,11 @@
 
 [当前客户端下载](https://github.com/yujinchuan2021-max/zhenxing-ai-assistant/releases/tag/v0.1.1-preview) · [公开源码](https://github.com/yujinchuan2021-max/zhenxing-ai-assistant) · [新版使用指南](../docs/getting-started.md) · [0.1.1 更新与验证范围](../docs/releases/0.1.1-preview.md)
 
-当前产品站入口是 `src/main.ts` → `src/zxai/App.vue`；`src/site/` 与上游文档保留作来源参考，与枕星当前首页入口不同。界面基于 Vue 3 与 WinUIonWeb，支持中文、English、浅色、深色与跟随系统。
+当前产品站入口是 `src/main.ts` → `src/zxai/App.vue`，支持中文、English、浅色、深色与跟随系统。已清理未被当前生产入口引用的旧站点、控件演示及其素材；完整旧实现可从审计前提交 `e1e6cc7ef622eca4f3de6d95311992cb180679e7` 查阅。来源署名与当前使用的第三方许可继续保留。
+
+本模块以 `package-lock.json` 和 `npm ci` 为唯一锁定安装流程；不再同时维护与当前依赖版本不同步的 pnpm 锁文件。
+
+`npm run assets:prepare` 默认只准备品牌图标和分享图，保留已验收的客户端截图。替换截图必须显式执行 `python scripts/prepare-assets.py shots --shot-source-dir <新截图目录>`，目录中应有 `ai-home-dark.png`、`ai-home-light.png`、`tools-dark.png`、`tools-light.png`、`hardware-dark.png`；不再读取维护者电脑上的旧绝对路径。截图仍需人工确认版本、裁剪和页面展示。
 
 ## 本地构建
 
@@ -26,7 +30,7 @@ npm run build
 
 对外版本统一为 **0.1.1 公开预览版**，公开下载链接、大小和 SHA-256 以 GitHub 发行资产为准。旧 Electron 标签只用于历史追溯，不能当成当前客户端或其更新通道。技能数量以实时目录为准，不写固定营销数字；可加载、审核通过和 GitHub 热度都不等于实测有效。
 
-“工具已准备”不等于用户目标已经完成，外部 Agent 仍需自己的账号或兼容接入。社区授权的逻辑和隔离功能测试已通过，真实账号注册与登录未验证，原生验证宿主退出异常须继续如实说明。
+“工具已准备”不等于用户目标已经完成，外部 Agent 仍需自己的账号或兼容接入。社区授权的逻辑和隔离功能测试已通过，真实账号注册与登录未验证。原生宿主结果须同时报告功能断言和进程退出结果；历史失败记录保留，当前版本的验证范围以对应发行记录为准。
 
 ## 服务分工与发布
 
@@ -38,6 +42,6 @@ npm run build
 
 ## 来源与署名
 
-本项目是图吧工具箱CE的衍生改造，保留 GPL-3.0 与来源署名。Web 控件来源于 [WinUIonWeb](https://github.com/Furry-Xiyi/WinUIonWeb)（GPL-3.0），设计参考 [DevToys](https://devtoys.app)（MIT）；并非上游官方站点。
+本项目是图吧工具箱CE的衍生改造，保留 GPL-3.0 与来源署名。早期 Web 控件采用 [WinUIonWeb](https://github.com/Furry-Xiyi/WinUIonWeb)（GPL-3.0），完整实现保存在 Git 历史；当前官网使用 `src/zxai/` 的组件和样式。设计参考 [DevToys](https://devtoys.app)（MIT）；并非上游官方站点。
 
 旧浏览器检查脚本中的 `community` 模式曾约定文档入口为空，与当前本站新手指南已不同。复用时应先核对其断言与当前页面是否一致，不能把历史检查记录当成新版线上验收结果。

@@ -2,8 +2,8 @@
   <div class="zx-page zx-container">
     <header class="zx-page__head">
       <p class="zx-eyebrow">{{ t('工具下载', 'Tool downloads') }}</p>
-      <h1 class="zx-h1 tool-downloads__title">{{ t('原厂安装包，从枕星下载', 'Original vendor files, downloaded from 枕星') }}</h1>
-      <p>{{ t('选择与你的 Windows 系统匹配的版本。文件从本站直接提供，无需先访问 GitHub；下载后按原厂说明安装或运行。', 'Choose a file that matches your Windows system. Files are served directly by this site, without visiting GitHub first. After downloading, follow the vendor’s installation or launch instructions.') }}</p>
+      <h1 class="zx-h1 tool-downloads__title">{{ t('原厂工具文件，直接获取', 'Get original vendor tool files directly') }}</h1>
+      <p>{{ t('这里提供已发布的原厂 EXE 文件，由枕星服务器直接下载。选择目标系统与版本，核对文件后按原厂说明安装或运行。客户端里的其他便携工具，请从工具库按需获取。', 'Download published vendor EXE files directly from the 枕星 server. Choose the target system and version, verify the file and follow the vendor’s installation or launch instructions. Acquire other portable tools on demand from the client tool library.') }}</p>
       <div class="tool-downloads__nav">
         <RouterLink to="/download">{{ t('客户端下载', 'Client download') }}</RouterLink>
         <RouterLink to="/tools/acquire">{{ t('其他工具与获取方式', 'Other tools and acquisition') }}</RouterLink>
@@ -30,7 +30,7 @@
         <RouterLink class="zx-btn zx-btn--ghost" to="/tools/download">{{ t('查看全部工具', 'View all tools') }}</RouterLink>
       </section>
 
-      <section v-else-if="!visibleTools.length" class="zx-card tool-downloads__empty" role="status">
+      <section v-else-if="!files?.tools.length" class="zx-card tool-downloads__empty" role="status">
         <h2 class="zx-h3">{{ t('暂时没有可下载的文件', 'No files are currently available') }}</h2>
         <p>{{ t('文件准备完成后会在这里提供，请稍后再试。', 'Files will appear here when they are ready. Please try again later.') }}</p>
         <button type="button" class="zx-btn zx-btn--ghost" @click="loadFiles">{{ t('重新获取', 'Refresh') }}</button>
@@ -38,6 +38,7 @@
 
       <template v-else>
         <section class="tool-downloads__toolbar">
+          <div v-if="!selectedId"><label for="tool-download-search">{{ t('搜索工具', 'Find a tool') }}</label><input id="tool-download-search" v-model="search" type="search" :placeholder="t('输入软件名称', 'Enter a software name')" /><span class="zx-small">{{ visibleTools.length }} {{ t('项匹配', 'matches') }}</span></div>
           <div>
             <label for="tool-download-architecture">{{ t('你的系统架构', 'Your system architecture') }}</label>
             <select id="tool-download-architecture" v-model="architecture">
@@ -49,6 +50,8 @@
           </div>
           <p>{{ t('不确定时，打开 Windows「设置 → 系统 → 关于」，查看系统类型。安装器本身的架构可能与目标系统不同，请按下方目标系统选择。', 'If unsure, open Windows Settings → System → About and check System type. The installer executable can use a different architecture; choose the target system shown below.') }}</p>
         </section>
+
+        <section v-if="!visibleTools.length" class="zx-card tool-downloads__empty" role="status"><h2 class="zx-h3">{{ t('没有匹配的软件', 'No software matches') }}</h2><p>{{ t('换一个名称搜索，或清除搜索词查看完整文件清单。', 'Try another name, or clear the search to see the complete file list.') }}</p><button type="button" class="zx-btn zx-btn--ghost" @click="search = ''">{{ t('清除搜索', 'Clear search') }}</button></section>
 
         <div class="tool-downloads__tools">
           <article v-for="tool in visibleTools" :key="tool.id" class="zx-card tool-downloads__tool" :data-tool-id="tool.id">
@@ -91,7 +94,7 @@
         </div>
 
         <section class="zx-note">
-          <p>{{ t('安装包下载完成后，按原厂安装程序继续操作。账号登录、商店授权、其他依赖和重启要求仍以厂商说明为准；完成下载不等于软件已安装。', 'After downloading an installer, continue with the vendor’s installation steps. Account sign-in, Store licences, other dependencies and restart requirements follow the vendor’s instructions. A completed download does not mean the software is installed.') }}</p>
+          <p>{{ t('下载 → 核对文件 → 安装或运行。账号登录、商店授权、其他依赖和重启要求按厂商说明继续；只有下载完成，还不能确认软件已经安装。', 'Download → verify the file → install or run. Continue with vendor requirements for accounts, Store authorization, dependencies and restarts. Completing a download does not yet establish that the software is installed.') }}</p>
           <p class="tool-downloads__updated">{{ t('文件信息更新于', 'File information updated') }} {{ updatedAt }}</p>
         </section>
       </template>
@@ -125,6 +128,7 @@ const files = ref<VendorFiles | null>(null);
 const loading = ref(true);
 const error = ref<LoadError | null>(null);
 const architecture = ref<'all' | Architecture>('all');
+const search = ref('');
 const selectedId = computed(() => {
   const pathId = typeof route.params.id === 'string' ? route.params.id : '';
   if (!Object.hasOwn(route.query, 'tool')) return pathId;
@@ -132,7 +136,7 @@ const selectedId = computed(() => {
   if (typeof queryId !== 'string' || !queryId || (pathId && pathId !== queryId)) return '!';
   return queryId;
 });
-const visibleTools = computed(() => files.value?.tools.filter(tool => !selectedId.value || tool.id === selectedId.value) ?? []);
+const visibleTools = computed(() => files.value?.tools.filter(tool => selectedId.value ? tool.id === selectedId.value : tool.name.toLocaleLowerCase().includes(search.value.trim().toLocaleLowerCase())) ?? []);
 const updatedAt = computed(() => files.value ? new Date(files.value.publishedAt).toLocaleString(isEn.value ? 'en-US' : 'zh-CN', { timeZone: 'Asia/Shanghai' }) + t('（北京时间）', ' (Beijing time)') : '');
 const errorHeading = computed(() => error.value === 'not-published' ? t('下载文件尚未发布', 'Downloads have not been published') : t('暂时无法获取下载文件', 'Download information is temporarily unavailable'));
 const errorMessage = computed(() => error.value === 'timeout'
@@ -255,7 +259,7 @@ function toolPurpose(id: string) {
 .tool-downloads__toolbar { display: grid; gap: 12px; }
 .tool-downloads__toolbar > div { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
 .tool-downloads__toolbar label { font-weight: 700; }
-.tool-downloads__toolbar select { font: inherit; color: var(--zx-text); background: var(--zx-surface); border: 1px solid var(--zx-border-strong); border-radius: var(--zx-radius-s); padding: 8px 36px 8px 12px; }
+.tool-downloads__toolbar select, .tool-downloads__toolbar input { font: inherit; color: var(--zx-text); background: var(--zx-surface); border: 1px solid var(--zx-border-strong); border-radius: var(--zx-radius-s); padding: 8px 12px; max-width: 100%; }
 .tool-downloads__toolbar p, .tool-downloads__updated { font-size: 14px; color: var(--zx-text-2); }
 .tool-downloads__tools { display: grid; gap: 24px; }
 .tool-downloads__tool-head, .tool-downloads__file-head { display: flex; justify-content: space-between; align-items: start; gap: 16px; }

@@ -80,10 +80,10 @@ export const siteConfig = {
     /** 顶栏与页脚标明当前独立程序版本和公开预览状态。 */
     version: '0.1.1',
     /** 首页 <title> 的主口径 */
-    title: '枕星图吧AI助手 —— 带你把 AI 用起来',
-    tagline: '说出你的想法，带你把 AI 用起来',
+    title: '枕星图吧AI助手 —— AI 工作流与电脑工具工作台',
+    tagline: '明确目标，准备工具，开始行动',
     description:
-      '从一句目标开始：比较方案、复用已有软件、确认后准备支持的工具，再交给所选工具或 AI Agent。统一 AI 配置、云端工具目录、技能制作与官方技能库，枕星AI资讯和社区。官网下载 0.1.1 Windows x64 完整便携包。',
+      '从一句目标开始：比较方案、复用已有软件、确认后准备支持的工具，再交给所选工具或 AI Agent。统一 AI 配置、云端工具目录、技能制作与官方技能库，枕星AI资讯和社区。提供硬件信息、系统维护、网络、格式转换与游戏辅助入口。官网下载 0.1.1 Windows x64 完整便携包。',
   },
 
   links: {
@@ -170,7 +170,7 @@ export const siteConfig = {
     /** 包、版本、大小和哈希确认后，才置 true 并填 links.download。 */
     released: true, // Open only after the real 0.1.1 package and mirrors are verified.
     label: '0.1.1 公开预览版 · 已开放下载',
-    note: 'Windows x64 完整便携版由官网直接提供。下载后核对文件大小和 SHA-256，再关闭旧版、完整解压到新文件夹并手动启动。本版本为公开预览，真实账号登录和部分原生环境仍待复测。',
+    note: 'Windows x64 完整便携版由官网直接提供。下载后核对文件大小和 SHA-256，再关闭旧版、完整解压到新文件夹并手动启动。公开预览的验证范围与已知问题见对应发行记录；客户端下载完成后需手动解压与启动。',
   },
 } as const;
 
@@ -180,10 +180,10 @@ export const siteConfig = {
 export const brandCopy = () =>
   lang.value === 'en'
     ? {
-        title: '枕星图吧AI助手 — get AI working for you',
-        tagline: 'Say what you want to do — we get AI working for you',
+        title: '枕星图吧AI助手 — AI workflows and computer tools',
+        tagline: 'Clarify the goal. Prepare the tools. Get started.',
         description:
-          'Start with a goal: compare plans, reuse installed software, prepare supported tools after confirmation, then hand off to your chosen tools or AI agent. Unified AI setup, a cloud tool catalogue, skill creation and a skill library, AI news and community. Download the complete 0.1.1 Windows x64 portable preview from the official site.',
+          'Start with a goal: compare plans, reuse installed software, prepare supported tools after confirmation, then hand off to your chosen tools or AI agent. Unified AI setup, a cloud tool catalogue, skill creation and a skill library, AI news and community. Hardware, system maintenance, network, format-conversion and game utilities. Download the complete 0.1.1 Windows x64 portable preview from the official site.',
       }
     : {
         title: siteConfig.brand.title,
@@ -227,7 +227,7 @@ export const releaseState = (): { released: boolean; label: string; note: string
       ? {
           released: true,
           label: '0.1.1 public preview · available to download',
-          note: 'Download the complete Windows x64 portable build directly from the official site. Check its file size and SHA-256, close the old client, extract into a new folder and launch manually. This is a public preview; real-account login and some native environments still need retesting.',
+          note: 'Download the complete Windows x64 portable build directly from the official site. Check its file size and SHA-256, close the old client, extract into a new folder and launch manually. See the corresponding release record for preview validation scope and known issues. Client downloads require manual extraction and launch.',
         }
       : {
           released: true,
@@ -329,7 +329,7 @@ export const downloadSeoDescription = () =>
       ? 'Download the 枕星图吧AI助手 0.1.1 public preview for Windows x64. Includes the complete portable ZIP, source, SHA-256, first-launch instructions and known limitations.'
       : '枕星图吧AI助手 0.1.1 公开预览版已公开发布：Windows x64 完整便携 ZIP、对应源码、SHA-256、首次启动说明与已知限制。'
     : lang.value === 'en'
-      ? 'The 枕星图吧AI助手 is still in development and not yet released; this page explains the release status, system requirements, and the official entries of the upstream open-source project “图吧工具箱CE” (not this project’s release).'
+      ? 'Download information is temporarily unavailable. Check this project’s GitHub release page for the current version; system requirements and getting-started instructions are also provided here.'
       : '枕星图吧AI助手下载信息暂不可用；请通过本项目 GitHub 发布页核对当前版本，本页也提供系统要求与新手指南。';
 
 /**

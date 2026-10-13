@@ -3,14 +3,13 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "description": "枕星图吧AI助手官网：当前预览版下载、新手指南、技能、资讯与社区（基于 WinUIonWeb 构建）",
+  "description": "枕星图吧AI助手官网：当前预览版下载、新手指南、技能、资讯与社区（Vue 与 Vite）",
   "scripts": {
     "dev": "vite . --host=0.0.0.0",
     "build": "run-p type-check \"build-only {@}\" --",
     "preview": "vite preview",
     "build-only": "vite build",
     "type-check": "vue-tsc --build",
-    "check-font": "node scripts/check-font.cjs src/assets/Fonts/SEGOEICONS.TTF",
     "assets:prepare": "python scripts/prepare-assets.py",
     "fonts:prepare": "uv run --with fonttools --with brotli --with py7zr python scripts/prepare-fonts.py",
     "lint": "run-s lint:*",
@@ -25,7 +24,6 @@
   "devDependencies": {
     "@tsconfig/node24": "^24.0.4",
     "@types/node": "^24.12.2",
-    "@vitejs/plugin-basic-ssl": "^2.3.0",
     "@vitejs/plugin-vue": "^6.0.6",
     "@vue/eslint-config-typescript": "^14.7.0",
     "@vue/tsconfig": "^0.9.1",
@@ -37,7 +35,6 @@
     "oxlint": "~1.60.0",
     "typescript": "~6.0.0",
     "vite": "^8.0.8",
-    "vite-plugin-vue-devtools": "^8.1.1",
     "vue-tsc": "^3.2.6"
   },
   "engines": {

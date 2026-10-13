@@ -9,7 +9,7 @@
             <span class="zx-brand__ver">{{ siteConfig.brand.version }}</span>
           </div>
           <p class="zx-small" style="margin-top: 12px; max-width: 34em">
-            {{ brand().tagline }}。<br />
+            {{ brand().tagline }}<br />
             {{ t('Windows 目标工作台与工具箱，基于上游开源项目「', 'A Windows goal workbench and toolbox, derived from the upstream project “') }}{{ siteConfig.upstream.name }}{{ t('」持续开发。', '”.') }}
           </p>
           <p style="margin-top: 14px">
@@ -20,7 +20,7 @@
         <div class="zx-footer__col">
           <h4>{{ t('产品', 'Product') }}</h4>
           <ul>
-            <li><RouterLink to="/">{{ t('首页', 'Home') }}</RouterLink></li>
+            <li><RouterLink to="/features">{{ t('功能总览', 'Features') }}</RouterLink></li>
             <li><RouterLink to="/download">{{ t('下载 0.1.1 预览版', 'Download 0.1.1 preview') }}</RouterLink></li>
             <li><RouterLink to="/docs">{{ t('文档', 'Docs') }}</RouterLink></li>
             <li><a href="/ai-news/">{{ t('枕星AI资讯', 'AI News') }}</a></li>
@@ -54,9 +54,9 @@
         </div>
 
         <div class="zx-footer__col">
-          <h4>{{ t('本站', 'This site') }}</h4>
+          <h4>{{ t('体验与数据', 'Experience and data') }}</h4>
           <ul>
-            <li><span>{{ t('无广告位、无会员收费设计', 'No ad slots, no paid-membership design') }}</span></li>
+            <li><span>{{ t('公开预览包免费下载', 'Public preview: free download') }}</span></li>
             <li>
               <span v-if="analyticsConfigured()">{{ t('统计：自托管 Umami（无 Cookie），只统计访问与下载按钮点击', 'Analytics: self-hosted Umami (no cookies), counting only page views and download-button clicks') }}</span>
               <span v-else>{{ t('统计未配置：当前不加载任何统计脚本', 'Analytics not configured: no analytics script is loaded') }}</span>
